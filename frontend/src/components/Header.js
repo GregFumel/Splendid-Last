@@ -20,9 +20,15 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
     const containerRect = navContainerRef.current.getBoundingClientRect();
     const targetRect = targetElement.getBoundingClientRect();
     
+    // Calcul précis pour centrer parfaitement la bulle sur le texte
+    const paddingHorizontal = 16; // px-4 = 16px de chaque côté
+    const textWidth = targetRect.width - (paddingHorizontal * 2);
+    const bubbleWidth = textWidth + 16; // Ajouter un peu d'espace autour du texte
+    const leftOffset = (targetRect.width - bubbleWidth) / 2;
+    
     setActiveIndicatorStyle({
-      width: `${targetRect.width - 2}px`, // Légère réduction pour un ajustement parfait
-      transform: `translateX(${targetRect.left - containerRect.left + 1}px)` // Centrage précis
+      width: `${bubbleWidth}px`,
+      transform: `translateX(${targetRect.left - containerRect.left + leftOffset}px)`
     });
   };
 
