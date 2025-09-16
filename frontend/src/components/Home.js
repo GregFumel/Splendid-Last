@@ -28,7 +28,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen text-gray-100 relative">
-      {/* Fond d'écran avec effet flou et opacité */}
+      {/* Fond d'écran brut sans effets */}
       <div 
         className="fixed inset-0 -z-10"
         style={{
@@ -36,9 +36,7 @@ const Home = () => {
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
           backgroundAttachment: 'fixed',
-          backgroundRepeat: 'no-repeat',
-          filter: 'blur(3px)',
-          opacity: '0.7'
+          backgroundRepeat: 'no-repeat'
         }}
       ></div>
       
