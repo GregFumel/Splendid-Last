@@ -71,7 +71,7 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
           </div>
 
           {/* Navigation principale "Bulle" - Desktop seulement */}
-          <nav className="hidden md:block sticky top-16 z-40 bg-black/10 backdrop-blur-sm py-2">
+          <nav className="hidden md:block fixed top-0 left-0 right-0 z-50 bg-black/10 backdrop-blur-sm py-2">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-center">
                 <div ref={navContainerRef} className="nav-container relative flex items-center bg-black/20 backdrop-blur-lg border border-white/10 rounded-full p-1.5">
