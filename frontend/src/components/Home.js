@@ -102,7 +102,7 @@ const Home = () => {
         onCategoryChange={setSelectedCategory}
       />
       
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 lg:py-12 pt-20 md:pt-56">
+      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 lg:py-12 pt-24 md:pt-64">
         <div className="flex flex-col items-center text-center mb-6 sm:mb-8">
           {/* Preuve sociale */}
           <SocialProof />
