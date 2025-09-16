@@ -2,14 +2,13 @@ import React from "react";
 import { Star } from "lucide-react";
 
 const SocialProof = () => {
-  // URLs d'avatars de démonstration
+  // URLs des avatars personnalisés
   const avatars = [
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-    "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
-    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-    "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face"
+    "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/d7nohskx_jodie-influenceuse-mode-france-739x1024.png",
+    "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/l2ll08hm_eileen-kelly-influencer-podcast-host-v0-a9la8w1vhh8a1.webp",
+    "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/iw5h3b2q_images%20%283%29.jpeg",
+    "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/2nvd3ab8_images%20%282%29.jpeg",
+    "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/023myz63_HE4c8y8Y_400x400.jpg"
   ];
 
   return (
