@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import AIToolsGrid from "./AIToolsGrid";
@@ -12,6 +12,38 @@ const Home = () => {
   const [showSuggestionModal, setShowSuggestionModal] = useState(false);
   const [showIdeasModal, setShowIdeasModal] = useState(false);
   const [selectedTool, setSelectedTool] = useState(null);
+  const [activeIndicatorStyle, setActiveIndicatorStyle] = useState({});
+  const navContainerRef = useRef(null);
+  const activeNavRef = useRef(null);
+
+  const categories = [
+    { id: "all", label: "Explore" },
+    { id: "image", label: "Image" },
+    { id: "video", label: "Vidéo" },
+    { id: "edit", label: "Edit" },
+    { id: "assist", label: "Assist" }
+  ];
+
+  const updateIndicator = (targetElement) => {
+    if (!targetElement || !navContainerRef.current) return;
+    
+    const containerRect = navContainerRef.current.getBoundingClientRect();
+    const targetRect = targetElement.getBoundingClientRect();
+    
+    // Approche avec beaucoup plus de marge à gauche pour centrer visuellement
+    const buttonPadding = 8; // px-2 pour mobile
+    const textWidth = targetRect.width - (buttonPadding * 2);
+    const leftPadding = 12; // Marge à gauche
+    const rightPadding = 6; // Moins à droite
+    const bubbleWidth = textWidth + leftPadding + rightPadding;
+    
+    const bubbleLeft = (targetRect.width - bubbleWidth) / 2;
+    
+    setActiveIndicatorStyle({
+      width: `${bubbleWidth}px`,
+      transform: `translateX(${targetRect.left - containerRect.left + bubbleLeft}px)`
+    });
+  };
 
   useEffect(() => {
     if (selectedCategory === "all") {
@@ -19,6 +51,27 @@ const Home = () => {
     } else {
       setFilteredTools(mockAITools.filter(tool => tool.category === selectedCategory));
     }
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (activeNavRef.current) {
+        updateIndicator(activeNavRef.current);
+      }
+    }, 50);
+    
+    return () => clearTimeout(timer);
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (activeNavRef.current) {
+        updateIndicator(activeNavRef.current);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, [selectedCategory]);
 
   const handleGenerateIdeas = (tool) => {
