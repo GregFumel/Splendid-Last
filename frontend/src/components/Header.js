@@ -20,12 +20,12 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
     const containerRect = navContainerRef.current.getBoundingClientRect();
     const targetRect = targetElement.getBoundingClientRect();
     
-    // Approche simplifiée pour un centrage parfait
-    // La bulle doit être centrée sur le bouton avec un padding uniforme autour du texte
-    const desiredPadding = 10; // 10px de chaque côté du texte pour un centrage parfait
+    // Approche avec beaucoup plus de marge à gauche pour centrer visuellement
     const buttonPadding = 16; // px-4 du bouton
     const textWidth = targetRect.width - (buttonPadding * 2); // Largeur réelle du texte
-    const bubbleWidth = textWidth + (desiredPadding * 2); // Largeur de la bulle avec padding uniforme
+    const leftPadding = 20; // Beaucoup de marge à gauche (20px)
+    const rightPadding = 8; // Moins à droite (8px)
+    const bubbleWidth = textWidth + leftPadding + rightPadding;
     
     // Position de la bulle pour être parfaitement centrée sur le bouton
     const bubbleLeft = (targetRect.width - bubbleWidth) / 2;
