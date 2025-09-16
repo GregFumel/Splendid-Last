@@ -40,7 +40,7 @@ const PricingSection = () => {
             </div>
             
             {/* Description */}
-            <p className="text-gray-300 mb-8">
+            <p className="text-xs sm:text-sm text-gray-300 mb-8">
               Lancez votre créativité avec tous nos outils IA
             </p>
             
