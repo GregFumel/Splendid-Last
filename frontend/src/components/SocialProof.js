@@ -46,7 +46,7 @@ const SocialProof = () => {
       
       {/* Texte de preuve sociale plus petit */}
       <p className="text-gray-300 text-xs sm:text-sm font-medium">
-        Reconnu par plus de 27 000 créateurs !
+        Reconnu par plus de 270 créateurs !
       </p>
     </div>
   );
