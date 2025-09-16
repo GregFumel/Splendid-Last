@@ -69,9 +69,9 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
             <span className="ml-2 text-xl font-bold text-white">Splendid</span>
           </div>
 
-          {/* Navigation principale "Bulle" */}
-          <nav className="hidden md:block">
-            <div ref={navContainerRef} className="nav-container relative flex items-center bg-black/20 backdrop-blur-lg border border-white/10 rounded-full p-1.5">
+          {/* Navigation principale "Bulle" - Desktop ET Mobile */}
+          <nav className="block">
+            <div ref={navContainerRef} className="nav-container relative flex items-center bg-black/20 backdrop-blur-lg border border-white/10 rounded-full p-1.5 mx-auto max-w-fit">
               <div 
                 className="indicator-3d absolute rounded-full shadow-lg transition-all duration-300 ease-in-out z-0"
                 style={activeIndicatorStyle}
@@ -81,7 +81,7 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
                   key={category.id}
                   ref={selectedCategory === category.id ? activeNavRef : null}
                   onClick={() => onCategoryChange(category.id)}
-                  className={`nav-link relative z-10 px-4 py-2 text-sm font-medium transition-colors duration-300 flex items-center justify-center ${
+                  className={`nav-link relative z-10 px-3 py-2 text-xs sm:text-sm font-medium transition-colors duration-300 flex items-center justify-center ${
                     selectedCategory === category.id ? 'text-white' : 'text-gray-300'
                   }`}
                   data-category={category.id}
