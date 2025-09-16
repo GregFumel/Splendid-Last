@@ -44,19 +44,39 @@ const PricingSection = () => {
               Lancez votre créativité avec tous nos outils IA
             </p>
             
-            {/* Liste des fonctionnalités */}
-            <div className="space-y-4 mb-8 text-left">
+            {/* Liste des outils IA disponibles */}
+            <div className="space-y-3 mb-8 text-left">
               <div className="flex items-center space-x-3">
-                <Check className="w-5 h-5 text-green-400 flex-shrink-0" />
-                <span className="text-gray-200">Accès illimité aux outils IA</span>
+                <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
+                <span className="text-gray-200 text-sm">Kling AI - Avatars parlants ultra-réalistes</span>
               </div>
               <div className="flex items-center space-x-3">
-                <Check className="w-5 h-5 text-green-400 flex-shrink-0" />
-                <span className="text-gray-200">Génération haute qualité</span>
+                <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
+                <span className="text-gray-200 text-sm">Google Veo 3 - Vidéos haute définition</span>
               </div>
               <div className="flex items-center space-x-3">
-                <Check className="w-5 h-5 text-green-400 flex-shrink-0" />
-                <span className="text-gray-200">Support prioritaire</span>
+                <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
+                <span className="text-gray-200 text-sm">Midjourney V7 - Images artistiques</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
+                <span className="text-gray-200 text-sm">DALL-E 3 - Création d'images uniques</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
+                <span className="text-gray-200 text-sm">Video Upscale AI - Amélioration vidéo 8K</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
+                <span className="text-gray-200 text-sm">ChatGPT-4o - Assistant personnel complet</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
+                <span className="text-gray-200 text-sm">Support prioritaire 24/7</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
+                <span className="text-gray-200 text-sm">Accès à toutes les nouvelles IA en avant-première</span>
               </div>
             </div>
             
