@@ -59,32 +59,42 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
             <span className="ml-2 text-xl font-bold text-white">Splendid</span>
           </div>
 
-          {/* Navigation */}
-          <nav className="hidden md:flex items-center space-x-1 relative" ref={navContainerRef}>
-            <div 
-              className="absolute bottom-0 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 ease-out"
-              style={activeIndicatorStyle}
-            />
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                ref={selectedCategory === category.id ? activeNavRef : null}
-                onClick={() => onCategoryChange(category.id)}
-                className={`px-4 py-2 text-sm font-medium transition-colors duration-200 relative ${
-                  selectedCategory === category.id
-                    ? "text-white"
-                    : "text-gray-400 hover:text-white"
-                }`}
-              >
-                {category.label}
-              </button>
-            ))}
+          {/* Navigation principale "Bulle" */}
+          <nav className="hidden md:block">
+            <div ref={navContainerRef} className="nav-container relative flex items-center bg-black/20 backdrop-blur-lg border border-white/10 rounded-full p-1.5">
+              <div 
+                className="indicator-3d absolute rounded-full shadow-lg transition-all duration-300 ease-in-out z-0"
+                style={activeIndicatorStyle}
+              ></div>
+              {categories.map((category) => (
+                <button
+                  key={category.id}
+                  ref={selectedCategory === category.id ? activeNavRef : null}
+                  onClick={() => onCategoryChange(category.id)}
+                  className={`nav-link relative z-10 px-3 py-1.5 text-sm font-medium transition-colors duration-300 flex items-center justify-center ${
+                    selectedCategory === category.id ? 'text-white' : 'text-gray-300'
+                  }`}
+                  data-category={category.id}
+                >
+                  {category.label}
+                </button>
+              ))}
+            </div>
           </nav>
 
-          {/* Mobile menu button */}
-          <button className="md:hidden p-2 text-gray-400 hover:text-white">
-            <MessageCircle className="h-6 w-6" />
-          </button>
+          {/* Boutons d'action */}
+          <div className="flex items-center space-x-4">
+            <a href="#" className="hidden sm:block text-gray-300 hover:text-white font-medium transition">
+              Pricing
+            </a>
+            <a 
+              href="#" 
+              className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold px-5 py-2 rounded-full transition text-sm flex items-center space-x-2"
+            >
+              <MessageCircle className="w-5 h-5" />
+              <span>Discord</span>
+            </a>
+          </div>
         </div>
       </div>
     </header>
