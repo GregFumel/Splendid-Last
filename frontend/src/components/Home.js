@@ -4,6 +4,7 @@ import Footer from "./Footer";
 import AIToolsGrid from "./AIToolsGrid";
 import SuggestionModal from "./SuggestionModal";
 import IdeasModal from "./IdeasModal";
+import SocialProof from "./SocialProof";
 import { mockAITools } from "../data/mockData";
 
 const Home = () => {
