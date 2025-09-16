@@ -44,7 +44,7 @@ export const mockAITools = [
     id: 6,
     name: "Video Upscale AI",
     description: "Améliorez la résolution de vos vidéos jusqu'à 8K.",
-    category: "edit",
+    category: "video",
     image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/gnt5f1ea_topaz_img%20-%2001.png",
     fullDescription: "l'amélioration de la résolution de vidéos existantes"
   },
@@ -60,7 +60,7 @@ export const mockAITools = [
     id: 8,
     name: "AI Image Upscaler",
     description: "Le meilleur upscaler du marché pour améliorer vos images.",
-    category: "edit",
+    category: "image",
     image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/8um9qont_Bildschirmfoto_2024-03-30_um_09.2%20-%2001.png",
     fullDescription: "l'amélioration et l'upscaling d'images avec ajout de détails ultra-précis"
   },
