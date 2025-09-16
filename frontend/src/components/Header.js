@@ -62,21 +62,17 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           
-          {/* Logo */}
-          <div className="flex items-center">
-            {/* Logo Splendid sur desktop */}
-            <div className="hidden md:block">
-              <img 
-                src="https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/5hgv17ws_613b2b7e0_splendid-logo-textcopycopy.png" 
-                alt="Splendid"
-                className="h-8 w-auto"
-              />
-            </div>
-            {/* Logo S sur mobile */}
-            <div className="md:hidden h-6 w-6 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xs">S</span>
-            </div>
+          {/* Logo - Desktop uniquement */}
+          <div className="hidden md:flex items-center">
+            <img 
+              src="https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/5hgv17ws_613b2b7e0_splendid-logo-textcopycopy.png" 
+              alt="Splendid"
+              className="h-8 w-auto"
+            />
           </div>
+          
+          {/* Espace vide sur mobile */}
+          <div className="md:hidden w-6"></div>
 
           {/* Navigation principale "Bulle" - Toujours visible */}
           <nav className="flex-1 flex justify-center mx-1 md:mx-4 md:flex-initial">
