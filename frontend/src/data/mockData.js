@@ -29,7 +29,7 @@ export const mockAITools = [
     name: "Midjourney V7",
     description: "L'outil de référence pour la génération d'images artistiques.",
     category: "image",
-    image: "https://placehold.co/600x400/111827/FFF?text=Midjourney",
+    image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/ei2pu1s3_ew_20240925-midjourney-review.png",
     fullDescription: "la génération d'images artistiques et photoréalistes"
   },
   {
@@ -37,7 +37,7 @@ export const mockAITools = [
     name: "DALL-E 3",
     description: "Transformez n'importe quelle idée en image unique.",
     category: "image",
-    image: "https://placehold.co/600x400/111827/FFF?text=DALL-E+3",
+    image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/kjh1zimg_Screenshot_2025-05-12_at_1.31.02P%20-%2001.png",
     fullDescription: "la transformation d'idées texte en images uniques"
   },
   {
@@ -45,23 +45,23 @@ export const mockAITools = [
     name: "Video Upscale AI",
     description: "Améliorez la résolution de vos vidéos jusqu'à 8K.",
     category: "edit",
-    image: "https://placehold.co/600x400/111827/FFF?text=Video+Upscale",
+    image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/gnt5f1ea_topaz_img%20-%2001.png",
     fullDescription: "l'amélioration de la résolution de vidéos existantes"
   },
   {
     id: 7,
-    name: "ChatGPT-4o",
-    description: "Votre assistant personnel pour écrire, coder et créer.",
+    name: "GPT-5 Structured",
+    description: "L'IA la plus avancée pour l'analyse et génération structurée.",
     category: "assist",
-    image: "https://placehold.co/600x400/111827/FFF?text=ChatGPT",
-    fullDescription: "l'assistance à la rédaction, au codage ou à la création de contenu textuel"
+    image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/yau7ce7n_replicate-prediction-qhzgvzbn7.png",
+    fullDescription: "l'assistance avancée avec analyse structurée et génération de contenu complexe"
   },
   {
     id: 8,
     name: "AI Image Upscaler Pro",
     description: "Le meilleur upscaler du marché pour améliorer vos images.",
     category: "edit",
-    image: "https://placehold.co/600x400/111827/FFF?text=AI+Upscaler",
+    image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/8um9qont_Bildschirmfoto_2024-03-30_um_09.2%20-%2001.png",
     fullDescription: "l'amélioration et l'upscaling d'images avec ajout de détails ultra-précis"
   },
   {
