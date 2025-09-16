@@ -103,19 +103,20 @@ const Home = () => {
       />
       
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 lg:py-12 pt-24 md:pt-64">
-        <div className="flex flex-col items-center text-center mb-6 sm:mb-8">
+        <div className="flex flex-col items-center text-center mb-8">
           {/* Section vide - Desktop seulement */}
           <div className="hidden md:block w-full h-16 mb-8"></div>
           
-          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 leading-tight mb-6">
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 leading-tight mb-8">
             Découvrez les meilleurs outils IA
           </h1>
           
           {/* Preuve sociale */}
           <SocialProof />
+          
           <button
             onClick={() => setShowSuggestionModal(true)}
-            className="btn-3d-effect mt-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-full transition text-sm sm:text-base flex items-center space-x-2 shadow-lg shadow-blue-500/30 whitespace-nowrap"
+            className="btn-3d-effect mt-4 mb-8 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-full transition text-sm sm:text-base flex items-center space-x-2 shadow-lg shadow-blue-500/30 whitespace-nowrap"
           >
             <span>✨ Quel outil IA choisir ?</span>
           </button>
