@@ -86,7 +86,7 @@ const PricingSection = () => {
             </button>
             
             {/* Garantie */}
-            <p className="text-xs text-gray-500 mt-4">
+            <p className="text-xs text-gray-500 mt-4 px-2">
               3 jours gratuits • Puis 29,99€/mois • Sans engagement
             </p>
           </div>
