@@ -102,12 +102,13 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
             </div>
           </nav>
 
-          {/* Icône Compte utilisateur - Desktop seulement */}
+          {/* Sélecteur de langue - Desktop seulement */}
           <div className="hidden md:flex items-center">
             <button 
-              className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold p-1.5 md:p-2 rounded-full transition flex items-center justify-center"
+              className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold px-3 py-1.5 md:py-2 rounded-full transition flex items-center justify-center space-x-1"
             >
-              <User className="w-4 h-4 md:w-5 md:h-5" />
+              <Globe className="w-4 h-4 md:w-4 md:h-4" />
+              <span className="text-xs font-medium">FR</span>
             </button>
           </div>
         </div>
