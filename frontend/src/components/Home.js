@@ -130,6 +130,9 @@ const Home = () => {
         />
       </main>
       
+      {/* Section Pricing */}
+      <PricingSection />
+      
       <Footer />
       
       <SuggestionModal
