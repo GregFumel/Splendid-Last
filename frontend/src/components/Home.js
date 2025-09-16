@@ -31,13 +31,14 @@ const Home = () => {
     const containerRect = navContainerRef.current.getBoundingClientRect();
     const targetRect = targetElement.getBoundingClientRect();
     
-    // Calcul pour un meilleur centrage avec plus de marge avant le texte
+    // Calcul pour un meilleur centrage avec le nouveau padding
     const isMobile = window.innerWidth < 768;
-    const buttonPadding = isMobile ? 12 : 16; // px-3 mobile, px-4 desktop
-    const textWidth = targetRect.width - (buttonPadding * 2);
-    const leftPadding = 14; // Plus de marge à gauche
-    const rightPadding = 8; // Moins à droite pour centrage visuel
-    const bubbleWidth = textWidth + leftPadding + rightPadding;
+    const leftPadding = isMobile ? 16 : 20; // pl-4 mobile, pl-5 desktop
+    const rightPadding = isMobile ? 12 : 16; // px-3/px-4 original
+    const textWidth = targetRect.width - leftPadding - rightPadding;
+    const bubbleLeftPadding = 14; // Marge supplémentaire à gauche de la bulle
+    const bubbleRightPadding = 8; // Moins à droite pour centrage visuel
+    const bubbleWidth = textWidth + bubbleLeftPadding + bubbleRightPadding;
     
     const bubbleLeft = (targetRect.width - bubbleWidth) / 2;
     
