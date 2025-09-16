@@ -33,7 +33,7 @@ const AIToolsGrid = ({ tools, onGenerateIdeas }) => {
               className="btn-3d-effect bg-blue-500 hover:bg-blue-600 w-full text-white font-medium px-4 py-2.5 rounded-full transition text-sm flex items-center justify-center space-x-2"
             >
               <Sparkles className="w-4 h-4" />
-              <span>Générer des idées</span>
+              <span>Utiliser {tool.name}</span>
             </button>
           </div>
         </div>
