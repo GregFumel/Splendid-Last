@@ -100,7 +100,7 @@ const Home = () => {
         onCategoryChange={setSelectedCategory}
       />
       
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 lg:py-12 pt-20">
+      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 lg:py-12 pt-20 md:pt-24">
         <div className="flex flex-col items-center text-center mb-6 sm:mb-8">
           <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 leading-tight">
             Découvrez les meilleurs outils IA
