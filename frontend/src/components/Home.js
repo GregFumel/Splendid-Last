@@ -109,18 +109,18 @@ const Home = () => {
           {/* Section vide - Desktop seulement */}
           <div className="hidden md:block w-full h-10 mb-8"></div>
           
-          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 leading-tight mb-4">
-            Découvrez les meilleurs outils IA
-          </h1>
-          
-          {/* Logo Splendid sous le titre */}
-          <div className="mb-4">
+          {/* Logo Splendid au-dessus du titre - Mobile uniquement */}
+          <div className="md:hidden mb-6">
             <img 
               src="https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/3zs6hyph_613b2b7e0_splendid-logo-textcopycopy.png" 
               alt="Splendid"
-              className="h-6 w-auto mx-auto"
+              className="h-10 w-auto mx-auto"
             />
           </div>
+          
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 leading-tight mb-4">
+            Découvrez les meilleurs outils IA
+          </h1>
           
           <p className="text-xs sm:text-sm md:text-lg text-gray-300 max-w-6xl mx-auto leading-relaxed mb-8">
             Plus de 1200€ d'outils IA, pour le prix d'un resto.<br />
