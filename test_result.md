@@ -216,14 +216,10 @@ metadata:
   test_sequence: 1
 
 test_plan:
-  current_focus:
-    - "Navigation générale - chargement de page et navigation entre catégories"
-    - "Section Pricing - affichage et animation du liséré blanc"
-    - "Filtre des outils IA par catégorie"
-    - "Design responsive - adaptation mobile"
+  current_focus: []
   stuck_tasks: []
-  test_all: false
-  test_priority: "high_first"
+  test_all: true
+  test_priority: "completed"
 
 agent_communication:
   - agent: "testing"
