@@ -76,7 +76,7 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
                   key={category.id}
                   ref={selectedCategory === category.id ? activeNavRef : null}
                   onClick={() => onCategoryChange(category.id)}
-                  className={`nav-link relative z-10 px-3 py-1.5 text-sm font-medium transition-colors duration-300 flex items-center justify-center ${
+                  className={`nav-link relative z-10 px-4 py-2 text-sm font-medium transition-colors duration-300 flex items-center justify-center ${
                     selectedCategory === category.id ? 'text-white' : 'text-gray-300'
                   }`}
                   data-category={category.id}
