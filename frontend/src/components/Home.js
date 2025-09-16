@@ -109,9 +109,13 @@ const Home = () => {
           {/* Section vide - Desktop seulement */}
           <div className="hidden md:block w-full h-10 mb-8"></div>
           
-          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 leading-tight mb-8">
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 leading-tight mb-4">
             Découvrez les meilleurs outils IA
           </h1>
+          
+          <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8">
+            Plus de 1200€ d'outils IA, pour le prix d'un resto. L'abonnement tout-en-un qui remplace tous les autres.
+          </p>
           
           {/* Preuve sociale */}
           <SocialProof />
