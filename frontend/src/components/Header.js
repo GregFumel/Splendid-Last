@@ -59,7 +59,7 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/10 backdrop-blur-sm py-2">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-2 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           
           {/* Logo - Desktop uniquement */}
@@ -71,8 +71,8 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
             />
           </div>
           
-          {/* Espace vide sur mobile */}
-          <div className="md:hidden w-6"></div>
+          {/* Espace vide sur mobile - réduit */}
+          <div className="md:hidden w-1"></div>
 
           {/* Navigation principale "Bulle" - Toujours visible */}
           <nav className="flex-1 flex justify-center mx-1 md:mx-4 md:flex-initial">
@@ -86,7 +86,7 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
                   key={category.id}
                   ref={selectedCategory === category.id ? activeNavRef : null}
                   onClick={() => onCategoryChange(category.id)}
-                  className={`nav-link relative z-10 px-3 md:px-4 py-1.5 md:py-2 text-xs sm:text-sm font-medium transition-colors duration-300 flex items-center justify-center pl-4 md:pl-5 flex-1 md:flex-initial ${
+                  className={`nav-link relative z-10 px-2 md:px-4 py-1.5 md:py-2 text-xs sm:text-sm font-medium transition-colors duration-300 flex items-center justify-center pl-3 md:pl-5 flex-1 md:flex-initial ${
                     selectedCategory === category.id ? 'text-white' : 'text-gray-300'
                   }`}
                   data-category={category.id}
@@ -101,7 +101,7 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
           {/* Sélecteur de langue - Toujours en haut à droite */}
           <div className="flex items-center">
             <button 
-              className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold px-2 md:px-3 py-1.5 md:py-2 rounded-full transition flex items-center justify-center space-x-1"
+              className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold px-2 md:px-3 py-1.5 md:py-2 rounded-full transition flex items-center justify-center space-x-1 flex-shrink-0"
             >
               <Globe className="w-3 h-3 md:w-4 md:h-4" />
               <span className="text-xs font-medium">FR</span>
