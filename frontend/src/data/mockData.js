@@ -4,7 +4,7 @@ export const mockAITools = [
     name: "NanoBanana",
     description: "Générateur d'images avancé propulsé par Google Gemini.",
     category: "image",
-    image: "https://placehold.co/600x400/111827/FFF?text=NanoBanana",
+    image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/fhqzy4ql_this%20-%2001.png",
     fullDescription: "la génération d'images créatives et réalistes à partir de texte avec Google Gemini",
     isNew: true
   },
@@ -13,7 +13,7 @@ export const mockAITools = [
     name: "Kling AI",
     description: "Générez des avatars parlants ultra-réalistes.",
     category: "video",
-    image: "https://placehold.co/600x400/111827/FFF?text=Kling+AI",
+    image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/li3xo3mc_replicate-prediction-2epyczsz.gif",
     fullDescription: "la génération d'avatars parlants ultra-réalistes"
   },
   {
@@ -21,7 +21,7 @@ export const mockAITools = [
     name: "Google Veo 3",
     description: "Création de vidéos haute définition avec une IA avancée.",
     category: "video",
-    image: "https://placehold.co/600x400/111827/FFF?text=Google+Veo",
+    image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/fsxdm6r0_cover_image.CVnvgOra%20-%2001.png",
     fullDescription: "la création de vidéos haute définition"
   },
   {
