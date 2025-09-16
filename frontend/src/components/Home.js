@@ -141,6 +141,9 @@ const Home = () => {
         />
       </main>
       
+      {/* Section NanoBanana */}
+      <NanoBananaSection />
+      
       {/* Section Pricing */}
       <PricingSection />
       
