@@ -20,9 +20,14 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
     const containerRect = navContainerRef.current.getBoundingClientRect();
     const targetRect = targetElement.getBoundingClientRect();
     
+    // Calcul plus précis pour centrer la bulle sur le texte
+    const paddingX = 12; // 3 * 4px (px-3)
+    const textWidth = targetRect.width - (paddingX * 2);
+    const centerOffset = paddingX;
+    
     setActiveIndicatorStyle({
-      width: `${targetRect.width}px`,
-      transform: `translateX(${targetRect.left - containerRect.left}px)`
+      width: `${targetRect.width - 4}px`, // Léger ajustement pour éviter les débordements
+      transform: `translateX(${targetRect.left - containerRect.left + 2}px)` // Décalage de 2px pour l'alignement
     });
   };
 
