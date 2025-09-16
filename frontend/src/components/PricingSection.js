@@ -34,15 +34,9 @@ const PricingSection = () => {
             </h3>
             
             {/* Prix */}
-            <div className="mb-6">
-              <span className="text-4xl sm:text-5xl font-bold text-white">29,99€</span>
-              <span className="text-gray-400 text-lg"> /mois</span>
-            </div>
-            
-            <div className="text-right mb-6">
-              <span className="text-xs text-gray-500 uppercase tracking-wide font-medium">
-                FACTURÉ MENSUELLEMENT
-              </span>
+            <div className="mb-6 text-center">
+              <span className="text-3xl sm:text-4xl font-bold text-white block mb-2">3 jours gratuits</span>
+              <span className="text-lg text-gray-300">puis 29,99€ facturés mensuellement</span>
             </div>
             
             {/* Description */}
