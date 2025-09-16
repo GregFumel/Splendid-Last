@@ -20,17 +20,19 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
     const containerRect = navContainerRef.current.getBoundingClientRect();
     const targetRect = targetElement.getBoundingClientRect();
     
-    // Calcul précis pour centrer parfaitement la bulle sur le texte avec padding asymétrique
-    const paddingHorizontal = 16; // px-4 = 16px de chaque côté du bouton
-    const textWidth = targetRect.width - (paddingHorizontal * 2);
-    const paddingLeft = 12; // Plus d'espace à gauche
-    const paddingRight = 8; // Moins d'espace à droite
-    const bubbleWidth = textWidth + paddingLeft + paddingRight; // Padding asymétrique
-    const leftOffset = (targetRect.width - bubbleWidth) / 2;
+    // Approche simplifiée pour un centrage parfait
+    // La bulle doit être centrée sur le bouton avec un padding uniforme autour du texte
+    const desiredPadding = 10; // 10px de chaque côté du texte pour un centrage parfait
+    const buttonPadding = 16; // px-4 du bouton
+    const textWidth = targetRect.width - (buttonPadding * 2); // Largeur réelle du texte
+    const bubbleWidth = textWidth + (desiredPadding * 2); // Largeur de la bulle avec padding uniforme
+    
+    // Position de la bulle pour être parfaitement centrée sur le bouton
+    const bubbleLeft = (targetRect.width - bubbleWidth) / 2;
     
     setActiveIndicatorStyle({
       width: `${bubbleWidth}px`,
-      transform: `translateX(${targetRect.left - containerRect.left + leftOffset}px)`
+      transform: `translateX(${targetRect.left - containerRect.left + bubbleLeft}px)`
     });
   };
 
