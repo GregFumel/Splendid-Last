@@ -96,6 +96,24 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
             </a>
           </div>
         </div>
+
+        {/* Navigation pour mobile */}
+        <nav className="md:hidden flex space-x-4 overflow-x-auto py-2 -mx-4 px-4 border-t border-white/10">
+          {categories.map((category) => (
+            <button
+              key={`mobile-${category.id}`}
+              onClick={() => onCategoryChange(category.id)}
+              className={`nav-link-mobile whitespace-nowrap px-2 pb-1 transition ${
+                selectedCategory === category.id
+                  ? "text-white font-semibold border-b-2 border-cyan-400"
+                  : "text-gray-300 hover:text-white"
+              }`}
+              data-category={category.id}
+            >
+              {category.label}
+            </button>
+          ))}
+        </nav>
       </div>
     </header>
   );
