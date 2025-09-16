@@ -41,6 +41,9 @@ const Home = () => {
           opacity: '0.7'
         }}
       ></div>
+      
+      {/* Overlay subtile pour améliorer la lisibilité */}
+      <div className="fixed inset-0 -z-10 bg-black/20"></div>
       <Header 
         selectedCategory={selectedCategory}
         onCategoryChange={setSelectedCategory}
