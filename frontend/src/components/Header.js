@@ -72,9 +72,13 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
                 className="h-8 w-auto"
               />
             </div>
-            {/* Logo S sur mobile */}
-            <div className="md:hidden h-6 w-6 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xs">S</span>
+            {/* Nouveau logo sur mobile */}
+            <div className="md:hidden">
+              <img 
+                src="https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/gi3nak9y_logo-seul.png" 
+                alt="Logo"
+                className="h-6 w-6"
+              />
             </div>
           </div>
 
