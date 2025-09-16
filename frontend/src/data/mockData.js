@@ -46,5 +46,13 @@ export const mockAITools = [
     category: "assist",
     image: "https://placehold.co/600x400/111827/FFF?text=ChatGPT",
     fullDescription: "l'assistance à la rédaction, au codage ou à la création de contenu textuel"
+  },
+  {
+    id: 7,
+    name: "NanoBanana",
+    description: "Générateur d'images avancé propulsé par Google Gemini.",
+    category: "image",
+    image: "https://placehold.co/600x400/111827/FFF?text=NanoBanana",
+    fullDescription: "la génération d'images créatives et réalistes à partir de texte avec Google Gemini"
   }
 ];
