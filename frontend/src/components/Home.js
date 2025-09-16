@@ -109,6 +109,15 @@ const Home = () => {
           {/* Section vide - Desktop seulement */}
           <div className="hidden md:block w-full h-10 mb-8"></div>
           
+          {/* Logo mobile - au-dessus du titre */}
+          <div className="md:hidden mb-6">
+            <img 
+              src="https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/5hgv17ws_613b2b7e0_splendid-logo-textcopycopy.png" 
+              alt="Splendid"
+              className="h-12 w-auto mx-auto"
+            />
+          </div>
+          
           <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 leading-tight mb-4">
             Découvrez les meilleurs outils IA
           </h1>
