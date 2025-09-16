@@ -32,7 +32,7 @@ const Home = () => {
       <div 
         className="fixed inset-0 -z-10"
         style={{
-          backgroundImage: 'url(https://customer-assets.emergentagent.com/job_af984ef4-d93e-474e-9397-0c3398144eb6/artifacts/71b4xi1n_photo-1736843638421-9c3770d28c91.png)',
+          backgroundImage: 'url(https://customer-assets.emergentagent.com/job_af984ef4-d93e-474e-9397-0c3398144eb6/artifacts/85yt527h_unnamed.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
           backgroundAttachment: 'fixed',
