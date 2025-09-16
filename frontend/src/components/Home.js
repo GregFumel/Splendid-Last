@@ -100,34 +100,7 @@ const Home = () => {
         onCategoryChange={setSelectedCategory}
       />
       
-      {/* Navigation mobile - Fixée en haut */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-black/10 backdrop-blur-sm py-2">
-        <div className="container mx-auto px-4">
-          <nav className="flex justify-center">
-            <div ref={navContainerRef} className="nav-container relative flex items-center bg-black/20 backdrop-blur-lg border border-white/10 rounded-full p-1">
-              <div 
-                className="indicator-3d absolute rounded-full shadow-lg transition-all duration-300 ease-in-out z-0"
-                style={activeIndicatorStyle}
-              ></div>
-              {categories.map((category) => (
-                <button
-                  key={`mobile-${category.id}`}
-                  ref={selectedCategory === category.id ? activeNavRef : null}
-                  onClick={() => setSelectedCategory(category.id)}
-                  className={`nav-link relative z-10 px-3 py-2 text-sm font-medium transition-colors duration-300 flex items-center justify-center min-h-[40px] ${
-                    selectedCategory === category.id ? 'text-white' : 'text-gray-300'
-                  }`}
-                  data-category={category.id}
-                >
-                  {category.label}
-                </button>
-              ))}
-            </div>
-          </nav>
-        </div>
-      </div>
-      
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 lg:py-12 pt-16 md:pt-20">
+      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 lg:py-12 pt-20">
         <div className="flex flex-col items-center text-center mb-6 sm:mb-8">
           <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 leading-tight">
             Découvrez les meilleurs outils IA
