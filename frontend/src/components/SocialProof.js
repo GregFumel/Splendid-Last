@@ -34,7 +34,7 @@ const SocialProof = () => {
         ))}
         
         {/* Étoiles plus petites et espacées */}
-        <div className="flex ml-3 space-x-0.5">
+        <div className="flex ml-3 space-x-1">
           {[...Array(5)].map((_, index) => (
             <Star
               key={index}
