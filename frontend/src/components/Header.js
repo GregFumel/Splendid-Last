@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { User } from "lucide-react";
+import { User, Globe } from "lucide-react";
 
 const Header = ({ selectedCategory, onCategoryChange }) => {
   const [activeIndicatorStyle, setActiveIndicatorStyle] = useState({});
