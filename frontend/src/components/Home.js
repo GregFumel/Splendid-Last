@@ -32,7 +32,7 @@ const Home = () => {
     
     // Calcul pour un meilleur centrage avec plus de marge avant le texte
     const isMobile = window.innerWidth < 768;
-    const buttonPadding = isMobile ? 8 : 16; // px-2 mobile, px-4 desktop
+    const buttonPadding = isMobile ? 12 : 16; // px-3 mobile, px-4 desktop
     const textWidth = targetRect.width - (buttonPadding * 2);
     const leftPadding = 14; // Plus de marge à gauche
     const rightPadding = 8; // Moins à droite pour centrage visuel
