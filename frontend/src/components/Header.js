@@ -10,8 +10,8 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
     { id: "all", label: "Explore" },
     { id: "image", label: "Image" },
     { id: "video", label: "Vidéo" },
-    { id: "edit", label: "Edit" },
-    { id: "assist", label: "Assist" }
+    { id: "assist", label: "Assist" },
+    { id: "account", label: "Compte", icon: User }
   ];
 
   const updateIndicator = (targetElement) => {
