@@ -113,8 +113,9 @@ const Home = () => {
             Découvrez les meilleurs outils IA
           </h1>
           
-          <p className="text-sm sm:text-base md:text-lg text-gray-300 max-w-6xl mx-auto leading-relaxed mb-8">
-            Plus de 1200€ d'outils IA, pour le prix d'un resto. L'abonnement tout-en-un qui remplace tous les autres.
+          <p className="text-xs sm:text-sm md:text-lg text-gray-300 max-w-6xl mx-auto leading-relaxed mb-8">
+            Plus de 1200€ d'outils IA, pour le prix d'un resto.<br />
+            L'abonnement tout-en-un qui remplace tous les autres.
           </p>
           
           {/* Preuve sociale */}
