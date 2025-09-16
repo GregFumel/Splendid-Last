@@ -103,7 +103,7 @@ const Home = () => {
       {/* Navigation mobile sous le header */}
       <div className="md:hidden container mx-auto px-4 py-4">
         <nav className="flex justify-center">
-          <div ref={navContainerRef} className="nav-container relative flex items-center bg-black/20 backdrop-blur-lg border border-white/10 rounded-full p-1.5">
+          <div ref={navContainerRef} className="nav-container relative flex items-center bg-black/20 backdrop-blur-lg border border-white/10 rounded-full p-2">
             <div 
               className="indicator-3d absolute rounded-full shadow-lg transition-all duration-300 ease-in-out z-0"
               style={activeIndicatorStyle}
@@ -113,7 +113,7 @@ const Home = () => {
                 key={`mobile-${category.id}`}
                 ref={selectedCategory === category.id ? activeNavRef : null}
                 onClick={() => setSelectedCategory(category.id)}
-                className={`nav-link relative z-10 px-2 py-1.5 text-xs font-medium transition-colors duration-300 flex items-center justify-center ${
+                className={`nav-link relative z-10 px-4 py-3 text-sm font-medium transition-colors duration-300 flex items-center justify-center min-h-[44px] ${
                   selectedCategory === category.id ? 'text-white' : 'text-gray-300'
                 }`}
                 data-category={category.id}
