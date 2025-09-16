@@ -55,5 +55,21 @@ export const mockAITools = [
     category: "assist",
     image: "https://placehold.co/600x400/111827/FFF?text=ChatGPT",
     fullDescription: "l'assistance à la rédaction, au codage ou à la création de contenu textuel"
+  },
+  {
+    id: 8,
+    name: "AI Image Upscaler Pro",
+    description: "Le meilleur upscaler du marché pour améliorer vos images.",
+    category: "edit",
+    image: "https://placehold.co/600x400/111827/FFF?text=AI+Upscaler",
+    fullDescription: "l'amélioration et l'upscaling d'images avec ajout de détails ultra-précis"
+  },
+  {
+    id: 9,
+    name: "UGC Creator AI",
+    description: "Créez des vidéos UGC authentiques pour vendre vos produits.",
+    category: "video",
+    image: "https://placehold.co/600x400/111827/FFF?text=UGC+Creator",
+    fullDescription: "la création de vidéos UGC avec des acteurs virtuels présentant vos produits"
   }
 ];
