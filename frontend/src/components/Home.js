@@ -28,8 +28,11 @@ const Home = () => {
 
   return (
     <div className="min-h-screen text-gray-100" style={{
-      background: 'linear-gradient(to bottom, #3c6c82, #e0a67a)',
-      backgroundAttachment: 'fixed'
+      backgroundImage: 'url(https://customer-assets.emergentagent.com/job_af984ef4-d93e-474e-9397-0c3398144eb6/artifacts/71b4xi1n_photo-1736843638421-9c3770d28c91.png)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center center',
+      backgroundAttachment: 'fixed',
+      backgroundRepeat: 'no-repeat'
     }}>
       <Header 
         selectedCategory={selectedCategory}
