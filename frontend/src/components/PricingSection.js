@@ -6,7 +6,7 @@ const PricingSection = () => {
     <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
       <div className="flex flex-col items-center">
         {/* Titre de la section */}
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white text-center mb-12">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 text-center mb-16 md:mb-20">
           Accédez à tous les outils IA
         </h2>
         
