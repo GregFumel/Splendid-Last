@@ -80,25 +80,35 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
 
           {/* Navigation principale "Bulle" - Toujours visible */}
           <nav className="flex-1 flex justify-center mx-1 md:mx-4 md:flex-initial">
-            <div ref={navContainerRef} className="nav-container relative flex items-center bg-black/20 backdrop-blur-lg border border-white/10 rounded-full p-1 md:p-1.5 w-full md:w-auto max-w-none md:max-w-fit">
-              <div 
-                className="indicator-3d absolute rounded-full shadow-lg transition-all duration-300 ease-in-out z-0"
-                style={activeIndicatorStyle}
-              ></div>
-              {categories.map((category) => (
-                <button
-                  key={category.id}
-                  ref={selectedCategory === category.id ? activeNavRef : null}
-                  onClick={() => onCategoryChange(category.id)}
-                  className={`nav-link relative z-10 px-3 md:px-4 py-1.5 md:py-2 text-xs sm:text-sm font-medium transition-colors duration-300 flex items-center justify-center pl-4 md:pl-5 flex-1 md:flex-initial ${
-                    selectedCategory === category.id ? 'text-white' : 'text-gray-300'
-                  }`}
-                  data-category={category.id}
-                >
-                  {category.icon && <category.icon className="w-3 h-3 md:w-4 md:h-4 mr-1" />}
-                  {category.label}
+            <div className="flex items-center w-full md:w-auto">
+              <div ref={navContainerRef} className="nav-container relative flex items-center bg-black/20 backdrop-blur-lg border border-white/10 rounded-full p-1 md:p-1.5 flex-1 md:flex-initial max-w-none md:max-w-fit">
+                <div 
+                  className="indicator-3d absolute rounded-full shadow-lg transition-all duration-300 ease-in-out z-0"
+                  style={activeIndicatorStyle}
+                ></div>
+                {categories.map((category) => (
+                  <button
+                    key={category.id}
+                    ref={selectedCategory === category.id ? activeNavRef : null}
+                    onClick={() => onCategoryChange(category.id)}
+                    className={`nav-link relative z-10 px-3 md:px-4 py-1.5 md:py-2 text-xs sm:text-sm font-medium transition-colors duration-300 flex items-center justify-center pl-4 md:pl-5 flex-1 md:flex-initial ${
+                      selectedCategory === category.id ? 'text-white' : 'text-gray-300'
+                    }`}
+                    data-category={category.id}
+                  >
+                    {category.icon && <category.icon className="w-3 h-3 md:w-4 md:h-4 mr-1" />}
+                    {category.label}
+                  </button>
+                ))}
+              </div>
+              
+              {/* Bouton langue mobile - à droite de la navigation */}
+              <div className="md:hidden ml-2">
+                <button className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold px-2 py-1.5 rounded-full transition flex items-center justify-center space-x-1">
+                  <Globe className="w-3 h-3" />
+                  <span className="text-xs font-medium">FR</span>
                 </button>
-              ))}
+              </div>
             </div>
           </nav>
 
