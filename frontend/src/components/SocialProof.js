@@ -13,13 +13,13 @@ const SocialProof = () => {
   ];
 
   return (
-    <div className="flex flex-col items-center mb-8">
-      {/* Avatars avec contour bleu */}
-      <div className="flex items-center justify-center mb-4 space-x-1 sm:space-x-2">
+    <div className="flex flex-col items-center mb-6">
+      {/* Avatars avec contour bleu 3D */}
+      <div className="flex items-center justify-center mb-3 space-x-0.5 sm:space-x-1">
         {avatars.map((avatar, index) => (
           <div
             key={index}
-            className="relative w-12 h-12 sm:w-16 sm:h-16 rounded-full p-0.5 bg-gradient-to-r from-blue-500 to-blue-600"
+            className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full p-0.5 bg-gradient-to-r from-blue-500 to-blue-600 btn-3d-effect"
             style={{ zIndex: avatars.length - index }}
           >
             <img
@@ -33,19 +33,19 @@ const SocialProof = () => {
           </div>
         ))}
         
-        {/* Étoiles */}
-        <div className="flex ml-4 space-x-1">
+        {/* Étoiles plus petites et espacées */}
+        <div className="flex ml-3 space-x-0.5">
           {[...Array(5)].map((_, index) => (
             <Star
               key={index}
-              className="w-4 h-4 sm:w-5 sm:h-5 fill-yellow-400 text-yellow-400"
+              className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-yellow-400 text-yellow-400"
             />
           ))}
         </div>
       </div>
       
-      {/* Texte de preuve sociale */}
-      <p className="text-gray-300 text-sm sm:text-base font-medium">
+      {/* Texte de preuve sociale plus petit */}
+      <p className="text-gray-300 text-xs sm:text-sm font-medium">
         Reconnu par plus de 27 000 créateurs !
       </p>
     </div>
