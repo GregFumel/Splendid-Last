@@ -30,8 +30,8 @@ const Home = () => {
     const containerRect = navContainerRef.current.getBoundingClientRect();
     const targetRect = targetElement.getBoundingClientRect();
     
-    // Approche avec beaucoup plus de marge à gauche pour centrer visuellement
-    const buttonPadding = 8; // px-2 pour mobile
+    // Ajustement pour mobile avec padding plus important
+    const buttonPadding = 16; // px-4 pour mobile
     const textWidth = targetRect.width - (buttonPadding * 2);
     const leftPadding = 12; // Marge à gauche
     const rightPadding = 6; // Moins à droite
