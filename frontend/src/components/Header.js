@@ -101,14 +101,13 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
             </div>
           </nav>
 
-          {/* Icône Discord uniquement - Desktop seulement */}
+          {/* Icône Compte utilisateur - Desktop seulement */}
           <div className="hidden md:flex items-center">
-            <a 
-              href="#" 
+            <button 
               className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold p-1.5 md:p-2 rounded-full transition flex items-center justify-center"
             >
-              <MessageCircle className="w-4 h-4 md:w-5 md:h-5" />
-            </a>
+              <User className="w-4 h-4 md:w-5 md:h-5" />
+            </button>
           </div>
         </div>
       </div>
