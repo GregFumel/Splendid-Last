@@ -70,8 +70,8 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
           </div>
 
           {/* Navigation principale "Bulle" - Toujours visible */}
-          <nav className="flex-1 flex justify-center mx-2 md:mx-4">
-            <div ref={navContainerRef} className="nav-container relative flex items-center bg-black/20 backdrop-blur-lg border border-white/10 rounded-full p-1 md:p-1.5">
+          <nav className="flex-1 flex justify-center mx-2 md:mx-4 md:flex-initial">
+            <div ref={navContainerRef} className="nav-container relative flex items-center bg-black/20 backdrop-blur-lg border border-white/10 rounded-full p-1 md:p-1.5 w-full md:w-auto max-w-none md:max-w-fit">
               <div 
                 className="indicator-3d absolute rounded-full shadow-lg transition-all duration-300 ease-in-out z-0"
                 style={activeIndicatorStyle}
@@ -81,7 +81,7 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
                   key={category.id}
                   ref={selectedCategory === category.id ? activeNavRef : null}
                   onClick={() => onCategoryChange(category.id)}
-                  className={`nav-link relative z-10 px-3 md:px-4 py-1.5 md:py-2 text-xs sm:text-sm font-medium transition-colors duration-300 flex items-center justify-center pl-4 md:pl-5 ${
+                  className={`nav-link relative z-10 px-3 md:px-4 py-1.5 md:py-2 text-xs sm:text-sm font-medium transition-colors duration-300 flex items-center justify-center pl-4 md:pl-5 flex-1 md:flex-initial ${
                     selectedCategory === category.id ? 'text-white' : 'text-gray-300'
                   }`}
                   data-category={category.id}
@@ -92,8 +92,8 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
             </div>
           </nav>
 
-          {/* Icône Discord uniquement */}
-          <div className="flex items-center">
+          {/* Icône Discord uniquement - Desktop seulement */}
+          <div className="hidden md:flex items-center">
             <a 
               href="#" 
               className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold p-1.5 md:p-2 rounded-full transition flex items-center justify-center"
