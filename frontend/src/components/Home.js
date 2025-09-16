@@ -47,9 +47,34 @@ const Home = () => {
         onCategoryChange={setSelectedCategory}
       />
       
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <div className="flex flex-col items-center text-center mb-8">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 whitespace-nowrap">
+      {/* Navigation mobile sous le header */}
+      <div className="md:hidden container mx-auto px-4 py-4">
+        <nav className="flex justify-center">
+          <div ref={navContainerRef} className="nav-container relative flex items-center bg-black/20 backdrop-blur-lg border border-white/10 rounded-full p-1.5">
+            <div 
+              className="indicator-3d absolute rounded-full shadow-lg transition-all duration-300 ease-in-out z-0"
+              style={activeIndicatorStyle}
+            ></div>
+            {categories.map((category) => (
+              <button
+                key={`mobile-${category.id}`}
+                ref={selectedCategory === category.id ? activeNavRef : null}
+                onClick={() => setSelectedCategory(category.id)}
+                className={`nav-link relative z-10 px-2 py-1.5 text-xs font-medium transition-colors duration-300 flex items-center justify-center ${
+                  selectedCategory === category.id ? 'text-white' : 'text-gray-300'
+                }`}
+                data-category={category.id}
+              >
+                {category.label}
+              </button>
+            ))}
+          </div>
+        </nav>
+      </div>
+      
+      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 lg:py-12">
+        <div className="flex flex-col items-center text-center mb-6 sm:mb-8">
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 leading-tight">
             Découvrez les meilleurs outils IA
           </h1>
           <button
