@@ -100,8 +100,8 @@ const Home = () => {
         onCategoryChange={setSelectedCategory}
       />
       
-      {/* Navigation mobile sous le header - Sticky */}
-      <div className="md:hidden sticky top-16 z-40 bg-black/10 backdrop-blur-sm py-2">
+      {/* Navigation mobile - Fixée en haut */}
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-black/10 backdrop-blur-sm py-2">
         <div className="container mx-auto px-4">
           <nav className="flex justify-center">
             <div ref={navContainerRef} className="nav-container relative flex items-center bg-black/20 backdrop-blur-lg border border-white/10 rounded-full p-1">
