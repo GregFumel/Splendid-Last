@@ -64,13 +64,13 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
           
           {/* Logo S */}
           <div className="flex items-center">
-            <div className="h-8 w-8 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">S</span>
+            <div className="h-6 w-6 md:h-8 md:w-8 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-xs md:text-sm">S</span>
             </div>
           </div>
 
           {/* Navigation principale "Bulle" - Toujours visible */}
-          <nav className="flex-1 flex justify-center">
+          <nav className="flex-1 flex justify-center mx-2 md:mx-4">
             <div ref={navContainerRef} className="nav-container relative flex items-center bg-black/20 backdrop-blur-lg border border-white/10 rounded-full p-1.5">
               <div 
                 className="indicator-3d absolute rounded-full shadow-lg transition-all duration-300 ease-in-out z-0"
@@ -81,7 +81,7 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
                   key={category.id}
                   ref={selectedCategory === category.id ? activeNavRef : null}
                   onClick={() => onCategoryChange(category.id)}
-                  className={`nav-link relative z-10 px-3 md:px-4 py-2 text-xs sm:text-sm font-medium transition-colors duration-300 flex items-center justify-center ${
+                  className={`nav-link relative z-10 px-2 md:px-4 py-2 text-xs sm:text-sm font-medium transition-colors duration-300 flex items-center justify-center ${
                     selectedCategory === category.id ? 'text-white' : 'text-gray-300'
                   }`}
                   data-category={category.id}
@@ -96,9 +96,9 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
           <div className="flex items-center">
             <a 
               href="#" 
-              className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold p-2 rounded-full transition flex items-center justify-center"
+              className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold p-1.5 md:p-2 rounded-full transition flex items-center justify-center"
             >
-              <MessageCircle className="w-5 h-5" />
+              <MessageCircle className="w-4 h-4 md:w-5 md:h-5" />
             </a>
           </div>
         </div>
