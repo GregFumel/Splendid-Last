@@ -71,7 +71,7 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
 
           {/* Navigation principale "Bulle" - Toujours visible */}
           <nav className="flex-1 flex justify-center mx-2 md:mx-4">
-            <div ref={navContainerRef} className="nav-container relative flex items-center bg-black/20 backdrop-blur-lg border border-white/10 rounded-full p-1.5">
+            <div ref={navContainerRef} className="nav-container relative flex items-center bg-black/20 backdrop-blur-lg border border-white/10 rounded-full p-1 md:p-1.5">
               <div 
                 className="indicator-3d absolute rounded-full shadow-lg transition-all duration-300 ease-in-out z-0"
                 style={activeIndicatorStyle}
@@ -81,7 +81,7 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
                   key={category.id}
                   ref={selectedCategory === category.id ? activeNavRef : null}
                   onClick={() => onCategoryChange(category.id)}
-                  className={`nav-link relative z-10 px-2 md:px-4 py-2 text-xs sm:text-sm font-medium transition-colors duration-300 flex items-center justify-center ${
+                  className={`nav-link relative z-10 px-2 md:px-4 py-1.5 md:py-2 text-xs sm:text-sm font-medium transition-colors duration-300 flex items-center justify-center ${
                     selectedCategory === category.id ? 'text-white' : 'text-gray-300'
                   }`}
                   data-category={category.id}
