@@ -113,6 +113,15 @@ const Home = () => {
             Découvrez les meilleurs outils IA
           </h1>
           
+          {/* Logo Splendid sous le titre */}
+          <div className="mb-4">
+            <img 
+              src="https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/3zs6hyph_613b2b7e0_splendid-logo-textcopycopy.png" 
+              alt="Splendid"
+              className="h-6 w-auto mx-auto"
+            />
+          </div>
+          
           <p className="text-xs sm:text-sm md:text-lg text-gray-300 max-w-6xl mx-auto leading-relaxed mb-8">
             Plus de 1200€ d'outils IA, pour le prix d'un resto.<br />
             L'abonnement tout-en-un qui remplace tous les autres.
