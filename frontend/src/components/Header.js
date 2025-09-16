@@ -60,18 +60,19 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
   return (
     <header className="sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="flex items-center">
-            <div className="h-8 w-8 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-lg flex items-center justify-center">
+        <div className="flex items-center justify-between md:justify-between h-16">
+          
+          {/* Logo - Centré sur mobile, à gauche sur desktop */}
+          <div className="flex items-center justify-center md:justify-start flex-1 md:flex-initial">
+            <div className="h-8 w-8 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-lg flex items-center justify-center mr-2">
               <span className="text-white font-bold text-sm">S</span>
             </div>
-            <span className="ml-2 text-xl font-bold text-white">Splendid</span>
+            <span className="text-white font-bold text-lg">Splendid</span>
           </div>
 
-          {/* Navigation principale "Bulle" - Desktop ET Mobile */}
-          <nav className="block">
-            <div ref={navContainerRef} className="nav-container relative flex items-center bg-black/20 backdrop-blur-lg border border-white/10 rounded-full p-1.5 mx-auto max-w-fit">
+          {/* Navigation principale "Bulle" - Desktop seulement */}
+          <nav className="hidden md:block">
+            <div ref={navContainerRef} className="nav-container relative flex items-center bg-black/20 backdrop-blur-lg border border-white/10 rounded-full p-1.5">
               <div 
                 className="indicator-3d absolute rounded-full shadow-lg transition-all duration-300 ease-in-out z-0"
                 style={activeIndicatorStyle}
@@ -81,7 +82,7 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
                   key={category.id}
                   ref={selectedCategory === category.id ? activeNavRef : null}
                   onClick={() => onCategoryChange(category.id)}
-                  className={`nav-link relative z-10 px-3 py-2 text-xs sm:text-sm font-medium transition-colors duration-300 flex items-center justify-center ${
+                  className={`nav-link relative z-10 px-4 py-2 text-sm font-medium transition-colors duration-300 flex items-center justify-center ${
                     selectedCategory === category.id ? 'text-white' : 'text-gray-300'
                   }`}
                   data-category={category.id}
@@ -92,8 +93,8 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
             </div>
           </nav>
 
-          {/* Boutons d'action */}
-          <div className="flex items-center space-x-4">
+          {/* Boutons d'action - Desktop seulement */}
+          <div className="hidden md:flex items-center space-x-4">
             <a href="#" className="hidden sm:block text-gray-300 hover:text-white font-medium transition">
               Pricing
             </a>
