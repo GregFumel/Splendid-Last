@@ -43,6 +43,14 @@ body {
   z-index: 0;
 }
 
+/* Mobile specific adjustments */
+@media (max-width: 768px) {
+  .indicator-3d {
+    height: calc(100% - 6px);
+    top: 3px;
+  }
+}
+
 /* AI Cards hover effects */
 .ai-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
