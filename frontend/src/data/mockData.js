@@ -69,7 +69,7 @@ export const mockAITools = [
     name: "UGC Creator AI",
     description: "Créez des vidéos UGC authentiques pour vendre vos produits.",
     category: "video",
-    image: "https://placehold.co/600x400/111827/FFF?text=UGC+Creator",
+    image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/x8wpwp0u_tmp2ni84f_5.gif",
     fullDescription: "la création de vidéos UGC avec des acteurs virtuels présentant vos produits"
   }
 ];
