@@ -7,8 +7,17 @@ const AIToolsGrid = ({ tools, onGenerateIdeas }) => {
       {tools.map((tool) => (
         <div
           key={tool.id}
-          className="ai-card bg-white/5 backdrop-blur-lg border border-white/10 shadow-xl shadow-black/20 rounded-2xl overflow-hidden flex flex-col"
+          className="ai-card bg-white/5 backdrop-blur-lg border border-white/10 shadow-xl shadow-black/20 rounded-2xl overflow-hidden flex flex-col relative"
         >
+          {/* Badge New */}
+          {tool.isNew && (
+            <div className="absolute top-3 right-3 z-10">
+              <span className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+                New
+              </span>
+            </div>
+          )}
+          
           <img
             src={tool.image}
             alt={`Aperçu de ${tool.name}`}
