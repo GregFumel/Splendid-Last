@@ -54,7 +54,7 @@ const Studio = () => {
       </div>
 
       {/* Contenu principal */}
-      <div className="pt-24 flex h-screen">
+      <div className="pt-16 flex h-screen">
         
         {/* Sidebar - Liste des IA */}
         <div className="w-80 bg-black/20 backdrop-blur-lg border-r border-white/10 p-6 overflow-y-auto">
