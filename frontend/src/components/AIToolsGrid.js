@@ -22,12 +22,22 @@ const AIToolsGrid = ({ tools, onGenerateIdeas }) => {
           key={tool.id}
           className="ai-card bg-white/5 backdrop-blur-lg border border-white/10 shadow-xl shadow-black/20 rounded-2xl overflow-hidden flex flex-col relative"
         >
-          {/* Badge New */}
+          {/* Badge New avec liséré animé */}
           {tool.isNew && (
             <div className="absolute top-3 right-3 z-10">
-              <span className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
-                New
-              </span>
+              <div className="relative">
+                {/* Liséré animé */}
+                <div className="absolute inset-0 rounded-full animate-irregular-spin">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-white via-transparent to-white opacity-60"></div>
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-l from-white/30 via-transparent to-white/70 rotate-45"></div>
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-t from-white/40 via-transparent to-white/50 -rotate-12"></div>
+                </div>
+                
+                {/* Badge New */}
+                <span className="relative bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg btn-3d-effect">
+                  New
+                </span>
+              </div>
             </div>
           )}
           
