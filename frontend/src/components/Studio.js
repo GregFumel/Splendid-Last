@@ -207,13 +207,13 @@ const Studio = () => {
 
           {/* Zone de prompt compacte en bas */}
           <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-4">
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3">
               <input
                 type="text"
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 placeholder={`Demandez à ${selectedTool.name}...`}
-                className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg"
+                className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2 md:py-0"
                 onKeyPress={(e) => {
                   if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
                     handleGenerate();
@@ -224,12 +224,13 @@ const Studio = () => {
               <button
                 onClick={handleGenerate}
                 disabled={!prompt.trim() || isGenerating}
-                className="btn-3d-effect bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold px-6 py-3 rounded-xl transition flex items-center space-x-2 shadow-lg flex-shrink-0"
+                className="btn-3d-effect bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold px-6 py-3 rounded-xl transition flex items-center justify-center space-x-2 shadow-lg w-full md:w-auto flex-shrink-0"
               >
                 {isGenerating ? (
                   <>
                     <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                    <span>Génération en cours...</span>
+                    <span className="hidden md:inline">Génération en cours...</span>
+                    <span className="md:hidden">Génération...</span>
                   </>
                 ) : (
                   <>
