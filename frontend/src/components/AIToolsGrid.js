@@ -6,8 +6,16 @@ const AIToolsGrid = ({ tools, onGenerateIdeas }) => {
 
   // Fonction pour naviguer vers Studio avec l'outil sélectionné
   const handleUseTool = (tool) => {
-    // Naviguer vers Studio avec l'ID de l'outil dans l'URL
-    navigate(`/studio?tool=${tool.id}`);
+    // Scroll vers le haut AVANT la navigation pour s'assurer que Studio démarre en haut
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    
+    // Attendre un petit délai puis naviguer
+    setTimeout(() => {
+      // Naviguer vers Studio avec l'ID de l'outil dans l'URL
+      navigate(`/studio?tool=${tool.id}`);
+    }, 50);
   };
   // Fonction pour obtenir l'icône selon la catégorie
   const getCategoryIcon = (category) => {
