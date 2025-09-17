@@ -58,7 +58,7 @@ const AIToolsGrid = ({ tools, onGenerateIdeas }) => {
               <img 
                 src={getCategoryIcon(tool.category)} 
                 alt={`Icône ${tool.category}`}
-                className="w-4 h-4 filter brightness-0 invert"
+                className="w-5 h-5 filter brightness-0 invert"
               />
               <span>Utiliser {tool.name}</span>
             </button>
