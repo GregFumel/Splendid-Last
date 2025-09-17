@@ -110,7 +110,7 @@ const Studio = () => {
                         {tool.name}
                       </span>
                       {tool.isNew && (
-                        <span className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-2 py-0.5 rounded-full text-xs font-semibold border border-white/30 shadow-lg shadow-green-500/20" style={{boxShadow: 'inset 0 1px 1px 0 rgba(255, 255, 255, 0.4), 0 3px 8px rgba(34, 197, 94, 0.3)'}}>
+                        <span className="badge-new-3d text-white px-2 py-0.5 rounded-full text-xs font-semibold">
                           New
                         </span>
                       )}
