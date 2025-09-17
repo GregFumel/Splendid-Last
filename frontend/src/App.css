@@ -128,3 +128,32 @@ textarea:focus {
 .animate-irregular-spin {
   animation: irregular-spin 8s ease-in-out infinite;
 }
+
+/* Studio responsive design */
+@media (max-width: 1023px) {
+  .studio-sidebar {
+    display: none !important;
+  }
+  
+  .studio-menu-button {
+    display: flex !important;
+  }
+  
+  .studio-mobile-selector {
+    display: block !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .studio-sidebar {
+    display: block !important;
+  }
+  
+  .studio-menu-button {
+    display: none !important;
+  }
+  
+  .studio-mobile-selector {
+    display: none !important;
+  }
+}
