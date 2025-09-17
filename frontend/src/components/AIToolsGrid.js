@@ -5,13 +5,13 @@ const AIToolsGrid = ({ tools, onGenerateIdeas }) => {
   const getCategoryIcon = (category) => {
     switch (category) {
       case 'assist':
-        return 'https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/1m0jbzdf_noun-communication-8087939.png';
+        return 'https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/ae6l6pql_noun-prompt-8071301.png';
       case 'image':
-        return 'https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/18zwkr57_noun-image-8087947.png';
+        return 'https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/1ef3864v_noun-generative-image-8071314.png';
       case 'video':
-        return 'https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/eik1kcg4_noun-video-8087948.png';
+        return 'https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/mjsnat4t_noun-video-8071313.png';
       default:
-        return 'https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/18zwkr57_noun-image-8087947.png'; // icône par défaut
+        return 'https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/1ef3864v_noun-generative-image-8071314.png'; // icône par défaut
     }
   };
 
