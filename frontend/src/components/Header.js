@@ -3,6 +3,7 @@ import { User, Globe } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Header = ({ selectedCategory, onCategoryChange }) => {
+  const navigate = useNavigate();
   const [activeIndicatorStyle, setActiveIndicatorStyle] = useState({});
   const navContainerRef = useRef(null);
   const activeNavRef = useRef(null);
