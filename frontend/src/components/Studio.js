@@ -187,16 +187,16 @@ const Studio = () => {
                   <span>Résultat</span>
                 </h3>
                 
-                <div className="bg-black/20 border border-white/20 rounded-xl p-4 min-h-32">
+                <div className="bg-black/20 border border-white/20 rounded-xl p-3 md:p-4 min-h-32">
                   {isGenerating ? (
                     <div className="flex items-center justify-center h-32">
                       <div className="text-center">
-                        <div className="animate-spin rounded-full h-8 w-8 border-2 border-blue-400 border-t-transparent mx-auto mb-4"></div>
-                        <p className="text-gray-300">Génération en cours avec {selectedTool.name}...</p>
+                        <div className="animate-spin rounded-full h-6 w-6 md:h-8 md:w-8 border-2 border-blue-400 border-t-transparent mx-auto mb-4"></div>
+                        <p className="text-gray-300 text-sm md:text-base">Génération en cours avec {selectedTool.name}...</p>
                       </div>
                     </div>
                   ) : (
-                    <pre className="text-gray-200 whitespace-pre-wrap font-mono text-sm leading-relaxed">
+                    <pre className="text-gray-200 whitespace-pre-wrap font-mono text-xs md:text-sm leading-relaxed">
                       {result}
                     </pre>
                   )}
