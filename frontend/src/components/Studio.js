@@ -27,15 +27,50 @@ const Studio = () => {
       }
     }
     
-    // Scroll vers le haut avec délai pour mobile
-    const scrollToTop = () => {
+    // Fonction de scroll agressive pour mobile
+    const forceScrollToTop = () => {
+      // Multiples tentatives de scroll
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+      
+      // Scroll avec behavior instant
       window.scrollTo({
         top: 0,
         left: 0,
         behavior: 'instant'
       });
       
-      // Scroll forcé supplémentaire pour mobile après un délai
+      // Répétition après délais pour s'assurer que ça fonctionne
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      }, 10);
+      
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      }, 100);
+      
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      }, 300);
+    };
+    
+    forceScrollToTop();
+  }, [searchParams]);
+
+  // Scroll additionnel au montage du composant
+  useEffect(() => {
+    const forceScrollOnMount = () => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+      
       setTimeout(() => {
         window.scrollTo(0, 0);
         document.documentElement.scrollTop = 0;
@@ -43,8 +78,8 @@ const Studio = () => {
       }, 100);
     };
     
-    scrollToTop();
-  }, [searchParams]);
+    forceScrollOnMount();
+  }, []);
 
   // Détection mobile avec une méthode plus fiable
   useEffect(() => {
