@@ -206,14 +206,14 @@ const Studio = () => {
           </div>
 
           {/* Zone de prompt compacte en bas */}
-          <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-3 md:p-4">
+          <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-3 lg:p-4">
             <div className="flex flex-col gap-3">
               <input
                 type="text"
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 placeholder={`Demandez à ${selectedTool.name}...`}
-                className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-base md:text-lg py-2"
+                className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-base lg:text-lg py-2"
                 onKeyPress={(e) => {
                   if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
                     handleGenerate();
