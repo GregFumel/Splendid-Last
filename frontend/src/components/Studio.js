@@ -37,22 +37,15 @@ const Studio = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black">
       {/* Header avec glassmorphisme - même style que la page d'accueil */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md pt-5 pb-3">
         <div className="container mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <img 
-                src="https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/5hgv17ws_613b2b7e0_splendid-logo-textcopycopy.png" 
-                alt="Splendid"
-                className="h-8 w-auto"
-              />
-              <h1 className="text-xl font-bold text-white">Studio</h1>
-            </div>
+            <h1 className="text-xl font-bold text-white">Studio</h1>
             <button 
               onClick={() => navigate('/')}
-              className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-full transition"
+              className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold px-3 py-1.5 rounded-full transition text-sm"
             >
               Retour à l'accueil
             </button>
