@@ -58,8 +58,8 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
   }, [selectedCategory]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-black/10 backdrop-blur-sm py-2">
-      <div className="container mx-auto px-2 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-50 bg-black/10 backdrop-blur-lg border-b border-white/10 py-3 md:py-3 mt-2 md:mt-0">
+      <div className="container mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           
           {/* Logo - Desktop uniquement */}
