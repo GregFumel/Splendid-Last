@@ -60,7 +60,7 @@ const AIToolsGrid = ({ tools, onGenerateIdeas }) => {
           </div>
           <div className="p-5 mt-auto">
             <button
-              onClick={() => onGenerateIdeas(tool)}
+              onClick={() => handleUseTool(tool)}
               className="btn-3d-effect bg-blue-500 hover:bg-blue-600 w-full text-white font-medium px-4 py-2.5 rounded-full transition text-sm flex items-center justify-center space-x-2"
             >
               <img 
