@@ -27,76 +27,60 @@ const Studio = () => {
       }
     }
     
-    // Nouvelle approche pour scroller au MAXIMUM vers le haut
-    const forceScrollToAbsoluteTop = () => {
-      // Scroller à une position négative pour compenser le header
-      const headerHeight = 80; // Hauteur approximative du header
-      const targetScroll = -headerHeight;
-      
-      // Multiples tentatives avec différentes méthodes
-      window.scrollTo(0, targetScroll);
-      document.documentElement.scrollTop = targetScroll;
-      document.body.scrollTop = targetScroll;
-      
-      // Forcer avec scrollTo et behavior
-      window.scrollTo({
-        top: targetScroll,
-        left: 0,
-        behavior: 'instant'
-      });
-      
-      // Ensuite scroller à 0 avec délais multiples
-      setTimeout(() => {
+    // Fonction ultra-agressive pour garantir scroll à EXACTEMENT 0px
+    const forceScrollToExactlyZero = () => {
+      // Fonction récursive pour vérifier et forcer le scroll à 0
+      const ensureZeroScroll = (attempts = 0) => {
+        // Multiples méthodes de scroll à 0
         window.scrollTo(0, 0);
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
-        window.scrollTo({ top: 0, behavior: 'instant' });
-      }, 10);
+        window.pageYOffset = 0;
+        
+        // Forcer avec scrollTo et différents behaviors
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+        
+        // Vérifier si le scroll est exactement à 0
+        const currentScroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        
+        if (currentScroll !== 0 && attempts < 20) {
+          // Si ce n'est pas exactement 0, réessayer après un délai
+          setTimeout(() => ensureZeroScroll(attempts + 1), 10);
+        }
+      };
       
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
-        window.scrollTo({ top: 0, behavior: 'instant' });
-      }, 50);
+      // Démarrer la vérification immédiatement
+      ensureZeroScroll();
       
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
-        window.scrollTo({ top: 0, behavior: 'instant' });
-      }, 150);
-      
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
-        window.scrollTo({ top: 0, behavior: 'instant' });
-      }, 300);
-      
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
-        window.scrollTo({ top: 0, behavior: 'instant' });
-      }, 500);
+      // Vérifications additionnelles avec délais
+      setTimeout(() => ensureZeroScroll(), 50);
+      setTimeout(() => ensureZeroScroll(), 100);
+      setTimeout(() => ensureZeroScroll(), 200);
+      setTimeout(() => ensureZeroScroll(), 400);
+      setTimeout(() => ensureZeroScroll(), 600);
+      setTimeout(() => ensureZeroScroll(), 1000);
     };
     
-    forceScrollToAbsoluteTop();
+    forceScrollToExactlyZero();
   }, [searchParams]);
 
-  // Scroll additionnel au montage du composant
+  // Scroll additionnel au montage du composant - aussi à exactement 0
   useEffect(() => {
     const forceScrollOnMount = () => {
-      window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-      
-      setTimeout(() => {
+      const ensureZeroOnMount = () => {
         window.scrollTo(0, 0);
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
-      }, 100);
+        
+        const currentScroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        if (currentScroll !== 0) {
+          setTimeout(ensureZeroOnMount, 10);
+        }
+      };
+      
+      ensureZeroOnMount();
+      setTimeout(ensureZeroOnMount, 100);
     };
     
     forceScrollOnMount();
