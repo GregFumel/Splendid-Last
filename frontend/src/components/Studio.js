@@ -157,14 +157,14 @@ const Studio = () => {
           
           {/* En-tête de l'outil sélectionné avec arrondis complets */}
           <div className="bg-black/10 backdrop-blur-sm border border-white/10 rounded-2xl p-4 md:p-6 mb-4">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3 md:space-x-4">
               <img 
                 src={selectedTool.image} 
                 alt={selectedTool.name}
-                className="w-16 h-16 rounded-xl object-cover border border-white/20"
+                className="w-12 h-12 md:w-16 md:h-16 rounded-xl object-cover border border-white/20"
               />
               <div>
-                <h2 className="text-2xl font-bold text-white flex items-center space-x-2">
+                <h2 className="text-xl md:text-2xl font-bold text-white flex items-center space-x-2">
                   {selectedTool.name}
                   {selectedTool.isNew && (
                     <span className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
