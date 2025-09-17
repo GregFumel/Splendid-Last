@@ -126,33 +126,8 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Accès Studio et crédits */}
-        <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
-          <div className="flex items-center space-x-3 mb-6">
-            <Zap className="w-6 h-6 text-yellow-400" />
-            <h2 className="text-xl font-semibold text-white">Studio IA</h2>
-          </div>
-          
-          <div className="text-center mb-6">
-            <div className="text-3xl font-bold text-white mb-2">{userProfile.credits}</div>
-            <div className="text-gray-400 text-sm">Crédits restants</div>
-          </div>
-
-          <button
-            onClick={handleGoToStudio}
-            className="btn-3d-effect bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold px-6 py-3 rounded-xl transition w-full flex items-center justify-center space-x-2 shadow-lg"
-          >
-            <Zap className="w-5 h-5" />
-            <span>Accéder au Studio</span>
-          </button>
-
-          <div className="mt-4 text-xs text-gray-400 text-center">
-            {isPremium ? "Crédits illimités" : "Crédits limités en essai gratuit"}
-          </div>
-        </div>
-
         {/* Informations utilisateur */}
-        <div className="lg:col-span-3 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
+        <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center space-x-3">
               <User className="w-6 h-6 text-green-400" />
