@@ -181,7 +181,7 @@ const Studio = () => {
           <div className="flex-1">
             {/* Zone de résultat si présente */}
             {(result || isGenerating) && (
-              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 mb-4">
+              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-4 md:p-6 mb-4">
                 <h3 className="text-lg font-semibold text-white mb-4 flex items-center space-x-2">
                   <Sparkles className="w-5 h-5 text-blue-400" />
                   <span>Résultat</span>
