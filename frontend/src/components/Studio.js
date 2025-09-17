@@ -124,7 +124,7 @@ const Studio = () => {
       </div>
 
       {/* Contenu principal */}
-      <div className="pt-20 flex h-screen gap-0 lg:gap-4 p-2 lg:p-4">
+      <div className="pt-20 flex h-screen gap-4 p-4">
         
         {/* Sidebar - Liste des IA avec arrondis - Desktop seulement */}
         {!isMobile && (
