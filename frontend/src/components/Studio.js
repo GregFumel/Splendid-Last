@@ -58,12 +58,14 @@ const Studio = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               {/* Bouton menu mobile */}
-              <button 
-                onClick={() => setShowToolSelector(!showToolSelector)}
-                className="studio-menu-button btn-3d-effect bg-white/10 hover:bg-white/20 text-white p-2 rounded-lg transition hidden"
-              >
-                <Menu className="w-5 h-5" />
-              </button>
+              {isMobile && (
+                <button 
+                  onClick={() => setShowToolSelector(!showToolSelector)}
+                  className="btn-3d-effect bg-white/10 hover:bg-white/20 text-white p-2 rounded-lg transition"
+                >
+                  <Menu className="w-5 h-5" />
+                </button>
+              )}
               <h1 className="text-xl font-bold text-white">Studio</h1>
             </div>
             <button 
