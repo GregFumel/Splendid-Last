@@ -156,7 +156,7 @@ const Studio = () => {
         <div className="flex-1 flex flex-col w-full">
           
           {/* En-tête de l'outil sélectionné avec arrondis complets */}
-          <div className="bg-black/10 backdrop-blur-sm border border-white/10 rounded-2xl p-4 md:p-6 mb-4">
+          <div className="bg-black/10 backdrop-blur-sm border border-white/10 rounded-2xl p-4 lg:p-6 mb-4">
             <div className="flex items-center space-x-3 md:space-x-4">
               <img 
                 src={selectedTool.image} 
