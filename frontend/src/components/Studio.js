@@ -50,7 +50,10 @@ const Studio = () => {
               />
               <h1 className="text-xl font-bold text-white">Studio</h1>
             </div>
-            <button className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-full transition">
+            <button 
+              onClick={() => navigate('/')}
+              className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-full transition"
+            >
               Retour à l'accueil
             </button>
           </div>
