@@ -35,10 +35,28 @@ const Dashboard = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6">
         
-        {/* Statut d'abonnement */}
-        <div className="lg:col-span-2 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
+        {/* Bouton Studio avec crédits - au-dessus */}
+        <div className="flex items-center justify-between">
+          <div></div> {/* Espacement à gauche */}
+          <div className="flex items-center space-x-4">
+            <div className="text-right">
+              <div className="text-2xl font-bold text-white">{userProfile.credits}</div>
+              <div className="text-gray-400 text-sm">Crédits restants</div>
+            </div>
+            <button
+              onClick={handleGoToStudio}
+              className="btn-3d-effect bg-blue-500/20 backdrop-blur-lg border border-blue-400/50 hover:bg-blue-500/30 text-white font-semibold px-6 py-3 rounded-full transition flex items-center space-x-2 shadow-lg"
+            >
+              <Zap className="w-5 h-5" />
+              <span>Accéder au Studio</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Statut d'abonnement - largeur complète */}
+        <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
           <div className="flex items-center space-x-3 mb-6">
             <CreditCard className="w-6 h-6 text-blue-400" />
             <h2 className="text-xl font-semibold text-white">Statut d'abonnement</h2>
