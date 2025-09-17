@@ -128,35 +128,31 @@ const Studio = () => {
           {/* Zone de prompt et résultat */}
           <div className="flex-1 p-6 space-y-6">
             
-            {/* Zone de prompt */}
-            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
-              <h3 className="text-lg font-semibold text-white mb-4">
-                Prompt pour {selectedTool.name}
-              </h3>
-              
-              <div className="space-y-4">
-                <textarea
+            {/* Zone de prompt compacte */}
+            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-4">
+              <div className="flex items-center space-x-3">
+                <input
+                  type="text"
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
-                  placeholder={`Décrivez ce que vous voulez créer avec ${selectedTool.name}...`}
-                  className="w-full h-32 bg-black/20 border border-white/20 rounded-xl p-4 text-white placeholder-gray-400 resize-none focus:outline-none focus:border-blue-400 transition"
+                  placeholder={`Demandez à ${selectedTool.name}...`}
+                  className="flex-1 bg-black/20 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 transition"
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
+                      handleGenerate();
+                    }
+                  }}
                 />
                 
                 <button
                   onClick={handleGenerate}
                   disabled={!prompt.trim() || isGenerating}
-                  className="btn-3d-effect bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold px-8 py-3 rounded-full transition flex items-center space-x-2 shadow-lg"
+                  className="btn-3d-effect bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold px-6 py-3 rounded-xl transition flex items-center space-x-2 shadow-lg flex-shrink-0"
                 >
                   {isGenerating ? (
-                    <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                      <span>Génération en cours...</span>
-                    </>
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
                   ) : (
-                    <>
-                      <Send className="w-4 h-4" />
-                      <span>Générer avec {selectedTool.name}</span>
-                    </>
+                    <Send className="w-4 h-4" />
                   )}
                 </button>
               </div>
