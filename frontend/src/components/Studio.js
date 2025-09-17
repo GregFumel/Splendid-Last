@@ -27,60 +27,69 @@ const Studio = () => {
       }
     }
     
-    // Fonction ultra-agressive pour garantir scroll à EXACTEMENT 0px
-    const forceScrollToExactlyZero = () => {
-      // Fonction récursive pour vérifier et forcer le scroll à 0
-      const ensureZeroScroll = (attempts = 0) => {
-        // Multiples méthodes de scroll à 0
-        window.scrollTo(0, 0);
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
-        window.pageYOffset = 0;
-        
-        // Forcer avec scrollTo et différents behaviors
-        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-        
-        // Vérifier si le scroll est exactement à 0
-        const currentScroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-        
-        if (currentScroll !== 0 && attempts < 20) {
-          // Si ce n'est pas exactement 0, réessayer après un délai
-          setTimeout(() => ensureZeroScroll(attempts + 1), 10);
+    // Nouvelle approche : scroller au maximum vers le haut, même en négatif
+    const forceScrollToVeryTop = () => {
+      // Essayer de scroller à des positions négatives pour "déborder" vers le haut
+      const targetScroll = -20; // Position négative pour aller plus haut que 0
+      
+      const scrollToNegative = () => {
+        try {
+          // Forcer le scroll à une position négative
+          window.scrollTo(0, targetScroll);
+          document.documentElement.scrollTop = targetScroll;
+          document.body.scrollTop = targetScroll;
+          
+          // Si ça ne marche pas, essayer avec 0
+          setTimeout(() => {
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+          }, 10);
+          
+          // Puis réessayer le négatif
+          setTimeout(() => {
+            window.scrollTo(0, targetScroll);
+            document.documentElement.scrollTop = targetScroll;
+            document.body.scrollTop = targetScroll;
+          }, 20);
+          
+        } catch (e) {
+          // Si le scroll négatif ne marche pas, forcer à 0
+          window.scrollTo(0, 0);
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
         }
       };
       
-      // Démarrer la vérification immédiatement
-      ensureZeroScroll();
-      
-      // Vérifications additionnelles avec délais
-      setTimeout(() => ensureZeroScroll(), 50);
-      setTimeout(() => ensureZeroScroll(), 100);
-      setTimeout(() => ensureZeroScroll(), 200);
-      setTimeout(() => ensureZeroScroll(), 400);
-      setTimeout(() => ensureZeroScroll(), 600);
-      setTimeout(() => ensureZeroScroll(), 1000);
+      // Répéter plusieurs fois
+      scrollToNegative();
+      setTimeout(scrollToNegative, 50);
+      setTimeout(scrollToNegative, 100);
+      setTimeout(scrollToNegative, 200);
+      setTimeout(scrollToNegative, 400);
+      setTimeout(scrollToNegative, 600);
+      setTimeout(scrollToNegative, 1000);
+      setTimeout(scrollToNegative, 1500);
     };
     
-    forceScrollToExactlyZero();
+    forceScrollToVeryTop();
   }, [searchParams]);
 
-  // Scroll additionnel au montage du composant - aussi à exactement 0
+  // Scroll additionnel au montage du composant
   useEffect(() => {
     const forceScrollOnMount = () => {
-      const ensureZeroOnMount = () => {
-        window.scrollTo(0, 0);
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
-        
-        const currentScroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-        if (currentScroll !== 0) {
-          setTimeout(ensureZeroOnMount, 10);
-        }
+      const scrollToTop = () => {
+        window.scrollTo(0, -10); // Essayer légèrement négatif
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
+        }, 10);
       };
       
-      ensureZeroOnMount();
-      setTimeout(ensureZeroOnMount, 100);
+      scrollToTop();
+      setTimeout(scrollToTop, 100);
+      setTimeout(scrollToTop, 300);
     };
     
     forceScrollOnMount();
