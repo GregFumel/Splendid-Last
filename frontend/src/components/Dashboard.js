@@ -47,7 +47,7 @@ const Dashboard = () => {
             <img 
               src="https://customer-assets.emergentagent.com/job_responsive-ai-tools/artifacts/kxkeb90j_noun-wizard-5902060.png" 
               alt="Logo"
-              className="w-6 h-6 object-contain"
+              className="w-5 h-5 object-contain"
             />
           </button>
         </div>
