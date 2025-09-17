@@ -43,12 +43,12 @@ const Dashboard = () => {
             onClick={handleGoToStudio}
             className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold px-8 py-3 rounded-full transition flex items-center space-x-3 shadow-lg"
           >
+            <span>Accéder au Studio</span>
             <img 
-              src="https://customer-assets.emergentagent.com/job_responsive-ai-tools/artifacts/99l7a69c_logo-seul.png" 
+              src="https://customer-assets.emergentagent.com/job_responsive-ai-tools/artifacts/kxkeb90j_noun-wizard-5902060.png" 
               alt="Logo"
               className="w-6 h-6 object-contain"
             />
-            <span>Accéder au Studio</span>
           </button>
         </div>
 
