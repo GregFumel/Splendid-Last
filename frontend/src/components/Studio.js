@@ -90,8 +90,8 @@ const Studio = () => {
       <div className="fixed inset-0 -z-10 bg-black/20"></div>
       {/* Header avec glassmorphisme - même style que la page d'accueil */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md pt-5 pb-3">
-        <div className="container mx-auto px-3 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
+        <div className="w-full px-6">
+          <div className="flex items-center justify-between w-full">
             <div className="flex items-center space-x-3">
               {/* Bouton menu mobile */}
               {isMobile && (
