@@ -227,7 +227,7 @@ const Studio = () => {
 
           {/* Zone de prompt compacte en bas */}
           <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-4">
-            <div className="flex items-center gap-3">
+            <div className={`flex items-center gap-3 ${isMobile ? '' : ''}`}>
               <input
                 type="text"
                 value={prompt}
@@ -244,7 +244,9 @@ const Studio = () => {
               <button
                 onClick={handleGenerate}
                 disabled={!prompt.trim() || isGenerating}
-                className="btn-3d-effect bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold px-4 py-2 rounded-xl transition flex items-center justify-center space-x-2 shadow-lg flex-shrink-0"
+                className={`btn-3d-effect bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold rounded-xl transition flex items-center justify-center space-x-2 shadow-lg flex-shrink-0 ${
+                  isMobile ? 'px-3 py-2' : 'px-4 py-2'
+                }`}
               >
                 {isGenerating ? (
                   <>
