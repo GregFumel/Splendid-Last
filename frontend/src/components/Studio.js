@@ -12,16 +12,19 @@ const Studio = () => {
   const [showToolSelector, setShowToolSelector] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Détection mobile
+  // Détection mobile avec une méthode plus fiable
   useEffect(() => {
     const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 1024);
+      // Utiliser matchMedia pour une détection plus précise
+      const mediaQuery = window.matchMedia('(max-width: 1023px)');
+      setIsMobile(mediaQuery.matches);
     };
     
     checkIsMobile();
-    window.addEventListener('resize', checkIsMobile);
+    const mediaQuery = window.matchMedia('(max-width: 1023px)');
+    mediaQuery.addListener(checkIsMobile);
     
-    return () => window.removeEventListener('resize', checkIsMobile);
+    return () => mediaQuery.removeListener(checkIsMobile);
   }, []);
 
   // Fonction pour obtenir l'icône selon la catégorie
