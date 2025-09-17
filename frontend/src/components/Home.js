@@ -158,8 +158,8 @@ const Home = () => {
         )}
       </main>
       
-      {/* Section Pricing */}
-      <PricingSection />
+      {/* Section Pricing - seulement si pas sur la page Compte */}
+      {selectedCategory !== 'account' && <PricingSection />}
       
       <Footer />
       
