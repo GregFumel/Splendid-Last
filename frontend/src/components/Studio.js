@@ -106,7 +106,7 @@ const Studio = () => {
       </div>
 
       {/* Contenu principal */}
-      <div className="pt-20 flex h-screen gap-4 p-4">
+      <div className="pt-20 flex h-screen gap-0 md:gap-4 p-2 md:p-4">
         
         {/* Sidebar - Liste des IA avec arrondis - Desktop seulement */}
         <div className="hidden md:block w-80 bg-black/20 backdrop-blur-lg border border-white/10 rounded-2xl p-6 overflow-y-auto max-h-[calc(100vh-8rem)]">
