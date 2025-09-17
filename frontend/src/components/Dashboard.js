@@ -124,16 +124,13 @@ const Dashboard = () => {
         {/* Informations utilisateur */}
         <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
           <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center space-x-3">
-              <User className="w-6 h-6 text-green-400" />
-              <h2 className="text-xl font-semibold text-white">Informations personnelles</h2>
-            </div>
+            <h2 className="text-xl font-semibold text-white">Informations personnelles</h2>
             <button
               onClick={() => setShowEditProfile(!showEditProfile)}
               className="btn-3d-effect bg-gray-500 hover:bg-gray-600 text-white font-semibold px-4 py-2 rounded-xl transition flex items-center space-x-2"
             >
               <Edit className="w-4 h-4" />
-              <span>Modifier</span>
+              <span className="hidden sm:inline">Modifier</span>
             </button>
           </div>
 
