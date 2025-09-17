@@ -62,10 +62,10 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md pt-5 pb-3 md:py-3">
       <div className="container mx-auto px-3 sm:px-6 lg:px-8">
-        <div className="flex items-center">
+        <div className="flex items-center relative h-16">
           
           {/* Logo - Desktop uniquement */}
-          <div className="hidden md:flex items-center">
+          <div className="hidden md:flex items-center absolute left-0">
             <img 
               src="https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/5hgv17ws_613b2b7e0_splendid-logo-textcopycopy.png" 
               alt="Splendid"
@@ -101,12 +101,22 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
             </div>
           </nav>
 
-          {/* Sélecteur de langue - Desktop uniquement */}
-          <div className="hidden md:flex items-center">
+          {/* Sélecteur de langue - Desktop uniquement - Positionné à droite */}
+          <div className="hidden md:flex items-center absolute right-0">
             <button 
               className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold px-3 py-2 rounded-full transition flex items-center justify-center space-x-1 flex-shrink-0"
             >
               <Globe className="w-4 h-4" />
+              <span className="text-xs font-medium">FR</span>
+            </button>
+          </div>
+
+          {/* Bouton langue sur mobile - en haut à droite */}
+          <div className="md:hidden absolute right-0">
+            <button 
+              className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold px-2 py-1.5 rounded-full transition flex items-center justify-center space-x-1"
+            >
+              <Globe className="w-3 h-3" />
               <span className="text-xs font-medium">FR</span>
             </button>
           </div>
