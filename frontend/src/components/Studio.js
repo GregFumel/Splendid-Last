@@ -172,7 +172,7 @@ const Studio = () => {
                     </span>
                   )}
                 </h2>
-                <p className="text-gray-300 mt-1 text-sm md:text-base">{selectedTool.description}</p>
+                <p className="text-gray-300 mt-1 text-sm lg:text-base">{selectedTool.description}</p>
               </div>
             </div>
           </div>
