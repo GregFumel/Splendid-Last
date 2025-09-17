@@ -26,7 +26,7 @@ const Dashboard = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <div className="text-center mb-8 mt-2 md:mt-8">
+      <div className="text-center mb-8 mt-0 md:mt-8">
         <h1 className="text-3xl lg:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 mb-4">
           Tableau de bord
         </h1>
