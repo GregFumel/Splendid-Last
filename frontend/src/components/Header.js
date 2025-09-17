@@ -86,11 +86,7 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
                     key={category.id}
                     ref={selectedCategory === category.id ? activeNavRef : null}
                     onClick={() => {
-                      if (category.id === 'account') {
-                        navigate('/studio');
-                      } else {
-                        onCategoryChange(category.id);
-                      }
+                      onCategoryChange(category.id);
                     }}
                     className={`nav-link relative z-10 px-2 md:px-4 py-1.5 md:py-2 text-xs sm:text-sm font-medium transition-colors duration-300 flex items-center justify-center pl-3 md:pl-5 flex-1 md:flex-initial ${
                       selectedCategory === category.id ? 'text-white' : 'text-gray-300'
