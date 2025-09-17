@@ -229,40 +229,75 @@ const Studio = () => {
 
           {/* Zone de prompt compacte en bas */}
           <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-4">
-            <div className={`flex gap-3 ${isMobile ? 'flex-col' : 'items-center'}`}>
-              <input
-                type="text"
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                placeholder={`Demandez à ${selectedTool.name}...`}
-                className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2"
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
-                    handleGenerate();
-                  }
-                }}
-              />
-              
-              <button
-                onClick={handleGenerate}
-                disabled={!prompt.trim() || isGenerating}
-                className={`btn-3d-effect bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold rounded-xl transition flex items-center justify-center space-x-2 shadow-lg flex-shrink-0 ${
-                  isMobile ? 'px-4 py-3 w-full' : 'px-4 py-2'
-                }`}
-              >
-                {isGenerating ? (
-                  <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                    {!isMobile && <span>Génération...</span>}
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    {!isMobile && <span>Générer</span>}
-                  </>
-                )}
-              </button>
-            </div>
+            {isMobile ? (
+              /* Layout mobile : vertical */
+              <div className="flex flex-col gap-3">
+                <input
+                  type="text"
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  placeholder={`Demandez à ${selectedTool.name}...`}
+                  className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2"
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
+                      handleGenerate();
+                    }
+                  }}
+                />
+                
+                <button
+                  onClick={handleGenerate}
+                  disabled={!prompt.trim() || isGenerating}
+                  className="btn-3d-effect bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold rounded-xl transition flex items-center justify-center space-x-2 shadow-lg px-4 py-3 w-full"
+                >
+                  {isGenerating ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                      <span>Génération...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      <span>Générer</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            ) : (
+              /* Layout desktop : horizontal avec bouton petit à droite */
+              <div className="flex items-center gap-3">
+                <input
+                  type="text"
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  placeholder={`Demandez à ${selectedTool.name}...`}
+                  className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2"
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
+                      handleGenerate();
+                    }
+                  }}
+                />
+                
+                <button
+                  onClick={handleGenerate}
+                  disabled={!prompt.trim() || isGenerating}
+                  className="btn-3d-effect bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold rounded-xl transition flex items-center justify-center space-x-2 shadow-lg px-4 py-2 flex-shrink-0"
+                >
+                  {isGenerating ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                      <span>Générer</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      <span>Générer</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
