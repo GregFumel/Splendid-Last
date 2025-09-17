@@ -124,7 +124,8 @@ const Studio = () => {
       <div className="pt-20 flex h-screen gap-0 lg:gap-4 p-2 lg:p-4">
         
         {/* Sidebar - Liste des IA avec arrondis - Desktop seulement */}
-        <div className="studio-sidebar w-80 bg-black/20 backdrop-blur-lg border border-white/10 rounded-2xl p-6 overflow-y-auto max-h-[calc(100vh-8rem)]">
+        {!isMobile && (
+          <div className="w-80 bg-black/20 backdrop-blur-lg border border-white/10 rounded-2xl p-6 overflow-y-auto max-h-[calc(100vh-8rem)]">
           <h2 className="text-lg font-semibold text-white mb-6">Outils IA disponibles</h2>
           
           <div className="space-y-2">
