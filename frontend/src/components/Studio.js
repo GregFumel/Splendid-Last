@@ -10,6 +10,19 @@ const Studio = () => {
   const [result, setResult] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [showToolSelector, setShowToolSelector] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Détection mobile
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+    
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
 
   // Fonction pour obtenir l'icône selon la catégorie
   const getCategoryIcon = (category) => {
