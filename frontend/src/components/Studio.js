@@ -27,43 +27,62 @@ const Studio = () => {
       }
     }
     
-    // Fonction de scroll très agressive pour voir tout le bloc titre
-    const forceScrollToTopPlusHigh = () => {
-      // Scroll encore plus haut pour voir tout le bloc titre
-      const scrollTarget = -50; // Scroll légèrement au-dessus du top
+    // Nouvelle approche pour scroller au MAXIMUM vers le haut
+    const forceScrollToAbsoluteTop = () => {
+      // Scroller à une position négative pour compenser le header
+      const headerHeight = 80; // Hauteur approximative du header
+      const targetScroll = -headerHeight;
       
-      window.scrollTo(0, scrollTarget);
-      document.documentElement.scrollTop = scrollTarget;
-      document.body.scrollTop = scrollTarget;
+      // Multiples tentatives avec différentes méthodes
+      window.scrollTo(0, targetScroll);
+      document.documentElement.scrollTop = targetScroll;
+      document.body.scrollTop = targetScroll;
       
-      // Puis revenir à 0 mais avec un délai pour forcer le re-rendu
+      // Forcer avec scrollTo et behavior
+      window.scrollTo({
+        top: targetScroll,
+        left: 0,
+        behavior: 'instant'
+      });
+      
+      // Ensuite scroller à 0 avec délais multiples
       setTimeout(() => {
         window.scrollTo(0, 0);
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
+        window.scrollTo({ top: 0, behavior: 'instant' });
       }, 10);
       
-      // Multiple tentatives de scroll à 0
       setTimeout(() => {
         window.scrollTo(0, 0);
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
+        window.scrollTo({ top: 0, behavior: 'instant' });
       }, 50);
       
       setTimeout(() => {
         window.scrollTo(0, 0);
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
+        window.scrollTo({ top: 0, behavior: 'instant' });
       }, 150);
       
       setTimeout(() => {
         window.scrollTo(0, 0);
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
-      }, 400);
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }, 300);
+      
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }, 500);
     };
     
-    forceScrollToTopPlusHigh();
+    forceScrollToAbsoluteTop();
   }, [searchParams]);
 
   // Scroll additionnel au montage du composant
