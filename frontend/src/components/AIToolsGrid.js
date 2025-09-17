@@ -2,6 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const AIToolsGrid = ({ tools, onGenerateIdeas }) => {
+  const navigate = useNavigate();
+
+  // Fonction pour naviguer vers Studio avec l'outil sélectionné
+  const handleUseTool = (tool) => {
+    // Naviguer vers Studio avec l'ID de l'outil dans l'URL
+    navigate(`/studio?tool=${tool.id}`);
+  };
   // Fonction pour obtenir l'icône selon la catégorie
   const getCategoryIcon = (category) => {
     switch (category) {
