@@ -106,48 +106,56 @@ const Home = () => {
       />
       
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 lg:py-12 pt-24 md:pt-64">
-        <div className="flex flex-col items-center text-center mb-8">
-          {/* Section vide - Desktop seulement */}
-          <div className="hidden md:block w-full h-10 mb-8"></div>
-          
-          {/* Logo Splendid au-dessus du titre - Mobile uniquement */}
-          <div className="md:hidden mb-6">
-            <img 
-              src="https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/3zs6hyph_613b2b7e0_splendid-logo-textcopycopy.png" 
-              alt="Splendid"
-              className="h-10 w-auto mx-auto"
+        {selectedCategory === 'account' ? (
+          /* Affichage du Dashboard quand "Compte" est sélectionné */
+          <Dashboard />
+        ) : (
+          /* Affichage normal de la page d'accueil */
+          <>
+            <div className="flex flex-col items-center text-center mb-8">
+              {/* Section vide - Desktop seulement */}
+              <div className="hidden md:block w-full h-10 mb-8"></div>
+              
+              {/* Logo Splendid au-dessus du titre - Mobile uniquement */}
+              <div className="md:hidden mb-6">
+                <img 
+                  src="https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/3zs6hyph_613b2b7e0_splendid-logo-textcopycopy.png" 
+                  alt="Splendid"
+                  className="h-10 w-auto mx-auto"
+                />
+              </div>
+              
+              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 leading-tight mb-4">
+                Découvrez les meilleurs outils IA
+              </h1>
+              
+              <p className="text-xs sm:text-sm md:text-lg text-gray-300 max-w-6xl mx-auto leading-relaxed mb-8">
+                Plus de 1200€ d'outils IA, pour le prix d'un resto.<br />
+                L'abonnement tout-en-un qui remplace tous les autres.
+              </p>
+              
+              {/* Preuve sociale */}
+              <SocialProof />
+              
+              <button
+                onClick={() => setShowSuggestionModal(true)}
+                className="btn-3d-effect mt-4 mb-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-full transition text-sm sm:text-base flex items-center space-x-2 shadow-lg shadow-blue-500/30 whitespace-nowrap"
+              >
+                <span>✨ Commencer mon essai gratuit</span>
+              </button>
+              
+              {/* Petit texte sous le bouton */}
+              <p className="text-xs text-gray-400 mb-8">
+                Essai gratuit de 3 jours, puis 29,99€/mois.
+              </p>
+            </div>
+            
+            <AIToolsGrid 
+              tools={filteredTools}
+              onGenerateIdeas={handleGenerateIdeas}
             />
-          </div>
-          
-          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 leading-tight mb-4">
-            Découvrez les meilleurs outils IA
-          </h1>
-          
-          <p className="text-xs sm:text-sm md:text-lg text-gray-300 max-w-6xl mx-auto leading-relaxed mb-8">
-            Plus de 1200€ d'outils IA, pour le prix d'un resto.<br />
-            L'abonnement tout-en-un qui remplace tous les autres.
-          </p>
-          
-          {/* Preuve sociale */}
-          <SocialProof />
-          
-          <button
-            onClick={() => setShowSuggestionModal(true)}
-            className="btn-3d-effect mt-4 mb-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-full transition text-sm sm:text-base flex items-center space-x-2 shadow-lg shadow-blue-500/30 whitespace-nowrap"
-          >
-            <span>✨ Commencer mon essai gratuit</span>
-          </button>
-          
-          {/* Petit texte sous le bouton */}
-          <p className="text-xs text-gray-400 mb-8">
-            Essai gratuit de 3 jours, puis 29,99€/mois.
-          </p>
-        </div>
-        
-        <AIToolsGrid 
-          tools={filteredTools}
-          onGenerateIdeas={handleGenerateIdeas}
-        />
+          </>
+        )}
       </main>
       
       {/* Section Pricing */}
