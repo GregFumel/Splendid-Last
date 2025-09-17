@@ -128,10 +128,10 @@ const Studio = () => {
         
         {/* Sidebar - Liste des IA avec arrondis - Desktop seulement */}
         {!isMobile && (
-          <div className="w-80 bg-black/20 backdrop-blur-lg border border-white/10 rounded-2xl p-6 overflow-y-auto max-h-[calc(100vh-8rem)]">
+          <div className="w-80 bg-black/20 backdrop-blur-lg border border-white/10 rounded-2xl p-6 overflow-y-auto flex flex-col h-full">
           <h2 className="text-lg font-semibold text-white mb-6">Outils IA disponibles</h2>
           
-          <div className="space-y-2">
+          <div className="space-y-2 flex-1">
             {mockAITools.map((tool) => (
               <button
                 key={tool.id}
@@ -173,18 +173,18 @@ const Studio = () => {
         )}
 
         {/* Zone de travail principale avec arrondis */}
-        <div className="flex-1 flex flex-col w-full">
+        <div className="flex-1 flex flex-col h-full">
           
           {/* En-tête de l'outil sélectionné avec arrondis complets */}
-          <div className="bg-black/10 backdrop-blur-sm border border-white/10 rounded-2xl p-4 lg:p-6 mb-4">
-            <div className="flex items-center space-x-3 lg:space-x-4">
+          <div className="bg-black/10 backdrop-blur-sm border border-white/10 rounded-2xl p-6 mb-4">
+            <div className="flex items-center space-x-4">
               <img 
                 src={selectedTool.image} 
                 alt={selectedTool.name}
-                className="w-12 h-12 lg:w-16 lg:h-16 rounded-xl object-cover border border-white/20"
+                className="w-16 h-16 rounded-xl object-cover border border-white/20"
               />
               <div>
-                <h2 className="text-xl lg:text-2xl font-bold text-white flex items-center space-x-2">
+                <h2 className="text-2xl font-bold text-white flex items-center space-x-2">
                   {selectedTool.name}
                   {selectedTool.isNew && (
                     <span className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
@@ -192,7 +192,7 @@ const Studio = () => {
                     </span>
                   )}
                 </h2>
-                <p className="text-gray-300 mt-1 text-sm lg:text-base">{selectedTool.description}</p>
+                <p className="text-gray-300 mt-1">{selectedTool.description}</p>
               </div>
             </div>
           </div>
@@ -201,22 +201,22 @@ const Studio = () => {
           <div className="flex-1">
             {/* Zone de résultat si présente */}
             {(result || isGenerating) && (
-              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-4 lg:p-6 mb-4">
+              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 mb-4">
                 <h3 className="text-lg font-semibold text-white mb-4 flex items-center space-x-2">
                   <Sparkles className="w-5 h-5 text-blue-400" />
                   <span>Résultat</span>
                 </h3>
                 
-                <div className="bg-black/20 border border-white/20 rounded-xl p-3 lg:p-4 min-h-32">
+                <div className="bg-black/20 border border-white/20 rounded-xl p-4 min-h-32">
                   {isGenerating ? (
                     <div className="flex items-center justify-center h-32">
                       <div className="text-center">
-                        <div className="animate-spin rounded-full h-6 w-6 lg:h-8 lg:w-8 border-2 border-blue-400 border-t-transparent mx-auto mb-4"></div>
-                        <p className="text-gray-300 text-sm lg:text-base">Génération en cours avec {selectedTool.name}...</p>
+                        <div className="animate-spin rounded-full h-8 w-8 border-2 border-blue-400 border-t-transparent mx-auto mb-4"></div>
+                        <p className="text-gray-300">Génération en cours avec {selectedTool.name}...</p>
                       </div>
                     </div>
                   ) : (
-                    <pre className="text-gray-200 whitespace-pre-wrap font-mono text-xs lg:text-sm leading-relaxed">
+                    <pre className="text-gray-200 whitespace-pre-wrap font-mono text-sm leading-relaxed">
                       {result}
                     </pre>
                   )}
@@ -226,14 +226,14 @@ const Studio = () => {
           </div>
 
           {/* Zone de prompt compacte en bas */}
-          <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-3 lg:p-4">
-            <div className="flex flex-col gap-3">
+          <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-4">
+            <div className="flex items-center gap-3">
               <input
                 type="text"
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 placeholder={`Demandez à ${selectedTool.name}...`}
-                className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-base lg:text-lg py-2"
+                className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2"
                 onKeyPress={(e) => {
                   if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
                     handleGenerate();
@@ -244,17 +244,17 @@ const Studio = () => {
               <button
                 onClick={handleGenerate}
                 disabled={!prompt.trim() || isGenerating}
-                className="btn-3d-effect bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold px-6 py-3 rounded-xl transition flex items-center justify-center space-x-2 shadow-lg w-full"
+                className="btn-3d-effect bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold px-4 py-2 rounded-xl transition flex items-center justify-center space-x-2 shadow-lg flex-shrink-0"
               >
                 {isGenerating ? (
                   <>
                     <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                    <span>Génération...</span>
+                    {!isMobile && <span>Génération...</span>}
                   </>
                 ) : (
                   <>
                     <Send className="w-4 h-4" />
-                    <span>Générer</span>
+                    {!isMobile && <span>Générer</span>}
                   </>
                 )}
               </button>
