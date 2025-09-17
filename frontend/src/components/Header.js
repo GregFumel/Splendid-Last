@@ -60,7 +60,7 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
   return (
     <header className="sticky top-0 z-50 bg-black/10 backdrop-blur-lg border-b border-white/10 py-3 md:py-3 mt-2 md:mt-0">
       <div className="container mx-auto px-3 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center">
           
           {/* Logo - Desktop uniquement */}
           <div className="hidden md:flex items-center">
@@ -70,40 +70,49 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
               className="h-8 w-auto"
             />
           </div>
-          
-          {/* Espace vide sur mobile - réduit */}
-          <div className="md:hidden w-1"></div>
 
-          {/* Navigation principale "Bulle" - Toujours visible */}
-          <nav className="flex-1 flex justify-center mx-1 md:mx-4 md:flex-initial">
-            <div ref={navContainerRef} className="nav-container relative flex items-center bg-black/20 backdrop-blur-lg border border-white/10 rounded-full p-1 md:p-1.5 w-full md:w-auto max-w-none md:max-w-fit">
-              <div 
-                className="indicator-3d absolute rounded-full shadow-lg transition-all duration-300 ease-in-out z-0"
-                style={activeIndicatorStyle}
-              ></div>
-              {categories.map((category) => (
-                <button
-                  key={category.id}
-                  ref={selectedCategory === category.id ? activeNavRef : null}
-                  onClick={() => onCategoryChange(category.id)}
-                  className={`nav-link relative z-10 px-2 md:px-4 py-1.5 md:py-2 text-xs sm:text-sm font-medium transition-colors duration-300 flex items-center justify-center pl-3 md:pl-5 flex-1 md:flex-initial ${
-                    selectedCategory === category.id ? 'text-white' : 'text-gray-300'
-                  }`}
-                  data-category={category.id}
+          {/* Navigation principale centré sur mobile */}
+          <nav className="flex-1 flex justify-center md:mx-4">
+            <div className="flex items-center w-full max-w-sm md:max-w-none justify-center">
+              <div ref={navContainerRef} className="nav-container relative flex items-center bg-black/20 backdrop-blur-lg border border-white/10 rounded-full p-1 md:p-1.5 w-full md:w-auto max-w-none md:max-w-fit">
+                <div 
+                  className="indicator-3d absolute rounded-full shadow-lg transition-all duration-300 ease-in-out z-0"
+                  style={activeIndicatorStyle}
+                ></div>
+                {categories.map((category) => (
+                  <button
+                    key={category.id}
+                    ref={selectedCategory === category.id ? activeNavRef : null}
+                    onClick={() => onCategoryChange(category.id)}
+                    className={`nav-link relative z-10 px-2 md:px-4 py-1.5 md:py-2 text-xs sm:text-sm font-medium transition-colors duration-300 flex items-center justify-center pl-3 md:pl-5 flex-1 md:flex-initial ${
+                      selectedCategory === category.id ? 'text-white' : 'text-gray-300'
+                    }`}
+                    data-category={category.id}
+                  >
+                    {category.icon && <category.icon className="w-3 h-3 md:w-4 md:h-4 mr-1" />}
+                    {category.label}
+                  </button>
+                ))}
+              </div>
+              
+              {/* Bouton langue sur mobile - à droite de la navigation */}
+              <div className="md:hidden ml-2 flex-shrink-0">
+                <button 
+                  className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold px-2 py-1.5 rounded-full transition flex items-center justify-center space-x-1"
                 >
-                  {category.icon && <category.icon className="w-3 h-3 md:w-4 md:h-4 mr-1" />}
-                  {category.label}
+                  <Globe className="w-3 h-3" />
+                  <span className="text-xs font-medium">FR</span>
                 </button>
-              ))}
+              </div>
             </div>
           </nav>
 
-          {/* Sélecteur de langue - Toujours en haut à droite */}
-          <div className="flex items-center">
+          {/* Sélecteur de langue - Desktop uniquement */}
+          <div className="hidden md:flex items-center">
             <button 
-              className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold px-2 md:px-3 py-1.5 md:py-2 rounded-full transition flex items-center justify-center space-x-1 flex-shrink-0"
+              className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold px-3 py-2 rounded-full transition flex items-center justify-center space-x-1 flex-shrink-0"
             >
-              <Globe className="w-3 h-3 md:w-4 md:h-4" />
+              <Globe className="w-4 h-4" />
               <span className="text-xs font-medium">FR</span>
             </button>
           </div>
