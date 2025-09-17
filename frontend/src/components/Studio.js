@@ -26,6 +26,9 @@ const Studio = () => {
         console.log(`Outil non trouvé pour l'ID: ${toolId}`);
       }
     }
+    
+    // Toujours scroller vers le haut lors de l'arrivée sur Studio
+    window.scrollTo(0, 0);
   }, [searchParams]);
 
   // Détection mobile avec une méthode plus fiable
