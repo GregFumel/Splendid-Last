@@ -50,10 +50,7 @@ const Dashboard = () => {
         {/* Statut d'abonnement avec crédits intégrés - largeur complète */}
         <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
           <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center space-x-3">
-              <CreditCard className="w-6 h-6 text-blue-400" />
-              <h2 className="text-xl font-semibold text-white">Statut d'abonnement</h2>
-            </div>
+            <h2 className="text-xl font-semibold text-white">Statut d'abonnement</h2>
             <div className="text-right">
               <div className="text-2xl font-bold text-white">{userProfile.credits}</div>
               <div className="text-gray-400 text-sm">Crédits restants</div>
