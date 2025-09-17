@@ -43,7 +43,16 @@ const Studio = () => {
       <div className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md pt-5 pb-3">
         <div className="container mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
-            <h1 className="text-xl font-bold text-white">Studio</h1>
+            <div className="flex items-center space-x-3">
+              {/* Bouton menu mobile */}
+              <button 
+                onClick={() => setShowToolSelector(!showToolSelector)}
+                className="md:hidden btn-3d-effect bg-white/10 hover:bg-white/20 text-white p-2 rounded-lg transition"
+              >
+                <Menu className="w-5 h-5" />
+              </button>
+              <h1 className="text-xl font-bold text-white">Studio</h1>
+            </div>
             <button 
               onClick={() => navigate('/')}
               className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold px-3 py-1.5 rounded-full transition text-sm"
@@ -52,6 +61,48 @@ const Studio = () => {
             </button>
           </div>
         </div>
+        
+        {/* Sélecteur d'outils mobile */}
+        {showToolSelector && (
+          <div className="md:hidden absolute top-full left-0 right-0 bg-black/90 backdrop-blur-lg border-t border-white/10 max-h-80 overflow-y-auto">
+            <div className="p-4 space-y-2">
+              {mockAITools.map((tool) => (
+                <button
+                  key={tool.id}
+                  onClick={() => {
+                    setSelectedTool(tool);
+                    setShowToolSelector(false);
+                  }}
+                  className={`w-full text-left p-3 rounded-xl transition-all duration-300 flex items-center space-x-3 ${
+                    selectedTool.id === tool.id
+                      ? 'bg-blue-500/20 border border-blue-400/50'
+                      : 'bg-white/5 hover:bg-white/10 border border-white/10'
+                  }`}
+                >
+                  <img 
+                    src={getCategoryIcon(tool.category)} 
+                    alt={`Icône ${tool.category}`}
+                    className="w-5 h-5 filter brightness-0 invert opacity-80"
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2">
+                      <span className={`font-medium text-sm ${
+                        selectedTool.id === tool.id ? 'text-white' : 'text-gray-300'
+                      }`}>
+                        {tool.name}
+                      </span>
+                      {tool.isNew && (
+                        <span className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-2 py-0.5 rounded-full text-xs font-semibold">
+                          New
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Contenu principal */}
