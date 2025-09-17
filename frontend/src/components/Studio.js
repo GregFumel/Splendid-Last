@@ -229,8 +229,7 @@ const Studio = () => {
                 {isGenerating ? (
                   <>
                     <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                    <span className="hidden md:inline">Génération en cours...</span>
-                    <span className="md:hidden">Génération...</span>
+                    <span>Génération...</span>
                   </>
                 ) : (
                   <>
