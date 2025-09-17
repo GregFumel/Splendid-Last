@@ -27,8 +27,23 @@ const Studio = () => {
       }
     }
     
-    // Toujours scroller vers le haut lors de l'arrivée sur Studio
-    window.scrollTo(0, 0);
+    // Scroll vers le haut avec délai pour mobile
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'instant'
+      });
+      
+      // Scroll forcé supplémentaire pour mobile après un délai
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      }, 100);
+    };
+    
+    scrollToTop();
   }, [searchParams]);
 
   // Détection mobile avec une méthode plus fiable
