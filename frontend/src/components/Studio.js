@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Send, Sparkles, Menu, X } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { mockAITools } from "../data/mockData";
 
 const Studio = () => {
