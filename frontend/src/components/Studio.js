@@ -82,7 +82,7 @@ const Studio = () => {
         
         {/* Sélecteur d'outils mobile */}
         {showToolSelector && isMobile && (
-          <div className="absolute top-full left-0 right-0 bg-black/90 backdrop-blur-lg border-t border-white/10 max-h-80 overflow-y-auto rounded-b-2xl border-l border-r border-b border-white/10">
+          <div className="absolute top-full left-0 right-0 bg-black/95 backdrop-blur-lg border border-white/10 border-t-0 max-h-80 overflow-y-auto rounded-b-2xl shadow-2xl">
             <div className="p-4 space-y-2">
               {mockAITools.map((tool) => (
                 <button
@@ -119,6 +119,8 @@ const Studio = () => {
                 </button>
               ))}
             </div>
+            {/* Indicateur de scroll visuel */}
+            <div className="h-1 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
           </div>
         )}
       </div>
