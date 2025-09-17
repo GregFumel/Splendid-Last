@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { mockAITools } from "../data/mockData";
 
 const Studio = () => {
+  const navigate = useNavigate();
   const [selectedTool, setSelectedTool] = useState(mockAITools[0]); // NanoBanana par défaut
   const [prompt, setPrompt] = useState("");
   const [result, setResult] = useState("");
