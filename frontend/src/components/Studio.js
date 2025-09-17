@@ -175,7 +175,7 @@ const Studio = () => {
         )}
 
         {/* Zone de travail principale avec arrondis */}
-        <div className="flex-1 flex flex-col h-full">
+        <div className={`flex-1 flex flex-col h-full ${isMobile ? 'pb-24' : ''}`}>
           
           {/* En-tête de l'outil sélectionné avec arrondis complets */}
           <div className="bg-black/10 backdrop-blur-sm border border-white/10 rounded-2xl p-6 mb-4 relative">
@@ -230,9 +230,13 @@ const Studio = () => {
           </div>
 
           {/* Zone de prompt compacte en bas */}
-          <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-4">
+          <div className={`bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-4 ${
+            isMobile 
+              ? 'fixed bottom-0 left-0 right-0 mx-4 mb-4 z-50 shadow-2xl' 
+              : ''
+          }`}>
             {isMobile ? (
-              /* Layout mobile : vertical */
+              /* Layout mobile : vertical avec zone fixe */
               <div className="flex flex-col gap-3">
                 <input
                   type="text"
