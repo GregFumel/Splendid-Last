@@ -108,8 +108,8 @@ const Studio = () => {
       {/* Contenu principal */}
       <div className="pt-20 flex h-screen gap-4 p-4">
         
-        {/* Sidebar - Liste des IA avec arrondis */}
-        <div className="w-80 bg-black/20 backdrop-blur-lg border border-white/10 rounded-2xl p-6 overflow-y-auto">
+        {/* Sidebar - Liste des IA avec arrondis - Desktop seulement */}
+        <div className="hidden md:block w-80 bg-black/20 backdrop-blur-lg border border-white/10 rounded-2xl p-6 overflow-y-auto">
           <h2 className="text-lg font-semibold text-white mb-6">Outils IA disponibles</h2>
           
           <div className="space-y-2">
@@ -153,7 +153,7 @@ const Studio = () => {
         </div>
 
         {/* Zone de travail principale avec arrondis */}
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col w-full md:w-auto">
           
           {/* En-tête de l'outil sélectionné avec arrondis complets */}
           <div className="bg-black/10 backdrop-blur-sm border border-white/10 rounded-2xl p-6 mb-4">
