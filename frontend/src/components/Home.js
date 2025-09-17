@@ -84,6 +84,16 @@ const Home = () => {
     setShowIdeasModal(true);
   };
 
+  const handleScrollToPricing = () => {
+    const pricingSection = document.getElementById('pricing-section');
+    if (pricingSection) {
+      pricingSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen text-gray-100 relative">
       {/* Fond d'écran brut sans effets */}
