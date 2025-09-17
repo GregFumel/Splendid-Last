@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { User, Globe } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Header = ({ selectedCategory, onCategoryChange }) => {
   const [activeIndicatorStyle, setActiveIndicatorStyle] = useState({});
