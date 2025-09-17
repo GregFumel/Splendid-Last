@@ -223,7 +223,7 @@ const Studio = () => {
       </div>
 
       {/* Contenu principal */}
-      <div className="pt-20 md:pt-20 flex h-screen gap-4 p-4" style={{ paddingTop: isMobile ? '7.5rem' : '5rem' }}>
+      <div className="pt-20 md:pt-20 flex h-screen gap-4 p-4" style={{ paddingTop: isMobile ? '6.5rem' : '5rem' }}>
         
         {/* Sidebar - Liste des IA avec arrondis - Desktop seulement */}
         {!isMobile && (
