@@ -17,9 +17,13 @@ const Studio = () => {
   useEffect(() => {
     const toolId = searchParams.get('tool');
     if (toolId) {
-      const tool = mockAITools.find(t => t.id === toolId);
+      // Convertir toolId en nombre pour la comparaison
+      const tool = mockAITools.find(t => t.id === parseInt(toolId));
       if (tool) {
         setSelectedTool(tool);
+        console.log(`Outil sélectionné via URL: ${tool.name} (ID: ${tool.id})`);
+      } else {
+        console.log(`Outil non trouvé pour l'ID: ${toolId}`);
       }
     }
   }, [searchParams]);
