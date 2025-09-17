@@ -178,7 +178,14 @@ const Studio = () => {
         <div className="flex-1 flex flex-col h-full">
           
           {/* En-tête de l'outil sélectionné avec arrondis complets */}
-          <div className="bg-black/10 backdrop-blur-sm border border-white/10 rounded-2xl p-6 mb-4">
+          <div className="bg-black/10 backdrop-blur-sm border border-white/10 rounded-2xl p-6 mb-4 relative">
+            {/* Badge New en haut à droite */}
+            {selectedTool.isNew && (
+              <span className="badge-new-3d text-white px-3 py-1 rounded-full text-sm font-semibold absolute top-4 right-4">
+                New
+              </span>
+            )}
+            
             <div className="flex items-center space-x-4">
               <img 
                 src={selectedTool.image} 
@@ -186,13 +193,8 @@ const Studio = () => {
                 className="w-16 h-16 rounded-xl object-cover border border-white/20"
               />
               <div>
-                <h2 className="text-2xl font-bold text-white flex items-center space-x-3">
+                <h2 className="text-2xl font-bold text-white">
                   {selectedTool.name}
-                  {selectedTool.isNew && (
-                    <span className="badge-new-3d text-white px-3 py-1 rounded-full text-sm font-semibold">
-                      New
-                    </span>
-                  )}
                 </h2>
                 <p className="text-gray-300 mt-1">{selectedTool.description}</p>
               </div>
