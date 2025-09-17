@@ -5,12 +5,24 @@ import { mockAITools } from "../data/mockData";
 
 const Studio = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [selectedTool, setSelectedTool] = useState(mockAITools[0]); // NanoBanana par défaut
   const [prompt, setPrompt] = useState("");
   const [result, setResult] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [showToolSelector, setShowToolSelector] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+
+  // Sélectionner l'outil basé sur le paramètre URL
+  useEffect(() => {
+    const toolId = searchParams.get('tool');
+    if (toolId) {
+      const tool = mockAITools.find(t => t.id === toolId);
+      if (tool) {
+        setSelectedTool(tool);
+      }
+    }
+  }, [searchParams]);
 
   // Détection mobile avec une méthode plus fiable
   useEffect(() => {
