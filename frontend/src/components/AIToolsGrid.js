@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const AIToolsGrid = ({ tools, onGenerateIdeas }) => {
   // Fonction pour obtenir l'icône selon la catégorie
