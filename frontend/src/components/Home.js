@@ -6,6 +6,7 @@ import SuggestionModal from "./SuggestionModal";
 import IdeasModal from "./IdeasModal";
 import SocialProof from "./SocialProof";
 import PricingSection from "./PricingSection";
+import Dashboard from "./Dashboard";
 import { mockAITools } from "../data/mockData";
 
 const Home = () => {
