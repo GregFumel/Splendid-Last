@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Send, Sparkles } from "lucide-react";
+import { Send, Sparkles, Menu, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { mockAITools } from "../data/mockData";
 
