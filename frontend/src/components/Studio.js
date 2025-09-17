@@ -27,41 +27,43 @@ const Studio = () => {
       }
     }
     
-    // Fonction de scroll agressive pour mobile
-    const forceScrollToTop = () => {
-      // Multiples tentatives de scroll
-      window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
+    // Fonction de scroll très agressive pour voir tout le bloc titre
+    const forceScrollToTopPlusHigh = () => {
+      // Scroll encore plus haut pour voir tout le bloc titre
+      const scrollTarget = -50; // Scroll légèrement au-dessus du top
       
-      // Scroll avec behavior instant
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'instant'
-      });
+      window.scrollTo(0, scrollTarget);
+      document.documentElement.scrollTop = scrollTarget;
+      document.body.scrollTop = scrollTarget;
       
-      // Répétition après délais pour s'assurer que ça fonctionne
+      // Puis revenir à 0 mais avec un délai pour forcer le re-rendu
       setTimeout(() => {
         window.scrollTo(0, 0);
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
       }, 10);
       
+      // Multiple tentatives de scroll à 0
       setTimeout(() => {
         window.scrollTo(0, 0);
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
-      }, 100);
+      }, 50);
       
       setTimeout(() => {
         window.scrollTo(0, 0);
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
-      }, 300);
+      }, 150);
+      
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      }, 400);
     };
     
-    forceScrollToTop();
+    forceScrollToTopPlusHigh();
   }, [searchParams]);
 
   // Scroll additionnel au montage du composant
