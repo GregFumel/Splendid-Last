@@ -54,10 +54,10 @@ const Studio = () => {
       </div>
 
       {/* Contenu principal */}
-      <div className="pt-16 flex h-screen">
+      <div className="pt-16 flex h-screen gap-4 p-4">
         
-        {/* Sidebar - Liste des IA */}
-        <div className="w-80 bg-black/20 backdrop-blur-lg border-r border-white/10 p-6 overflow-y-auto">
+        {/* Sidebar - Liste des IA avec arrondis */}
+        <div className="w-80 bg-black/20 backdrop-blur-lg border border-white/10 rounded-2xl p-6 overflow-y-auto">
           <h2 className="text-lg font-semibold text-white mb-6">Outils IA disponibles</h2>
           
           <div className="space-y-2">
@@ -100,11 +100,11 @@ const Studio = () => {
           </div>
         </div>
 
-        {/* Zone de travail principale */}
+        {/* Zone de travail principale avec arrondis */}
         <div className="flex-1 flex flex-col">
           
-          {/* En-tête de l'outil sélectionné */}
-          <div className="bg-black/10 backdrop-blur-sm border-b border-white/10 p-6">
+          {/* En-tête de l'outil sélectionné avec arrondis */}
+          <div className="bg-black/10 backdrop-blur-sm border border-white/10 rounded-t-2xl p-6 mb-4">
             <div className="flex items-center space-x-4">
               <img 
                 src={selectedTool.image} 
@@ -125,42 +125,11 @@ const Studio = () => {
             </div>
           </div>
 
-          {/* Zone de prompt et résultat */}
-          <div className="flex-1 p-6 space-y-6">
-            
-            {/* Zone de prompt compacte */}
-            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-4">
-              <div className="flex items-center space-x-3">
-                <input
-                  type="text"
-                  value={prompt}
-                  onChange={(e) => setPrompt(e.target.value)}
-                  placeholder={`Demandez à ${selectedTool.name}...`}
-                  className="flex-1 bg-black/20 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 transition"
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
-                      handleGenerate();
-                    }
-                  }}
-                />
-                
-                <button
-                  onClick={handleGenerate}
-                  disabled={!prompt.trim() || isGenerating}
-                  className="btn-3d-effect bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold px-6 py-3 rounded-xl transition flex items-center space-x-2 shadow-lg flex-shrink-0"
-                >
-                  {isGenerating ? (
-                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                  ) : (
-                    <Send className="w-4 h-4" />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Zone de résultat */}
+          {/* Espace flexible au milieu */}
+          <div className="flex-1">
+            {/* Zone de résultat si présente */}
             {(result || isGenerating) && (
-              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
+              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 mb-4">
                 <h3 className="text-lg font-semibold text-white mb-4 flex items-center space-x-2">
                   <Sparkles className="w-5 h-5 text-blue-400" />
                   <span>Résultat</span>
@@ -182,8 +151,42 @@ const Studio = () => {
                 </div>
               </div>
             )}
+          </div>
 
-            {/* Zone vide - pas de message d'accueil */}
+          {/* Zone de prompt en bas de la page */}
+          <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
+            <textarea
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              placeholder={`Demandez à ${selectedTool.name}...`}
+              className="w-full h-20 bg-transparent text-white placeholder-gray-400 resize-none focus:outline-none text-lg"
+              onKeyPress={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey && prompt.trim() && !isGenerating) {
+                  e.preventDefault();
+                  handleGenerate();
+                }
+              }}
+            />
+            
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={handleGenerate}
+                disabled={!prompt.trim() || isGenerating}
+                className="btn-3d-effect bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold px-6 py-3 rounded-xl transition flex items-center space-x-2 shadow-lg"
+              >
+                {isGenerating ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                    <span>Génération en cours...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4" />
+                    <span>Générer</span>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </div>
