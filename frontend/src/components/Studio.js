@@ -167,6 +167,7 @@ const Studio = () => {
             ))}
           </div>
         </div>
+        )}
 
         {/* Zone de travail principale avec arrondis */}
         <div className="flex-1 flex flex-col w-full">
