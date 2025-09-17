@@ -70,7 +70,21 @@ const Studio = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black relative">
+      {/* Fond d'écran */}
+      <div 
+        className="fixed inset-0 -z-10"
+        style={{
+          backgroundImage: 'url(https://customer-assets.emergentagent.com/job_responsive-ai-tools/artifacts/bepd0lix_85yt527h_unnamed.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+          backgroundAttachment: 'fixed',
+          backgroundRepeat: 'no-repeat'
+        }}
+      ></div>
+      
+      {/* Overlay subtile pour améliorer la lisibilité */}
+      <div className="fixed inset-0 -z-10 bg-black/20"></div>
       {/* Header avec glassmorphisme - même style que la page d'accueil */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md pt-5 pb-3">
         <div className="container mx-auto px-3 sm:px-6 lg:px-8">
