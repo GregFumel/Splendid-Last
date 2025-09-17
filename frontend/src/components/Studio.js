@@ -186,10 +186,10 @@ const Studio = () => {
                 className="w-16 h-16 rounded-xl object-cover border border-white/20"
               />
               <div>
-                <h2 className="text-2xl font-bold text-white flex items-center space-x-2">
+                <h2 className="text-2xl font-bold text-white flex items-center space-x-3">
                   {selectedTool.name}
                   {selectedTool.isNew && (
-                    <span className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                    <span className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1 rounded-full text-sm font-semibold border border-white/30 shadow-lg shadow-green-500/20" style={{boxShadow: 'inset 0 1px 2px 0 rgba(255, 255, 255, 0.4), 0 4px 12px rgba(34, 197, 94, 0.3)'}}>
                       New
                     </span>
                   )}
