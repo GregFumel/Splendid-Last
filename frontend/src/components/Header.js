@@ -73,10 +73,10 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
             />
           </div>
 
-          {/* Navigation principale centré sur mobile */}
-          <nav className="flex-1 flex justify-center md:mx-4">
-            <div className="flex items-center w-full max-w-sm md:max-w-none justify-center">
-              <div ref={navContainerRef} className="nav-container relative flex items-center bg-black/20 backdrop-blur-lg border border-white/10 rounded-full p-1 md:p-1.5 w-full md:w-auto max-w-none md:max-w-fit">
+          {/* Navigation principale centrée absolument par rapport à la page */}
+          <nav className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div className="flex items-center">
+              <div ref={navContainerRef} className="nav-container relative flex items-center bg-black/20 backdrop-blur-lg border border-white/10 rounded-full p-1 md:p-1.5">
                 <div 
                   className="indicator-3d absolute rounded-full shadow-lg transition-all duration-300 ease-in-out z-0"
                   style={activeIndicatorStyle}
@@ -97,16 +97,6 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
                     {category.label}
                   </button>
                 ))}
-              </div>
-              
-              {/* Bouton langue sur mobile - à droite de la navigation */}
-              <div className="md:hidden ml-2 flex-shrink-0">
-                <button 
-                  className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold px-2 py-1.5 rounded-full transition flex items-center justify-center space-x-1"
-                >
-                  <Globe className="w-3 h-3" />
-                  <span className="text-xs font-medium">FR</span>
-                </button>
               </div>
             </div>
           </nav>
