@@ -148,7 +148,7 @@ const Home = () => {
               <SocialProof />
               
               <button
-                onClick={() => setShowSuggestionModal(true)}
+                onClick={handleScrollToPricing}
                 className="btn-3d-effect mt-4 mb-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-full transition text-sm sm:text-base flex items-center space-x-2 shadow-lg shadow-blue-500/30 whitespace-nowrap"
               >
                 <span>✨ Commencer mon essai gratuit</span>
