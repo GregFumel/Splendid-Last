@@ -56,47 +56,58 @@ const Studio = () => {
       {/* Contenu principal */}
       <div className="pt-20 flex h-screen gap-4 p-4">
         
-        {/* Sidebar - Liste des IA avec arrondis */}
-        <div className="w-80 bg-black/20 backdrop-blur-lg border border-white/10 rounded-2xl p-6 overflow-y-auto">
-          <h2 className="text-lg font-semibold text-white mb-6">Outils IA disponibles</h2>
+        {/* Sidebar - Liste des IA avec arrondis et effet de fade */}
+        <div className="w-80 bg-black/20 backdrop-blur-lg border border-white/10 rounded-2xl relative">
+          <div className="p-6 pb-2">
+            <h2 className="text-lg font-semibold text-white mb-6">Outils IA disponibles</h2>
+          </div>
           
-          <div className="space-y-2">
-            {mockAITools.map((tool) => (
-              <button
-                key={tool.id}
-                onClick={() => setSelectedTool(tool)}
-                className={`w-full text-left p-4 rounded-xl transition-all duration-300 flex items-center space-x-3 ${
-                  selectedTool.id === tool.id
-                    ? 'bg-blue-500/20 border border-blue-400/50 shadow-lg shadow-blue-500/20'
-                    : 'bg-white/5 hover:bg-white/10 border border-white/10'
-                }`}
-              >
-                <img 
-                  src={getCategoryIcon(tool.category)} 
-                  alt={`Icône ${tool.category}`}
-                  className="w-6 h-6 filter brightness-0 invert opacity-80"
-                />
-                <div className="flex-1">
-                  <div className="flex items-center space-x-2">
-                    <span className={`font-medium ${
-                      selectedTool.id === tool.id ? 'text-white' : 'text-gray-300'
-                    }`}>
-                      {tool.name}
-                    </span>
-                    {tool.isNew && (
-                      <span className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-2 py-0.5 rounded-full text-xs font-semibold">
-                        New
+          <div className="relative h-full overflow-hidden">
+            {/* Gradient fade en haut */}
+            <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-black/40 to-transparent z-10 pointer-events-none"></div>
+            
+            {/* Gradient fade en bas */}
+            <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-black/40 to-transparent z-10 pointer-events-none"></div>
+            
+            {/* Contenu scrollable */}
+            <div className="px-6 pb-6 space-y-2 overflow-y-auto h-full">
+              {mockAITools.map((tool) => (
+                <button
+                  key={tool.id}
+                  onClick={() => setSelectedTool(tool)}
+                  className={`w-full text-left p-4 rounded-xl transition-all duration-300 flex items-center space-x-3 ${
+                    selectedTool.id === tool.id
+                      ? 'bg-blue-500/20 border border-blue-400/50 shadow-lg shadow-blue-500/20'
+                      : 'bg-white/5 hover:bg-white/10 border border-white/10'
+                  }`}
+                >
+                  <img 
+                    src={getCategoryIcon(tool.category)} 
+                    alt={`Icône ${tool.category}`}
+                    className="w-6 h-6 filter brightness-0 invert opacity-80"
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2">
+                      <span className={`font-medium ${
+                        selectedTool.id === tool.id ? 'text-white' : 'text-gray-300'
+                      }`}>
+                        {tool.name}
                       </span>
-                    )}
+                      {tool.isNew && (
+                        <span className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-2 py-0.5 rounded-full text-xs font-semibold">
+                          New
+                        </span>
+                      )}
+                    </div>
+                    <p className={`text-sm mt-1 ${
+                      selectedTool.id === tool.id ? 'text-blue-200' : 'text-gray-400'
+                    }`}>
+                      {tool.description}
+                    </p>
                   </div>
-                  <p className={`text-sm mt-1 ${
-                    selectedTool.id === tool.id ? 'text-blue-200' : 'text-gray-400'
-                  }`}>
-                    {tool.description}
-                  </p>
-                </div>
-              </button>
-            ))}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
