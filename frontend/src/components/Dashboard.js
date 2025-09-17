@@ -35,7 +35,7 @@ const Dashboard = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-8">
+      <div className="grid grid-cols-1 gap-16">
         
         {/* Bouton Studio centré */}
         <div className="flex justify-center">
