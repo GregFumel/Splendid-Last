@@ -9,6 +9,7 @@ const Studio = () => {
   const [prompt, setPrompt] = useState("");
   const [result, setResult] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [showToolSelector, setShowToolSelector] = useState(false);
 
   // Fonction pour obtenir l'icône selon la catégorie
   const getCategoryIcon = (category) => {
