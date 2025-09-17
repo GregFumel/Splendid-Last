@@ -47,7 +47,7 @@ const Studio = () => {
               {/* Bouton menu mobile */}
               <button 
                 onClick={() => setShowToolSelector(!showToolSelector)}
-                className="lg:hidden btn-3d-effect bg-white/10 hover:bg-white/20 text-white p-2 rounded-lg transition"
+                className="studio-menu-button btn-3d-effect bg-white/10 hover:bg-white/20 text-white p-2 rounded-lg transition hidden"
               >
                 <Menu className="w-5 h-5" />
               </button>
