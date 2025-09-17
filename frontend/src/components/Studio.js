@@ -187,30 +187,7 @@ const Studio = () => {
               </div>
             )}
 
-            {/* Message d'accueil si pas de résultat */}
-            {!result && !isGenerating && (
-              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 text-center">
-                <img 
-                  src={selectedTool.image} 
-                  alt={selectedTool.name}
-                  className="w-24 h-24 rounded-xl object-cover mx-auto mb-4 opacity-60"
-                />
-                <h3 className="text-xl font-semibold text-white mb-2">
-                  Bienvenue dans {selectedTool.name}
-                </h3>
-                <p className="text-gray-300 mb-4">
-                  Commencez par écrire votre prompt dans la zone ci-dessus pour {selectedTool.fullDescription}.
-                </p>
-                <div className="inline-flex items-center space-x-2 bg-blue-500/20 text-blue-200 px-4 py-2 rounded-full">
-                  <img 
-                    src={getCategoryIcon(selectedTool.category)} 
-                    alt={`Icône ${selectedTool.category}`}
-                    className="w-4 h-4 filter brightness-0 invert"
-                  />
-                  <span className="text-sm font-medium capitalize">{selectedTool.category}</span>
-                </div>
-              </div>
-            )}
+            {/* Zone vide - pas de message d'accueil */}
           </div>
         </div>
       </div>
