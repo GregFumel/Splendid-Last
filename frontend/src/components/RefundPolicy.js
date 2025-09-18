@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "./Header";
+import LegalHeader from "./LegalHeader";
 import Footer from "./Footer";
 
 const RefundPolicy = () => {
