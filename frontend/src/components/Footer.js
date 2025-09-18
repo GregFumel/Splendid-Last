@@ -6,7 +6,13 @@ const Footer = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center text-gray-400">
         <div className="space-y-6">
           <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Splendid</h3>
+            <div className="mb-4">
+              <img 
+                src="https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/5hgv17ws_613b2b7e0_splendid-logo-textcopycopy.png" 
+                alt="Splendid"
+                className="h-8 w-auto mb-4 mx-auto"
+              />
+            </div>
             <p className="text-sm">Découvrez les meilleurs outils IA pour créer, éditer et innover.</p>
           </div>
           
