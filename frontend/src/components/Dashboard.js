@@ -57,7 +57,14 @@ const Dashboard = () => {
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-semibold text-white">Statut d'abonnement</h2>
             <div className="text-right">
-              <div className="text-2xl font-bold text-white">{userProfile.credits}</div>
+              <div className="text-2xl font-bold text-white flex items-center justify-end space-x-2">
+                <img 
+                  src="https://customer-assets.emergentagent.com/job_responsive-ai-tools/artifacts/h8zdrhb6_dollar-coins-3d-icon-png-download-5102327.png" 
+                  alt="Crédits"
+                  className="w-6 h-6 object-contain"
+                />
+                <span>{userProfile.credits}</span>
+              </div>
               <div className="text-gray-400 text-sm">Crédits restants</div>
             </div>
           </div>
