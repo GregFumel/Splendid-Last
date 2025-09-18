@@ -142,7 +142,7 @@ const Studio = () => {
       <div 
         className="fixed inset-0 -z-10"
         style={{
-          backgroundImage: 'url(https://customer-assets.emergentagent.com/job_responsive-ai-tools/artifacts/bepd0lix_85yt527h_unnamed.png)',
+          backgroundImage: 'url(https://customer-assets.emergentagent.com/job_responsive-ai-tools/artifacts/aymwousi_85yt527h_unnamed.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
           backgroundAttachment: 'fixed',
