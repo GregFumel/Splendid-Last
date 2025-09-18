@@ -59,7 +59,7 @@ const Dashboard = () => {
             <div className="text-right">
               <div className="text-2xl font-bold text-white flex items-center justify-end space-x-2">
                 <img 
-                  src="https://customer-assets.emergentagent.com/job_responsive-ai-tools/artifacts/h8zdrhb6_dollar-coins-3d-icon-png-download-5102327.png" 
+                  src="https://customer-assets.emergentagent.com/job_responsive-ai-tools/artifacts/04naj5c4_dollar-coins-3d-icon-png-download-5102327.png" 
                   alt="Crédits"
                   className="w-6 h-6 object-contain"
                 />
