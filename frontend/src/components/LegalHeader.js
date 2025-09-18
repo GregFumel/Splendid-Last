@@ -21,8 +21,8 @@ const LegalHeader = () => {
             </button>
           </div>
 
-          {/* Logo Splendid centré */}
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          {/* Logo Splendid centré - Desktop uniquement */}
+          <div className="hidden md:block absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <img 
               src="https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/5hgv17ws_613b2b7e0_splendid-logo-textcopycopy.png" 
               alt="Splendid"
