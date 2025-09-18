@@ -24,10 +24,10 @@ const Footer = () => {
             <div>
               <h4 className="font-medium text-white mb-2">Ressources</h4>
               <ul className="space-y-1 text-sm">
-                <li>Documentation</li>
-                <li>Tutoriels</li>
-                <li>Blog</li>
-                <li>FAQ</li>
+                <li><a href="/mentions-legales" className="hover:text-white transition">Mentions légales</a></li>
+                <li><a href="/terms-of-service" className="hover:text-white transition">Terms of Service</a></li>
+                <li><a href="/privacy-policy" className="hover:text-white transition">Privacy Policy</a></li>
+                <li><a href="/refund-policy" className="hover:text-white transition">Refund Policy</a></li>
               </ul>
             </div>
             
