@@ -508,14 +508,13 @@ const Studio = () => {
           </div>
         </div>
 
-        {/* Zone de prompt fixée en bas pour desktop et mobile - GLASMORPHISME AMÉLIORÉ */}
+        {/* Zone de prompt fixée en bas - GLASMORPHISME LOCALISÉ */}
         <div className={`fixed bottom-0 z-30 ${!isMobile ? 'left-80 right-0' : 'left-0 right-0'}`}>
-          {/* Glasmorphisme overlay avec fade amélioré */}
-          <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/60 via-gray-900/30 to-transparent backdrop-blur-md pointer-events-none h-32"></div>
-          
-          <div className={`relative bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-4 shadow-2xl ${
-            !isMobile ? 'mx-6 mb-4' : 'm-4'
-          }`}>
+          <div className={`relative m-4 ${!isMobile ? 'mx-6' : ''}`}>
+            {/* Conteneur avec glasmorphisme localisé */}
+            <div className="relative bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-4 shadow-2xl">
+              {/* Glasmorphisme fade uniquement au-dessus du conteneur */}
+              <div className="absolute -top-8 left-0 right-0 h-12 bg-gradient-to-t from-gray-900/90 via-gray-900/60 to-transparent backdrop-blur-md pointer-events-none"></div>
             {isMobile ? (
               /* Layout mobile : vertical avec zone fixe */
               <div className="flex flex-col gap-3">
