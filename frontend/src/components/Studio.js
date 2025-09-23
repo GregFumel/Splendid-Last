@@ -489,13 +489,11 @@ const Studio = () => {
         </div>
 
         {/* Zone de prompt fixée en bas pour desktop et mobile - GLASMORPHISME */}
-        <div className="fixed bottom-0 z-30">
+        <div className={`fixed bottom-0 z-30 ${!isMobile ? 'left-80 right-4' : 'left-0 right-0'}`}>
           {/* Glasmorphisme overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/40 to-transparent backdrop-blur-sm pointer-events-none"></div>
           
-          <div className={`relative bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-4 m-4 shadow-2xl ${
-            !isMobile ? 'ml-80' : ''
-          }`}>
+          <div className="relative bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-4 m-4 shadow-2xl">
             {isMobile ? (
               /* Layout mobile : vertical avec zone fixe */
               <div className="flex flex-col gap-3">
