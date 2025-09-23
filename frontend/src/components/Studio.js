@@ -410,64 +410,52 @@ const Studio = () => {
           </div>
 
           {/* Espace flexible au milieu */}
-          <div className="flex-1">
-            {/* Historique conversationnel pour NanoBanana ou zone de résultat pour les autres */}
-            {isNanoBanana ? (
-              <div className="h-full overflow-y-auto space-y-4 pr-2">
-                {/* Debug info */}
-                {console.log('Rendu historique - Nombre de messages:', conversationHistory.length)}
-                {console.log('Messages:', conversationHistory)}
-                
-                {conversationHistory.map((message, index) => {
-                  console.log('Rendu message:', index, message);
-                  return (
-                    <div key={message.id || index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`max-w-xs lg:max-w-md xl:max-w-lg rounded-xl p-4 ${
-                        message.role === 'user' 
-                          ? 'bg-blue-500/20 border border-blue-400/50 text-white' 
-                          : 'bg-gray-700/50 border border-gray-600/50 text-gray-100'
-                      }`}>
-                        <div className="text-sm whitespace-pre-wrap">{message.content}</div>
-                        
-                        {/* Affichage des images générées */}
-                        {message.image_urls && message.image_urls.length > 0 && (
-                          <div className="mt-3 space-y-2">
-                            {console.log('Images à afficher:', message.image_urls.length)}
-                            {message.image_urls.map((imageUrl, imgIndex) => {
-                              console.log('Rendu image:', imgIndex, imageUrl.substring(0, 50) + '...');
-                              return (
-                                <div key={imgIndex} className="rounded-lg overflow-hidden border border-white/20">
-                                  <img 
-                                    src={imageUrl} 
-                                    alt={`Image générée ${imgIndex + 1}`}
-                                    className="w-full h-auto max-w-sm"
-                                    style={{ maxHeight: '300px', objectFit: 'contain' }}
-                                    onLoad={() => console.log('Image chargée avec succès')}
-                                    onError={(e) => console.log('Erreur de chargement image:', e)}
-                                  />
-                                </div>
-                              );
-                            })}
-                          </div>
-                        )}
+          <div className="flex-1 overflow-y-auto space-y-4 pr-2">
+            {conversationHistory.map((message, index) => {
+              console.log('Rendu message:', index, message);
+              return (
+                <div key={message.id || index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`max-w-xs lg:max-w-md xl:max-w-lg rounded-xl p-4 ${
+                    message.role === 'user' 
+                      ? 'bg-blue-500/20 border border-blue-400/50 text-white' 
+                      : 'bg-gray-700/50 border border-gray-600/50 text-gray-100'
+                  }`}>
+                    <div className="text-sm whitespace-pre-wrap">{message.content}</div>
+                    
+                    {/* Affichage des images générées */}
+                    {message.image_urls && message.image_urls.length > 0 && (
+                      <div className="mt-3 space-y-2">
+                        {message.image_urls.map((imageUrl, imgIndex) => {
+                          return (
+                            <div key={imgIndex} className="rounded-lg overflow-hidden border border-white/20">
+                              <img 
+                                src={imageUrl} 
+                                alt={`Image générée ${imgIndex + 1}`}
+                                className="w-full h-auto max-w-sm"
+                                style={{ maxHeight: '300px', objectFit: 'contain' }}
+                              />
+                            </div>
+                          );
+                        })}
                       </div>
-                    </div>
-                  );
-                })}
-                
-                {/* Indicateur de génération en cours pour NanoBanana */}
-                {isGenerating && (
-                  <div className="flex justify-start">
-                    <div className="bg-gray-700/50 border border-gray-600/50 rounded-xl p-4 max-w-xs">
-                      <div className="flex items-center space-x-2">
-                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-400 border-t-transparent"></div>
-                        <span className="text-sm text-gray-300">Génération d'image en cours...</span>
-                      </div>
-                    </div>
+                    )}
                   </div>
-                )}
+                </div>
+              );
+            })}
+            
+            {/* Indicateur de génération en cours pour NanoBanana */}
+            {isGenerating && (
+              <div className="flex justify-start">
+                <div className="bg-gray-700/50 border border-gray-600/50 rounded-xl p-4 max-w-xs">
+                  <div className="flex items-center space-x-2">
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-400 border-t-transparent"></div>
+                    <span className="text-sm text-gray-300">Génération d'image en cours...</span>
+                  </div>
+                </div>
               </div>
-            ) : (
+            )}
+          </div>
               /* Zone de résultat pour les autres outils */
               (result || isGenerating) && (
                 <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 mb-4">
