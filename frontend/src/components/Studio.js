@@ -97,7 +97,9 @@ const Studio = () => {
 
   const initializeNanoBananaSession = async () => {
     try {
-      const backendUrl = process.env.REACT_APP_BACKEND_URL || import.meta.env.REACT_APP_BACKEND_URL;
+      const backendUrl = process.env.REACT_APP_BACKEND_URL;
+      console.log('Backend URL:', backendUrl);
+      
       const response = await fetch(`${backendUrl}/api/nanobanana/session`, {
         method: 'POST',
         headers: {
@@ -105,11 +107,14 @@ const Studio = () => {
         },
       });
       
+      console.log('Session response status:', response.status);
+      
       if (!response.ok) {
         throw new Error('Erreur lors de la création de la session');
       }
       
       const session = await response.json();
+      console.log('Session créée:', session.id);
       setSessionId(session.id);
       
       // Charger l'historique existant (vide pour une nouvelle session)
@@ -121,14 +126,17 @@ const Studio = () => {
 
   const loadConversationHistory = async (sessionIdToLoad) => {
     try {
-      const backendUrl = process.env.REACT_APP_BACKEND_URL || import.meta.env.REACT_APP_BACKEND_URL;
+      const backendUrl = process.env.REACT_APP_BACKEND_URL;
       const response = await fetch(`${backendUrl}/api/nanobanana/session/${sessionIdToLoad}`);
+      
+      console.log('History response status:', response.status);
       
       if (!response.ok) {
         throw new Error('Erreur lors du chargement de l\'historique');
       }
       
       const history = await response.json();
+      console.log('Historique chargé:', history.length, 'messages');
       setConversationHistory(history);
     } catch (error) {
       console.error('Erreur lors du chargement de l\'historique:', error);
