@@ -82,6 +82,121 @@ async def get_status_checks():
     status_checks = await db.status_checks.find().to_list(1000)
     return [StatusCheck(**status_check) for status_check in status_checks]
 
+# NanoBanana endpoints
+
+@api_router.post("/nanobanana/generate", response_model=GenerateImageResponse)
+async def generate_image_with_nanobanana(request: GenerateImageRequest):
+    """Génère une image avec NanoBanana (Google Gemini)"""
+    try:
+        # Créer ou récupérer la session
+        session = await db.nanobanana_sessions.find_one({"id": request.session_id})
+        if not session:
+            # Créer une nouvelle session
+            session_obj = NanoBananaSession(id=request.session_id)
+            await db.nanobanana_sessions.insert_one(session_obj.dict())
+            session = session_obj.dict()
+
+        # Sauvegarder le message utilisateur
+        user_message = NanoBananaMessage(
+            session_id=request.session_id,
+            role="user",
+            content=request.prompt
+        )
+        await db.nanobanana_messages.insert_one(user_message.dict())
+
+        # Générer l'image avec Gemini
+        api_key = os.environ.get('EMERGENT_LLM_KEY')
+        if not api_key:
+            raise HTTPException(status_code=500, detail="EMERGENT_LLM_KEY not configured")
+
+        # Créer une nouvelle instance pour chaque requête
+        chat = LlmChat(
+            api_key=api_key, 
+            session_id=request.session_id,
+            system_message="Tu es NanoBanana, un générateur d'images créatif utilisant Google Gemini. Tu crées des images visuellement impressionnantes à partir des descriptions texte des utilisateurs."
+        )
+        
+        chat = chat.with_model("gemini", "gemini-2.5-flash-image-preview").with_params(modalities=["image", "text"])
+        
+        # Créer le message utilisateur
+        msg = UserMessage(text=request.prompt)
+        
+        # Générer l'image
+        response_text, images = await chat.send_message_multimodal_response(msg)
+        
+        # Traiter les images générées
+        image_urls = []
+        if images:
+            for i, img in enumerate(images):
+                if 'data' in img:
+                    # Créer un nom de fichier unique
+                    image_filename = f"nanobanana_{request.session_id}_{user_message.id}_{i}.png"
+                    
+                    # Pour cette démo, on va encoder en data URL
+                    image_data_url = f"data:{img.get('mime_type', 'image/png')};base64,{img['data']}"
+                    image_urls.append(image_data_url)
+
+        # Sauvegarder la réponse de l'assistant
+        assistant_message = NanoBananaMessage(
+            session_id=request.session_id,
+            role="assistant", 
+            content=response_text or "Image générée avec succès !",
+            image_urls=image_urls
+        )
+        await db.nanobanana_messages.insert_one(assistant_message.dict())
+
+        # Mettre à jour la session
+        await db.nanobanana_sessions.update_one(
+            {"id": request.session_id},
+            {"$set": {"last_updated": datetime.utcnow()}}
+        )
+
+        return GenerateImageResponse(
+            session_id=request.session_id,
+            message_id=assistant_message.id,
+            prompt=request.prompt,
+            image_urls=image_urls,
+            response_text=response_text or "Image générée avec succès !"
+        )
+
+    except Exception as e:
+        logger.error(f"Erreur lors de la génération d'image: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur lors de la génération: {str(e)}")
+
+@api_router.get("/nanobanana/session/{session_id}", response_model=List[NanoBananaMessage])
+async def get_nanobanana_session(session_id: str):
+    """Récupère l'historique d'une session NanoBanana"""
+    try:
+        messages = await db.nanobanana_messages.find(
+            {"session_id": session_id}
+        ).sort("timestamp", 1).to_list(1000)
+        
+        return [NanoBananaMessage(**msg) for msg in messages]
+    except Exception as e:
+        logger.error(f"Erreur lors de la récupération de session: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.post("/nanobanana/session", response_model=NanoBananaSession)
+async def create_nanobanana_session():
+    """Crée une nouvelle session NanoBanana"""
+    try:
+        session = NanoBananaSession()
+        await db.nanobanana_sessions.insert_one(session.dict())
+        return session
+    except Exception as e:
+        logger.error(f"Erreur lors de la création de session: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.get("/nanobanana/sessions", response_model=List[NanoBananaSession])
+async def get_nanobanana_sessions():
+    """Récupère toutes les sessions NanoBanana"""
+    try:
+        sessions = await db.nanobanana_sessions.find().sort("last_updated", -1).to_list(100)
+        return [NanoBananaSession(**session) for session in sessions]
+    except Exception as e:
+        logger.error(f"Erreur lors de la récupération des sessions: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
 # Include the router in the main app
 app.include_router(api_router)
 
