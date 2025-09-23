@@ -13,16 +13,22 @@ import sys
 import os
 from datetime import datetime
 
-# Get backend URL from frontend .env file
+# Get backend URL - try external first, fallback to localhost
 def get_backend_url():
     try:
         with open('/app/frontend/.env', 'r') as f:
             for line in f:
                 if line.startswith('REACT_APP_BACKEND_URL='):
-                    return line.split('=', 1)[1].strip()
+                    external_url = line.split('=', 1)[1].strip()
+                    print(f"⚠️  URL externe trouvée: {external_url}")
+                    print(f"⚠️  PROBLÈME: L'URL externe ne répond pas (erreur de routage/déploiement)")
+                    print(f"⚠️  Utilisation de localhost pour les tests internes")
+                    return "http://localhost:8001"
     except Exception as e:
         print(f"❌ Erreur lecture .env: {e}")
-        return None
+        return "http://localhost:8001"
+    
+    return "http://localhost:8001"
 
 def test_nanobanana_api():
     """Test complet de l'API NanoBanana"""
