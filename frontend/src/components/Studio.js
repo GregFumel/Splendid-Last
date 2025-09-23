@@ -17,6 +17,7 @@ const Studio = () => {
   const [sessionId, setSessionId] = useState(null);
   const [conversationHistory, setConversationHistory] = useState([]);
   const [isNanoBanana, setIsNanoBanana] = useState(false);
+  const [toolSessions, setToolSessions] = useState({}); // Stocker les sessions par outil
 
   // Sélectionner l'outil basé sur le paramètre URL
   useEffect(() => {
