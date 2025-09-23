@@ -201,7 +201,11 @@ const Studio = () => {
     if (isNanoBanana && sessionId) {
       // Traitement spécial pour NanoBanana
       try {
-        const backendUrl = process.env.REACT_APP_BACKEND_URL || import.meta.env.REACT_APP_BACKEND_URL;
+        const backendUrl = process.env.REACT_APP_BACKEND_URL;
+        console.log('Génération avec backend URL:', backendUrl);
+        console.log('Session ID:', sessionId);
+        console.log('Prompt:', prompt);
+        
         const response = await fetch(`${backendUrl}/api/nanobanana/generate`, {
           method: 'POST',
           headers: {
@@ -213,11 +217,14 @@ const Studio = () => {
           }),
         });
         
+        console.log('Generate response status:', response.status);
+        
         if (!response.ok) {
           throw new Error('Erreur lors de la génération d\'image');
         }
         
         const result = await response.json();
+        console.log('Résultat de génération:', result);
         
         // Recharger l'historique de conversation
         await loadConversationHistory(sessionId);
