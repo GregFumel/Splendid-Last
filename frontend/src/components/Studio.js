@@ -428,8 +428,11 @@ const Studio = () => {
             </div>
           </div>
 
-          {/* Zone de discussion scrollable avec padding pour glasmorphisme */}
-          <div className="flex-1 overflow-y-auto pr-2 space-y-4 min-h-0 max-h-full pb-32 pt-2">
+          {/* Zone de discussion scrollable avec effet fade en haut */}
+          <div className="flex-1 overflow-y-auto pr-2 space-y-4 min-h-0 max-h-full pb-32 pt-2 relative">
+            {/* Effet de fade en haut pour faire disparaître le contenu sous le titre */}
+            <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-gray-900 via-gray-900/80 to-transparent pointer-events-none z-10 -mt-6"></div>
+            
             {/* Historique conversationnel pour NanoBanana ou zone de résultat pour les autres */}
             {isNanoBanana ? (
               <>
