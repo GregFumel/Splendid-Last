@@ -253,13 +253,18 @@ metadata:
   test_sequence: 1
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "POST /api/nanobanana/session - Créer une nouvelle session"
+    - "POST /api/nanobanana/generate - Générer une image avec prompt"
+    - "GET /api/nanobanana/session/{session_id} - Récupérer l'historique"
   stuck_tasks: []
-  test_all: true
-  test_priority: "completed"
+  test_all: false
+  test_priority: "high_first"
 
 agent_communication:
   - agent: "testing"
     message: "Début des tests de l'application frontend selon les spécifications. Focus sur la navigation, la section pricing avec animation, et le responsive design."
   - agent: "testing"
     message: "✅ TESTS TERMINÉS AVEC SUCCÈS: Tous les éléments demandés fonctionnent parfaitement. Navigation fluide, filtrage des outils IA opérationnel, section pricing avec animation du liséré blanc active, modales fonctionnelles (SuggestionModal et IdeasModal), design responsive excellent. Aucune erreur console détectée. Application prête pour production."
+  - agent: "testing"
+    message: "Début des tests de l'API NanoBanana backend. Test des 3 endpoints dans l'ordre: création session, génération d'image, récupération historique."
