@@ -385,7 +385,7 @@ const Studio = () => {
         )}
 
         {/* Zone de travail principale avec arrondis */}
-        <div className="flex-1 flex flex-col h-full pb-24">
+        <div className="flex-1 flex flex-col h-full pb-32">
           
           {/* En-tête de l'outil sélectionné avec arrondis complets */}
           <div className="bg-black/10 backdrop-blur-sm border border-white/10 rounded-2xl p-6 mb-4 relative flex-shrink-0">
