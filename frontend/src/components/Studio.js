@@ -86,10 +86,17 @@ const Studio = () => {
     const isNanoBananaTool = selectedTool && selectedTool.name === "NanoBanana";
     setIsNanoBanana(isNanoBananaTool);
     
-    if (isNanoBananaTool && !sessionId) {
-      // Créer une nouvelle session pour NanoBanana
-      initializeNanoBananaSession();
-    } else if (!isNanoBananaTool) {
+    if (isNanoBananaTool) {
+      // Vérifier s'il y a déjà une session pour cet outil
+      const existingSession = toolSessions[selectedTool.id];
+      if (existingSession) {
+        setSessionId(existingSession.sessionId);
+        loadConversationHistory(existingSession.sessionId);
+      } else {
+        // Créer une nouvelle session pour NanoBanana
+        initializeNanoBananaSession();
+      }
+    } else {
       // Réinitialiser pour les autres outils
       setConversationHistory([]);
       setResult("");
