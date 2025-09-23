@@ -396,29 +396,92 @@ const Studio = () => {
 
           {/* Espace flexible au milieu */}
           <div className="flex-1">
-            {/* Zone de résultat si présente */}
-            {(result || isGenerating) && (
-              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 mb-4">
+            {/* Historique conversationnel pour NanoBanana ou zone de résultat pour les autres */}
+            {isNanoBanana ? (
+              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 mb-4 h-full overflow-hidden flex flex-col">
                 <h3 className="text-lg font-semibold text-white mb-4 flex items-center space-x-2">
                   <Sparkles className="w-5 h-5 text-blue-400" />
-                  <span>Résultat</span>
+                  <span>Conversation avec NanoBanana</span>
                 </h3>
                 
-                <div className="bg-black/20 border border-white/20 rounded-xl p-4 min-h-32">
-                  {isGenerating ? (
-                    <div className="flex items-center justify-center h-32">
-                      <div className="text-center">
-                        <div className="animate-spin rounded-full h-8 w-8 border-2 border-blue-400 border-t-transparent mx-auto mb-4"></div>
-                        <p className="text-gray-300">Génération en cours avec {selectedTool.name}...</p>
-                      </div>
+                <div className="flex-1 overflow-y-auto space-y-4 pr-2">
+                  {conversationHistory.length === 0 && !isGenerating ? (
+                    <div className="text-center py-8">
+                      <p className="text-gray-400">Commencez une conversation avec NanoBanana !</p>
+                      <p className="text-gray-500 text-sm mt-2">Décrivez l'image que vous souhaitez créer.</p>
                     </div>
                   ) : (
-                    <pre className="text-gray-200 whitespace-pre-wrap font-mono text-sm leading-relaxed">
-                      {result}
-                    </pre>
+                    conversationHistory.map((message, index) => (
+                      <div key={message.id || index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                        <div className={`max-w-xs lg:max-w-md xl:max-w-lg rounded-xl p-4 ${
+                          message.role === 'user' 
+                            ? 'bg-blue-500/20 border border-blue-400/50 text-white' 
+                            : 'bg-gray-700/50 border border-gray-600/50 text-gray-100'
+                        }`}>
+                          <div className="text-sm font-medium mb-2">
+                            {message.role === 'user' ? 'Vous' : 'NanoBanana'}
+                          </div>
+                          <div className="text-sm whitespace-pre-wrap">{message.content}</div>
+                          
+                          {/* Affichage des images générées */}
+                          {message.image_urls && message.image_urls.length > 0 && (
+                            <div className="mt-3 space-y-2">
+                              {message.image_urls.map((imageUrl, imgIndex) => (
+                                <div key={imgIndex} className="rounded-lg overflow-hidden border border-white/20">
+                                  <img 
+                                    src={imageUrl} 
+                                    alt={`Image générée ${imgIndex + 1}`}
+                                    className="w-full h-auto max-w-sm"
+                                    style={{ maxHeight: '300px', objectFit: 'contain' }}
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))
+                  )}
+                  
+                  {/* Indicateur de génération en cours pour NanoBanana */}
+                  {isGenerating && (
+                    <div className="flex justify-start">
+                      <div className="bg-gray-700/50 border border-gray-600/50 rounded-xl p-4 max-w-xs">
+                        <div className="text-sm font-medium mb-2">NanoBanana</div>
+                        <div className="flex items-center space-x-2">
+                          <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-400 border-t-transparent"></div>
+                          <span className="text-sm text-gray-300">Génération d'image en cours...</span>
+                        </div>
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>
+            ) : (
+              /* Zone de résultat pour les autres outils */
+              (result || isGenerating) && (
+                <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 mb-4">
+                  <h3 className="text-lg font-semibold text-white mb-4 flex items-center space-x-2">
+                    <Sparkles className="w-5 h-5 text-blue-400" />
+                    <span>Résultat</span>
+                  </h3>
+                  
+                  <div className="bg-black/20 border border-white/20 rounded-xl p-4 min-h-32">
+                    {isGenerating ? (
+                      <div className="flex items-center justify-center h-32">
+                        <div className="text-center">
+                          <div className="animate-spin rounded-full h-8 w-8 border-2 border-blue-400 border-t-transparent mx-auto mb-4"></div>
+                          <p className="text-gray-300">Génération en cours avec {selectedTool.name}...</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <pre className="text-gray-200 whitespace-pre-wrap font-mono text-sm leading-relaxed">
+                        {result}
+                      </pre>
+                    )}
+                  </div>
+                </div>
+              )
             )}
           </div>
 
