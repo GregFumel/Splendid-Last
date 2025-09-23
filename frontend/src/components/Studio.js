@@ -137,7 +137,9 @@ const Studio = () => {
       
       const history = await response.json();
       console.log('Historique chargé:', history.length, 'messages');
+      console.log('Historique détaillé:', history);
       setConversationHistory(history);
+      console.log('State conversationHistory mis à jour avec:', history.length, 'messages');
     } catch (error) {
       console.error('Erreur lors du chargement de l\'historique:', error);
       setConversationHistory([]);
