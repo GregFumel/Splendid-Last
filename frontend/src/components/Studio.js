@@ -385,10 +385,10 @@ const Studio = () => {
         )}
 
         {/* Zone de travail principale avec arrondis */}
-        <div className={`flex-1 flex flex-col h-full ${isMobile ? 'pb-24' : ''}`}>
+        <div className="flex-1 flex flex-col h-full pb-24">
           
           {/* En-tête de l'outil sélectionné avec arrondis complets */}
-          <div className="bg-black/10 backdrop-blur-sm border border-white/10 rounded-2xl p-6 mb-4 relative">
+          <div className="bg-black/10 backdrop-blur-sm border border-white/10 rounded-2xl p-6 mb-4 relative flex-shrink-0">
             {/* Badge New en haut à droite */}
             {selectedTool.isNew && (
               <span className="badge-new-3d text-white px-3 py-1 rounded-full text-sm font-semibold absolute top-4 right-4">
@@ -411,11 +411,11 @@ const Studio = () => {
             </div>
           </div>
 
-          {/* Espace flexible au milieu */}
-          <div className="flex-1">
+          {/* Zone de discussion scrollable */}
+          <div className="flex-1 overflow-y-auto pr-2 space-y-4 min-h-0">
             {/* Historique conversationnel pour NanoBanana ou zone de résultat pour les autres */}
             {isNanoBanana ? (
-              <div className="flex-1 overflow-y-auto space-y-4 pr-2 min-h-0">
+              <>
                 {conversationHistory.map((message, index) => (
                   <div key={message.id || index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} mb-4`}>
                     <div className={`max-w-xs lg:max-w-md xl:max-w-lg rounded-xl p-4 ${
@@ -455,7 +455,10 @@ const Studio = () => {
                     </div>
                   </div>
                 )}
-              </div>
+                
+                {/* Espace en bas pour éviter que le dernier message soit caché */}
+                <div className="h-4"></div>
+              </>
             ) : (
               /* Zone de résultat pour les autres outils */
               (result || isGenerating) && (
@@ -483,12 +486,12 @@ const Studio = () => {
               )
             )}
           </div>
+        </div>
 
-          {/* Zone de prompt compacte en bas */}
-          <div className={`bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-4 ${
-            isMobile 
-              ? 'fixed bottom-0 left-0 right-0 mx-4 mb-4 z-50 shadow-2xl' 
-              : ''
+        {/* Zone de prompt fixée en bas pour desktop et mobile */}
+        <div className="fixed bottom-0 left-0 right-0 z-50">
+          <div className={`bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-4 mx-4 mb-4 shadow-2xl ${
+            !isMobile ? 'ml-80 mr-4' : ''
           }`}>
             {isMobile ? (
               /* Layout mobile : vertical avec zone fixe */
