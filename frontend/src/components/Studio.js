@@ -399,17 +399,9 @@ const Studio = () => {
             {/* Historique conversationnel pour NanoBanana ou zone de résultat pour les autres */}
             {isNanoBanana ? (
               <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 mb-4 h-full overflow-hidden flex flex-col">
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center space-x-2">
-                  <Sparkles className="w-5 h-5 text-blue-400" />
-                  <span>Conversation avec NanoBanana</span>
-                </h3>
-                
                 <div className="flex-1 overflow-y-auto space-y-4 pr-2">
                   {conversationHistory.length === 0 && !isGenerating ? (
-                    <div className="text-center py-8">
-                      <p className="text-gray-400">Commencez une conversation avec NanoBanana !</p>
-                      <p className="text-gray-500 text-sm mt-2">Décrivez l'image que vous souhaitez créer.</p>
-                    </div>
+                    <div className="h-full"></div>
                   ) : (
                     conversationHistory.map((message, index) => (
                       <div key={message.id || index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -418,9 +410,6 @@ const Studio = () => {
                             ? 'bg-blue-500/20 border border-blue-400/50 text-white' 
                             : 'bg-gray-700/50 border border-gray-600/50 text-gray-100'
                         }`}>
-                          <div className="text-sm font-medium mb-2">
-                            {message.role === 'user' ? 'Vous' : 'NanoBanana'}
-                          </div>
                           <div className="text-sm whitespace-pre-wrap">{message.content}</div>
                           
                           {/* Affichage des images générées */}
@@ -447,7 +436,6 @@ const Studio = () => {
                   {isGenerating && (
                     <div className="flex justify-start">
                       <div className="bg-gray-700/50 border border-gray-600/50 rounded-xl p-4 max-w-xs">
-                        <div className="text-sm font-medium mb-2">NanoBanana</div>
                         <div className="flex items-center space-x-2">
                           <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-400 border-t-transparent"></div>
                           <span className="text-sm text-gray-300">Génération d'image en cours...</span>
