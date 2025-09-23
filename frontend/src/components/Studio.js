@@ -579,7 +579,6 @@ const Studio = () => {
                 </button>
               </div>
             )}
-            </div>
           </div>
         </div>
       </div>
