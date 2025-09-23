@@ -79,6 +79,62 @@ const Studio = () => {
     
     forceScrollToVeryTop();
   }, [searchParams]);
+  
+  // Initialiser la session NanoBanana quand l'outil change
+  useEffect(() => {
+    const isNanoBananaTool = selectedTool && selectedTool.name === "NanoBanana";
+    setIsNanoBanana(isNanoBananaTool);
+    
+    if (isNanoBananaTool && !sessionId) {
+      // Créer une nouvelle session pour NanoBanana
+      initializeNanoBananaSession();
+    } else if (!isNanoBananaTool) {
+      // Réinitialiser pour les autres outils
+      setConversationHistory([]);
+      setResult("");
+    }
+  }, [selectedTool]);
+
+  const initializeNanoBananaSession = async () => {
+    try {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || import.meta.env.REACT_APP_BACKEND_URL;
+      const response = await fetch(`${backendUrl}/api/nanobanana/session`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error('Erreur lors de la création de la session');
+      }
+      
+      const session = await response.json();
+      setSessionId(session.id);
+      
+      // Charger l'historique existant (vide pour une nouvelle session)
+      loadConversationHistory(session.id);
+    } catch (error) {
+      console.error('Erreur lors de l\'initialisation de la session NanoBanana:', error);
+    }
+  };
+
+  const loadConversationHistory = async (sessionIdToLoad) => {
+    try {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || import.meta.env.REACT_APP_BACKEND_URL;
+      const response = await fetch(`${backendUrl}/api/nanobanana/session/${sessionIdToLoad}`);
+      
+      if (!response.ok) {
+        throw new Error('Erreur lors du chargement de l\'historique');
+      }
+      
+      const history = await response.json();
+      setConversationHistory(history);
+    } catch (error) {
+      console.error('Erreur lors du chargement de l\'historique:', error);
+      setConversationHistory([]);
+    }
+  };
 
   // Scroll additionnel au montage du composant
   useEffect(() => {
