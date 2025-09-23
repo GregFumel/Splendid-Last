@@ -12,6 +12,11 @@ const Studio = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [showToolSelector, setShowToolSelector] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  
+  // États pour NanoBanana
+  const [sessionId, setSessionId] = useState(null);
+  const [conversationHistory, setConversationHistory] = useState([]);
+  const [isNanoBanana, setIsNanoBanana] = useState(false);
 
   // Sélectionner l'outil basé sur le paramètre URL
   useEffect(() => {
