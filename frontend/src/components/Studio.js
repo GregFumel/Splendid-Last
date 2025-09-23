@@ -406,6 +406,9 @@ const Studio = () => {
           
           {/* En-tête de l'outil sélectionné avec arrondis complets - FIXE AVEC GLASMORPHISME */}
           <div className="bg-black/10 backdrop-blur-sm border border-white/10 rounded-2xl p-6 mb-4 relative flex-shrink-0 z-20 sticky top-0">
+            {/* Glasmorphisme fade en bas du titre */}
+            <div className="absolute -bottom-4 left-0 right-0 h-8 bg-gradient-to-b from-transparent via-gray-900/30 to-gray-900/60 backdrop-blur-sm pointer-events-none z-10"></div>
+            
             {/* Badge New en haut à droite */}
             {selectedTool.isNew && (
               <span className="badge-new-3d text-white px-3 py-1 rounded-full text-sm font-semibold absolute top-4 right-4">
