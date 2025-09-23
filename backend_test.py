@@ -35,10 +35,6 @@ def test_nanobanana_api():
     
     # Configuration
     base_url = get_backend_url()
-    if not base_url:
-        print("❌ ERREUR: Impossible de récupérer REACT_APP_BACKEND_URL")
-        return False
-    
     api_url = f"{base_url}/api"
     print(f"🔗 URL de test: {api_url}")
     print("=" * 60)
