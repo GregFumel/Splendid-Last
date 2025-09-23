@@ -190,11 +190,46 @@ const Studio = () => {
     
     setIsGenerating(true);
     
-    // Simulation d'une génération
-    setTimeout(() => {
-      setResult(`Résultat généré avec ${selectedTool.name} :\n\n"${prompt}"\n\nCeci est un exemple de résultat généré par l'IA ${selectedTool.name}. Dans une vraie application, ceci serait le contenu créé par l'intelligence artificielle sélectionnée.`);
-      setIsGenerating(false);
-    }, 2000);
+    if (isNanoBanana && sessionId) {
+      // Traitement spécial pour NanoBanana
+      try {
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || import.meta.env.REACT_APP_BACKEND_URL;
+        const response = await fetch(`${backendUrl}/api/nanobanana/generate`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            session_id: sessionId,
+            prompt: prompt,
+          }),
+        });
+        
+        if (!response.ok) {
+          throw new Error('Erreur lors de la génération d\'image');
+        }
+        
+        const result = await response.json();
+        
+        // Recharger l'historique de conversation
+        await loadConversationHistory(sessionId);
+        
+        // Vider le prompt après succès
+        setPrompt("");
+        
+      } catch (error) {
+        console.error('Erreur lors de la génération avec NanoBanana:', error);
+        alert('Erreur lors de la génération d\'image. Veuillez réessayer.');
+      } finally {
+        setIsGenerating(false);
+      }
+    } else {
+      // Simulation pour les autres outils
+      setTimeout(() => {
+        setResult(`Résultat généré avec ${selectedTool.name} :\n\n"${prompt}"\n\nCeci est un exemple de résultat généré par l'IA ${selectedTool.name}. Dans une vraie application, ceci serait le contenu créé par l'intelligence artificielle sélectionnée.`);
+        setIsGenerating(false);
+      }, 2000);
+    }
   };
 
   return (
