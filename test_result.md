@@ -102,7 +102,44 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Teste l'application frontend en vérifiant la navigation générale, la section pricing avec animation de liséré blanc, les éléments visuels et le responsive design"
+user_problem_statement: "Test l'API NanoBanana que j'ai implémentée dans le backend FastAPI avec les endpoints: POST /api/nanobanana/session, POST /api/nanobanana/generate, GET /api/nanobanana/session/{session_id}"
+
+backend:
+  - task: "POST /api/nanobanana/session - Créer une nouvelle session"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Besoin de tester la création d'une nouvelle session NanoBanana"
+
+  - task: "POST /api/nanobanana/generate - Générer une image avec prompt"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Besoin de tester la génération d'image avec le prompt 'un chat mignon qui mange une banane' en utilisant Google Gemini"
+
+  - task: "GET /api/nanobanana/session/{session_id} - Récupérer l'historique"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Besoin de tester la récupération de l'historique d'une session"
 
 frontend:
   - task: "Navigation générale - chargement de page et navigation entre catégories"
