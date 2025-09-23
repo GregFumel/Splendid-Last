@@ -385,10 +385,10 @@ const Studio = () => {
         )}
 
         {/* Zone de travail principale avec arrondis */}
-        <div className="flex-1 flex flex-col h-full pb-32">
+        <div className="flex-1 flex flex-col h-full relative">
           
-          {/* En-tête de l'outil sélectionné avec arrondis complets */}
-          <div className="bg-black/10 backdrop-blur-sm border border-white/10 rounded-2xl p-6 mb-4 relative flex-shrink-0">
+          {/* En-tête de l'outil sélectionné avec arrondis complets - FIXE AVEC GLASMORPHISME */}
+          <div className="bg-black/10 backdrop-blur-sm border border-white/10 rounded-2xl p-6 mb-4 relative flex-shrink-0 z-20 sticky top-0">
             {/* Badge New en haut à droite */}
             {selectedTool.isNew && (
               <span className="badge-new-3d text-white px-3 py-1 rounded-full text-sm font-semibold absolute top-4 right-4">
@@ -411,8 +411,8 @@ const Studio = () => {
             </div>
           </div>
 
-          {/* Zone de discussion scrollable */}
-          <div className="flex-1 overflow-y-auto pr-2 space-y-4 min-h-0 max-h-full">
+          {/* Zone de discussion scrollable avec padding pour glasmorphisme */}
+          <div className="flex-1 overflow-y-auto pr-2 space-y-4 min-h-0 max-h-full pb-32 pt-2">
             {/* Historique conversationnel pour NanoBanana ou zone de résultat pour les autres */}
             {isNanoBanana ? (
               <>
