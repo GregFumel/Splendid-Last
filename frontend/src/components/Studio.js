@@ -125,6 +125,15 @@ const Studio = () => {
       console.log('Session créée:', session.id);
       setSessionId(session.id);
       
+      // Sauvegarder la session pour cet outil
+      setToolSessions(prev => ({
+        ...prev,
+        [selectedTool.id]: {
+          sessionId: session.id,
+          toolName: selectedTool.name
+        }
+      }));
+      
       // Charger l'historique existant (vide pour une nouvelle session)
       loadConversationHistory(session.id);
     } catch (error) {
