@@ -276,3 +276,7 @@ agent_communication:
     message: "Début des tests de l'API NanoBanana backend. Test des 3 endpoints dans l'ordre: création session, génération d'image, récupération historique."
   - agent: "testing"
     message: "✅ TESTS API NANOBANANA TERMINÉS AVEC SUCCÈS: Les 3 endpoints fonctionnent parfaitement. Création de session OK, génération d'image réelle avec Google Gemini réussie (prompt: 'un chat mignon qui mange une banane'), récupération d'historique complète. PROBLÈME IDENTIFIÉ: URL externe ne répond pas (erreur de routage/déploiement), tests effectués en localhost. Backend opérationnel, intégration LLM fonctionnelle."
+  - agent: "testing"
+    message: "DÉBUT TEST NANOBANANA FRONTEND: Investigation du problème rapporté par l'utilisateur - génération d'image ne s'affiche pas dans l'interface NanoBanana malgré API backend fonctionnelle."
+  - agent: "testing"
+    message: "DIAGNOSTIC NANOBANANA: Backend API 100% fonctionnel (session, génération, historique). Frontend React code correct pour affichage images. PROBLÈME IDENTIFIÉ: Outil de test browser automation a des problèmes d'accès URL (tente d'accéder port 8001 au lieu de 3000). Tests directs API confirment génération d'images réussie avec données base64 de 2MB+. Interface Studio se charge correctement avec NanoBanana sélectionné."
