@@ -415,51 +415,38 @@ const Studio = () => {
           <div className="flex-1">
             {/* Historique conversationnel pour NanoBanana ou zone de résultat pour les autres */}
             {isNanoBanana ? (
-              <div className="flex-1 overflow-y-auto space-y-4 pr-2">
-                {console.log('🔍 Rendu - conversationHistory.length:', conversationHistory.length)}
-                {console.log('🔍 Rendu - conversationHistory:', conversationHistory)}
-                
-                {conversationHistory.map((message, index) => {
-                  console.log('🔄 Rendu message', index, ':', message);
-                  return (
-                    <div key={message.id || index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`max-w-xs lg:max-w-md xl:max-w-lg rounded-xl p-4 ${
-                        message.role === 'user' 
-                          ? 'bg-blue-500/20 border border-blue-400/50 text-white' 
-                          : 'bg-gray-700/50 border border-gray-600/50 text-gray-100'
-                      }`}>
-                        <div className="text-sm whitespace-pre-wrap">{message.content}</div>
-                        
-                        {/* Affichage des images générées */}
-                        {message.image_urls && message.image_urls.length > 0 && (
-                          <div className="mt-3 space-y-2">
-                            {console.log('🖼️ Images à afficher pour message', index, ':', message.image_urls.length)}
-                            {message.image_urls.map((imageUrl, imgIndex) => (
-                              <div key={imgIndex} className="rounded-lg overflow-hidden border border-white/20">
-                                <img 
-                                  src={imageUrl} 
-                                  alt={`Image générée ${imgIndex + 1}`}
-                                  className="w-full h-auto max-w-sm"
-                                  style={{ maxHeight: '300px', objectFit: 'contain' }}
-                                />
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
+              <div className="flex-1 overflow-y-auto space-y-4 pr-2 min-h-0">
+                {conversationHistory.map((message, index) => (
+                  <div key={message.id || index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} mb-4`}>
+                    <div className={`max-w-xs lg:max-w-md xl:max-w-lg rounded-xl p-4 ${
+                      message.role === 'user' 
+                        ? 'bg-blue-500/20 border border-blue-400/50 text-white' 
+                        : 'bg-gray-700/50 border border-gray-600/50 text-gray-100'
+                    }`}>
+                      <div className="text-sm whitespace-pre-wrap mb-2">{message.content}</div>
+                      
+                      {/* Affichage des images générées */}
+                      {message.image_urls && message.image_urls.length > 0 && (
+                        <div className="mt-3 space-y-2">
+                          {message.image_urls.map((imageUrl, imgIndex) => (
+                            <div key={imgIndex} className="rounded-lg overflow-hidden border border-white/20">
+                              <img 
+                                src={imageUrl} 
+                                alt={`Image générée ${imgIndex + 1}`}
+                                className="w-full h-auto max-w-sm"
+                                style={{ maxHeight: '300px', objectFit: 'contain' }}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
-                  );
-                })}
-                
-                {conversationHistory.length === 0 && (
-                  <div className="text-center text-gray-500 py-8">
-                    <p>Aucun message dans l'historique</p>
                   </div>
-                )}
+                ))}
                 
                 {/* Indicateur de génération en cours pour NanoBanana */}
                 {isGenerating && (
-                  <div className="flex justify-start">
+                  <div className="flex justify-start mb-4">
                     <div className="bg-gray-700/50 border border-gray-600/50 rounded-xl p-4 max-w-xs">
                       <div className="flex items-center space-x-2">
                         <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-400 border-t-transparent"></div>
