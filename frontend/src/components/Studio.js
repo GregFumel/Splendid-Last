@@ -412,7 +412,7 @@ const Studio = () => {
           </div>
 
           {/* Zone de discussion scrollable */}
-          <div className="flex-1 overflow-y-auto pr-2 space-y-4 min-h-0">
+          <div className="flex-1 overflow-y-auto pr-2 space-y-4 min-h-0 max-h-full">
             {/* Historique conversationnel pour NanoBanana ou zone de résultat pour les autres */}
             {isNanoBanana ? (
               <>
