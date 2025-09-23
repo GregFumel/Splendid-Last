@@ -107,39 +107,48 @@ user_problem_statement: "Test l'API NanoBanana que j'ai implémentée dans le ba
 backend:
   - task: "POST /api/nanobanana/session - Créer une nouvelle session"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "testing"
         comment: "Besoin de tester la création d'une nouvelle session NanoBanana"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTÉ: Endpoint fonctionne parfaitement. Session créée avec succès avec ID unique, timestamps corrects (created_at, last_updated), et structure de données conforme au modèle NanoBananaSession. Retourne status 200 avec JSON valide."
 
   - task: "POST /api/nanobanana/generate - Générer une image avec prompt"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "testing"
         comment: "Besoin de tester la génération d'image avec le prompt 'un chat mignon qui mange une banane' en utilisant Google Gemini"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTÉ: Génération d'image réussie! Google Gemini (gemini-2.5-flash-image-preview) a généré une image réelle avec le prompt 'un chat mignon qui mange une banane'. Retourne response_text descriptif, image en data URL (1.9MB), message_id unique, et sauvegarde correcte en base. Intégration EMERGENT_LLM_KEY fonctionnelle."
 
   - task: "GET /api/nanobanana/session/{session_id} - Récupérer l'historique"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "testing"
         comment: "Besoin de tester la récupération de l'historique d'une session"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTÉ: Récupération d'historique parfaite. Retourne 2 messages (user + assistant) avec tous les champs corrects: ID, role, content, image_urls, timestamp. Messages triés par timestamp croissant. Structure conforme au modèle NanoBananaMessage."
 
 frontend:
   - task: "Navigation générale - chargement de page et navigation entre catégories"
