@@ -156,6 +156,8 @@ const Studio = () => {
       loadConversationHistory(session.id, 'chatgpt5');
     } catch (error) {
       console.error('Erreur lors de l\'initialisation de la session ChatGPT-5:', error);
+      // Arrêter l'animation en cas d'erreur
+      setIsLoadingHistory(false);
     }
   };
 
