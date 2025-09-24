@@ -114,9 +114,16 @@ async def generate_image_with_nanobanana(request: GenerateImageRequest):
         # Créer une nouvelle instance pour chaque requête
         if request.edit_image_url and request.edit_message_id:
             # Mode édition d'image existante
-            system_message = f"Tu es NanoBanana, un éditeur d'images créatif utilisant Google Gemini. L'utilisateur veut modifier une image existante. Voici ce qu'il demande : '{request.prompt}'. Génère une nouvelle version de l'image en tenant compte de ces modifications."
+            # Récupérer le contexte du message original
+            original_message = await db.nanobanana_messages.find_one({"id": request.edit_message_id})
+            original_prompt = original_message.get("content", "") if original_message else ""
+            
+            # Créer un prompt enrichi pour la modification
+            enhanced_prompt = f"Crée une nouvelle version de cette image en appliquant ces modifications : {request.prompt}. L'image originale était : {original_prompt}. Garde les éléments principaux mais modifie selon la demande."
+            system_message = "Tu es NanoBanana, un éditeur d'images créatif utilisant Google Gemini. Tu génères des images modifiées selon les instructions de l'utilisateur."
         else:
             # Mode génération normale
+            enhanced_prompt = request.prompt
             system_message = "Tu es NanoBanana, un générateur d'images créatif utilisant Google Gemini. Tu crées des images visuellement impressionnantes à partir des descriptions texte des utilisateurs."
             
         chat = LlmChat(
@@ -127,11 +134,11 @@ async def generate_image_with_nanobanana(request: GenerateImageRequest):
         
         chat = chat.with_model("gemini", "gemini-2.5-flash-image-preview").with_params(modalities=["image", "text"])
         
-        # Créer le message utilisateur avec contexte d'édition si nécessaire
+        # Créer le message utilisateur avec le prompt enrichi
         if request.edit_image_url and request.edit_message_id:
-            user_prompt = f"[MODIFICATION D'IMAGE] {request.prompt}"
+            user_prompt = f"[MODIFICATION] {enhanced_prompt}"
         else:
-            user_prompt = request.prompt
+            user_prompt = enhanced_prompt
             
         msg = UserMessage(text=user_prompt)
         
