@@ -18,7 +18,7 @@ export const mockAITools = [
     isNew: true
   },
   {
-    id: 2,
+    id: 3,
     name: "Kling AI",
     description: "Générez des avatars parlants ultra-réalistes.",
     category: "video",
@@ -26,7 +26,7 @@ export const mockAITools = [
     fullDescription: "la génération d'avatars parlants ultra-réalistes"
   },
   {
-    id: 3,
+    id: 4,
     name: "Google Veo 3",
     description: "Création de vidéos haute définition avec une IA avancée.",
     category: "video",
@@ -34,7 +34,7 @@ export const mockAITools = [
     fullDescription: "la création de vidéos haute définition"
   },
   {
-    id: 4,
+    id: 5,
     name: "Midjourney V7",
     description: "L'outil de référence pour la génération d'images artistiques.",
     category: "image",
