@@ -57,6 +57,8 @@ class NanoBananaSession(BaseModel):
 class GenerateImageRequest(BaseModel):
     session_id: str
     prompt: str
+    edit_image_url: Optional[str] = None  # URL de l'image à modifier
+    edit_message_id: Optional[str] = None  # ID du message contenant l'image à modifier
 
 class GenerateImageResponse(BaseModel):
     session_id: str
