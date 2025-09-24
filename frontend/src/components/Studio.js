@@ -310,8 +310,11 @@ const Studio = () => {
         const toolType = isNanoBanana ? 'nanobanana' : 'chatgpt5';
         await loadConversationHistory(sessionId, toolType);
         
-        // Vider le prompt
+        // Vider le prompt et l'image uploadée
         setPrompt("");
+        if (isChatGPT5) {
+          setUploadedImage(null);
+        }
         
       } catch (error) {
         console.error('Erreur lors de la génération:', error);
