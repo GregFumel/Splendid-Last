@@ -637,18 +637,64 @@ const Studio = () => {
             {isMobile ? (
               /* Layout mobile : vertical avec zone fixe */
               <div className="flex flex-col gap-3">
-                <input
-                  type="text"
-                  value={prompt}
-                  onChange={(e) => setPrompt(e.target.value)}
-                  placeholder={`Demandez à ${selectedTool.name}...`}
-                  className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2"
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
-                      handleGenerate();
-                    }
-                  }}
-                />
+                {/* Aperçu de l'image uploadée pour ChatGPT-5 */}
+                {isChatGPT5 && uploadedImage && (
+                  <div className="flex items-center gap-3 p-3 bg-green-500/10 border border-green-400/30 rounded-lg">
+                    <img 
+                      src={uploadedImage.dataUrl} 
+                      alt="Image uploadée"
+                      className="w-12 h-12 rounded object-cover"
+                    />
+                    <div className="flex-1">
+                      <p className="text-sm text-green-200">Image attachée</p>
+                      <p className="text-xs text-green-300">{uploadedImage.name}</p>
+                    </div>
+                    <button
+                      onClick={removeUploadedImage}
+                      className="text-green-300 hover:text-white transition-colors"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+                )}
+                
+                {/* Zone de saisie avec icône d'upload pour ChatGPT-5 */}
+                {isChatGPT5 ? (
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={handleImageUpload}
+                      className="bg-gray-600/80 hover:bg-gray-600 text-white p-2 rounded-lg transition-colors"
+                      title="Ajouter une image"
+                    >
+                      <Plus className="w-5 h-5" />
+                    </button>
+                    <input
+                      type="text"
+                      value={prompt}
+                      onChange={(e) => setPrompt(e.target.value)}
+                      placeholder={`Demandez à ${selectedTool.name}...`}
+                      className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2"
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
+                          handleGenerate();
+                        }
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <input
+                    type="text"
+                    value={prompt}
+                    onChange={(e) => setPrompt(e.target.value)}
+                    placeholder={`Demandez à ${selectedTool.name}...`}
+                    className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2"
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
+                        handleGenerate();
+                      }
+                    }}
+                  />
+                )}
                 
                 <button
                   onClick={handleGenerate}
@@ -670,37 +716,71 @@ const Studio = () => {
               </div>
             ) : (
               /* Layout desktop : horizontal avec bouton petit à droite */
-              <div className="flex items-center gap-3">
-                <input
-                  type="text"
-                  value={prompt}
-                  onChange={(e) => setPrompt(e.target.value)}
-                  placeholder={`Demandez à ${selectedTool.name}...`}
-                  className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2"
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
-                      handleGenerate();
-                    }
-                  }}
-                />
+              <div className="flex flex-col gap-3">
+                {/* Aperçu de l'image uploadée pour ChatGPT-5 */}
+                {isChatGPT5 && uploadedImage && (
+                  <div className="flex items-center gap-3 p-3 bg-green-500/10 border border-green-400/30 rounded-lg">
+                    <img 
+                      src={uploadedImage.dataUrl} 
+                      alt="Image uploadée"
+                      className="w-12 h-12 rounded object-cover"
+                    />
+                    <div className="flex-1">
+                      <p className="text-sm text-green-200">Image attachée</p>
+                      <p className="text-xs text-green-300">{uploadedImage.name}</p>
+                    </div>
+                    <button
+                      onClick={removeUploadedImage}
+                      className="text-green-300 hover:text-white transition-colors"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+                )}
                 
-                <button
-                  onClick={handleGenerate}
-                  disabled={!prompt.trim() || isGenerating}
-                  className="btn-3d-effect bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold rounded-xl transition flex items-center justify-center space-x-2 shadow-lg px-4 py-2 flex-shrink-0"
-                >
-                  {isGenerating ? (
-                    <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                      <span>Générer</span>
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-4 h-4" />
-                      <span>Générer</span>
-                    </>
+                <div className="flex items-center gap-3">
+                  {/* Icône d'upload pour ChatGPT-5 */}
+                  {isChatGPT5 && (
+                    <button
+                      onClick={handleImageUpload}
+                      className="bg-gray-600/80 hover:bg-gray-600 text-white p-2 rounded-lg transition-colors"
+                      title="Ajouter une image"
+                    >
+                      <Plus className="w-5 h-5" />
+                    </button>
                   )}
-                </button>
+                  
+                  <input
+                    type="text"
+                    value={prompt}
+                    onChange={(e) => setPrompt(e.target.value)}
+                    placeholder={`Demandez à ${selectedTool.name}...`}
+                    className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2"
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
+                        handleGenerate();
+                      }
+                    }}
+                  />
+                  
+                  <button
+                    onClick={handleGenerate}
+                    disabled={!prompt.trim() || isGenerating}
+                    className="btn-3d-effect bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold rounded-xl transition flex items-center justify-center space-x-2 shadow-lg px-4 py-2 flex-shrink-0"
+                  >
+                    {isGenerating ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                        <span>Générer</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4" />
+                        <span>Générer</span>
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
             )}
           </div>
