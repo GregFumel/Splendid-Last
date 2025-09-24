@@ -785,6 +785,15 @@ const Studio = () => {
             )}
           </div>
         </div>
+        
+        {/* Input file caché pour l'upload d'images */}
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileSelect}
+          accept="image/*"
+          style={{ display: 'none' }}
+        />
       </div>
     </div>
   );
