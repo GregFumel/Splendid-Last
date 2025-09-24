@@ -19,6 +19,10 @@ const Studio = () => {
   const [isNanoBanana, setIsNanoBanana] = useState(false);
   const [isChatGPT5, setIsChatGPT5] = useState(false);
   const [toolSessions, setToolSessions] = useState({}); // Stocker les sessions par outil
+  
+  // États pour l'upload d'images
+  const [uploadedImage, setUploadedImage] = useState(null); // {file, dataUrl}
+  const fileInputRef = useRef(null);
 
   // Sélectionner l'outil basé sur le paramètre URL
   useEffect(() => {
