@@ -56,6 +56,8 @@ class ChatGPT5Session(BaseModel):
 class ChatGPT5Request(BaseModel):
     session_id: str
     prompt: str
+    image_data: Optional[str] = None  # Data URL de l'image
+    image_name: Optional[str] = None  # Nom du fichier image
 
 class ChatGPT5Response(BaseModel):
     session_id: str
