@@ -158,10 +158,15 @@ async def generate_image_with_nanobanana(request: GenerateImageRequest):
                     image_urls.append(image_data_url)
 
         # Sauvegarder la réponse de l'assistant
+        if request.edit_image_url and request.edit_message_id:
+            default_message = "Image modifiée avec succès !"
+        else:
+            default_message = "Image générée avec succès !"
+            
         assistant_message = NanoBananaMessage(
             session_id=request.session_id,
             role="assistant", 
-            content=response_text or "Image générée avec succès !",
+            content=response_text or default_message,
             image_urls=image_urls
         )
         await db.nanobanana_messages.insert_one(assistant_message.dict())
