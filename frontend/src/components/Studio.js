@@ -560,76 +560,98 @@ const Studio = () => {
             {/* Historique conversationnel pour NanoBanana et ChatGPT-5 ou zone de résultat pour les autres */}
             {(isNanoBanana || isChatGPT5) ? (
               <>
-                {conversationHistory.map((message, index) => (
-                  <div key={message.id || index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} mb-4`}>
-                    <div className={`max-w-xs lg:max-w-md xl:max-w-lg rounded-xl p-4 ${
-                      message.role === 'user' 
-                        ? 'bg-blue-500/20 border border-blue-400/50 text-white' 
-                        : 'bg-gray-700/50 border border-gray-600/50 text-gray-100'
-                    }`}>
-                      <div className="text-sm whitespace-pre-wrap mb-2">{message.content}</div>
-                      
-                      {/* Affichage des images uploadées par l'utilisateur */}
-                      {message.role === 'user' && message.image_urls && message.image_urls.length > 0 && (
-                        <div className="mt-3 space-y-2">
-                          {message.image_urls.map((imageUrl, imgIndex) => (
-                            <div key={imgIndex} className="rounded-lg overflow-hidden border border-blue-400/30">
-                              <img 
-                                src={imageUrl} 
-                                alt={`Image uploadée ${imgIndex + 1}`}
-                                className="w-full h-auto max-w-sm"
-                                style={{ maxHeight: '200px', objectFit: 'contain' }}
-                              />
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                      
-                      {/* Affichage des images générées pour NanoBanana uniquement */}
-                      {isNanoBanana && message.role === 'assistant' && message.image_urls && message.image_urls.length > 0 && (
-                        <div className="mt-3 space-y-2">
-                          {message.image_urls.map((imageUrl, imgIndex) => (
-                            <div key={imgIndex} className="rounded-lg overflow-hidden border border-white/20">
-                              <img 
-                                src={imageUrl} 
-                                alt={`Image générée ${imgIndex + 1}`}
-                                className="w-full h-auto max-w-sm"
-                                style={{ maxHeight: '300px', objectFit: 'contain' }}
-                              />
-                              
-                              {/* Bouton télécharger uniquement */}
-                              <div className="p-3 bg-black/20 flex justify-center">
-                                <button
-                                  onClick={() => handleDownloadImage(imageUrl, message.id)}
-                                  className="bg-gray-600/80 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 text-sm"
-                                  title="Télécharger l'image"
-                                >
-                                  <Download className="w-4 h-4" />
-                                  <span>Télécharger</span>
-                                </button>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
+                {/* Animation de chargement de l'historique */}
+                {isLoadingHistory ? (
+                  <div className="flex flex-col items-center justify-center py-16 space-y-4">
+                    <div className="relative">
+                      {/* Cercle principal animé */}
+                      <div className="w-12 h-12 border-4 border-blue-500/20 rounded-full animate-spin border-t-blue-500"></div>
+                      {/* Cercles secondaires pour l'effet */}
+                      <div className="absolute top-0 left-0 w-12 h-12 border-4 border-purple-500/20 rounded-full animate-pulse"></div>
                     </div>
-                  </div>
-                ))}
-                
-                {/* Indicateur de génération en cours */}
-                {isGenerating && (
-                  <div className="flex justify-start mb-4">
-                    <div className="bg-gray-700/50 border border-gray-600/50 rounded-xl p-4 max-w-xs">
-                      <div className="flex items-center space-x-2">
-                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-400 border-t-transparent"></div>
-                        <span className="text-sm text-gray-300">{isNanoBanana ? 'Génération d\'image en cours...' : 'Réflexion en cours...'}</span>
+                    <div className="text-center space-y-2">
+                      <p className="text-gray-300 font-medium">Chargement de {selectedTool.name}</p>
+                      <div className="flex space-x-1 justify-center">
+                        <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                        <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
                       </div>
                     </div>
                   </div>
+                ) : (
+                  <>
+                    {conversationHistory.map((message, index) => (
+                      <div key={message.id || index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} mb-4`}>
+                        <div className={`max-w-xs lg:max-w-md xl:max-w-lg rounded-xl p-4 ${
+                          message.role === 'user' 
+                            ? 'bg-blue-500/20 border border-blue-400/50 text-white' 
+                            : 'bg-gray-700/50 border border-gray-600/50 text-gray-100'
+                        }`}>
+                          <div className="text-sm whitespace-pre-wrap mb-2">{message.content}</div>
+                          
+                          {/* Affichage des images uploadées par l'utilisateur */}
+                          {message.role === 'user' && message.image_urls && message.image_urls.length > 0 && (
+                            <div className="mt-3 space-y-2">
+                              {message.image_urls.map((imageUrl, imgIndex) => (
+                                <div key={imgIndex} className="rounded-lg overflow-hidden border border-blue-400/30">
+                                  <img 
+                                    src={imageUrl} 
+                                    alt={`Image uploadée ${imgIndex + 1}`}
+                                    className="w-full h-auto max-w-sm"
+                                    style={{ maxHeight: '200px', objectFit: 'contain' }}
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                          
+                          {/* Affichage des images générées pour NanoBanana uniquement */}
+                          {isNanoBanana && message.role === 'assistant' && message.image_urls && message.image_urls.length > 0 && (
+                            <div className="mt-3 space-y-2">
+                              {message.image_urls.map((imageUrl, imgIndex) => (
+                                <div key={imgIndex} className="rounded-lg overflow-hidden border border-white/20">
+                                  <img 
+                                    src={imageUrl} 
+                                    alt={`Image générée ${imgIndex + 1}`}
+                                    className="w-full h-auto max-w-sm"
+                                    style={{ maxHeight: '300px', objectFit: 'contain' }}
+                                  />
+                                  
+                                  {/* Bouton télécharger uniquement */}
+                                  <div className="p-3 bg-black/20 flex justify-center">
+                                    <button
+                                      onClick={() => handleDownloadImage(imageUrl, message.id)}
+                                      className="bg-gray-600/80 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 text-sm"
+                                      title="Télécharger l'image"
+                                    >
+                                      <Download className="w-4 h-4" />
+                                      <span>Télécharger</span>
+                                    </button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                    
+                    {/* Indicateur de génération en cours */}
+                    {isGenerating && (
+                      <div className="flex justify-start mb-4">
+                        <div className="bg-gray-700/50 border border-gray-600/50 rounded-xl p-4 max-w-xs">
+                          <div className="flex items-center space-x-2">
+                            <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-400 border-t-transparent"></div>
+                            <span className="text-sm text-gray-300">{isNanoBanana ? 'Génération d\'image en cours...' : 'Réflexion en cours...'}</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Espace en bas pour éviter que le dernier message soit caché */}
+                    <div className="h-4"></div>
+                  </>
                 )}
-                
-                {/* Espace en bas pour éviter que le dernier message soit caché */}
-                <div className="h-4"></div>
               </>
             ) : (
               /* Zone de résultat pour les autres outils */
