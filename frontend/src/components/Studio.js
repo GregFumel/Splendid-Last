@@ -224,19 +224,11 @@ const Studio = () => {
         console.log('Génération avec backend URL:', backendUrl);
         console.log('Session ID:', sessionId);
         console.log('Prompt:', prompt);
-        console.log('Mode édition:', isEditMode);
-        console.log('Image en cours d\'édition:', editingImage);
         
         const requestBody = {
           session_id: sessionId,
           prompt: prompt,
         };
-        
-        // Si on est en mode édition, ajouter l'image de référence
-        if (isEditMode && editingImage) {
-          requestBody.edit_image_url = editingImage.imageUrl;
-          requestBody.edit_message_id = editingImage.messageId;
-        }
         
         const response = await fetch(`${backendUrl}/api/nanobanana/generate`, {
           method: 'POST',
@@ -258,10 +250,8 @@ const Studio = () => {
         // Recharger l'historique de conversation
         await loadConversationHistory(sessionId);
         
-        // Vider le prompt et sortir du mode édition
+        // Vider le prompt
         setPrompt("");
-        setIsEditMode(false);
-        setEditingImage(null);
         
       } catch (error) {
         console.error('Erreur lors de la génération avec NanoBanana:', error);
@@ -292,20 +282,6 @@ const Studio = () => {
       console.error('Erreur lors du téléchargement:', error);
       alert('Erreur lors du téléchargement de l\'image');
     }
-  };
-
-  // Fonction pour entrer en mode édition
-  const handleEditImage = (imageUrl, messageId) => {
-    setEditingImage({ imageUrl, messageId });
-    setIsEditMode(true);
-    setPrompt(''); // Vider le prompt pour l'édition
-  };
-
-  // Fonction pour annuler le mode édition
-  const handleCancelEdit = () => {
-    setIsEditMode(false);
-    setEditingImage(null);
-    setPrompt('');
   };
 
   return (
