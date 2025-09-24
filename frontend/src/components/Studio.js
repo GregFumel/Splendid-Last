@@ -338,6 +338,37 @@ const Studio = () => {
     }
   };
 
+  // Fonctions pour l'upload d'images
+  const handleImageUpload = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileSelect = (event) => {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setUploadedImage({
+          file: file,
+          dataUrl: e.target.result,
+          name: file.name
+        });
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert('Veuillez sélectionner un fichier image valide.');
+    }
+  };
+
+  const removeUploadedImage = () => {
+    setUploadedImage(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black relative">
       {/* Fond d'écran */}
