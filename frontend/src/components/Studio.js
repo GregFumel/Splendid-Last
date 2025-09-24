@@ -82,20 +82,27 @@ const Studio = () => {
     forceScrollToVeryTop();
   }, [searchParams]);
   
-  // Initialiser la session NanoBanana quand l'outil change
+  // Initialiser la session quand l'outil change
   useEffect(() => {
     const isNanoBananaTool = selectedTool && selectedTool.name === "NanoBanana";
-    setIsNanoBanana(isNanoBananaTool);
+    const isChatGPT5Tool = selectedTool && selectedTool.name === "ChatGPT-5";
     
-    if (isNanoBananaTool) {
+    setIsNanoBanana(isNanoBananaTool);
+    setIsChatGPT5(isChatGPT5Tool);
+    
+    if (isNanoBananaTool || isChatGPT5Tool) {
       // Vérifier s'il y a déjà une session pour cet outil
       const existingSession = toolSessions[selectedTool.id];
       if (existingSession) {
         setSessionId(existingSession.sessionId);
-        loadConversationHistory(existingSession.sessionId);
+        loadConversationHistory(existingSession.sessionId, isNanoBananaTool ? 'nanobanana' : 'chatgpt5');
       } else {
-        // Créer une nouvelle session pour NanoBanana
-        initializeNanoBananaSession();
+        // Créer une nouvelle session
+        if (isNanoBananaTool) {
+          initializeNanoBananaSession();
+        } else if (isChatGPT5Tool) {
+          initializeChatGPT5Session();
+        }
       }
     } else {
       // Réinitialiser pour les autres outils
