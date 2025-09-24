@@ -312,7 +312,7 @@ const Studio = () => {
         
         // Vider le prompt et l'image uploadée
         setPrompt("");
-        if (isChatGPT5) {
+        if (isChatGPT5 || isNanoBanana) {
           setUploadedImage(null);
         }
         
