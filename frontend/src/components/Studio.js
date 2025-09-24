@@ -13,10 +13,11 @@ const Studio = () => {
   const [showToolSelector, setShowToolSelector] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   
-  // États pour NanoBanana
+  // États pour les outils IA
   const [sessionId, setSessionId] = useState(null);
   const [conversationHistory, setConversationHistory] = useState([]);
   const [isNanoBanana, setIsNanoBanana] = useState(false);
+  const [isChatGPT5, setIsChatGPT5] = useState(false);
   const [toolSessions, setToolSessions] = useState({}); // Stocker les sessions par outil
 
   // Sélectionner l'outil basé sur le paramètre URL
