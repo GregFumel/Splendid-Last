@@ -18,10 +18,6 @@ const Studio = () => {
   const [conversationHistory, setConversationHistory] = useState([]);
   const [isNanoBanana, setIsNanoBanana] = useState(false);
   const [toolSessions, setToolSessions] = useState({}); // Stocker les sessions par outil
-  
-  // États pour l'édition d'images
-  const [editingImage, setEditingImage] = useState(null); // {imageUrl, messageId}
-  const [isEditMode, setIsEditMode] = useState(false);
 
   // Sélectionner l'outil basé sur le paramètre URL
   useEffect(() => {
