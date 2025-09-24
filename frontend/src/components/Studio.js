@@ -577,11 +577,32 @@ const Studio = () => {
             {isMobile ? (
               /* Layout mobile : vertical avec zone fixe */
               <div className="flex flex-col gap-3">
+                {/* Preview de l'image en mode édition */}
+                {isEditMode && editingImage && (
+                  <div className="flex items-center gap-3 p-3 bg-blue-500/10 border border-blue-400/30 rounded-lg">
+                    <img 
+                      src={editingImage.imageUrl} 
+                      alt="Image à modifier"
+                      className="w-12 h-12 rounded object-cover"
+                    />
+                    <div className="flex-1">
+                      <p className="text-sm text-blue-200">Mode édition</p>
+                      <p className="text-xs text-blue-300">Modifiez cette image</p>
+                    </div>
+                    <button
+                      onClick={handleCancelEdit}
+                      className="text-blue-300 hover:text-white transition-colors"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+                )}
+                
                 <input
                   type="text"
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
-                  placeholder={`Demandez à ${selectedTool.name}...`}
+                  placeholder={isEditMode ? "Décrivez les modifications..." : `Demandez à ${selectedTool.name}...`}
                   className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2"
                   onKeyPress={(e) => {
                     if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
@@ -603,44 +624,67 @@ const Studio = () => {
                   ) : (
                     <>
                       <Send className="w-4 h-4" />
-                      <span>Générer</span>
+                      <span>{isEditMode ? 'Modifier' : 'Générer'}</span>
                     </>
                   )}
                 </button>
               </div>
             ) : (
               /* Layout desktop : horizontal avec bouton petit à droite */
-              <div className="flex items-center gap-3">
-                <input
-                  type="text"
-                  value={prompt}
-                  onChange={(e) => setPrompt(e.target.value)}
-                  placeholder={`Demandez à ${selectedTool.name}...`}
-                  className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2"
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
-                      handleGenerate();
-                    }
-                  }}
-                />
+              <div className="flex flex-col gap-3">
+                {/* Preview de l'image en mode édition */}
+                {isEditMode && editingImage && (
+                  <div className="flex items-center gap-3 p-3 bg-blue-500/10 border border-blue-400/30 rounded-lg">
+                    <img 
+                      src={editingImage.imageUrl} 
+                      alt="Image à modifier"
+                      className="w-12 h-12 rounded object-cover"
+                    />
+                    <div className="flex-1">
+                      <p className="text-sm text-blue-200">Mode édition</p>
+                      <p className="text-xs text-blue-300">Modifiez cette image</p>
+                    </div>
+                    <button
+                      onClick={handleCancelEdit}
+                      className="text-blue-300 hover:text-white transition-colors"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+                )}
                 
-                <button
-                  onClick={handleGenerate}
-                  disabled={!prompt.trim() || isGenerating}
-                  className="btn-3d-effect bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold rounded-xl transition flex items-center justify-center space-x-2 shadow-lg px-4 py-2 flex-shrink-0"
-                >
-                  {isGenerating ? (
-                    <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                      <span>Générer</span>
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-4 h-4" />
-                      <span>Générer</span>
-                    </>
-                  )}
-                </button>
+                <div className="flex items-center gap-3">
+                  <input
+                    type="text"
+                    value={prompt}
+                    onChange={(e) => setPrompt(e.target.value)}
+                    placeholder={isEditMode ? "Décrivez les modifications..." : `Demandez à ${selectedTool.name}...`}
+                    className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2"
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
+                        handleGenerate();
+                      }
+                    }}
+                  />
+                  
+                  <button
+                    onClick={handleGenerate}
+                    disabled={!prompt.trim() || isGenerating}
+                    className="btn-3d-effect bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold rounded-xl transition flex items-center justify-center space-x-2 shadow-lg px-4 py-2 flex-shrink-0"
+                  >
+                    {isGenerating ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                        <span>{isEditMode ? 'Modifier' : 'Générer'}</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4" />
+                        <span>{isEditMode ? 'Modifier' : 'Générer'}</span>
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
             )}
           </div>
