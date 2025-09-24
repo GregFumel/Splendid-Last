@@ -554,8 +554,24 @@ const Studio = () => {
                     }`}>
                       <div className="text-sm whitespace-pre-wrap mb-2">{message.content}</div>
                       
+                      {/* Affichage des images uploadées par l'utilisateur */}
+                      {message.role === 'user' && message.image_urls && message.image_urls.length > 0 && (
+                        <div className="mt-3 space-y-2">
+                          {message.image_urls.map((imageUrl, imgIndex) => (
+                            <div key={imgIndex} className="rounded-lg overflow-hidden border border-blue-400/30">
+                              <img 
+                                src={imageUrl} 
+                                alt={`Image uploadée ${imgIndex + 1}`}
+                                className="w-full h-auto max-w-sm"
+                                style={{ maxHeight: '200px', objectFit: 'contain' }}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      
                       {/* Affichage des images générées pour NanoBanana uniquement */}
-                      {isNanoBanana && message.image_urls && message.image_urls.length > 0 && (
+                      {isNanoBanana && message.role === 'assistant' && message.image_urls && message.image_urls.length > 0 && (
                         <div className="mt-3 space-y-2">
                           {message.image_urls.map((imageUrl, imgIndex) => (
                             <div key={imgIndex} className="rounded-lg overflow-hidden border border-white/20">
