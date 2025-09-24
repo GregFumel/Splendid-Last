@@ -127,8 +127,13 @@ async def generate_image_with_nanobanana(request: GenerateImageRequest):
         
         chat = chat.with_model("gemini", "gemini-2.5-flash-image-preview").with_params(modalities=["image", "text"])
         
-        # Créer le message utilisateur
-        msg = UserMessage(text=request.prompt)
+        # Créer le message utilisateur avec contexte d'édition si nécessaire
+        if request.edit_image_url and request.edit_message_id:
+            user_prompt = f"[MODIFICATION D'IMAGE] {request.prompt}"
+        else:
+            user_prompt = request.prompt
+            
+        msg = UserMessage(text=user_prompt)
         
         # Générer l'image
         response_text, images = await chat.send_message_multimodal_response(msg)
