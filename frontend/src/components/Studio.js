@@ -111,6 +111,44 @@ const Studio = () => {
     }
   }, [selectedTool]);
 
+  const initializeChatGPT5Session = async () => {
+    try {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL;
+      console.log('Backend URL ChatGPT-5:', backendUrl);
+      
+      const response = await fetch(`${backendUrl}/api/chatgpt5/session`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      console.log('ChatGPT-5 Session response status:', response.status);
+      
+      if (!response.ok) {
+        throw new Error('Erreur lors de la création de la session ChatGPT-5');
+      }
+      
+      const session = await response.json();
+      console.log('Session ChatGPT-5 créée:', session.id);
+      setSessionId(session.id);
+      
+      // Sauvegarder la session pour cet outil
+      setToolSessions(prev => ({
+        ...prev,
+        [selectedTool.id]: {
+          sessionId: session.id,
+          toolName: selectedTool.name
+        }
+      }));
+      
+      // Charger l'historique existant (vide pour une nouvelle session)
+      loadConversationHistory(session.id, 'chatgpt5');
+    } catch (error) {
+      console.error('Erreur lors de l\'initialisation de la session ChatGPT-5:', error);
+    }
+  };
+
   const initializeNanoBananaSession = async () => {
     try {
       const backendUrl = process.env.REACT_APP_BACKEND_URL;
