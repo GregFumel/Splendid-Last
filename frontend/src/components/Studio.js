@@ -214,9 +214,14 @@ const Studio = () => {
       console.log(`Historique ${toolType} détaillé:`, history);
       setConversationHistory(history);
       console.log(`State conversationHistory mis à jour avec:`, history.length, 'messages');
+      
+      // Arrêter l'animation de chargement
+      setIsLoadingHistory(false);
     } catch (error) {
       console.error(`Erreur lors du chargement de l'historique ${toolType}:`, error);
       setConversationHistory([]);
+      // Arrêter l'animation même en cas d'erreur
+      setIsLoadingHistory(false);
     }
   };
 
