@@ -88,6 +88,8 @@ class GenerateImageRequest(BaseModel):
     edit_message_id: Optional[str] = None  # ID du message contenant l'image à modifier
     image_data: Optional[str] = None  # Data URL de l'image uploadée
     image_name: Optional[str] = None  # Nom du fichier image
+    image_data: Optional[str] = None  # Data URL de l'image uploadée
+    image_name: Optional[str] = None  # Nom du fichier image
 
 class GenerateImageResponse(BaseModel):
     session_id: str
