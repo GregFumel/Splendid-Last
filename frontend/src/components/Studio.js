@@ -264,20 +264,22 @@ const Studio = () => {
     
     setIsGenerating(true);
     
-    if (isNanoBanana && sessionId) {
-      // Traitement spécial pour NanoBanana
+    if ((isNanoBanana || isChatGPT5) && sessionId) {
+      // Traitement pour NanoBanana et ChatGPT-5
       try {
         const backendUrl = process.env.REACT_APP_BACKEND_URL;
         console.log('Génération avec backend URL:', backendUrl);
         console.log('Session ID:', sessionId);
         console.log('Prompt:', prompt);
+        console.log('Outil:', isNanoBanana ? 'NanoBanana' : 'ChatGPT-5');
         
+        const endpoint = isNanoBanana ? 'nanobanana/generate' : 'chatgpt5/generate';
         const requestBody = {
           session_id: sessionId,
           prompt: prompt,
         };
         
-        const response = await fetch(`${backendUrl}/api/nanobanana/generate`, {
+        const response = await fetch(`${backendUrl}/api/${endpoint}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -288,21 +290,22 @@ const Studio = () => {
         console.log('Generate response status:', response.status);
         
         if (!response.ok) {
-          throw new Error('Erreur lors de la génération d\'image');
+          throw new Error('Erreur lors de la génération');
         }
         
         const result = await response.json();
         console.log('Résultat de génération:', result);
         
         // Recharger l'historique de conversation
-        await loadConversationHistory(sessionId);
+        const toolType = isNanoBanana ? 'nanobanana' : 'chatgpt5';
+        await loadConversationHistory(sessionId, toolType);
         
         // Vider le prompt
         setPrompt("");
         
       } catch (error) {
-        console.error('Erreur lors de la génération avec NanoBanana:', error);
-        alert('Erreur lors de la génération d\'image. Veuillez réessayer.');
+        console.error('Erreur lors de la génération:', error);
+        alert('Erreur lors de la génération. Veuillez réessayer.');
       } finally {
         setIsGenerating(false);
       }
