@@ -653,8 +653,8 @@ const Studio = () => {
             {isMobile ? (
               /* Layout mobile : vertical avec zone fixe */
               <div className="flex flex-col gap-3">
-                {/* Aperçu de l'image uploadée pour ChatGPT-5 */}
-                {isChatGPT5 && uploadedImage && (
+                {/* Aperçu de l'image uploadée pour ChatGPT-5 ou NanoBanana */}
+                {(isChatGPT5 || isNanoBanana) && uploadedImage && (
                   <div className="flex items-center gap-3 p-3 bg-green-500/10 border border-green-400/30 rounded-lg">
                     <img 
                       src={uploadedImage.dataUrl} 
@@ -674,8 +674,8 @@ const Studio = () => {
                   </div>
                 )}
                 
-                {/* Zone de saisie avec icône d'upload pour ChatGPT-5 */}
-                {isChatGPT5 ? (
+                {/* Zone de saisie avec icône d'upload pour ChatGPT-5 et NanoBanana */}
+                {(isChatGPT5 || isNanoBanana) ? (
                   <div className="flex items-center gap-2">
                     <button
                       onClick={handleImageUpload}
@@ -688,7 +688,7 @@ const Studio = () => {
                       type="text"
                       value={prompt}
                       onChange={(e) => setPrompt(e.target.value)}
-                      placeholder={`Demandez à ${selectedTool.name}...`}
+                      placeholder={uploadedImage && isNanoBanana ? "Décrivez les modifications à apporter à l'image..." : `Demandez à ${selectedTool.name}...`}
                       className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2"
                       onKeyPress={(e) => {
                         if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
