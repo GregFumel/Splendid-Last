@@ -238,6 +238,107 @@ async def get_nanobanana_sessions():
         logger.error(f"Erreur lors de la récupération des sessions: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
 
+# ChatGPT-5 endpoints
+
+@api_router.post("/chatgpt5/generate", response_model=ChatGPT5Response)
+async def chat_with_gpt5(request: ChatGPT5Request):
+    """Chat avec ChatGPT-5 (OpenAI GPT-5)"""
+    try:
+        # Créer ou récupérer la session
+        session = await db.chatgpt5_sessions.find_one({"id": request.session_id})
+        if not session:
+            # Créer une nouvelle session
+            session_obj = ChatGPT5Session(id=request.session_id)
+            await db.chatgpt5_sessions.insert_one(session_obj.dict())
+            session = session_obj.dict()
+
+        # Sauvegarder le message utilisateur
+        user_message = ChatGPT5Message(
+            session_id=request.session_id,
+            role="user",
+            content=request.prompt
+        )
+        await db.chatgpt5_messages.insert_one(user_message.dict())
+
+        # Générer la réponse avec ChatGPT-5
+        api_key = os.environ.get('EMERGENT_LLM_KEY')
+        if not api_key:
+            raise HTTPException(status_code=500, detail="EMERGENT_LLM_KEY not configured")
+
+        # Créer une nouvelle instance pour chaque requête
+        chat = LlmChat(
+            api_key=api_key, 
+            session_id=request.session_id,
+            system_message="Tu es ChatGPT-5, un assistant conversationnel avancé d'OpenAI. Tu réponds de manière utile, claire et engageante aux questions des utilisateurs."
+        )
+        
+        chat = chat.with_model("openai", "gpt-5")
+        
+        # Créer le message utilisateur
+        msg = UserMessage(text=request.prompt)
+        
+        # Générer la réponse
+        response_text = await chat.send_message(msg)
+        
+        # Sauvegarder la réponse de l'assistant
+        assistant_message = ChatGPT5Message(
+            session_id=request.session_id,
+            role="assistant", 
+            content=response_text
+        )
+        await db.chatgpt5_messages.insert_one(assistant_message.dict())
+
+        # Mettre à jour la session
+        await db.chatgpt5_sessions.update_one(
+            {"id": request.session_id},
+            {"$set": {"last_updated": datetime.utcnow()}}
+        )
+
+        return ChatGPT5Response(
+            session_id=request.session_id,
+            message_id=assistant_message.id,
+            prompt=request.prompt,
+            response_text=response_text
+        )
+
+    except Exception as e:
+        logger.error(f"Erreur lors du chat ChatGPT-5: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur lors du chat: {str(e)}")
+
+@api_router.get("/chatgpt5/session/{session_id}", response_model=List[ChatGPT5Message])
+async def get_chatgpt5_session(session_id: str):
+    """Récupère l'historique d'une session ChatGPT-5"""
+    try:
+        messages = await db.chatgpt5_messages.find(
+            {"session_id": session_id}
+        ).sort("timestamp", 1).to_list(1000)
+        
+        return [ChatGPT5Message(**msg) for msg in messages]
+    except Exception as e:
+        logger.error(f"Erreur lors de la récupération de session: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.post("/chatgpt5/session", response_model=ChatGPT5Session)
+async def create_chatgpt5_session():
+    """Crée une nouvelle session ChatGPT-5"""
+    try:
+        session = ChatGPT5Session()
+        await db.chatgpt5_sessions.insert_one(session.dict())
+        return session
+    except Exception as e:
+        logger.error(f"Erreur lors de la création de session: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.get("/chatgpt5/sessions", response_model=List[ChatGPT5Session])
+async def get_chatgpt5_sessions():
+    """Récupère toutes les sessions ChatGPT-5"""
+    try:
+        sessions = await db.chatgpt5_sessions.find().sort("last_updated", -1).to_list(100)
+        return [ChatGPT5Session(**session) for session in sessions]
+    except Exception as e:
+        logger.error(f"Erreur lors de la récupération des sessions: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
 # Include the router in the main app
 app.include_router(api_router)
 
