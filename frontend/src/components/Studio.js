@@ -196,6 +196,8 @@ const Studio = () => {
       loadConversationHistory(session.id, 'nanobanana');
     } catch (error) {
       console.error('Erreur lors de l\'initialisation de la session NanoBanana:', error);
+      // Arrêter l'animation en cas d'erreur
+      setIsLoadingHistory(false);
     }
   };
 
