@@ -492,13 +492,31 @@ const Studio = () => {
                       {message.image_urls && message.image_urls.length > 0 && (
                         <div className="mt-3 space-y-2">
                           {message.image_urls.map((imageUrl, imgIndex) => (
-                            <div key={imgIndex} className="rounded-lg overflow-hidden border border-white/20">
+                            <div key={imgIndex} className="relative rounded-lg overflow-hidden border border-white/20 group">
                               <img 
                                 src={imageUrl} 
                                 alt={`Image générée ${imgIndex + 1}`}
                                 className="w-full h-auto max-w-sm"
                                 style={{ maxHeight: '300px', objectFit: 'contain' }}
                               />
+                              
+                              {/* Boutons d'action sur l'image */}
+                              <div className="absolute top-2 right-2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button
+                                  onClick={() => handleDownloadImage(imageUrl, message.id)}
+                                  className="bg-black/70 hover:bg-black/90 text-white p-2 rounded-lg transition-colors"
+                                  title="Télécharger l'image"
+                                >
+                                  <Download className="w-4 h-4" />
+                                </button>
+                                <button
+                                  onClick={() => handleEditImage(imageUrl, message.id)}
+                                  className="bg-blue-500/70 hover:bg-blue-500/90 text-white p-2 rounded-lg transition-colors"
+                                  title="Modifier l'image"
+                                >
+                                  <Edit3 className="w-4 h-4" />
+                                </button>
+                              </div>
                             </div>
                           ))}
                         </div>
