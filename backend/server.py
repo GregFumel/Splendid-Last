@@ -129,11 +129,17 @@ async def generate_image_with_nanobanana(request: GenerateImageRequest):
             await db.nanobanana_sessions.insert_one(session_obj.dict())
             session = session_obj.dict()
 
-        # Sauvegarder le message utilisateur
+        # Sauvegarder le message utilisateur avec l'image si présente
+        user_image_urls = []
+        if request.image_data and request.image_name:
+            # Stocker l'image uploadée dans la base de données
+            user_image_urls = [request.image_data]
+        
         user_message = NanoBananaMessage(
             session_id=request.session_id,
             role="user",
-            content=request.prompt
+            content=request.prompt,
+            image_urls=user_image_urls
         )
         await db.nanobanana_messages.insert_one(user_message.dict())
 
