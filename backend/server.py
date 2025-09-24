@@ -39,6 +39,30 @@ class StatusCheck(BaseModel):
 class StatusCheckCreate(BaseModel):
     client_name: str
 
+# ChatGPT-5 Models
+class ChatGPT5Message(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    session_id: str
+    role: str  # "user" or "assistant"
+    content: str
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+
+class ChatGPT5Session(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    last_updated: datetime = Field(default_factory=datetime.utcnow)
+    messages: List[ChatGPT5Message] = []
+
+class ChatGPT5Request(BaseModel):
+    session_id: str
+    prompt: str
+
+class ChatGPT5Response(BaseModel):
+    session_id: str
+    message_id: str
+    prompt: str
+    response_text: str
+
 # NanoBanana Models
 class NanoBananaMessage(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
