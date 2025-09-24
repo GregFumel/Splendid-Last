@@ -283,6 +283,12 @@ const Studio = () => {
           prompt: prompt,
         };
         
+        // Ajouter l'image pour ChatGPT-5 si une image est uploadée
+        if (isChatGPT5 && uploadedImage) {
+          requestBody.image_data = uploadedImage.dataUrl;
+          requestBody.image_name = uploadedImage.name;
+        }
+        
         const response = await fetch(`${backendUrl}/api/${endpoint}`, {
           method: 'POST',
           headers: {
