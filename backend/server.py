@@ -45,6 +45,7 @@ class ChatGPT5Message(BaseModel):
     session_id: str
     role: str  # "user" or "assistant"
     content: str
+    image_urls: List[str] = []  # Pour stocker les images uploadées par l'utilisateur
     timestamp: datetime = Field(default_factory=datetime.utcnow)
 
 class ChatGPT5Session(BaseModel):
