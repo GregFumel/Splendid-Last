@@ -58,14 +58,6 @@ export const mockAITools = [
   },
   {
     id: 8,
-    name: "GPT-5 Structured",
-    description: "L'IA la plus avancée pour l'analyse et génération structurée.",
-    category: "assist",
-    image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/yau7ce7n_replicate-prediction-qhzgvzbn7.png",
-    fullDescription: "l'assistance avancée avec analyse structurée et génération de contenu complexe"
-  },
-  {
-    id: 9,
     name: "AI Image Upscaler",
     description: "Le meilleur upscaler du marché pour améliorer vos images.",
     category: "image",
@@ -73,7 +65,7 @@ export const mockAITools = [
     fullDescription: "l'amélioration et l'upscaling d'images avec ajout de détails ultra-précis"
   },
   {
-    id: 10,
+    id: 9,
     name: "UGC Creator AI",
     description: "Créez des vidéos UGC authentiques pour vendre vos produits.",
     category: "video",
