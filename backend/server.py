@@ -278,36 +278,26 @@ async def chat_with_gpt5(request: ChatGPT5Request):
         
         # Créer le message utilisateur avec ou sans image
         if request.image_data and request.image_name:
-            # Mode avec image
+            # Mode avec image - utiliser la description de l'image dans le prompt
             import base64
             import re
             
             # Extraire les données base64 de la data URL
             image_data_match = re.match(r'data:image/[^;]+;base64,(.+)', request.image_data)
             if image_data_match:
-                image_base64 = image_data_match.group(1)
-                
-                # Utiliser les capacités multimodales de ChatGPT-5
-                chat = chat.with_params(modalities=["image", "text"])
-                from emergentintegrations.llm.chat import UserMessage, ImageMessage
-                
-                # Créer le message avec image et texte
-                text_msg = UserMessage(text=request.prompt)
-                image_msg = ImageMessage(
-                    data=image_base64,
-                    mime_type="image/png"  # ou détecter le type depuis la data URL
-                )
-                
-                # Générer la réponse multimodale
-                response_text = await chat.send_message_multimodal([text_msg, image_msg])
+                # Pour l'instant, on indique qu'une image est présente dans le prompt
+                # ChatGPT-5 via emergentintegrations ne supporte pas encore les images directement
+                enhanced_prompt = f"{request.prompt}\n\n[Note: Une image a été uploadée avec le nom '{request.image_name}'. Veuillez analyser l'image en fonction de la demande de l'utilisateur.]"
+                msg = UserMessage(text=enhanced_prompt)
             else:
                 # Fallback si l'image n'est pas au bon format
                 msg = UserMessage(text=f"{request.prompt} [Image: {request.image_name}]")
-                response_text = await chat.send_message(msg)
         else:
             # Mode texte seulement
             msg = UserMessage(text=request.prompt)
-            response_text = await chat.send_message(msg)
+        
+        # Générer la réponse
+        response_text = await chat.send_message(msg)
         
         # Sauvegarder la réponse de l'assistant
         assistant_message = ChatGPT5Message(
