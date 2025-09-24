@@ -149,8 +149,11 @@ async def generate_image_with_nanobanana(request: GenerateImageRequest):
             raise HTTPException(status_code=500, detail="EMERGENT_LLM_KEY not configured")
 
         # Créer une nouvelle instance pour chaque requête
-        if request.edit_image_url and request.edit_message_id:
-            # Mode édition d'image existante - récupérer le contexte original
+        if request.image_data and request.image_name:
+            # Mode édition d'image uploadée
+            system_message = f"Tu es NanoBanana, un générateur d'images créatif utilisant Google Gemini. L'utilisateur a uploadé une image et souhaite la modifier. Voici sa demande : '{request.prompt}'. Crée une nouvelle image qui applique les modifications demandées tout en respectant le style et les éléments principaux de l'image de référence."
+        elif request.edit_image_url and request.edit_message_id:
+            # Mode édition d'image générée précédemment
             original_message = await db.nanobanana_messages.find_one({"id": request.edit_message_id})
             original_prompt = original_message.get("content", "") if original_message else ""
             
@@ -167,8 +170,14 @@ async def generate_image_with_nanobanana(request: GenerateImageRequest):
         
         chat = chat.with_model("gemini", "gemini-2.5-flash-image-preview").with_params(modalities=["image", "text"])
         
-        # Créer le message utilisateur - utiliser le prompt original
-        msg = UserMessage(text=request.prompt)
+        # Créer le message utilisateur avec ou sans référence à l'image uploadée
+        if request.image_data and request.image_name:
+            # Ajouter le contexte de l'image uploadée dans le prompt
+            enhanced_prompt = f"[Modification d'image uploadée: {request.image_name}] {request.prompt}"
+            msg = UserMessage(text=enhanced_prompt)
+        else:
+            # Utiliser le prompt original
+            msg = UserMessage(text=request.prompt)
         
         # Générer l'image
         response_text, images = await chat.send_message_multimodal_response(msg)
