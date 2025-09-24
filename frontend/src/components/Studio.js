@@ -500,23 +500,15 @@ const Studio = () => {
                                 style={{ maxHeight: '300px', objectFit: 'contain' }}
                               />
                               
-                              {/* Boutons d'action toujours visibles sous l'image */}
-                              <div className="p-3 bg-black/20 flex justify-center space-x-3">
+                              {/* Bouton télécharger uniquement */}
+                              <div className="p-3 bg-black/20 flex justify-center">
                                 <button
                                   onClick={() => handleDownloadImage(imageUrl, message.id)}
-                                  className="bg-gray-600/80 hover:bg-gray-600 text-white px-3 py-2 rounded-lg transition-colors flex items-center space-x-2 text-sm"
+                                  className="bg-gray-600/80 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 text-sm"
                                   title="Télécharger l'image"
                                 >
                                   <Download className="w-4 h-4" />
                                   <span>Télécharger</span>
-                                </button>
-                                <button
-                                  onClick={() => handleEditImage(imageUrl, message.id)}
-                                  className="bg-blue-500/80 hover:bg-blue-500 text-white px-3 py-2 rounded-lg transition-colors flex items-center space-x-2 text-sm"
-                                  title="Modifier l'image"
-                                >
-                                  <Edit3 className="w-4 h-4" />
-                                  <span>Modifier</span>
                                 </button>
                               </div>
                             </div>
