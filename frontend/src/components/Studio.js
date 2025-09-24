@@ -283,8 +283,8 @@ const Studio = () => {
           prompt: prompt,
         };
         
-        // Ajouter l'image pour ChatGPT-5 si une image est uploadée
-        if (isChatGPT5 && uploadedImage) {
+        // Ajouter l'image pour ChatGPT-5 ou NanoBanana si une image est uploadée
+        if ((isChatGPT5 || isNanoBanana) && uploadedImage) {
           requestBody.image_data = uploadedImage.dataUrl;
           requestBody.image_name = uploadedImage.name;
         }
