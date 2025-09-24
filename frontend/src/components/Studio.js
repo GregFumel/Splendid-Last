@@ -96,6 +96,10 @@ const Studio = () => {
     setIsChatGPT5(isChatGPT5Tool);
     
     if (isNanoBananaTool || isChatGPT5Tool) {
+      // Commencer l'animation de chargement
+      setIsLoadingHistory(true);
+      setConversationHistory([]); // Vider l'historique précédent immédiatement
+      
       // Vérifier s'il y a déjà une session pour cet outil
       const existingSession = toolSessions[selectedTool.id];
       if (existingSession) {
@@ -111,6 +115,7 @@ const Studio = () => {
       }
     } else {
       // Réinitialiser pour les autres outils
+      setIsLoadingHistory(false);
       setConversationHistory([]);
       setResult("");
     }
