@@ -19,6 +19,7 @@ const Studio = () => {
   const [isNanoBanana, setIsNanoBanana] = useState(false);
   const [isChatGPT5, setIsChatGPT5] = useState(false);
   const [toolSessions, setToolSessions] = useState({}); // Stocker les sessions par outil
+  const [isLoadingHistory, setIsLoadingHistory] = useState(false); // État pour l'animation de chargement
   
   // États pour l'upload d'images
   const [uploadedImage, setUploadedImage] = useState(null); // {file, dataUrl}
