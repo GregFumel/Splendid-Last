@@ -112,10 +112,17 @@ async def generate_image_with_nanobanana(request: GenerateImageRequest):
             raise HTTPException(status_code=500, detail="EMERGENT_LLM_KEY not configured")
 
         # Créer une nouvelle instance pour chaque requête
+        if request.edit_image_url and request.edit_message_id:
+            # Mode édition d'image existante
+            system_message = f"Tu es NanoBanana, un éditeur d'images créatif utilisant Google Gemini. L'utilisateur veut modifier une image existante. Voici ce qu'il demande : '{request.prompt}'. Génère une nouvelle version de l'image en tenant compte de ces modifications."
+        else:
+            # Mode génération normale
+            system_message = "Tu es NanoBanana, un générateur d'images créatif utilisant Google Gemini. Tu crées des images visuellement impressionnantes à partir des descriptions texte des utilisateurs."
+            
         chat = LlmChat(
             api_key=api_key, 
             session_id=request.session_id,
-            system_message="Tu es NanoBanana, un générateur d'images créatif utilisant Google Gemini. Tu crées des images visuellement impressionnantes à partir des descriptions texte des utilisateurs."
+            system_message=system_message
         )
         
         chat = chat.with_model("gemini", "gemini-2.5-flash-image-preview").with_params(modalities=["image", "text"])
