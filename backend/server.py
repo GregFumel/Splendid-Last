@@ -255,11 +255,17 @@ async def chat_with_gpt5(request: ChatGPT5Request):
             await db.chatgpt5_sessions.insert_one(session_obj.dict())
             session = session_obj.dict()
 
-        # Sauvegarder le message utilisateur
+        # Sauvegarder le message utilisateur avec l'image si présente
+        user_image_urls = []
+        if request.image_data and request.image_name:
+            # Stocker l'image dans la base de données
+            user_image_urls = [request.image_data]
+        
         user_message = ChatGPT5Message(
             session_id=request.session_id,
             role="user",
-            content=request.prompt
+            content=request.prompt,
+            image_urls=user_image_urls
         )
         await db.chatgpt5_messages.insert_one(user_message.dict())
 
@@ -272,33 +278,42 @@ async def chat_with_gpt5(request: ChatGPT5Request):
         chat = LlmChat(
             api_key=api_key, 
             session_id=request.session_id,
-            system_message="Tu es ChatGPT-5, un assistant conversationnel avancé d'OpenAI. Tu réponds de manière utile, claire et engageante aux questions des utilisateurs. Tu peux aussi analyser les images qui te sont envoyées."
+            system_message="Tu es ChatGPT-5, un assistant conversationnel avancé d'OpenAI. Tu réponds de manière utile, claire et engageante aux questions des utilisateurs. Tu peux aussi analyser les images qui te sont envoyées avec précision."
         )
         
-        chat = chat.with_model("openai", "gpt-5")
+        chat = chat.with_model("openai", "gpt-4o")  # Utiliser gpt-4o pour l'analyse d'images
         
         # Créer le message utilisateur avec ou sans image
         if request.image_data and request.image_name:
-            # Mode avec image - utiliser la description de l'image dans le prompt
+            # Mode avec analyse d'image
             import base64
             import re
+            from emergentintegrations.llm.chat import ImageContent
             
             # Extraire les données base64 de la data URL
             image_data_match = re.match(r'data:image/[^;]+;base64,(.+)', request.image_data)
             if image_data_match:
-                # Pour l'instant, on indique qu'une image est présente dans le prompt
-                # ChatGPT-5 via emergentintegrations ne supporte pas encore les images directement
-                enhanced_prompt = f"{request.prompt}\n\n[Note: Une image a été uploadée avec le nom '{request.image_name}'. Veuillez analyser l'image en fonction de la demande de l'utilisateur.]"
-                msg = UserMessage(text=enhanced_prompt)
+                image_base64 = image_data_match.group(1)
+                
+                # Créer le contenu image
+                image_content = ImageContent(image_base64=image_base64)
+                
+                # Créer le message avec image et texte
+                msg = UserMessage(
+                    text=request.prompt,
+                    file_contents=[image_content]
+                )
+                
+                # Générer la réponse avec analyse d'image
+                response_text = await chat.send_message(msg)
             else:
                 # Fallback si l'image n'est pas au bon format
                 msg = UserMessage(text=f"{request.prompt} [Image: {request.image_name}]")
+                response_text = await chat.send_message(msg)
         else:
             # Mode texte seulement
             msg = UserMessage(text=request.prompt)
-        
-        # Générer la réponse
-        response_text = await chat.send_message(msg)
+            response_text = await chat.send_message(msg)
         
         # Sauvegarder la réponse de l'assistant
         assistant_message = ChatGPT5Message(
