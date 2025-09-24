@@ -492,7 +492,7 @@ const Studio = () => {
                       {message.image_urls && message.image_urls.length > 0 && (
                         <div className="mt-3 space-y-2">
                           {message.image_urls.map((imageUrl, imgIndex) => (
-                            <div key={imgIndex} className="relative rounded-lg overflow-hidden border border-white/20 group">
+                            <div key={imgIndex} className="rounded-lg overflow-hidden border border-white/20">
                               <img 
                                 src={imageUrl} 
                                 alt={`Image générée ${imgIndex + 1}`}
@@ -500,21 +500,23 @@ const Studio = () => {
                                 style={{ maxHeight: '300px', objectFit: 'contain' }}
                               />
                               
-                              {/* Boutons d'action sur l'image */}
-                              <div className="absolute top-2 right-2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                              {/* Boutons d'action toujours visibles sous l'image */}
+                              <div className="p-3 bg-black/20 flex justify-center space-x-3">
                                 <button
                                   onClick={() => handleDownloadImage(imageUrl, message.id)}
-                                  className="bg-black/70 hover:bg-black/90 text-white p-2 rounded-lg transition-colors"
+                                  className="bg-gray-600/80 hover:bg-gray-600 text-white px-3 py-2 rounded-lg transition-colors flex items-center space-x-2 text-sm"
                                   title="Télécharger l'image"
                                 >
                                   <Download className="w-4 h-4" />
+                                  <span>Télécharger</span>
                                 </button>
                                 <button
                                   onClick={() => handleEditImage(imageUrl, message.id)}
-                                  className="bg-blue-500/70 hover:bg-blue-500/90 text-white p-2 rounded-lg transition-colors"
+                                  className="bg-blue-500/80 hover:bg-blue-500 text-white px-3 py-2 rounded-lg transition-colors flex items-center space-x-2 text-sm"
                                   title="Modifier l'image"
                                 >
                                   <Edit3 className="w-4 h-4" />
+                                  <span>Modifier</span>
                                 </button>
                               </div>
                             </div>
