@@ -181,30 +181,31 @@ const Studio = () => {
       }));
       
       // Charger l'historique existant (vide pour une nouvelle session)
-      loadConversationHistory(session.id);
+      loadConversationHistory(session.id, 'nanobanana');
     } catch (error) {
       console.error('Erreur lors de l\'initialisation de la session NanoBanana:', error);
     }
   };
 
-  const loadConversationHistory = async (sessionIdToLoad) => {
+  const loadConversationHistory = async (sessionIdToLoad, toolType) => {
     try {
       const backendUrl = process.env.REACT_APP_BACKEND_URL;
-      const response = await fetch(`${backendUrl}/api/nanobanana/session/${sessionIdToLoad}`);
+      const endpoint = toolType === 'nanobanana' ? 'nanobanana' : 'chatgpt5';
+      const response = await fetch(`${backendUrl}/api/${endpoint}/session/${sessionIdToLoad}`);
       
-      console.log('History response status:', response.status);
+      console.log(`${toolType} History response status:`, response.status);
       
       if (!response.ok) {
         throw new Error('Erreur lors du chargement de l\'historique');
       }
       
       const history = await response.json();
-      console.log('Historique chargé:', history.length, 'messages');
-      console.log('Historique détaillé:', history);
+      console.log(`Historique ${toolType} chargé:`, history.length, 'messages');
+      console.log(`Historique ${toolType} détaillé:`, history);
       setConversationHistory(history);
-      console.log('State conversationHistory mis à jour avec:', history.length, 'messages');
+      console.log(`State conversationHistory mis à jour avec:`, history.length, 'messages');
     } catch (error) {
-      console.error('Erreur lors du chargement de l\'historique:', error);
+      console.error(`Erreur lors du chargement de l'historique ${toolType}:`, error);
       setConversationHistory([]);
     }
   };
