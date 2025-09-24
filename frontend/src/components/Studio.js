@@ -498,8 +498,8 @@ const Studio = () => {
 
           {/* Zone de discussion scrollable - SIMPLE */}
           <div className="flex-1 overflow-y-auto pr-2 space-y-4 min-h-0 max-h-full pb-32">
-            {/* Historique conversationnel pour NanoBanana ou zone de résultat pour les autres */}
-            {isNanoBanana ? (
+            {/* Historique conversationnel pour NanoBanana et ChatGPT-5 ou zone de résultat pour les autres */}
+            {(isNanoBanana || isChatGPT5) ? (
               <>
                 {conversationHistory.map((message, index) => (
                   <div key={message.id || index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} mb-4`}>
@@ -510,8 +510,8 @@ const Studio = () => {
                     }`}>
                       <div className="text-sm whitespace-pre-wrap mb-2">{message.content}</div>
                       
-                      {/* Affichage des images générées */}
-                      {message.image_urls && message.image_urls.length > 0 && (
+                      {/* Affichage des images générées pour NanoBanana uniquement */}
+                      {isNanoBanana && message.image_urls && message.image_urls.length > 0 && (
                         <div className="mt-3 space-y-2">
                           {message.image_urls.map((imageUrl, imgIndex) => (
                             <div key={imgIndex} className="rounded-lg overflow-hidden border border-white/20">
@@ -541,13 +541,13 @@ const Studio = () => {
                   </div>
                 ))}
                 
-                {/* Indicateur de génération en cours pour NanoBanana */}
+                {/* Indicateur de génération en cours */}
                 {isGenerating && (
                   <div className="flex justify-start mb-4">
                     <div className="bg-gray-700/50 border border-gray-600/50 rounded-xl p-4 max-w-xs">
                       <div className="flex items-center space-x-2">
                         <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-400 border-t-transparent"></div>
-                        <span className="text-sm text-gray-300">Génération d'image en cours...</span>
+                        <span className="text-sm text-gray-300">{isNanoBanana ? 'Génération d\'image en cours...' : 'Réflexion en cours...'}</span>
                       </div>
                     </div>
                   </div>
