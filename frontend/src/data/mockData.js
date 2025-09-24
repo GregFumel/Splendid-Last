@@ -42,7 +42,7 @@ export const mockAITools = [
     fullDescription: "la génération d'images artistiques et photoréalistes"
   },
   {
-    id: 5,
+    id: 6,
     name: "DALL-E 3",
     description: "Transformez n'importe quelle idée en image unique.",
     category: "image",
@@ -50,7 +50,7 @@ export const mockAITools = [
     fullDescription: "la transformation d'idées texte en images uniques"
   },
   {
-    id: 6,
+    id: 7,
     name: "Video Upscale AI",
     description: "Améliorez la résolution de vos vidéos jusqu'à 8K.",
     category: "video",
@@ -58,7 +58,7 @@ export const mockAITools = [
     fullDescription: "l'amélioration de la résolution de vidéos existantes"
   },
   {
-    id: 7,
+    id: 8,
     name: "GPT-5 Structured",
     description: "L'IA la plus avancée pour l'analyse et génération structurée.",
     category: "assist",
@@ -66,7 +66,7 @@ export const mockAITools = [
     fullDescription: "l'assistance avancée avec analyse structurée et génération de contenu complexe"
   },
   {
-    id: 8,
+    id: 9,
     name: "AI Image Upscaler",
     description: "Le meilleur upscaler du marché pour améliorer vos images.",
     category: "image",
@@ -74,7 +74,7 @@ export const mockAITools = [
     fullDescription: "l'amélioration et l'upscaling d'images avec ajout de détails ultra-précis"
   },
   {
-    id: 9,
+    id: 10,
     name: "UGC Creator AI",
     description: "Créez des vidéos UGC authentiques pour vendre vos produits.",
     category: "video",
