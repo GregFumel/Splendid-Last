@@ -297,10 +297,23 @@ async def chat_with_gpt5(request: ChatGPT5Request):
         chat = LlmChat(
             api_key=api_key, 
             session_id=request.session_id,
-            system_message="Tu es ChatGPT-5, un assistant conversationnel avancé d'OpenAI. Tu réponds de manière utile, claire et engageante aux questions des utilisateurs. Tu peux aussi analyser les images qui te sont envoyées avec précision."
+            system_message="Tu es ChatGPT-5, un assistant conversationnel avancé d'OpenAI. Tu réponds de manière utile, claire et engageante aux questions des utilisateurs. Tu peux aussi analyser les images qui te sont envoyées avec précision. Tu maintiens le contexte de la conversation et te souviens des éléments précédents pour donner des réponses cohérentes."
         )
         
         chat = chat.with_model("openai", "gpt-4o")  # Utiliser gpt-4o pour l'analyse d'images
+        
+        # Récupérer TOUT l'historique de la conversation pour le contexte
+        all_messages = await db.chatgpt5_messages.find(
+            {"session_id": request.session_id}
+        ).sort("timestamp", 1).to_list(1000)
+        
+        # Construire l'historique complet pour le contexte
+        conversation_context = []
+        for msg in all_messages:
+            if msg['role'] == 'user':
+                conversation_context.append(f"Utilisateur: {msg['content']}")
+            else:
+                conversation_context.append(f"Assistant: {msg['content']}")
         
         # Créer le message utilisateur avec ou sans image
         if request.image_data and request.image_name:
@@ -317,9 +330,16 @@ async def chat_with_gpt5(request: ChatGPT5Request):
                 # Créer le contenu image
                 image_content = ImageContent(image_base64=image_base64)
                 
-                # Créer le message avec image et texte
+                # Inclure le contexte de la conversation dans le prompt
+                context_prompt = ""
+                if conversation_context:
+                    context_prompt = f"Contexte de notre conversation:\n" + "\n".join(conversation_context[-10:]) + f"\n\nNouvelle demande avec image: {request.prompt}"
+                else:
+                    context_prompt = f"Nouvelle demande avec image: {request.prompt}"
+                
+                # Créer le message avec image et texte contextuel
                 msg = UserMessage(
-                    text=request.prompt,
+                    text=context_prompt,
                     file_contents=[image_content]
                 )
                 
@@ -327,11 +347,17 @@ async def chat_with_gpt5(request: ChatGPT5Request):
                 response_text = await chat.send_message(msg)
             else:
                 # Fallback si l'image n'est pas au bon format
-                msg = UserMessage(text=f"{request.prompt} [Image: {request.image_name}]")
+                context_prompt = f"Contexte: {' '.join(conversation_context[-5:])} | Nouvelle demande: {request.prompt}"
+                msg = UserMessage(text=context_prompt)
                 response_text = await chat.send_message(msg)
         else:
-            # Mode texte seulement
-            msg = UserMessage(text=request.prompt)
+            # Mode texte seulement avec contexte
+            if conversation_context:
+                context_prompt = f"Contexte de notre conversation:\n" + "\n".join(conversation_context[-10:]) + f"\n\nNouvelle demande: {request.prompt}"
+            else:
+                context_prompt = request.prompt
+            
+            msg = UserMessage(text=context_prompt)
             response_text = await chat.send_message(msg)
         
         # Sauvegarder la réponse de l'assistant
