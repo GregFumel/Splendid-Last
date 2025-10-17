@@ -111,12 +111,14 @@ const Studio = () => {
     const isNanoBananaTool = selectedTool && selectedTool.name === "NanoBanana";
     const isChatGPT5Tool = selectedTool && selectedTool.name === "ChatGPT-5";
     const isGoogleVeoTool = selectedTool && selectedTool.name === "Google Veo 3.1";
+    const isSora2Tool = selectedTool && selectedTool.name === "SORA 2";
     
     setIsNanoBanana(isNanoBananaTool);
     setIsChatGPT5(isChatGPT5Tool);
     setIsGoogleVeo(isGoogleVeoTool);
+    setIsSora2(isSora2Tool);
     
-    if (isNanoBananaTool || isChatGPT5Tool || isGoogleVeoTool) {
+    if (isNanoBananaTool || isChatGPT5Tool || isGoogleVeoTool || isSora2Tool) {
       // Commencer l'animation de chargement
       setIsLoadingHistory(true);
       setConversationHistory([]); // Vider l'historique précédent immédiatement
