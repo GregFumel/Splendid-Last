@@ -6,7 +6,7 @@ import { mockAITools } from "../data/mockData";
 const Studio = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [selectedTool, setSelectedTool] = useState(mockAITools[0]); // NanoBanana par défaut
+  const [selectedTool, setSelectedTool] = useState(mockAITools.find(t => t.name === "NanoBanana") || mockAITools[0]); // NanoBanana par défaut
   const [prompt, setPrompt] = useState("");
   const [result, setResult] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
