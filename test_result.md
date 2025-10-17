@@ -150,6 +150,78 @@ backend:
         agent: "testing"
         comment: "✅ TESTÉ: Récupération d'historique parfaite. Retourne 2 messages (user + assistant) avec tous les champs corrects: ID, role, content, image_urls, timestamp. Messages triés par timestamp croissant. Structure conforme au modèle NanoBananaMessage."
 
+  - task: "POST /api/google-veo/session - Créer une session Google Veo 3.1"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTÉ URGENT: Endpoint Google Veo 3.1 fonctionne parfaitement après correction du bug 'litellm'. Session créée avec succès (ID: ed760571-1b9c-4a3b-aceb-635a11ebaaf0), timestamps corrects, structure conforme au modèle GoogleVeoSession. Status 200 avec JSON valide."
+
+  - task: "POST /api/google-veo/generate - Générer une vidéo avec Google Veo 3.1"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTÉ URGENT: Génération de vidéo Google Veo 3.1 RÉUSSIE! Test avec prompt 'a red ball bouncing' (durée: 4s, résolution: 720p, audio: true). Replicate API fonctionne parfaitement, vidéo générée en 44 secondes. URL valide retournée: https://replicate.delivery/xezq/WUeGLJ4lMj27SyBXkgrlPHqUQ0BTmn4JnB4ifI0IrWk3sDgVA/tmp7zyl8m5r.mp4 (776KB MP4). Message assistant sauvegardé avec video_urls. PROBLÈME RÉSOLU: Les vidéos sont maintenant générées et stockées correctement."
+
+  - task: "GET /api/google-veo/session/{session_id} - Récupérer l'historique Google Veo 3.1"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTÉ URGENT: Récupération d'historique Google Veo 3.1 parfaite. Retourne 2 messages (user + assistant) avec tous les champs corrects: ID, role, content, video_urls, timestamp. Message assistant contient 1 vidéo dans video_urls. Structure conforme au modèle GoogleVeoMessage."
+
+  - task: "POST /api/sora2/session - Créer une session SORA 2"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTÉ URGENT: Endpoint SORA 2 fonctionne parfaitement après correction du bug 'litellm'. Session créée avec succès (ID: c02175ba-7a5d-4175-9cc5-15f1c4cc743a), timestamps corrects, structure conforme au modèle Sora2Session. Status 200 avec JSON valide."
+
+  - task: "POST /api/sora2/generate - Générer une vidéo avec SORA 2"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTÉ URGENT: Génération de vidéo SORA 2 RÉUSSIE! Test avec prompt 'a dog running in a park' (durée: 4s, aspect_ratio: landscape). Replicate API avec OpenAI SORA 2 fonctionne parfaitement, vidéo générée en 80 secondes. URL valide retournée: https://replicate.delivery/xezq/eI8j4dUcB6TUZS1jWfAwjYw8Bfh0uFnae8BI8IfMJus6wdAsC/tmplifmx0hc.mp4 (1.1MB MP4). Message assistant sauvegardé avec video_urls. PROBLÈME RÉSOLU: Les vidéos sont maintenant générées et stockées correctement."
+
+  - task: "GET /api/sora2/session/{session_id} - Récupérer l'historique SORA 2"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTÉ URGENT: Récupération d'historique SORA 2 parfaite. Retourne 2 messages (user + assistant) avec tous les champs corrects: ID, role, content, video_urls, timestamp. Message assistant contient 1 vidéo dans video_urls. Structure conforme au modèle Sora2Message."
+
 frontend:
   - task: "Ajout de SORA 2 dans la catégorie vidéo"
     implemented: true
