@@ -274,8 +274,10 @@ metadata:
   test_sequence: 4
 
 test_plan:
-  current_focus: []
-  stuck_tasks: []
+  current_focus:
+    - "Fonctionnalité NanoBanana - Génération d'images"
+  stuck_tasks:
+    - "Fonctionnalité NanoBanana - Génération d'images"
   test_all: false
   test_priority: "high_first"
 
