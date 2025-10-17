@@ -165,6 +165,9 @@ async def generate_image_with_nanobanana(request: GenerateImageRequest):
         # Générer l'image avec LiteLLM image generation
         import litellm
         
+        # Configurer la clé API pour LiteLLM
+        os.environ["OPENAI_API_KEY"] = api_key
+        
         # Utiliser la méthode dédiée pour la génération d'images
         image_response = await litellm.aimage_generation(
             model="dall-e-3",
