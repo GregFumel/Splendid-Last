@@ -207,6 +207,48 @@ const Studio = () => {
     }
   };
 
+
+  const initializeGoogleVeoSession = async () => {
+    try {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL;
+      console.log('Backend URL Google Veo:', backendUrl);
+      
+      const response = await fetch(`${backendUrl}/api/google-veo/session`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      console.log('Google Veo Session response status:', response.status);
+      
+      if (!response.ok) {
+        throw new Error('Erreur lors de la création de la session Google Veo');
+      }
+      
+      const session = await response.json();
+      console.log('Session Google Veo créée:', session.id);
+      setSessionId(session.id);
+      
+      // Sauvegarder la session pour cet outil
+      setToolSessions(prev => ({
+        ...prev,
+        [selectedTool.id]: {
+          sessionId: session.id,
+          toolName: selectedTool.name
+        }
+      }));
+      
+      // Charger l'historique existant (vide pour une nouvelle session)
+      loadConversationHistory(session.id, 'google-veo');
+    } catch (error) {
+      console.error('Erreur lors de l\'initialisation de la session Google Veo:', error);
+      // Arrêter l'animation en cas d'erreur
+      setIsLoadingHistory(false);
+    }
+  };
+
+
   const loadConversationHistory = async (sessionIdToLoad, toolType) => {
     try {
       const backendUrl = process.env.REACT_APP_BACKEND_URL;
