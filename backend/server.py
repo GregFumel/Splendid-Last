@@ -514,6 +514,10 @@ async def generate_video_with_sora2(request: GenerateVideoSora2Request):
         if not openai_key:
             raise HTTPException(status_code=500, detail="OPENAI_API_KEY not configured for SORA 2")
         
+        video_urls = []
+        response_text = ""
+        error_occurred = False
+        
         try:
             # Préparer les inputs pour le modèle openai/sora-2
             inputs = {
@@ -545,11 +549,26 @@ async def generate_video_with_sora2(request: GenerateVideoSora2Request):
             logging.info(f"Vidéo générée avec succès: {video_url}")
             
             video_urls = [video_url]
-            response_text = f"Vidéo générée avec succès avec SORA 2 via Replicate pour : {request.prompt}"
+            response_text = f"Vidéo générée avec succès avec SORA 2 pour : {request.prompt}"
             
         except Exception as e:
-            logging.error(f"Erreur lors de la génération avec Replicate: {str(e)}")
-            raise HTTPException(status_code=500, detail=f"Erreur lors de la génération de vidéo: {str(e)}")
+            error_occurred = True
+            error_message = str(e)
+            logging.error(f"Erreur lors de la génération avec Replicate: {error_message}")
+            
+            # Analyser le type d'erreur pour donner un message plus précis
+            if "402" in error_message or "Insufficient credit" in error_message:
+                response_text = "❌ **Erreur de génération vidéo**\n\nNous n'avons pas pu générer votre vidéo car notre compte Replicate API n'a plus de crédit suffisant. Veuillez réessayer plus tard ou contactez l'administrateur pour recharger le compte."
+            elif "NSFW" in error_message or "content policy" in error_message.lower() or "inappropriate" in error_message.lower() or "sensitive" in error_message.lower():
+                response_text = f"❌ **Contenu inapproprié détecté**\n\nVotre demande '{request.prompt}' a été refusée car elle pourrait contenir du contenu sensible ou inapproprié selon les politiques de SORA 2. Veuillez reformuler votre prompt avec un contenu approprié."
+            elif "timeout" in error_message.lower() or "timed out" in error_message.lower():
+                response_text = "❌ **Délai d'attente dépassé**\n\nLa génération de votre vidéo a pris trop de temps et a été interrompue. Veuillez réessayer avec un prompt plus simple ou une durée plus courte."
+            elif "rate limit" in error_message.lower():
+                response_text = "❌ **Limite de requêtes atteinte**\n\nNous avons atteint la limite de requêtes autorisées par l'API. Veuillez attendre quelques instants avant de réessayer."
+            elif "api key" in error_message.lower() or "authentication" in error_message.lower():
+                response_text = "❌ **Erreur d'authentification**\n\nProblème avec la clé API OpenAI. Veuillez vérifier la configuration ou contactez l'administrateur."
+            else:
+                response_text = f"❌ **Erreur de génération vidéo**\n\nNous n'avons pas pu générer votre vidéo pour la raison suivante :\n{error_message}\n\nVeuillez réessayer avec un prompt différent ou vérifier les paramètres de génération."
 
         # Sauvegarder la réponse de l'assistant
         assistant_message = Sora2Message(
