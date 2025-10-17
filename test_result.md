@@ -289,7 +289,8 @@ metadata:
   test_sequence: 4
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Test complet Google Veo 3.1 - Génération de vidéo"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
