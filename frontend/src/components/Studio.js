@@ -457,7 +457,7 @@ const Studio = () => {
     
     setIsGenerating(true);
     
-    if ((isNanoBanana || isChatGPT5 || isGoogleVeo) && sessionId) {
+    if ((isNanoBanana || isChatGPT5 || isGoogleVeo || isSora2) && sessionId) {
       // Traitement pour NanoBanana, ChatGPT-5 et Google Veo
       try {
         const backendUrl = process.env.REACT_APP_BACKEND_URL;
