@@ -243,15 +243,18 @@ frontend:
 
   - task: "Fonctionnalité NanoBanana - Génération d'images"
     implemented: true
-    working: true
+    working: false
     file: "/app/frontend/src/components/Studio.js"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
     needs_retesting: false
     status_history:
       - working: true
         agent: "testing"
         comment: "✅ TESTÉ: NanoBanana fonctionne correctement dans le Studio. Sélection de l'outil réussie, saisie du prompt 'un chat mignon qui mange une banane' réussie, génération lancée avec succès. Backend logs confirment l'utilisation de gemini-2.5-flash-image-preview et génération réussie (status 200)."
+      - working: false
+        agent: "testing"
+        comment: "❌ PROBLÈME CRITIQUE IDENTIFIÉ: NanoBanana ne génère AUCUNE image réelle! Test avec prompt 'un chat orange' - Backend répond status 200 avec 'Image générée avec succès!' mais retourne image_urls: Array(0) vide. Logs montrent: hasImageUrl: false, Messages avec images: 0, imageUrlLength: 0. L'utilisateur a raison - NanoBanana ne fonctionne pas. Le backend doit être corrigé pour générer de vraies images avec Gemini."
 
   - task: "Fonctionnalité ChatGPT-5 - Génération de texte"
     implemented: true
