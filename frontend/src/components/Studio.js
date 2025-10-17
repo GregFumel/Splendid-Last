@@ -319,11 +319,18 @@ const Studio = () => {
         }
         
         const result = await response.json();
-        console.log('Résultat de génération:', result);
+        console.log('✅ Résultat de génération reçu:', result);
+        console.log('📊 Détails result:', {
+          hasImageUrl: !!result.image_url,
+          hasResponseText: !!result.response_text,
+          imageUrlLength: result.image_url?.length || 0
+        });
         
         // Recharger l'historique de conversation
         const toolType = isNanoBanana ? 'nanobanana' : 'chatgpt5';
+        console.log('🔄 Rechargement historique pour session:', sessionId, 'type:', toolType);
         await loadConversationHistory(sessionId, toolType);
+        console.log('✅ Historique rechargé, conversationHistory.length:', conversationHistory.length);
         
         // Vider le prompt et l'image uploadée
         setPrompt("");
