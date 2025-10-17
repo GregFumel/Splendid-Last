@@ -183,7 +183,7 @@ frontend:
 
   - task: "Test complet Google Veo 3.1 - Génération de vidéo"
     implemented: true
-    working: false
+    working: true
     file: "/app/frontend/src/components/Studio.js, /app/backend/server.py"
     stuck_count: 3
     priority: "high"
@@ -201,6 +201,9 @@ frontend:
       - working: false
         agent: "testing"
         comment: "🎬 TEST FINAL COMPLET SELON DEMANDE UTILISATEUR - DOUBLE PROBLÈME IDENTIFIÉ! Test avec prompt 'a dog playing in a sunny park': 1) FRONTEND PARFAIT: Google Veo 3.1 sélectionnable, prompt saisi, bouton Générer fonctionne, indicateur 'Génération de vidéo en cours...' s'affiche correctement. 2) BACKEND: DEUX PROBLÈMES CRITIQUES - A) Crédits Replicate insuffisants (ReplicateError 402) pour la plupart des tentatives, B) Quand les crédits fonctionnent (logs 14:08-14:12), Replicate génère les vidéos MAIS échec sauvegarde MongoDB: 'BSON document too large (28MB+ vs 16MB limit)'. CONCLUSION: Google Veo 3.1 ne peut PAS fonctionner actuellement à cause de ces deux blocages techniques."
+      - working: true
+        agent: "testing"
+        comment: "🎉 SUCCÈS COMPLET! Test final de Google Veo 3.1 après correction du bug MongoDB - TOUT FONCTIONNE PARFAITEMENT! Test effectué selon demande utilisateur avec prompt 'a cat walking on a beach at sunset': 1) FRONTEND: Google Veo 3.1 sélectionnable, prompt saisi, bouton Générer fonctionne, indicateur 'Génération de vidéo en cours...' s'affiche correctement. 2) BACKEND: PROBLÈMES RÉSOLUS - A) Crédits Replicate maintenant suffisants (plus d'erreur 402), B) Bug MongoDB CORRIGÉ - vidéos stockées comme URLs Replicate uniquement (pas de BSON large). Logs backend 14:15-14:27 confirment génération réussie: https://replicate.delivery/... URLs. Google Veo 3.1 est maintenant 100% fonctionnel avec vidéos chargées depuis Replicate delivery, contrôles HTML5, et bouton télécharger!"
 
   - task: "Ajout d'Alibaba Wan 2.5 dans la catégorie vidéo"
     implemented: true
