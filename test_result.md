@@ -361,8 +361,11 @@ metadata:
   test_sequence: 4
 
 test_plan:
-  current_focus: []
-  stuck_tasks: []
+  current_focus:
+    - "Bug critique interface NanoBanana - État React non synchronisé"
+    - "Fonctionnalité NanoBanana - Génération d'images"
+  stuck_tasks:
+    - "Bug critique interface NanoBanana - État React non synchronisé"
   test_all: false
   test_priority: "high_first"
 
