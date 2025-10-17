@@ -16,7 +16,9 @@ export const mockAITools = [
     category: "video",
     image: "https://customer-assets.emergentagent.com/job_d1e17cd1-d4b1-4e77-89f1-4869587941f4/artifacts/bu2diubd_veo3.1-sm.gif",
     fullDescription: "la création de vidéos haute définition avec Google Veo 3.1",
-    isNew: true
+    isNew: true,
+    toolType: "video-generator",  // Type d'outil pour le backend
+    apiEndpoint: "google-veo"  // Endpoint backend à utiliser
   },
   {
     id: 3,
