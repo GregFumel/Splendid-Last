@@ -185,7 +185,7 @@ frontend:
     implemented: true
     working: false
     file: "/app/frontend/src/components/Studio.js, /app/backend/server.py"
-    stuck_count: 2
+    stuck_count: 3
     priority: "high"
     needs_retesting: false
     status_history:
@@ -198,6 +198,9 @@ frontend:
       - working: false
         agent: "testing"
         comment: "🚨 TEST DE VÉRIFICATION APRÈS AJOUT DE CRÉDITS - ÉCHEC CONFIRMÉ! Test effectué selon demande utilisateur avec prompt simple 'a red ball'. RÉSULTATS: Frontend fonctionne parfaitement (Google Veo 3.1 sélectionnable, prompt saisi, bouton Générer cliqué), mais backend échoue toujours avec erreur 500. Logs backend confirment: ReplicateError 402 'Insufficient credit to run this model'. CONCLUSION: Les crédits Replicate n'ont PAS été ajoutés ou ne sont pas encore actifs. Google Veo 3.1 reste non fonctionnel."
+      - working: false
+        agent: "testing"
+        comment: "🎬 TEST FINAL COMPLET SELON DEMANDE UTILISATEUR - DOUBLE PROBLÈME IDENTIFIÉ! Test avec prompt 'a dog playing in a sunny park': 1) FRONTEND PARFAIT: Google Veo 3.1 sélectionnable, prompt saisi, bouton Générer fonctionne, indicateur 'Génération de vidéo en cours...' s'affiche correctement. 2) BACKEND: DEUX PROBLÈMES CRITIQUES - A) Crédits Replicate insuffisants (ReplicateError 402) pour la plupart des tentatives, B) Quand les crédits fonctionnent (logs 14:08-14:12), Replicate génère les vidéos MAIS échec sauvegarde MongoDB: 'BSON document too large (28MB+ vs 16MB limit)'. CONCLUSION: Google Veo 3.1 ne peut PAS fonctionner actuellement à cause de ces deux blocages techniques."
 
   - task: "Ajout d'Alibaba Wan 2.5 dans la catégorie vidéo"
     implemented: true
