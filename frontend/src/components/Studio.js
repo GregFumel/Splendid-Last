@@ -205,24 +205,41 @@ const Studio = () => {
     try {
       const backendUrl = process.env.REACT_APP_BACKEND_URL;
       const endpoint = toolType === 'nanobanana' ? 'nanobanana' : 'chatgpt5';
-      const response = await fetch(`${backendUrl}/api/${endpoint}/session/${sessionIdToLoad}`);
+      const url = `${backendUrl}/api/${endpoint}/session/${sessionIdToLoad}`;
+      console.log('🌐 Chargement historique depuis:', url);
       
-      console.log(`${toolType} History response status:`, response.status);
+      const response = await fetch(url);
+      
+      console.log(`📡 ${toolType} History response status:`, response.status);
       
       if (!response.ok) {
         throw new Error('Erreur lors du chargement de l\'historique');
       }
       
       const history = await response.json();
-      console.log(`Historique ${toolType} chargé:`, history.length, 'messages');
-      console.log(`Historique ${toolType} détaillé:`, history);
+      console.log(`📜 Historique ${toolType} chargé:`, history.length, 'messages');
+      console.log(`📝 Historique ${toolType} détaillé:`, history);
+      
+      // Log spécial pour les images NanoBanana
+      if (toolType === 'nanobanana') {
+        const messagesWithImages = history.filter(m => m.image_urls && m.image_urls.length > 0);
+        console.log('🖼️ Messages avec images NanoBanana:', messagesWithImages.length);
+        messagesWithImages.forEach((msg, idx) => {
+          console.log(`  Image ${idx + 1}:`, {
+            role: msg.role,
+            imageCount: msg.image_urls.length,
+            firstImagePreview: msg.image_urls[0]?.substring(0, 50) + '...'
+          });
+        });
+      }
+      
       setConversationHistory(history);
-      console.log(`State conversationHistory mis à jour avec:`, history.length, 'messages');
+      console.log(`✅ State conversationHistory mis à jour avec:`, history.length, 'messages');
       
       // Arrêter l'animation de chargement
       setIsLoadingHistory(false);
     } catch (error) {
-      console.error(`Erreur lors du chargement de l'historique ${toolType}:`, error);
+      console.error(`❌ Erreur lors du chargement de l'historique ${toolType}:`, error);
       setConversationHistory([]);
       // Arrêter l'animation même en cas d'erreur
       setIsLoadingHistory(false);
