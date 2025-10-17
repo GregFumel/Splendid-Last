@@ -261,6 +261,9 @@ frontend:
       - working: true
         agent: "testing"
         comment: "🎉 TEST FINAL RÉUSSI! Test complet avec prompt 'une belle maison' - NanoBanana génère et affiche parfaitement les images dans l'interface. Résultats: 1 image data URL générée (6086 caractères), visible dans l'interface, 5 messages de conversation, aucune erreur détectée. L'image s'affiche correctement avec description détaillée de la maison. Le problème de génération d'images est définitivement résolu!"
+      - working: true
+        agent: "testing"
+        comment: "🚀 VALIDATION FINALE AVEC NOUVELLE API OpenAI gpt-image-1! Test complet selon demande utilisateur: Prompt 'un robot futuriste dans une ville' généré avec succès en ~20 secondes. Backend configuré avec OpenAI gpt-image-1 (ligne 176 server.py). Image générée visible et téléchargeable dans l'interface. NanoBanana utilise maintenant officiellement la nouvelle API OpenAI gpt-image-1 comme demandé!"
 
   - task: "Fonctionnalité ChatGPT-5 - Génération de texte"
     implemented: true
