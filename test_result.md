@@ -181,6 +181,18 @@ frontend:
         agent: "testing"
         comment: "✅ TESTÉ: Google Veo 3.1 visible sur la page d'accueil avec badge NEW. Le nom a été correctement mis à jour de 'Google Veo 3' vers 'Google Veo 3.1' et apparaît en deuxième position."
 
+  - task: "Test complet Google Veo 3.1 - Génération de vidéo"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Studio.js, /app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Test demandé par l'utilisateur: Tester la génération de vidéo avec Google Veo 3.1 dans le Studio avec le prompt 'a beautiful sunrise over mountains with birds flying'. Vérifier session, génération, affichage vidéo, contrôles et téléchargement."
+
   - task: "Ajout d'Alibaba Wan 2.5 dans la catégorie vidéo"
     implemented: true
     working: true
