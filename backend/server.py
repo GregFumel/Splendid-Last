@@ -662,72 +662,93 @@ async def chat_with_gpt5(request: ChatGPT5Request):
         if not api_key:
             raise HTTPException(status_code=500, detail="EMERGENT_LLM_KEY not configured")
 
-        # Créer une nouvelle instance pour chaque requête
-        chat = LlmChat(
-            api_key=api_key, 
-            session_id=request.session_id,
-            system_message="Tu es ChatGPT-5, un assistant conversationnel avancé d'OpenAI. Tu réponds de manière utile, claire et engageante aux questions des utilisateurs. Tu peux aussi analyser les images qui te sont envoyées avec précision. Tu maintiens le contexte de la conversation et te souviens des éléments précédents pour donner des réponses cohérentes."
-        )
+        response_text = ""
+        error_occurred = False
         
-        chat = chat.with_model("openai", "gpt-4o")  # Utiliser gpt-4o pour l'analyse d'images
-        
-        # Récupérer TOUT l'historique de la conversation pour le contexte
-        all_messages = await db.chatgpt5_messages.find(
-            {"session_id": request.session_id}
-        ).sort("timestamp", 1).to_list(1000)
-        
-        # Construire l'historique complet pour le contexte
-        conversation_context = []
-        for msg in all_messages:
-            if msg['role'] == 'user':
-                conversation_context.append(f"Utilisateur: {msg['content']}")
-            else:
-                conversation_context.append(f"Assistant: {msg['content']}")
-        
-        # Créer le message utilisateur avec ou sans image
-        if request.image_data and request.image_name:
-            # Mode avec analyse d'image
-            import base64
-            import re
-            from emergentintegrations.llm.chat import ImageContent
+        try:
+            # Créer une nouvelle instance pour chaque requête
+            chat = LlmChat(
+                api_key=api_key, 
+                session_id=request.session_id,
+                system_message="Tu es ChatGPT-5, un assistant conversationnel avancé d'OpenAI. Tu réponds de manière utile, claire et engageante aux questions des utilisateurs. Tu peux aussi analyser les images qui te sont envoyées avec précision. Tu maintiens le contexte de la conversation et te souviens des éléments précédents pour donner des réponses cohérentes."
+            )
             
-            # Extraire les données base64 de la data URL
-            image_data_match = re.match(r'data:image/[^;]+;base64,(.+)', request.image_data)
-            if image_data_match:
-                image_base64 = image_data_match.group(1)
-                
-                # Créer le contenu image
-                image_content = ImageContent(image_base64=image_base64)
-                
-                # Inclure le contexte de la conversation dans le prompt
-                context_prompt = ""
-                if conversation_context:
-                    context_prompt = f"Contexte de notre conversation:\n" + "\n".join(conversation_context[-10:]) + f"\n\nNouvelle demande avec image: {request.prompt}"
+            chat = chat.with_model("openai", "gpt-4o")  # Utiliser gpt-4o pour l'analyse d'images
+            
+            # Récupérer TOUT l'historique de la conversation pour le contexte
+            all_messages = await db.chatgpt5_messages.find(
+                {"session_id": request.session_id}
+            ).sort("timestamp", 1).to_list(1000)
+            
+            # Construire l'historique complet pour le contexte
+            conversation_context = []
+            for msg in all_messages:
+                if msg['role'] == 'user':
+                    conversation_context.append(f"Utilisateur: {msg['content']}")
                 else:
-                    context_prompt = f"Nouvelle demande avec image: {request.prompt}"
+                    conversation_context.append(f"Assistant: {msg['content']}")
+            
+            # Créer le message utilisateur avec ou sans image
+            if request.image_data and request.image_name:
+                # Mode avec analyse d'image
+                import base64
+                import re
+                from emergentintegrations.llm.chat import ImageContent
                 
-                # Créer le message avec image et texte contextuel
-                msg = UserMessage(
-                    text=context_prompt,
-                    file_contents=[image_content]
-                )
-                
-                # Générer la réponse avec analyse d'image
-                response_text = await chat.send_message(msg)
+                # Extraire les données base64 de la data URL
+                image_data_match = re.match(r'data:image/[^;]+;base64,(.+)', request.image_data)
+                if image_data_match:
+                    image_base64 = image_data_match.group(1)
+                    
+                    # Créer le contenu image
+                    image_content = ImageContent(image_base64=image_base64)
+                    
+                    # Inclure le contexte de la conversation dans le prompt
+                    context_prompt = ""
+                    if conversation_context:
+                        context_prompt = f"Contexte de notre conversation:\n" + "\n".join(conversation_context[-10:]) + f"\n\nNouvelle demande avec image: {request.prompt}"
+                    else:
+                        context_prompt = f"Nouvelle demande avec image: {request.prompt}"
+                    
+                    # Créer le message avec image et texte contextuel
+                    msg = UserMessage(
+                        text=context_prompt,
+                        file_contents=[image_content]
+                    )
+                    
+                    # Générer la réponse avec analyse d'image
+                    response_text = await chat.send_message(msg)
+                else:
+                    # Fallback si l'image n'est pas au bon format
+                    context_prompt = f"Contexte: {' '.join(conversation_context[-5:])} | Nouvelle demande: {request.prompt}"
+                    msg = UserMessage(text=context_prompt)
+                    response_text = await chat.send_message(msg)
             else:
-                # Fallback si l'image n'est pas au bon format
-                context_prompt = f"Contexte: {' '.join(conversation_context[-5:])} | Nouvelle demande: {request.prompt}"
+                # Mode texte seulement avec contexte
+                if conversation_context:
+                    context_prompt = f"Contexte de notre conversation:\n" + "\n".join(conversation_context[-10:]) + f"\n\nNouvelle demande: {request.prompt}"
+                else:
+                    context_prompt = request.prompt
+                
                 msg = UserMessage(text=context_prompt)
                 response_text = await chat.send_message(msg)
-        else:
-            # Mode texte seulement avec contexte
-            if conversation_context:
-                context_prompt = f"Contexte de notre conversation:\n" + "\n".join(conversation_context[-10:]) + f"\n\nNouvelle demande: {request.prompt}"
-            else:
-                context_prompt = request.prompt
+        
+        except Exception as e:
+            error_occurred = True
+            error_message = str(e)
+            logging.error(f"Erreur lors de la génération avec ChatGPT-5: {error_message}")
             
-            msg = UserMessage(text=context_prompt)
-            response_text = await chat.send_message(msg)
+            # Analyser le type d'erreur pour donner un message plus précis
+            if "429" in error_message or "rate limit" in error_message.lower():
+                response_text = "❌ **Limite de requêtes atteinte**\n\nNous avons atteint la limite de requêtes autorisées par l'API OpenAI. Veuillez attendre quelques instants avant de réessayer."
+            elif "401" in error_message or "authentication" in error_message.lower() or "api key" in error_message.lower():
+                response_text = "❌ **Erreur d'authentification**\n\nProblème avec la clé API OpenAI. Veuillez vérifier la configuration ou contactez l'administrateur."
+            elif "content policy" in error_message.lower() or "inappropriate" in error_message.lower() or "sensitive" in error_message.lower():
+                response_text = f"❌ **Contenu inapproprié détecté**\n\nVotre demande a été refusée car elle pourrait contenir du contenu sensible ou inapproprié selon les politiques d'OpenAI. Veuillez reformuler votre message avec un contenu approprié."
+            elif "timeout" in error_message.lower() or "timed out" in error_message.lower():
+                response_text = "❌ **Délai d'attente dépassé**\n\nLa génération de votre réponse a pris trop de temps et a été interrompue. Veuillez réessayer."
+            else:
+                response_text = f"❌ **Erreur de génération**\n\nNous n'avons pas pu générer une réponse pour la raison suivante :\n{error_message}\n\nVeuillez réessayer."
         
         # Sauvegarder la réponse de l'assistant
         assistant_message = ChatGPT5Message(
