@@ -299,6 +299,135 @@ async def get_nanobanana_sessions():
         logger.error(f"Erreur lors de la récupération des sessions: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
 
+
+
+# Google Veo 3.1 endpoints (Video Generation)
+
+@api_router.post("/google-veo/session", response_model=GoogleVeoSession)
+async def create_google_veo_session():
+    """Crée une nouvelle session Google Veo 3.1"""
+    try:
+        session = GoogleVeoSession()
+        await db.google_veo_sessions.insert_one(session.dict())
+        return session
+    except Exception as e:
+        logger.error(f"Erreur lors de la création de session Google Veo: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.post("/google-veo/generate", response_model=GenerateVideoResponse)
+async def generate_video_with_veo(request: GenerateVideoRequest):
+    """Génère une vidéo avec Google Veo 3.1"""
+    try:
+        # Créer ou récupérer la session
+        session = await db.google_veo_sessions.find_one({"id": request.session_id})
+        if not session:
+            session_obj = GoogleVeoSession(id=request.session_id)
+            await db.google_veo_sessions.insert_one(session_obj.dict())
+            session = session_obj.dict()
+
+        # Sauvegarder le message utilisateur
+        user_message = GoogleVeoMessage(
+            session_id=request.session_id,
+            role="user",
+            content=request.prompt
+        )
+        await db.google_veo_messages.insert_one(user_message.dict())
+
+        # Utiliser l'API Replicate avec le modèle google/veo-3.1
+        replicate_token = os.environ.get('REPLICATE_API_TOKEN')
+        if not replicate_token:
+            raise HTTPException(status_code=500, detail="REPLICATE_API_TOKEN not configured")
+        
+        try:
+            # Préparer les inputs pour le modèle google/veo-3.1
+            inputs = {
+                "prompt": request.prompt,
+                "aspect_ratio": request.aspect_ratio or "16:9",
+                "duration": request.duration or 8,
+                "resolution": request.resolution or "1080p",
+                "generate_audio": request.generate_audio if request.generate_audio is not None else True
+            }
+            
+            # Ajouter l'image si présente
+            if request.image:
+                inputs["image"] = request.image
+            
+            # Ajouter les reference images si présentes
+            if request.reference_images and len(request.reference_images) > 0:
+                inputs["reference_images"] = request.reference_images
+            
+            # Générer la vidéo avec Replicate
+            logging.info(f"Génération de vidéo avec Replicate - modèle: google/veo-3.1, prompt: {request.prompt}")
+            
+            output = replicate.run(
+                "google/veo-3.1",
+                input=inputs
+            )
+            
+            # Le output est une URL de vidéo
+            video_url = str(output) if output else None
+            
+            if not video_url:
+                raise Exception("Aucune vidéo générée par Replicate")
+            
+            # Télécharger la vidéo depuis l'URL et la convertir en base64
+            logging.info(f"Téléchargement de la vidéo depuis: {video_url}")
+            response = requests.get(video_url, timeout=120)  # Timeout plus long pour les vidéos
+            response.raise_for_status()
+            
+            # Convertir en base64
+            video_base64 = base64.b64encode(response.content).decode('utf-8')
+            video_data_url = f"data:video/mp4;base64,{video_base64}"
+            
+            video_urls = [video_data_url]
+            response_text = f"Vidéo générée avec succès avec Google Veo 3.1 via Replicate pour : {request.prompt}"
+            
+        except Exception as e:
+            logging.error(f"Erreur lors de la génération avec Replicate: {str(e)}")
+            raise HTTPException(status_code=500, detail=f"Erreur lors de la génération de vidéo: {str(e)}")
+
+        # Sauvegarder la réponse de l'assistant
+        assistant_message = GoogleVeoMessage(
+            session_id=request.session_id,
+            role="assistant",
+            content=response_text or "Vidéo générée avec succès !",
+            video_urls=video_urls
+        )
+        await db.google_veo_messages.insert_one(assistant_message.dict())
+
+        # Mettre à jour la session
+        await db.google_veo_sessions.update_one(
+            {"id": request.session_id},
+            {"$set": {"last_updated": datetime.utcnow()}}
+        )
+
+        return GenerateVideoResponse(
+            session_id=request.session_id,
+            message_id=assistant_message.id,
+            prompt=request.prompt,
+            video_urls=video_urls,
+            response_text=response_text or "Vidéo générée avec succès !"
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Erreur lors de la génération de vidéo: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.get("/google-veo/session/{session_id}", response_model=List[GoogleVeoMessage])
+async def get_google_veo_session(session_id: str):
+    """Récupère l'historique d'une session Google Veo 3.1"""
+    try:
+        messages = await db.google_veo_messages.find(
+            {"session_id": session_id}
+        ).sort("timestamp", 1).to_list(1000)
+        
+        return [GoogleVeoMessage(**msg) for msg in messages]
+    except Exception as e:
+        logger.error(f"Erreur lors de la récupération de l'historique: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
 # ChatGPT-5 endpoints
 
 @api_router.post("/chatgpt5/generate", response_model=ChatGPT5Response)
