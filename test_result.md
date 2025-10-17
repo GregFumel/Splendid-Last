@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Test l'API NanoBanana que j'ai implémentée dans le backend FastAPI avec les endpoints: POST /api/nanobanana/session, POST /api/nanobanana/generate, GET /api/nanobanana/session/{session_id}"
+user_problem_statement: "Ajouter de nouvelles IA dans l'application: SORA 2, Google Veo 3.1 (mise à jour de Veo 3), Alibaba Wan 2.5 (vidéo), Seedream 4 et Grok (images). Toutes les nouvelles IA doivent avoir le badge NEW et être en première position dans Explore, Studio et leur catégorie respective."
 
 backend:
   - task: "POST /api/nanobanana/session - Créer une nouvelle session"
