@@ -222,6 +222,10 @@ async def generate_image_with_nanobanana(request: GenerateImageRequest):
         if not replicate_token:
             raise HTTPException(status_code=500, detail="REPLICATE_API_TOKEN not configured")
         
+        image_urls = []
+        response_text = ""
+        error_occurred = False
+        
         try:
             # Préparer les inputs pour le modèle google/nano-banana
             inputs = {
@@ -258,11 +262,24 @@ async def generate_image_with_nanobanana(request: GenerateImageRequest):
             image_data_url = f"data:image/jpeg;base64,{image_base64}"
             
             image_urls = [image_data_url]
-            response_text = f"Image générée avec succès avec Google Nano Banana via Replicate pour : {request.prompt}"
+            response_text = f"Image générée avec succès avec Google Nano Banana pour : {request.prompt}"
             
         except Exception as e:
-            logging.error(f"Erreur lors de la génération avec Replicate: {str(e)}")
-            raise HTTPException(status_code=500, detail=f"Erreur lors de la génération d'image: {str(e)}")
+            error_occurred = True
+            error_message = str(e)
+            logging.error(f"Erreur lors de la génération avec Replicate: {error_message}")
+            
+            # Analyser le type d'erreur pour donner un message plus précis
+            if "402" in error_message or "Insufficient credit" in error_message:
+                response_text = "❌ **Erreur de génération d'image**\n\nNous n'avons pas pu générer votre image car notre compte Replicate API n'a plus de crédit suffisant. Veuillez réessayer plus tard ou contactez l'administrateur pour recharger le compte."
+            elif "NSFW" in error_message or "content policy" in error_message.lower() or "inappropriate" in error_message.lower() or "sensitive" in error_message.lower() or "safety" in error_message.lower():
+                response_text = f"❌ **Contenu inapproprié détecté**\n\nVotre demande '{request.prompt}' a été refusée car elle pourrait contenir du contenu sensible ou inapproprié selon les politiques de Google Nano Banana. Veuillez reformuler votre prompt avec un contenu approprié."
+            elif "timeout" in error_message.lower() or "timed out" in error_message.lower():
+                response_text = "❌ **Délai d'attente dépassé**\n\nLa génération de votre image a pris trop de temps et a été interrompue. Veuillez réessayer avec un prompt plus simple."
+            elif "rate limit" in error_message.lower():
+                response_text = "❌ **Limite de requêtes atteinte**\n\nNous avons atteint la limite de requêtes autorisées par l'API. Veuillez attendre quelques instants avant de réessayer."
+            else:
+                response_text = f"❌ **Erreur de génération d'image**\n\nNous n'avons pas pu générer votre image pour la raison suivante :\n{error_message}\n\nVeuillez réessayer avec un prompt différent."
 
         # Sauvegarder la réponse de l'assistant
         if request.edit_image_url and request.edit_message_id:
