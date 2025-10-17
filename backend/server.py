@@ -172,7 +172,8 @@ async def generate_image_with_nanobanana(request: GenerateImageRequest):
         )
         
         # Utiliser Gemini pour générer des images avec NanoBanana
-        chat = chat.with_model("gemini", "gemini-2.5-flash-image").with_params(modalities=["image", "text"])
+        # Note: Utilisation du modèle preview qui sera remplacé par 2.5 en production
+        chat = chat.with_model("gemini", "gemini-2.0-flash-preview-image-generation").with_params(modalities=["image", "text"])
         
         # Créer le message utilisateur avec ou sans référence à l'image uploadée
         if request.image_data and request.image_name:
