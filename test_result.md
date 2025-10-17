@@ -151,125 +151,77 @@ backend:
         comment: "✅ TESTÉ: Récupération d'historique parfaite. Retourne 2 messages (user + assistant) avec tous les champs corrects: ID, role, content, image_urls, timestamp. Messages triés par timestamp croissant. Structure conforme au modèle NanoBananaMessage."
 
 frontend:
-  - task: "Navigation générale - chargement de page et navigation entre catégories"
-    implemented: true
-    working: true
-    file: "/app/frontend/src/components/Header.js"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-      - working: "NA"
-        agent: "testing"
-        comment: "Besoin de tester le chargement de la page et la navigation entre les catégories (Explore, Image, Vidéo, Edit, Assist)"
-      - working: true
-        agent: "testing"
-        comment: "✅ TESTÉ: Page se charge correctement, toutes les catégories (Explore, Image, Vidéo, Edit, Assist) sont présentes et fonctionnelles. Navigation fluide entre les catégories avec indicateur visuel actif."
-
-  - task: "Filtre des outils IA par catégorie"
-    implemented: true
-    working: true
-    file: "/app/frontend/src/components/Home.js"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-      - working: "NA"
-        agent: "testing"
-        comment: "Besoin de tester que le filtrage des outils IA fonctionne correctement selon la catégorie sélectionnée"
-      - working: true
-        agent: "testing"
-        comment: "✅ TESTÉ: Filtrage fonctionne parfaitement. Image: 2 outils (Midjourney V7, DALL-E 3), Vidéo: 2 outils (Kling AI, Google Veo 3), Explore: 6 outils au total. Filtrage instantané et correct."
-
-  - task: "Section Pricing - affichage et animation du liséré blanc"
-    implemented: true
-    working: true
-    file: "/app/frontend/src/components/PricingSection.js"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-      - working: "NA"
-        agent: "testing"
-        comment: "Besoin de tester l'affichage de la carte pricing avec prix 29,99€, badge POPULAIRE, et animation du liséré blanc (rotation lente)"
-      - working: true
-        agent: "testing"
-        comment: "✅ TESTÉ: Section pricing parfaite. Prix 29,99€ affiché, badge 'POPULAIRE' visible, animation du liséré blanc (.animate-irregular-spin) fonctionne avec rotation lente de 8s. Carte bien centrée avec effets visuels."
-
-  - task: "Bouton Commencer dans la section pricing"
-    implemented: true
-    working: true
-    file: "/app/frontend/src/components/PricingSection.js"
-    stuck_count: 0
-    priority: "medium"
-    needs_retesting: false
-    status_history:
-      - working: "NA"
-        agent: "testing"
-        comment: "Besoin de tester que le bouton 'Commencer' est cliquable"
-      - working: true
-        agent: "testing"
-        comment: "✅ TESTÉ: Bouton 'Commencer' présent et cliquable. Effets visuels 3D fonctionnels avec hover effects."
-
-  - task: "Affichage des outils IA et boutons Générer des idées"
-    implemented: true
-    working: true
-    file: "/app/frontend/src/components/AIToolsGrid.js"
-    stuck_count: 0
-    priority: "medium"
-    needs_retesting: false
-    status_history:
-      - working: "NA"
-        agent: "testing"
-        comment: "Besoin de tester l'affichage correct des outils IA et le fonctionnement des boutons 'Générer des idées'"
-      - working: true
-        agent: "testing"
-        comment: "✅ TESTÉ: 6 cartes d'outils IA affichées correctement avec images, descriptions et 6 boutons 'Générer des idées' fonctionnels. Design responsive avec effets hover."
-
-  - task: "Modales - ouverture et fermeture"
-    implemented: true
-    working: true
-    file: "/app/frontend/src/components/IdeasModal.js"
-    stuck_count: 0
-    priority: "medium"
-    needs_retesting: false
-    status_history:
-      - working: "NA"
-        agent: "testing"
-        comment: "Besoin de tester que les modales s'ouvrent et se ferment correctement"
-      - working: true
-        agent: "testing"
-        comment: "✅ TESTÉ: Les deux modales fonctionnent parfaitement. SuggestionModal ('Assistant de Choix IA') s'ouvre avec le bouton '✨ Quel outil IA choisir ?'. IdeasModal s'ouvre avec les boutons 'Générer des idées' et affiche des idées spécifiques par outil (ex: 'Idées pour Kling AI'). Fermeture par bouton ou Escape."
-
-  - task: "Design responsive - adaptation mobile"
-    implemented: true
-    working: true
-    file: "/app/frontend/src/components/PricingSection.js"
-    stuck_count: 0
-    priority: "medium"
-    needs_retesting: false
-    status_history:
-      - working: "NA"
-        agent: "testing"
-        comment: "Besoin de tester l'adaptation responsive, particulièrement la section pricing sur mobile"
-      - working: true
-        agent: "testing"
-        comment: "✅ TESTÉ: Design responsive excellent. Sur mobile (390x844), header, navigation, section pricing et outils IA s'adaptent parfaitement. Navigation container présent et fonctionnel sur mobile."
-
-  - task: "NanoBanana - Intégration frontend génération d'images"
+  - task: "Ajout de SORA 2 dans la catégorie vidéo"
     implemented: true
     working: "NA"
-    file: "/app/frontend/src/components/Studio.js"
+    file: "/app/frontend/src/data/mockData.js"
     stuck_count: 0
     priority: "high"
     needs_retesting: true
     status_history:
       - working: "NA"
-        agent: "testing"
-        comment: "PROBLÈME UTILISATEUR: Quand l'utilisateur saisit un prompt dans NanoBanana et clique 'Générer', rien ne s'affiche malgré API backend fonctionnelle. Besoin de tester l'intégration frontend-backend complète."
+        agent: "main"
+        comment: "Ajout de SORA 2 avec badge NEW en première position dans la catégorie vidéo et dans Explore. Image: Screenshot_2025-10-07_at_3.03..png"
+
+  - task: "Mise à jour de Google Veo 3 vers Google Veo 3.1"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/data/mockData.js, /app/frontend/src/components/PricingSection.js, /app/frontend/src/components/SuggestionModal.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
       - working: "NA"
-        agent: "testing"
-        comment: "DIAGNOSTIC PARTIEL: Backend API 100% fonctionnel (tests directs réussis). Frontend Studio se charge avec NanoBanana sélectionné. Code React correct pour affichage images. LIMITATION TECHNIQUE: Outil browser automation a problèmes d'accès URL (port 8001 vs 3000), empêchant test complet de l'interface utilisateur. Nécessite investigation manuelle ou correction outil de test."
+        agent: "main"
+        comment: "Mise à jour du nom et de l'image de Google Veo 3 vers Google Veo 3.1. Ajout du badge NEW. Image: veo3.1-sm.gif"
+
+  - task: "Ajout d'Alibaba Wan 2.5 dans la catégorie vidéo"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/data/mockData.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Ajout d'Alibaba Wan 2.5 avec badge NEW dans la catégorie vidéo. Image: output.gif"
+
+  - task: "Ajout de Seedream 4 dans la catégorie image"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/data/mockData.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Ajout de Seedream 4 avec badge NEW dans la catégorie image. Image: seedream4-sm.jpg"
+
+  - task: "Ajout de Grok dans la catégorie image"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/data/mockData.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Ajout de Grok avec badge NEW dans la catégorie image. Image: tmp3jprvm7n.png (chat gris)"
+
+  - task: "Ordre des nouvelles IA - En première position"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/data/mockData.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Les nouvelles IA sont placées en première position dans mockAITools pour apparaître en premier dans Explore et Studio. Ordre: SORA 2, Google Veo 3.1, Alibaba Wan 2.5, Seedream 4, Grok, puis les autres outils."
 
 metadata:
   created_by: "testing_agent"
