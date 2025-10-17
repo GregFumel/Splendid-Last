@@ -55,7 +55,9 @@ export const mockAITools = [
     category: "image",
     image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/fhqzy4ql_this%20-%2001.png",
     fullDescription: "la génération d'images créatives et réalistes à partir de texte avec Google Gemini",
-    isNew: true
+    isNew: true,
+    toolType: "image-generator",
+    apiEndpoint: "nanobanana"
   },
   // Vidéo
   {
