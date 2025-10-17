@@ -464,9 +464,9 @@ const Studio = () => {
         console.log('Génération avec backend URL:', backendUrl);
         console.log('Session ID:', sessionId);
         console.log('Prompt:', prompt);
-        console.log('Outil:', isNanoBanana ? 'NanoBanana' : isGoogleVeo ? 'Google Veo 3.1' : 'ChatGPT-5');
+        console.log('Outil:', isNanoBanana ? 'NanoBanana' : isGoogleVeo ? 'Google Veo 3.1' : isSora2 ? 'SORA 2' : 'ChatGPT-5');
         
-        const endpoint = isNanoBanana ? 'nanobanana/generate' : isGoogleVeo ? 'google-veo/generate' : 'chatgpt5/generate';
+        const endpoint = isNanoBanana ? 'nanobanana/generate' : isGoogleVeo ? 'google-veo/generate' : isSora2 ? 'sora2/generate' : 'chatgpt5/generate';
         const requestBody = {
           session_id: sessionId,
           prompt: prompt,
@@ -483,6 +483,18 @@ const Studio = () => {
           requestBody.duration = veoOptions.duration;
           requestBody.aspect_ratio = "16:9";
           requestBody.resolution = veoOptions.resolution;
+          requestBody.generate_audio = veoOptions.generateAudio;
+        }
+        
+        // Paramètres spécifiques pour SORA 2 - utiliser les options choisies
+        if (isSora2) {
+          requestBody.seconds = sora2Options.seconds;
+          requestBody.aspect_ratio = sora2Options.aspectRatio;
+          // Ajouter l'image de référence si uploadée
+          if (uploadedImage) {
+            requestBody.input_reference = uploadedImage.dataUrl;
+          }
+        }
           requestBody.generate_audio = veoOptions.generateAudio;
         }
         
