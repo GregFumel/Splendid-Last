@@ -1252,6 +1252,57 @@ const Studio = () => {
                   </div>
                 )}
 
+
+                {/* Options de configuration pour SORA 2 - Desktop */}
+                {isSora2 && (
+                  <div className="bg-purple-500/10 border border-purple-400/30 rounded-lg mb-3 overflow-hidden">
+                    {/* En-tête cliquable avec flèche */}
+                    <button
+                      onClick={() => setShowSora2Options(!showSora2Options)}
+                      className="w-full flex items-center justify-between p-3 hover:bg-purple-500/5 transition-colors"
+                    >
+                      <span className="text-sm font-medium text-gray-200">Options de génération</span>
+                      {showSora2Options ? (
+                        <ChevronDown className="w-4 h-4 text-gray-400" />
+                      ) : (
+                        <ChevronUp className="w-4 h-4 text-gray-400" />
+                      )}
+                    </button>
+                    
+                    {/* Contenu pliable */}
+                    {showSora2Options && (
+                      <div className="flex flex-wrap gap-3 px-3 pb-3 pt-2 border-t border-purple-400/20 mt-2">
+                        {/* Durée */}
+                        <div className="flex items-center gap-2">
+                          <label className="text-sm text-gray-300">Durée:</label>
+                          <select
+                            value={sora2Options.seconds}
+                            onChange={(e) => setSora2Options({...sora2Options, seconds: parseInt(e.target.value)})}
+                            className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-purple-400 focus:outline-none"
+                          >
+                            <option value={4}>4 secondes</option>
+                            <option value={8}>8 secondes</option>
+                          </select>
+                        </div>
+                        
+                        {/* Aspect Ratio */}
+                        <div className="flex items-center gap-2">
+                          <label className="text-sm text-gray-300">Format:</label>
+                          <select
+                            value={sora2Options.aspectRatio}
+                            onChange={(e) => setSora2Options({...sora2Options, aspectRatio: e.target.value})}
+                            className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-purple-400 focus:outline-none"
+                          >
+                            <option value="landscape">Paysage (16:9)</option>
+                            <option value="portrait">Portrait (9:16)</option>
+                          </select>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+
                 
                 <div className="flex items-center gap-3">
                   {/* Icône d'upload pour ChatGPT-5 et NanoBanana */}
