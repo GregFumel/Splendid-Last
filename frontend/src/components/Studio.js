@@ -889,6 +889,52 @@ const Studio = () => {
                     </button>
                   </div>
                 )}
+
+                
+                {/* Options de configuration pour Google Veo 3.1 */}
+                {isGoogleVeo && (
+                  <div className="flex flex-wrap gap-3 p-3 bg-blue-500/10 border border-blue-400/30 rounded-lg">
+                    {/* Durée */}
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm text-gray-300">Durée:</label>
+                      <select
+                        value={veoOptions.duration}
+                        onChange={(e) => setVeoOptions({...veoOptions, duration: parseInt(e.target.value)})}
+                        className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-blue-400 focus:outline-none"
+                      >
+                        <option value={4}>4 secondes</option>
+                        <option value={8}>8 secondes</option>
+                      </select>
+                    </div>
+                    
+                    {/* Résolution */}
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm text-gray-300">Résolution:</label>
+                      <select
+                        value={veoOptions.resolution}
+                        onChange={(e) => setVeoOptions({...veoOptions, resolution: e.target.value})}
+                        className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-blue-400 focus:outline-none"
+                      >
+                        <option value="720p">720p</option>
+                        <option value="1080p">1080p</option>
+                      </select>
+                    </div>
+                    
+                    {/* Audio */}
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm text-gray-300">Audio:</label>
+                      <select
+                        value={veoOptions.generateAudio}
+                        onChange={(e) => setVeoOptions({...veoOptions, generateAudio: e.target.value === 'true'})}
+                        className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-blue-400 focus:outline-none"
+                      >
+                        <option value="true">Avec son</option>
+                        <option value="false">Sans son</option>
+                      </select>
+                    </div>
+                  </div>
+                )}
+
                 
                 {/* Zone de saisie avec icône d'upload pour ChatGPT-5 et NanoBanana */}
                 {(isChatGPT5 || isNanoBanana) ? (
