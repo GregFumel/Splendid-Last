@@ -372,6 +372,8 @@ test_plan:
 agent_communication:
   - agent: "main"
     message: "Début de l'ajout des nouvelles IA dans l'application. Modifications dans mockData.js, PricingSection.js et SuggestionModal.js. Les nouvelles IA ont toutes le badge NEW et sont placées en première position."
+  - agent: "main"
+    message: "⚠️ PROBLÈME CRITIQUE IDENTIFIÉ - Backend ne démarrait pas! Cause: Module 'litellm' manquant (requis par emergentintegrations). Solution appliquée: Installation de litellm et ajout dans requirements.txt. Backend redémarré avec succès. NanoBanana fonctionne, mais Google Veo 3.1 et SORA 2 nécessitent des tests pour vérifier si les vidéos sont maintenant générées et affichées correctement. L'utilisateur rapporte que seule la bulle de texte (prompt) apparaît sans le résultat vidéo."
   - agent: "testing"
     message: "✅ TESTS TERMINÉS AVEC SUCCÈS: Toutes les nouvelles IA (SORA 2, Google Veo 3.1, Alibaba Wan 2.5, Seedream 4, Grok) sont visibles sur la page d'accueil avec badges NEW en première position. NanoBanana et ChatGPT-5 fonctionnent parfaitement dans le Studio avec génération d'images et de texte réussie. Backend intégrations opérationnelles (Gemini 2.5 Flash pour images, GPT-4o pour texte). Application prête pour utilisation."
   - agent: "testing"
