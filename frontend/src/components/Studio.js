@@ -35,6 +35,14 @@ const Studio = () => {
   });
   const [showVeoOptions, setShowVeoOptions] = useState(true); // Par défaut dépliées
 
+  // États pour les options SORA 2
+  const [sora2Options, setSora2Options] = useState({
+    seconds: 8,  // 4 ou 8 secondes
+    aspectRatio: "landscape"  // landscape ou portrait
+  });
+  const [showSora2Options, setShowSora2Options] = useState(true); // Par défaut dépliées
+
+
 
   // Sélectionner l'outil basé sur le paramètre URL
   useEffect(() => {
