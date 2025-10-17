@@ -252,7 +252,7 @@ const Studio = () => {
   const loadConversationHistory = async (sessionIdToLoad, toolType) => {
     try {
       const backendUrl = process.env.REACT_APP_BACKEND_URL;
-      const endpoint = toolType === 'nanobanana' ? 'nanobanana' : 'chatgpt5';
+      const endpoint = toolType === 'nanobanana' ? 'nanobanana' : toolType === 'google-veo' ? 'google-veo' : 'chatgpt5';
       const url = `${backendUrl}/api/${endpoint}/session/${sessionIdToLoad}`;
       console.log('🌐 Chargement historique depuis:', url);
       
@@ -277,6 +277,19 @@ const Studio = () => {
             role: msg.role,
             imageCount: msg.image_urls.length,
             firstImagePreview: msg.image_urls[0]?.substring(0, 50) + '...'
+          });
+        });
+      }
+      
+      // Log spécial pour les vidéos Google Veo
+      if (toolType === 'google-veo') {
+        const messagesWithVideos = history.filter(m => m.video_urls && m.video_urls.length > 0);
+        console.log('🎬 Messages avec vidéos Google Veo:', messagesWithVideos.length);
+        messagesWithVideos.forEach((msg, idx) => {
+          console.log(`  Vidéo ${idx + 1}:`, {
+            role: msg.role,
+            videoCount: msg.video_urls.length,
+            firstVideoPreview: msg.video_urls[0]?.substring(0, 50) + '...'
           });
         });
       }
