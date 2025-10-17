@@ -14,6 +14,8 @@ import uuid
 from datetime import datetime
 from emergentintegrations.llm.chat import LlmChat, UserMessage
 import litellm
+import replicate
+import requests
 from PIL import Image, ImageDraw, ImageFont
 import io
 
