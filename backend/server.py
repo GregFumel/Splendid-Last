@@ -454,6 +454,128 @@ async def get_google_veo_session(session_id: str):
         logger.error(f"Erreur lors de la récupération de l'historique: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
 
+
+
+# SORA 2 endpoints (Video Generation)
+
+@api_router.post("/sora2/session", response_model=Sora2Session)
+async def create_sora2_session():
+    """Crée une nouvelle session SORA 2"""
+    try:
+        session = Sora2Session()
+        await db.sora2_sessions.insert_one(session.dict())
+        return session
+    except Exception as e:
+        logger.error(f"Erreur lors de la création de session SORA 2: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.post("/sora2/generate", response_model=GenerateVideoSora2Response)
+async def generate_video_with_sora2(request: GenerateVideoSora2Request):
+    """Génère une vidéo avec SORA 2"""
+    try:
+        # Créer ou récupérer la session
+        session = await db.sora2_sessions.find_one({"id": request.session_id})
+        if not session:
+            session_obj = Sora2Session(id=request.session_id)
+            await db.sora2_sessions.insert_one(session_obj.dict())
+            session = session_obj.dict()
+
+        # Sauvegarder le message utilisateur
+        user_message = Sora2Message(
+            session_id=request.session_id,
+            role="user",
+            content=request.prompt
+        )
+        await db.sora2_messages.insert_one(user_message.dict())
+
+        # Utiliser l'API Replicate avec le modèle openai/sora-2
+        replicate_token = os.environ.get('REPLICATE_API_TOKEN')
+        openai_key = os.environ.get('EMERGENT_LLM_KEY')  # Utiliser EMERGENT_LLM_KEY
+        
+        if not replicate_token:
+            raise HTTPException(status_code=500, detail="REPLICATE_API_TOKEN not configured")
+        if not openai_key:
+            raise HTTPException(status_code=500, detail="EMERGENT_LLM_KEY not configured for SORA 2")
+        
+        try:
+            # Préparer les inputs pour le modèle openai/sora-2
+            inputs = {
+                "prompt": request.prompt,
+                "seconds": request.seconds or 8,
+                "aspect_ratio": request.aspect_ratio or "landscape",
+                "openai_api_key": openai_key
+            }
+            
+            # Ajouter l'image de référence si présente
+            if request.input_reference:
+                inputs["input_reference"] = request.input_reference
+            
+            # Générer la vidéo avec Replicate
+            logging.info(f"Génération de vidéo avec Replicate - modèle: openai/sora-2, prompt: {request.prompt}")
+            
+            output = replicate.run(
+                "openai/sora-2",
+                input=inputs
+            )
+            
+            # Le output est une URL de vidéo
+            video_url = str(output) if output else None
+            
+            if not video_url:
+                raise Exception("Aucune vidéo générée par Replicate")
+            
+            # Stocker l'URL directement (pas de téléchargement)
+            logging.info(f"Vidéo générée avec succès: {video_url}")
+            
+            video_urls = [video_url]
+            response_text = f"Vidéo générée avec succès avec SORA 2 via Replicate pour : {request.prompt}"
+            
+        except Exception as e:
+            logging.error(f"Erreur lors de la génération avec Replicate: {str(e)}")
+            raise HTTPException(status_code=500, detail=f"Erreur lors de la génération de vidéo: {str(e)}")
+
+        # Sauvegarder la réponse de l'assistant
+        assistant_message = Sora2Message(
+            session_id=request.session_id,
+            role="assistant",
+            content=response_text or "Vidéo générée avec succès !",
+            video_urls=video_urls
+        )
+        await db.sora2_messages.insert_one(assistant_message.dict())
+
+        # Mettre à jour la session
+        await db.sora2_sessions.update_one(
+            {"id": request.session_id},
+            {"$set": {"last_updated": datetime.utcnow()}}
+        )
+
+        return GenerateVideoSora2Response(
+            session_id=request.session_id,
+            message_id=assistant_message.id,
+            prompt=request.prompt,
+            video_urls=video_urls,
+            response_text=response_text or "Vidéo générée avec succès !"
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Erreur lors de la génération de vidéo: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.get("/sora2/session/{session_id}", response_model=List[Sora2Message])
+async def get_sora2_session(session_id: str):
+    """Récupère l'historique d'une session SORA 2"""
+    try:
+        messages = await db.sora2_messages.find(
+            {"session_id": session_id}
+        ).sort("timestamp", 1).to_list(1000)
+        
+        return [Sora2Message(**msg) for msg in messages]
+    except Exception as e:
+        logger.error(f"Erreur lors de la récupération de l'historique: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
 # ChatGPT-5 endpoints
 
 @api_router.post("/chatgpt5/generate", response_model=ChatGPT5Response)
