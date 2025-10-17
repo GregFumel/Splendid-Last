@@ -92,11 +92,13 @@ const Studio = () => {
   useEffect(() => {
     const isNanoBananaTool = selectedTool && selectedTool.name === "NanoBanana";
     const isChatGPT5Tool = selectedTool && selectedTool.name === "ChatGPT-5";
+    const isGoogleVeoTool = selectedTool && selectedTool.name === "Google Veo 3.1";
     
     setIsNanoBanana(isNanoBananaTool);
     setIsChatGPT5(isChatGPT5Tool);
+    setIsGoogleVeo(isGoogleVeoTool);
     
-    if (isNanoBananaTool || isChatGPT5Tool) {
+    if (isNanoBananaTool || isChatGPT5Tool || isGoogleVeoTool) {
       // Commencer l'animation de chargement
       setIsLoadingHistory(true);
       setConversationHistory([]); // Vider l'historique précédent immédiatement
@@ -105,7 +107,8 @@ const Studio = () => {
       const existingSession = toolSessions[selectedTool.id];
       if (existingSession) {
         setSessionId(existingSession.sessionId);
-        loadConversationHistory(existingSession.sessionId, isNanoBananaTool ? 'nanobanana' : 'chatgpt5');
+        const toolType = isNanoBananaTool ? 'nanobanana' : isGoogleVeoTool ? 'google-veo' : 'chatgpt5';
+        loadConversationHistory(existingSession.sessionId, toolType);
       } else {
         // Créer une nouvelle session
         if (isNanoBananaTool) {
