@@ -269,18 +269,37 @@ def test_sora2_api():
         return False
 
 def main():
-    print("🚀 DÉBUT DES TESTS API NANOBANANA")
+    print("🚀 DÉBUT DES TESTS API VIDÉO - GOOGLE VEO 3.1 ET SORA 2")
     print(f"⏰ Heure: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print("=" * 60)
+    print("🔧 Test après correction du bug 'litellm' manquant")
+    print("=" * 80)
     
-    success = test_nanobanana_api()
+    # Test Google Veo 3.1
+    print("\n🎬 TESTS GOOGLE VEO 3.1")
+    print("=" * 80)
+    google_veo_success = test_google_veo_api()
     
-    print("\n" + "=" * 60)
-    if success:
-        print("✅ RÉSULTAT FINAL: TOUS LES TESTS RÉUSSIS")
+    # Test SORA 2
+    print("\n🎬 TESTS SORA 2")
+    print("=" * 80)
+    sora2_success = test_sora2_api()
+    
+    # Résultats finaux
+    print("\n" + "=" * 80)
+    print("📊 RÉSULTATS FINAUX:")
+    print(f"   Google Veo 3.1: {'✅ RÉUSSI' if google_veo_success else '❌ ÉCHEC'}")
+    print(f"   SORA 2: {'✅ RÉUSSI' if sora2_success else '❌ ÉCHEC'}")
+    
+    if google_veo_success and sora2_success:
+        print("\n🎉 RÉSULTAT GLOBAL: TOUS LES TESTS RÉUSSIS")
+        print("✅ Les vidéos sont générées et stockées correctement")
         sys.exit(0)
     else:
-        print("❌ RÉSULTAT FINAL: ÉCHEC DES TESTS")
+        print("\n❌ RÉSULTAT GLOBAL: ÉCHEC DE CERTAINS TESTS")
+        if not google_veo_success:
+            print("⚠️  Google Veo 3.1: Problème de génération de vidéo")
+        if not sora2_success:
+            print("⚠️  SORA 2: Problème de génération de vidéo")
         sys.exit(1)
 
 if __name__ == "__main__":
