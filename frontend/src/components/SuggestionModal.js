@@ -18,11 +18,16 @@ const SuggestionModal = ({ isOpen, onClose }) => {
     // Simulate API call with mock response
     setTimeout(() => {
       const mockSuggestions = [
+        "**SORA 2:** Le meilleur choix pour créer des vidéos cinématographiques de qualité exceptionnelle.",
+        "**Google Veo 3.1:** Idéal pour créer des vidéos haute définition avec la dernière IA avancée de Google.",
+        "**Alibaba Wan 2.5:** Parfait pour générer des vidéos de haute qualité avec une IA puissante.",
+        "**Seedream 4:** Excellent pour créer des images ultra-réalistes et artistiques.",
+        "**Grok:** IA puissante pour la génération d'images créatives et réalistes.",
+        "**NanoBanana:** Générateur d'images avancé propulsé par Google Gemini.",
         "**Midjourney V7:** Parfait pour créer des images artistiques et photoréalistes à partir de votre description.",
         "**DALL-E 3:** Excellent choix pour transformer vos idées textuelles en images uniques et créatives.",
-        "**Google Veo 3:** Idéal pour créer des vidéos haute définition avec une IA avancée.",
         "**Kling AI:** Parfait pour générer des avatars parlants ultra-réalistes.",
-        "**ChatGPT-4o:** Votre meilleur assistant pour la rédaction, le codage et la création de contenu."
+        "**ChatGPT-5:** Votre meilleur assistant pour la rédaction, le codage et la création de contenu."
       ];
       
       const randomSuggestion = mockSuggestions[Math.floor(Math.random() * mockSuggestions.length)];
