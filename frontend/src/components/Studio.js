@@ -371,7 +371,7 @@ const Studio = () => {
         });
       }
       
-      setConversationHistory(history);
+      setConversationHistory([...history]); // Force new array reference for React
       console.log(`✅ State conversationHistory mis à jour avec:`, history.length, 'messages');
       
       // Arrêter l'animation de chargement
