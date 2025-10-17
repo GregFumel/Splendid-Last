@@ -1047,15 +1047,15 @@ const Studio = () => {
                     >
                       <span className="text-sm font-medium text-gray-200">Options de génération</span>
                       {showVeoOptions ? (
-                        <ChevronUp className="w-4 h-4 text-gray-400" />
-                      ) : (
                         <ChevronDown className="w-4 h-4 text-gray-400" />
+                      ) : (
+                        <ChevronUp className="w-4 h-4 text-gray-400" />
                       )}
                     </button>
                     
                     {/* Contenu pliable */}
                     {showVeoOptions && (
-                      <div className="flex flex-wrap gap-3 p-3 pt-0 border-t border-blue-400/20">
+                      <div className="flex flex-wrap gap-3 px-3 pb-3 pt-2 border-t border-blue-400/20 mt-2">
                         {/* Durée */}
                         <div className="flex items-center gap-2">
                           <label className="text-sm text-gray-300">Durée:</label>
