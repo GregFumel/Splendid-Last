@@ -380,16 +380,16 @@ const Studio = () => {
     
     setIsGenerating(true);
     
-    if ((isNanoBanana || isChatGPT5) && sessionId) {
-      // Traitement pour NanoBanana et ChatGPT-5
+    if ((isNanoBanana || isChatGPT5 || isGoogleVeo) && sessionId) {
+      // Traitement pour NanoBanana, ChatGPT-5 et Google Veo
       try {
         const backendUrl = process.env.REACT_APP_BACKEND_URL;
         console.log('Génération avec backend URL:', backendUrl);
         console.log('Session ID:', sessionId);
         console.log('Prompt:', prompt);
-        console.log('Outil:', isNanoBanana ? 'NanoBanana' : 'ChatGPT-5');
+        console.log('Outil:', isNanoBanana ? 'NanoBanana' : isGoogleVeo ? 'Google Veo 3.1' : 'ChatGPT-5');
         
-        const endpoint = isNanoBanana ? 'nanobanana/generate' : 'chatgpt5/generate';
+        const endpoint = isNanoBanana ? 'nanobanana/generate' : isGoogleVeo ? 'google-veo/generate' : 'chatgpt5/generate';
         const requestBody = {
           session_id: sessionId,
           prompt: prompt,
@@ -399,6 +399,14 @@ const Studio = () => {
         if ((isChatGPT5 || isNanoBanana) && uploadedImage) {
           requestBody.image_data = uploadedImage.dataUrl;
           requestBody.image_name = uploadedImage.name;
+        }
+        
+        // Paramètres spécifiques pour Google Veo 3.1
+        if (isGoogleVeo) {
+          requestBody.duration = 8;  // 8 secondes par défaut
+          requestBody.aspect_ratio = "16:9";
+          requestBody.resolution = "1080p";
+          requestBody.generate_audio = true;
         }
         
         const response = await fetch(`${backendUrl}/api/${endpoint}`, {
