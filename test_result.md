@@ -185,7 +185,7 @@ frontend:
     implemented: true
     working: false
     file: "/app/frontend/src/components/Studio.js, /app/backend/server.py"
-    stuck_count: 1
+    stuck_count: 2
     priority: "high"
     needs_retesting: false
     status_history:
@@ -195,6 +195,9 @@ frontend:
       - working: false
         agent: "testing"
         comment: "❌ PROBLÈME CRITIQUE: Google Veo 3.1 ne fonctionne PAS! Test complet effectué - Frontend fonctionne (sélection outil, saisie prompt, clic générer), mais backend échoue avec erreur 500. Cause identifiée: 'Insufficient credit to run this model' sur Replicate API. Le compte Replicate n'a plus de crédit pour utiliser google/veo-3.1. Logs backend confirment: ReplicateError status 402. URGENT: Recharger le compte Replicate pour que Google Veo 3.1 fonctionne."
+      - working: false
+        agent: "testing"
+        comment: "🚨 TEST DE VÉRIFICATION APRÈS AJOUT DE CRÉDITS - ÉCHEC CONFIRMÉ! Test effectué selon demande utilisateur avec prompt simple 'a red ball'. RÉSULTATS: Frontend fonctionne parfaitement (Google Veo 3.1 sélectionnable, prompt saisi, bouton Générer cliqué), mais backend échoue toujours avec erreur 500. Logs backend confirment: ReplicateError 402 'Insufficient credit to run this model'. CONCLUSION: Les crédits Replicate n'ont PAS été ajoutés ou ne sont pas encore actifs. Google Veo 3.1 reste non fonctionnel."
 
   - task: "Ajout d'Alibaba Wan 2.5 dans la catégorie vidéo"
     implemented: true
