@@ -922,7 +922,7 @@ const Studio = () => {
                               {isNanoBanana ? 'Génération d\'image en cours...' : (isGoogleVeo || isSora2) ? 'Génération de vidéo en cours...' : 'Réflexion en cours...'}
                             </span>
                           </div>
-                          {isGoogleVeo && (
+                          {(isGoogleVeo || isSora2) && (
                             <p className="text-xs text-gray-400 mt-1">
                               La génération peut prendre 1 à 2 minutes, veuillez patienter.
                             </p>
