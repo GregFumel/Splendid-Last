@@ -495,8 +495,6 @@ const Studio = () => {
             requestBody.input_reference = uploadedImage.dataUrl;
           }
         }
-          requestBody.generate_audio = veoOptions.generateAudio;
-        }
         
         const response = await fetch(`${backendUrl}/api/${endpoint}`, {
           method: 'POST',
