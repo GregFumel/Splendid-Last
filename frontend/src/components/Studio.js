@@ -807,7 +807,9 @@ const Studio = () => {
                         <div className="bg-gray-700/50 border border-gray-600/50 rounded-xl p-4 max-w-xs">
                           <div className="flex items-center space-x-2">
                             <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-400 border-t-transparent"></div>
-                            <span className="text-sm text-gray-300">{isNanoBanana ? 'Génération d\'image en cours...' : 'Réflexion en cours...'}</span>
+                            <span className="text-sm text-gray-300">
+                              {isNanoBanana ? 'Génération d\'image en cours...' : isGoogleVeo ? 'Génération de vidéo en cours...' : 'Réflexion en cours...'}
+                            </span>
                           </div>
                         </div>
                       </div>
