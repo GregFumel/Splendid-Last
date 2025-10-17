@@ -370,16 +370,11 @@ async def generate_video_with_veo(request: GenerateVideoRequest):
             if not video_url:
                 raise Exception("Aucune vidéo générée par Replicate")
             
-            # Télécharger la vidéo depuis l'URL et la convertir en base64
-            logging.info(f"Téléchargement de la vidéo depuis: {video_url}")
-            response = requests.get(video_url, timeout=120)  # Timeout plus long pour les vidéos
-            response.raise_for_status()
+            # Ne pas télécharger la vidéo - utiliser directement l'URL Replicate
+            # Ceci évite de dépasser la limite MongoDB de 16MB
+            logging.info(f"Vidéo générée avec succès: {video_url}")
             
-            # Convertir en base64
-            video_base64 = base64.b64encode(response.content).decode('utf-8')
-            video_data_url = f"data:video/mp4;base64,{video_base64}"
-            
-            video_urls = [video_data_url]
+            video_urls = [video_url]  # Stocker l'URL directement
             response_text = f"Vidéo générée avec succès avec Google Veo 3.1 via Replicate pour : {request.prompt}"
             
         except Exception as e:
