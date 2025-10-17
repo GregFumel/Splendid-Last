@@ -26,6 +26,13 @@ const Studio = () => {
   const [uploadedImage, setUploadedImage] = useState(null); // {file, dataUrl}
   const fileInputRef = useRef(null);
 
+  // États pour les options Google Veo 3.1
+  const [veoOptions, setVeoOptions] = useState({
+    duration: 8,  // 4 ou 8 secondes
+    resolution: "1080p",  // 720p ou 1080p
+    generateAudio: true  // avec ou sans son
+  });
+
   // Sélectionner l'outil basé sur le paramètre URL
   useEffect(() => {
     const toolId = searchParams.get('tool');
