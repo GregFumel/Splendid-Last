@@ -224,27 +224,22 @@ frontend:
         comment: "Les nouvelles IA sont placées en première position dans mockAITools pour apparaître en premier dans Explore et Studio. Ordre: SORA 2, Google Veo 3.1, Alibaba Wan 2.5, Seedream 4, Grok, puis les autres outils."
 
 metadata:
-  created_by: "testing_agent"
-  version: "1.0"
-  test_sequence: 2
+  created_by: "main_agent"
+  version: "2.0"
+  test_sequence: 3
 
 test_plan:
   current_focus:
-    - "NanoBanana - Intégration frontend génération d'images"
+    - "Ajout de SORA 2 dans la catégorie vidéo"
+    - "Mise à jour de Google Veo 3 vers Google Veo 3.1"
+    - "Ajout d'Alibaba Wan 2.5 dans la catégorie vidéo"
+    - "Ajout de Seedream 4 dans la catégorie image"
+    - "Ajout de Grok dans la catégorie image"
+    - "Ordre des nouvelles IA - En première position"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
 agent_communication:
-  - agent: "testing"
-    message: "Début des tests de l'application frontend selon les spécifications. Focus sur la navigation, la section pricing avec animation, et le responsive design."
-  - agent: "testing"
-    message: "✅ TESTS TERMINÉS AVEC SUCCÈS: Tous les éléments demandés fonctionnent parfaitement. Navigation fluide, filtrage des outils IA opérationnel, section pricing avec animation du liséré blanc active, modales fonctionnelles (SuggestionModal et IdeasModal), design responsive excellent. Aucune erreur console détectée. Application prête pour production."
-  - agent: "testing"
-    message: "Début des tests de l'API NanoBanana backend. Test des 3 endpoints dans l'ordre: création session, génération d'image, récupération historique."
-  - agent: "testing"
-    message: "✅ TESTS API NANOBANANA TERMINÉS AVEC SUCCÈS: Les 3 endpoints fonctionnent parfaitement. Création de session OK, génération d'image réelle avec Google Gemini réussie (prompt: 'un chat mignon qui mange une banane'), récupération d'historique complète. PROBLÈME IDENTIFIÉ: URL externe ne répond pas (erreur de routage/déploiement), tests effectués en localhost. Backend opérationnel, intégration LLM fonctionnelle."
-  - agent: "testing"
-    message: "DÉBUT TEST NANOBANANA FRONTEND: Investigation du problème rapporté par l'utilisateur - génération d'image ne s'affiche pas dans l'interface NanoBanana malgré API backend fonctionnelle."
-  - agent: "testing"
-    message: "DIAGNOSTIC NANOBANANA: Backend API 100% fonctionnel (session, génération, historique). Frontend React code correct pour affichage images. PROBLÈME IDENTIFIÉ: Outil de test browser automation a des problèmes d'accès URL (tente d'accéder port 8001 au lieu de 3000). Tests directs API confirment génération d'images réussie avec données base64 de 2MB+. Interface Studio se charge correctement avec NanoBanana sélectionné."
+  - agent: "main"
+    message: "Début de l'ajout des nouvelles IA dans l'application. Modifications dans mockData.js, PricingSection.js et SuggestionModal.js. Les nouvelles IA ont toutes le badge NEW et sont placées en première position."
