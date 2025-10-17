@@ -408,12 +408,12 @@ const Studio = () => {
           requestBody.image_name = uploadedImage.name;
         }
         
-        // Paramètres spécifiques pour Google Veo 3.1
+        // Paramètres spécifiques pour Google Veo 3.1 - utiliser les options choisies
         if (isGoogleVeo) {
-          requestBody.duration = 8;  // 8 secondes par défaut
+          requestBody.duration = veoOptions.duration;
           requestBody.aspect_ratio = "16:9";
-          requestBody.resolution = "1080p";
-          requestBody.generate_audio = true;
+          requestBody.resolution = veoOptions.resolution;
+          requestBody.generate_audio = veoOptions.generateAudio;
         }
         
         const response = await fetch(`${backendUrl}/api/${endpoint}`, {
