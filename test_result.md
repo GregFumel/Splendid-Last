@@ -300,9 +300,9 @@ frontend:
 
   - task: "Fonctionnalité NanoBanana - Génération d'images"
     implemented: true
-    working: true
+    working: false
     file: "/app/frontend/src/components/Studio.js"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
     needs_retesting: false
     status_history:
@@ -324,6 +324,21 @@ frontend:
       - working: true
         agent: "testing"
         comment: "🎯 TEST FINAL REPLICATE API RÉUSSI! Test complet avec Replicate API google/nano-banana selon demande utilisateur: Prompt 'un robot futuriste dans une ville cyberpunk' généré avec succès en 5 secondes. Backend logs confirment utilisation de Replicate (lignes 176-179 server.py). Image générée visible et téléchargeable dans l'interface. NanoBanana utilise maintenant officiellement l'API Replicate avec le modèle google/nano-banana comme demandé! Screenshots pris confirmant le fonctionnement parfait."
+      - working: false
+        agent: "testing"
+        comment: "🚨 DIAGNOSTIC URGENT - PROBLÈME CRITIQUE D'INTERFACE IDENTIFIÉ! Test complet avec prompt 'un chat': ✅ BACKEND 100% FONCTIONNEL: Session créée (f7f45035-eb52-4c0e-acc1-8fa181c3af52), API POST /generate status 200, image générée (384x300px), historique rechargé avec 2 messages, data URL présente. ❌ INTERFACE DÉFAILLANTE: conversationHistory.length reste à 0 malgré logs '2 messages', aucun message visible, image non affichée, état React ne se met pas à jour. CAUSE: Bug synchronisation état React - setConversationHistory ne fonctionne pas. URGENT: Corriger gestion état React dans Studio.js."
+
+  - task: "Bug critique interface NanoBanana - État React non synchronisé"
+    implemented: false
+    working: false
+    file: "/app/frontend/src/components/Studio.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "🚨 BUG CRITIQUE DÉCOUVERT: L'interface NanoBanana ne se met pas à jour après génération. Backend fonctionne parfaitement (session créée, image générée, historique chargé), mais conversationHistory reste à 0 dans React malgré les logs indiquant 2 messages. Problème de synchronisation entre setConversationHistory et l'état React. Les messages et images générées ne s'affichent pas dans l'interface utilisateur. URGENT: Corriger la logique de mise à jour de l'état dans loadConversationHistory et après génération."
 
   - task: "Fonctionnalité ChatGPT-5 - Génération de texte"
     implemented: true
