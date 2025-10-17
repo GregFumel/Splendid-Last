@@ -32,6 +32,8 @@ const Studio = () => {
     resolution: "1080p",  // 720p ou 1080p
     generateAudio: true  // avec ou sans son
   });
+  const [showVeoOptions, setShowVeoOptions] = useState(true); // Par défaut dépliées
+
 
   // Sélectionner l'outil basé sur le paramètre URL
   useEffect(() => {
