@@ -281,6 +281,25 @@ const Studio = () => {
     return () => mediaQuery.removeListener(checkIsMobile);
   }, []);
 
+  // Logger les changements de conversationHistory
+  useEffect(() => {
+    console.log('🔔 conversationHistory a changé! Nombre de messages:', conversationHistory.length);
+    if (isNanoBanana && conversationHistory.length > 0) {
+      const assistantMessages = conversationHistory.filter(m => m.role === 'assistant');
+      const messagesWithImages = assistantMessages.filter(m => m.image_urls && m.image_urls.length > 0);
+      console.log('🖼️ Messages assistant NanoBanana:', assistantMessages.length);
+      console.log('🎨 Messages assistant avec images:', messagesWithImages.length);
+      if (messagesWithImages.length > 0) {
+        console.log('✅ Images disponibles pour affichage:', messagesWithImages.map(m => ({
+          id: m.id,
+          imageCount: m.image_urls.length
+        })));
+      } else {
+        console.warn('⚠️ Aucune image trouvée dans les messages assistant');
+      }
+    }
+  }, [conversationHistory, isNanoBanana]);
+
   // Fonction pour obtenir l'icône selon la catégorie
   const getCategoryIcon = (category) => {
     switch (category) {
