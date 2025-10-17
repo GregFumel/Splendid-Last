@@ -168,7 +168,7 @@ async def generate_image_with_nanobanana(request: GenerateImageRequest):
         # Utiliser la méthode dédiée pour la génération d'images
         image_response = await litellm.aimage_generation(
             model="dall-e-3",
-            prompt=request.prompt,
+            prompt=enhanced_prompt,
             n=1,
             quality="hd",
             size="1024x1024"
