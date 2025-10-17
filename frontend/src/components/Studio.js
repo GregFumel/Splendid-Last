@@ -115,6 +115,8 @@ const Studio = () => {
           initializeNanoBananaSession();
         } else if (isChatGPT5Tool) {
           initializeChatGPT5Session();
+        } else if (isGoogleVeoTool) {
+          initializeGoogleVeoSession();
         }
       }
     } else {
