@@ -358,6 +358,19 @@ const Studio = () => {
         });
       }
       
+      // Log spécial pour les vidéos SORA 2
+      if (toolType === 'sora2') {
+        const messagesWithVideos = history.filter(m => m.video_urls && m.video_urls.length > 0);
+        console.log('🎬 Messages avec vidéos SORA 2:', messagesWithVideos.length);
+        messagesWithVideos.forEach((msg, idx) => {
+          console.log(`  Vidéo ${idx + 1}:`, {
+            role: msg.role,
+            videoCount: msg.video_urls.length,
+            firstVideoPreview: msg.video_urls[0]?.substring(0, 50) + '...'
+          });
+        });
+      }
+      
       setConversationHistory(history);
       console.log(`✅ State conversationHistory mis à jour avec:`, history.length, 'messages');
       
