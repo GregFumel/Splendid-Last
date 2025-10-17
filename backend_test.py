@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 """
-Test script for NanoBanana API endpoints
-Tests the 3 main endpoints in order:
-1. POST /api/nanobanana/session - Create new session
-2. POST /api/nanobanana/generate - Generate image with prompt
-3. GET /api/nanobanana/session/{session_id} - Get session history
+Test script for Video Generation API endpoints
+Tests Google Veo 3.1 and SORA 2 endpoints after litellm bug fix:
+1. POST /api/google-veo/session - Create Google Veo session
+2. POST /api/google-veo/generate - Generate video with Google Veo 3.1
+3. GET /api/google-veo/session/{session_id} - Get Google Veo session history
+4. POST /api/sora2/session - Create SORA 2 session
+5. POST /api/sora2/generate - Generate video with SORA 2
+6. GET /api/sora2/session/{session_id} - Get SORA 2 session history
 """
 
 import requests
@@ -13,17 +16,15 @@ import sys
 import os
 from datetime import datetime
 
-# Get backend URL - try external first, fallback to localhost
+# Get backend URL from frontend/.env
 def get_backend_url():
     try:
         with open('/app/frontend/.env', 'r') as f:
             for line in f:
                 if line.startswith('REACT_APP_BACKEND_URL='):
                     external_url = line.split('=', 1)[1].strip()
-                    print(f"⚠️  URL externe trouvée: {external_url}")
-                    print(f"⚠️  PROBLÈME: L'URL externe ne répond pas (erreur de routage/déploiement)")
-                    print(f"⚠️  Utilisation de localhost pour les tests internes")
-                    return "http://localhost:8001"
+                    print(f"🔗 URL backend trouvée: {external_url}")
+                    return external_url
     except Exception as e:
         print(f"❌ Erreur lecture .env: {e}")
         return "http://localhost:8001"
