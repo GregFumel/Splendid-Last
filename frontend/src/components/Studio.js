@@ -487,20 +487,42 @@ const Studio = () => {
 
 
   // Fonction pour télécharger une vidéo
-  const handleDownloadVideo = (videoUrl, messageId) => {
+  const handleDownloadVideo = async (videoUrl, messageId) => {
     try {
+      // Afficher un message de chargement
+      console.log('Téléchargement de la vidéo en cours...');
+      
+      // Fetch la vidéo depuis l'URL Replicate
+      const response = await fetch(videoUrl);
+      
+      if (!response.ok) {
+        throw new Error('Erreur lors du téléchargement de la vidéo');
+      }
+      
+      // Convertir en blob
+      const blob = await response.blob();
+      
+      // Créer une URL locale du blob
+      const blobUrl = window.URL.createObjectURL(blob);
+      
       // Créer un élément anchor pour télécharger
       const link = document.createElement('a');
-      link.href = videoUrl;
+      link.href = blobUrl;
       link.download = `google-veo-video-${messageId}-${Date.now()}.mp4`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      
+      // Libérer la mémoire
+      window.URL.revokeObjectURL(blobUrl);
+      
+      console.log('✅ Vidéo téléchargée avec succès!');
     } catch (error) {
-      console.error('Erreur lors du téléchargement:', error);
-      alert('Erreur lors du téléchargement de la vidéo');
+      console.error('❌ Erreur lors du téléchargement:', error);
+      alert('Erreur lors du téléchargement de la vidéo. Veuillez réessayer.');
     }
   };
+
 
 
   // Fonctions pour l'upload d'images
