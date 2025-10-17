@@ -427,19 +427,21 @@ const Studio = () => {
         console.log('✅ Résultat de génération reçu:', result);
         console.log('📊 Détails result:', {
           hasImageUrl: !!result.image_url,
+          hasVideoUrl: !!result.video_urls,
           hasResponseText: !!result.response_text,
-          imageUrlLength: result.image_url?.length || 0
+          imageUrlLength: result.image_url?.length || 0,
+          videoUrlsCount: result.video_urls?.length || 0
         });
         
         // Recharger l'historique de conversation
-        const toolType = isNanoBanana ? 'nanobanana' : 'chatgpt5';
+        const toolType = isNanoBanana ? 'nanobanana' : isGoogleVeo ? 'google-veo' : 'chatgpt5';
         console.log('🔄 Rechargement historique pour session:', sessionId, 'type:', toolType);
         await loadConversationHistory(sessionId, toolType);
         console.log('✅ Historique rechargé, conversationHistory.length:', conversationHistory.length);
         
         // Vider le prompt et l'image uploadée
         setPrompt("");
-        if (isChatGPT5 || isNanoBanana) {
+        if (isChatGPT5 || isNanoBanana || isGoogleVeo) {
           setUploadedImage(null);
         }
         
