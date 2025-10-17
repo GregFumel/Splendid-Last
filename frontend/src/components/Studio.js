@@ -18,6 +18,7 @@ const Studio = () => {
   const [conversationHistory, setConversationHistory] = useState([]);
   const [isNanoBanana, setIsNanoBanana] = useState(false);
   const [isChatGPT5, setIsChatGPT5] = useState(false);
+  const [isGoogleVeo, setIsGoogleVeo] = useState(false); // Nouveau: pour Google Veo 3.1
   const [toolSessions, setToolSessions] = useState({}); // Stocker les sessions par outil
   const [isLoadingHistory, setIsLoadingHistory] = useState(false); // État pour l'animation de chargement
   
