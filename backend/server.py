@@ -14,6 +14,8 @@ import uuid
 from datetime import datetime
 from emergentintegrations.llm.chat import LlmChat, UserMessage
 import litellm
+from PIL import Image, ImageDraw, ImageFont
+import io
 
 
 ROOT_DIR = Path(__file__).parent
