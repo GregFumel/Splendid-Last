@@ -764,6 +764,39 @@ const Studio = () => {
                               ))}
                             </div>
                           )}
+
+                          
+                          {/* Affichage des vidéos générées pour Google Veo uniquement */}
+                          {isGoogleVeo && message.role === 'assistant' && message.video_urls && message.video_urls.length > 0 && (
+                            <div className="mt-3 space-y-2">
+                              {message.video_urls.map((videoUrl, vidIndex) => (
+                                <div key={vidIndex} className="rounded-lg overflow-hidden border border-white/20">
+                                  <video 
+                                    src={videoUrl} 
+                                    controls
+                                    className="w-full h-auto max-w-2xl"
+                                    style={{ maxHeight: '500px', objectFit: 'contain' }}
+                                    preload="metadata"
+                                  >
+                                    Votre navigateur ne supporte pas la balise vidéo.
+                                  </video>
+                                  
+                                  {/* Bouton télécharger uniquement */}
+                                  <div className="p-3 bg-black/20 flex justify-center">
+                                    <button
+                                      onClick={() => handleDownloadVideo(videoUrl, message.id)}
+                                      className="bg-gray-600/80 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 text-sm"
+                                      title="Télécharger la vidéo"
+                                    >
+                                      <Download className="w-4 h-4" />
+                                      <span>Télécharger</span>
+                                    </button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
                         </div>
                       </div>
                     ))}
