@@ -119,6 +119,37 @@ class GenerateVideoResponse(BaseModel):
     response_text: str
 
 
+# SORA 2 Models (Video Generation)
+class Sora2Message(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    session_id: str
+    role: str  # "user" or "assistant"
+    content: str
+    video_urls: List[str] = []
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+
+class Sora2Session(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    last_updated: datetime = Field(default_factory=datetime.utcnow)
+    messages: List[Sora2Message] = []
+
+class GenerateVideoSora2Request(BaseModel):
+    session_id: str
+    prompt: str
+    seconds: Optional[int] = 8  # Duration 4 or 8 seconds
+    aspect_ratio: Optional[str] = "landscape"  # landscape or portrait
+    input_reference: Optional[str] = None  # Reference image URL
+
+class GenerateVideoSora2Response(BaseModel):
+    session_id: str
+    message_id: str
+    prompt: str
+    video_urls: List[str]
+    response_text: str
+
+
+
 class GenerateImageRequest(BaseModel):
     session_id: str
     prompt: str
