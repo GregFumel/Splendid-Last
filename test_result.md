@@ -211,6 +211,18 @@ frontend:
         agent: "testing"
         comment: "🎉 VALIDATION FINALE RÉUSSIE - GOOGLE VEO 3.1 PARFAITEMENT FONCTIONNEL! Test final complet selon demande utilisateur avec prompt 'a beautiful bird flying in the sky': ✅ TOUTES LES FONCTIONNALITÉS DEMANDÉES FONCTIONNENT: 1) Google Veo 3.1 sélectionnable, 2) Options configuration parfaites (durée 4s, résolution 720p, audio 'Avec son'), 3) Prompt saisi avec succès, 4) Bouton 'Générer' fonctionne, 5) Messages génération affichés ('Génération de vidéo en cours...' et 'La génération peut prendre 1 à 2 minutes, veuillez patienter'), 6) Interface conversationnelle CORRIGÉE - prompt dans bulle bleue utilisateur, vidéo dans bulle grise assistant, 7) Vidéo avec contrôles HTML5 complets (play, pause, volume, fullscreen, barre progression), 8) Bouton 'Télécharger' visible et fonctionnel, 9) Test lecture vidéo réussi. Génération terminée en 40 secondes. Backend logs confirment succès (status 200, URL Replicate delivery). PROBLÈME INTERFACE UTILISATEUR RÉSOLU - Google Veo 3.1 utilise maintenant le mode conversationnel comme demandé!"
 
+  - task: "Test accordéon Google Veo 3.1 - Fonctionnalité replier/déplier options"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/Studio.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "🎯 TEST ACCORDÉON GOOGLE VEO 3.1 RÉUSSI! Test complet selon demande utilisateur sur mobile (390x844) et desktop (1920x1080): ✅ MOBILE: Section 'Options de génération' visible avec flèche vers le haut (options dépliées par défaut), options Durée/Résolution/Audio visibles, clic sur en-tête replie/déplie correctement avec changement de flèche. ✅ DESKTOP: Même fonctionnalité parfaite, test replier/déplier multiple fois réussi (3 cycles). ✅ FONCTIONNALITÉS CONFIRMÉES: 1) Section accordéon présente, 2) Flèche chevron fonctionnelle (ChevronUp/ChevronDown), 3) État par défaut: dépliées, 4) Clic sur en-tête change l'état, 5) Options visibles: Durée (4s/8s), Résolution (720p/1080p), Audio (Avec/Sans son), 6) Screenshots pris confirmant états dépliées/repliées. L'accordéon fonctionne parfaitement sur mobile et desktop comme demandé!"
+
   - task: "Ajout d'Alibaba Wan 2.5 dans la catégorie vidéo"
     implemented: true
     working: true
