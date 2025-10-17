@@ -895,45 +895,63 @@ const Studio = () => {
                 
                 {/* Options de configuration pour Google Veo 3.1 */}
                 {isGoogleVeo && (
-                  <div className="flex flex-wrap gap-3 p-3 bg-blue-500/10 border border-blue-400/30 rounded-lg">
-                    {/* Durée */}
-                    <div className="flex items-center gap-2">
-                      <label className="text-sm text-gray-300">Durée:</label>
-                      <select
-                        value={veoOptions.duration}
-                        onChange={(e) => setVeoOptions({...veoOptions, duration: parseInt(e.target.value)})}
-                        className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-blue-400 focus:outline-none"
-                      >
-                        <option value={4}>4 secondes</option>
-                        <option value={8}>8 secondes</option>
-                      </select>
-                    </div>
+                  <div className="bg-blue-500/10 border border-blue-400/30 rounded-lg overflow-hidden">
+                    {/* En-tête cliquable avec flèche */}
+                    <button
+                      onClick={() => setShowVeoOptions(!showVeoOptions)}
+                      className="w-full flex items-center justify-between p-3 hover:bg-blue-500/5 transition-colors"
+                    >
+                      <span className="text-sm font-medium text-gray-200">Options de génération</span>
+                      {showVeoOptions ? (
+                        <ChevronUp className="w-4 h-4 text-gray-400" />
+                      ) : (
+                        <ChevronDown className="w-4 h-4 text-gray-400" />
+                      )}
+                    </button>
                     
-                    {/* Résolution */}
-                    <div className="flex items-center gap-2">
-                      <label className="text-sm text-gray-300">Résolution:</label>
-                      <select
-                        value={veoOptions.resolution}
-                        onChange={(e) => setVeoOptions({...veoOptions, resolution: e.target.value})}
-                        className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-blue-400 focus:outline-none"
-                      >
-                        <option value="720p">720p</option>
-                        <option value="1080p">1080p</option>
-                      </select>
-                    </div>
-                    
-                    {/* Audio */}
-                    <div className="flex items-center gap-2">
-                      <label className="text-sm text-gray-300">Audio:</label>
-                      <select
-                        value={veoOptions.generateAudio}
-                        onChange={(e) => setVeoOptions({...veoOptions, generateAudio: e.target.value === 'true'})}
-                        className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-blue-400 focus:outline-none"
-                      >
-                        <option value="true">Avec son</option>
-                        <option value="false">Sans son</option>
-                      </select>
-                    </div>
+                    {/* Contenu pliable */}
+                    {showVeoOptions && (
+                      <div className="flex flex-wrap gap-3 p-3 pt-0 border-t border-blue-400/20">
+                        {/* Durée */}
+                        <div className="flex items-center gap-2">
+                          <label className="text-sm text-gray-300">Durée:</label>
+                          <select
+                            value={veoOptions.duration}
+                            onChange={(e) => setVeoOptions({...veoOptions, duration: parseInt(e.target.value)})}
+                            className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-blue-400 focus:outline-none"
+                          >
+                            <option value={4}>4 secondes</option>
+                            <option value={8}>8 secondes</option>
+                          </select>
+                        </div>
+                        
+                        {/* Résolution */}
+                        <div className="flex items-center gap-2">
+                          <label className="text-sm text-gray-300">Résolution:</label>
+                          <select
+                            value={veoOptions.resolution}
+                            onChange={(e) => setVeoOptions({...veoOptions, resolution: e.target.value})}
+                            className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-blue-400 focus:outline-none"
+                          >
+                            <option value="720p">720p</option>
+                            <option value="1080p">1080p</option>
+                          </select>
+                        </div>
+                        
+                        {/* Audio */}
+                        <div className="flex items-center gap-2">
+                          <label className="text-sm text-gray-300">Audio:</label>
+                          <select
+                            value={veoOptions.generateAudio}
+                            onChange={(e) => setVeoOptions({...veoOptions, generateAudio: e.target.value === 'true'})}
+                            className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-blue-400 focus:outline-none"
+                          >
+                            <option value="true">Avec son</option>
+                            <option value="false">Sans son</option>
+                          </select>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
 
