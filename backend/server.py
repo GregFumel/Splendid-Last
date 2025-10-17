@@ -169,8 +169,8 @@ async def generate_image_with_nanobanana(request: GenerateImageRequest):
             system_message=system_message
         )
         
-        # Utiliser DALL-E 3 via OpenAI au lieu de Gemini
-        chat = chat.with_model("openai", "dall-e-3").with_params(modalities=["image", "text"])
+        # Utiliser GPT-4o avec génération d'images (fallback)
+        chat = chat.with_model("openai", "gpt-4o").with_params(modalities=["image", "text"])
         
         # Créer le message utilisateur avec ou sans référence à l'image uploadée
         if request.image_data and request.image_name:
