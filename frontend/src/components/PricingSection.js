@@ -48,19 +48,19 @@ const PricingSection = () => {
             <div className="space-y-3 mb-8 text-left">
               <div className="flex items-center space-x-3">
                 <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
-                <span className="text-gray-200 text-sm">Kling AI - Avatars parlants ultra-réalistes</span>
+                <span className="text-gray-200 text-sm">SORA 2 - Vidéos cinématographiques</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
-                <span className="text-gray-200 text-sm">Google Veo 3 - Vidéos haute définition</span>
+                <span className="text-gray-200 text-sm">Google Veo 3.1 - Vidéos haute définition</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
-                <span className="text-gray-200 text-sm">Midjourney V7 - Images artistiques</span>
+                <span className="text-gray-200 text-sm">Seedream 4 - Images ultra-réalistes</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
-                <span className="text-gray-200 text-sm">DALL-E 3 - Création d'images uniques</span>
+                <span className="text-gray-200 text-sm">Grok - Création d'images créatives</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
