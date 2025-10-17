@@ -7,7 +7,9 @@ export const mockAITools = [
     category: "video",
     image: "https://customer-assets.emergentagent.com/job_d1e17cd1-d4b1-4e77-89f1-4869587941f4/artifacts/knsgp471_Screenshot_2025-10-07_at_3.03..png",
     fullDescription: "la génération de vidéos cinématographiques de haute qualité avec SORA 2",
-    isNew: true
+    isNew: true,
+    toolType: "video-generator",
+    apiEndpoint: "sora2"
   },
   {
     id: 2,
