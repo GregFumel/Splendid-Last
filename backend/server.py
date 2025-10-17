@@ -369,6 +369,10 @@ async def generate_video_with_veo(request: GenerateVideoRequest):
         if not replicate_token:
             raise HTTPException(status_code=500, detail="REPLICATE_API_TOKEN not configured")
         
+        video_urls = []
+        response_text = ""
+        error_occurred = False
+        
         try:
             # Préparer les inputs pour le modèle google/veo-3.1
             inputs = {
@@ -406,11 +410,24 @@ async def generate_video_with_veo(request: GenerateVideoRequest):
             logging.info(f"Vidéo générée avec succès: {video_url}")
             
             video_urls = [video_url]  # Stocker l'URL directement
-            response_text = f"Vidéo générée avec succès avec Google Veo 3.1 via Replicate pour : {request.prompt}"
+            response_text = f"Vidéo générée avec succès avec Google Veo 3.1 pour : {request.prompt}"
             
         except Exception as e:
-            logging.error(f"Erreur lors de la génération avec Replicate: {str(e)}")
-            raise HTTPException(status_code=500, detail=f"Erreur lors de la génération de vidéo: {str(e)}")
+            error_occurred = True
+            error_message = str(e)
+            logging.error(f"Erreur lors de la génération avec Replicate: {error_message}")
+            
+            # Analyser le type d'erreur pour donner un message plus précis
+            if "402" in error_message or "Insufficient credit" in error_message:
+                response_text = "❌ **Erreur de génération vidéo**\n\nNous n'avons pas pu générer votre vidéo car notre compte Replicate API n'a plus de crédit suffisant. Veuillez réessayer plus tard ou contactez l'administrateur pour recharger le compte."
+            elif "NSFW" in error_message or "content policy" in error_message.lower() or "inappropriate" in error_message.lower() or "sensitive" in error_message.lower():
+                response_text = f"❌ **Contenu inapproprié détecté**\n\nVotre demande '{request.prompt}' a été refusée car elle pourrait contenir du contenu sensible ou inapproprié selon les politiques de Google Veo 3.1. Veuillez reformuler votre prompt avec un contenu approprié."
+            elif "timeout" in error_message.lower() or "timed out" in error_message.lower():
+                response_text = "❌ **Délai d'attente dépassé**\n\nLa génération de votre vidéo a pris trop de temps et a été interrompue. Veuillez réessayer avec un prompt plus simple ou une durée plus courte."
+            elif "rate limit" in error_message.lower():
+                response_text = "❌ **Limite de requêtes atteinte**\n\nNous avons atteint la limite de requêtes autorisées par l'API. Veuillez attendre quelques instants avant de réessayer."
+            else:
+                response_text = f"❌ **Erreur de génération vidéo**\n\nNous n'avons pas pu générer votre vidéo pour la raison suivante :\n{error_message}\n\nVeuillez réessayer avec un prompt différent ou vérifier les paramètres de génération."
 
         # Sauvegarder la réponse de l'assistant
         assistant_message = GoogleVeoMessage(
