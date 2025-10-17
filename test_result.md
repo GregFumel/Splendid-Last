@@ -153,75 +153,117 @@ backend:
 frontend:
   - task: "Ajout de SORA 2 dans la catégorie vidéo"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/data/mockData.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Ajout de SORA 2 avec badge NEW en première position dans la catégorie vidéo et dans Explore. Image: Screenshot_2025-10-07_at_3.03..png"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTÉ: SORA 2 visible sur la page d'accueil avec badge NEW en première position dans la section Explore. L'outil apparaît correctement avec son nom, description et image."
 
   - task: "Mise à jour de Google Veo 3 vers Google Veo 3.1"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/data/mockData.js, /app/frontend/src/components/PricingSection.js, /app/frontend/src/components/SuggestionModal.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Mise à jour du nom et de l'image de Google Veo 3 vers Google Veo 3.1. Ajout du badge NEW. Image: veo3.1-sm.gif"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTÉ: Google Veo 3.1 visible sur la page d'accueil avec badge NEW. Le nom a été correctement mis à jour de 'Google Veo 3' vers 'Google Veo 3.1' et apparaît en deuxième position."
 
   - task: "Ajout d'Alibaba Wan 2.5 dans la catégorie vidéo"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/data/mockData.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Ajout d'Alibaba Wan 2.5 avec badge NEW dans la catégorie vidéo. Image: output.gif"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTÉ: Alibaba Wan 2.5 visible sur la page d'accueil avec badge NEW en troisième position dans la section Explore. L'outil apparaît correctement avec son nom, description et image GIF."
 
   - task: "Ajout de Seedream 4 dans la catégorie image"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/data/mockData.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Ajout de Seedream 4 avec badge NEW dans la catégorie image. Image: seedream4-sm.jpg"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTÉ: Seedream 4 visible sur la page d'accueil avec badge NEW en quatrième position dans la section Explore. L'outil apparaît correctement avec son nom, description et image."
 
   - task: "Ajout de Grok dans la catégorie image"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/data/mockData.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Ajout de Grok avec badge NEW dans la catégorie image. Image: tmp3jprvm7n.png (chat gris)"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTÉ: Grok visible sur la page d'accueil avec badge NEW. L'outil apparaît correctement dans la section Explore avec son nom, description et image du chat gris."
 
   - task: "Ordre des nouvelles IA - En première position"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/data/mockData.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Les nouvelles IA sont placées en première position dans mockAITools pour apparaître en premier dans Explore et Studio. Ordre: SORA 2, Google Veo 3.1, Alibaba Wan 2.5, Seedream 4, Grok, puis les autres outils."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTÉ: Toutes les nouvelles IA apparaissent bien en première position dans la section Explore avec l'ordre correct: SORA 2, Google Veo 3.1, Alibaba Wan 2.5, Seedream 4, puis Grok. Toutes ont le badge NEW visible."
+
+  - task: "Fonctionnalité NanoBanana - Génération d'images"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/Studio.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTÉ: NanoBanana fonctionne correctement dans le Studio. Sélection de l'outil réussie, saisie du prompt 'un chat mignon qui mange une banane' réussie, génération lancée avec succès. Backend logs confirment l'utilisation de gemini-2.5-flash-image-preview et génération réussie (status 200)."
+
+  - task: "Fonctionnalité ChatGPT-5 - Génération de texte"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/Studio.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTÉ: ChatGPT-5 fonctionne correctement dans le Studio. Sélection de l'outil réussie, saisie du prompt 'Écris un poème court sur les chats' réussie, génération lancée avec succès. Backend logs confirment l'utilisation de gpt-4o et génération réussie (status 200). Poème généré visible dans l'historique de conversation."
 
 metadata:
   created_by: "main_agent"
