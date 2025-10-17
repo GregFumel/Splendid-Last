@@ -86,6 +86,39 @@ class NanoBananaSession(BaseModel):
     last_updated: datetime = Field(default_factory=datetime.utcnow)
     messages: List[NanoBananaMessage] = []
 
+# Google Veo 3.1 Models (Video Generation)
+class GoogleVeoMessage(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    session_id: str
+    role: str  # "user" or "assistant"
+    content: str
+    video_urls: List[str] = []
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+
+class GoogleVeoSession(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    last_updated: datetime = Field(default_factory=datetime.utcnow)
+    messages: List[GoogleVeoMessage] = []
+
+class GenerateVideoRequest(BaseModel):
+    session_id: str
+    prompt: str
+    aspect_ratio: Optional[str] = "16:9"  # 16:9, 9:16, etc.
+    duration: Optional[int] = 8  # Duration in seconds
+    resolution: Optional[str] = "1080p"  # 720p, 1080p
+    generate_audio: Optional[bool] = True
+    image: Optional[str] = None  # Input image URL
+    reference_images: Optional[List[str]] = None  # Reference images for R2V
+
+class GenerateVideoResponse(BaseModel):
+    session_id: str
+    message_id: str
+    prompt: str
+    video_urls: List[str]
+    response_text: str
+
+
 class GenerateImageRequest(BaseModel):
     session_id: str
     prompt: str
