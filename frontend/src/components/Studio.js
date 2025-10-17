@@ -476,6 +476,24 @@ const Studio = () => {
     }
   };
 
+
+  // Fonction pour télécharger une vidéo
+  const handleDownloadVideo = (videoUrl, messageId) => {
+    try {
+      // Créer un élément anchor pour télécharger
+      const link = document.createElement('a');
+      link.href = videoUrl;
+      link.download = `google-veo-video-${messageId}-${Date.now()}.mp4`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Erreur lors du téléchargement:', error);
+      alert('Erreur lors du téléchargement de la vidéo');
+    }
+  };
+
+
   // Fonctions pour l'upload d'images
   const handleImageUpload = () => {
     if (fileInputRef.current) {
