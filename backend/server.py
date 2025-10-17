@@ -152,47 +152,55 @@ async def generate_image_with_nanobanana(request: GenerateImageRequest):
         if not api_key:
             raise HTTPException(status_code=500, detail="EMERGENT_LLM_KEY not configured")
 
-        # Générer un texte descriptif pour le contexte
+        # Créer une nouvelle instance pour chaque requête
         if request.image_data and request.image_name:
             # Mode édition d'image uploadée
-            system_message = f"Tu es NanoBanana, un générateur d'images créatif utilisant Google Gemini Imagen. L'utilisateur a uploadé une image et souhaite la modifier. Voici sa demande : '{request.prompt}'. Crée une nouvelle image qui applique les modifications demandées."
+            system_message = f"Tu es NanoBanana, un générateur d'images créatif utilisant Google Gemini. L'utilisateur a uploadé une image et souhaite la modifier. Voici sa demande : '{request.prompt}'. Crée une nouvelle image qui applique les modifications demandées tout en respectant le style et les éléments principaux de l'image de référence."
         elif request.edit_image_url and request.edit_message_id:
             # Mode édition d'image générée précédemment
             original_message = await db.nanobanana_messages.find_one({"id": request.edit_message_id})
             original_prompt = original_message.get("content", "") if original_message else ""
             
-            system_message = f"Tu es NanoBanana, un générateur d'images créatif utilisant Google Gemini Imagen. L'utilisateur veut modifier une image basée sur : '{original_prompt}'. Voici les modifications demandées : '{request.prompt}'. Crée une nouvelle image qui combine l'idée originale avec ces modifications."
+            system_message = f"Tu es NanoBanana, un générateur d'images créatif utilisant Google Gemini. L'utilisateur veut modifier une image basée sur : '{original_prompt}'. Voici les modifications demandées : '{request.prompt}'. Crée une nouvelle image qui combine l'idée originale avec ces modifications."
         else:
             # Mode génération normale
-            system_message = "Tu es NanoBanana, un générateur d'images créatif utilisant Google Gemini Imagen. Tu crées des images visuellement impressionnantes à partir des descriptions texte des utilisateurs."
+            system_message = "Tu es NanoBanana, un générateur d'images créatif utilisant Google Gemini. Tu crées des images visuellement impressionnantes à partir des descriptions texte des utilisateurs."
             
-        # Utiliser GeminiImageGeneration pour générer des images avec NanoBanana
-        image_gen = GeminiImageGeneration(api_key=api_key)
+        chat = LlmChat(
+            api_key=api_key, 
+            session_id=request.session_id,
+            system_message=system_message
+        )
         
-        # Générer l'image avec Imagen
+        # Utiliser Gemini 2.5 Flash avec support d'images
+        # Note: Ce modèle supporte la génération d'images via l'EMERGENT_LLM_KEY
+        chat = chat.with_model("gemini", "gemini-2.5-flash").with_params(modalities=["image", "text"])
+        
+        # Créer le message utilisateur
+        msg = UserMessage(text=request.prompt)
+        
+        # Générer avec Gemini (texte + images potentielles)
         try:
-            images_bytes = await image_gen.generate_images(
-                prompt=request.prompt,
-                model="imagen-3.0-generate-002",  # Utiliser Imagen 3.0 de Google
-                number_of_images=1
-            )
+            response_text, images = await chat.send_message_multimodal_response(msg)
             
-            # Convertir les bytes en base64
+            # Traiter les images générées
             image_urls = []
-            response_text = f"Voici l'image générée avec Google Gemini Imagen pour : {request.prompt}"
+            if images and len(images) > 0:
+                for i, img in enumerate(images):
+                    if 'data' in img:
+                        # Encoder en data URL
+                        image_data_url = f"data:{img.get('mime_type', 'image/png')};base64,{img['data']}"
+                        image_urls.append(image_data_url)
             
-            if images_bytes and len(images_bytes) > 0:
-                for img_bytes in images_bytes:
-                    # Convertir les bytes en base64
-                    image_base64 = base64.b64encode(img_bytes).decode('utf-8')
-                    image_data_url = f"data:image/png;base64,{image_base64}"
-                    image_urls.append(image_data_url)
-            else:
-                raise Exception("Aucune image générée par Google Gemini Imagen")
+            # Si aucune image n'est générée, créer un message explicatif
+            if not image_urls:
+                response_text = f"Image demandée : {request.prompt}. Note: La génération d'image avec Gemini nécessite une configuration spécifique."
                 
         except Exception as e:
-            logging.error(f"Erreur lors de la génération d'image avec Google Gemini Imagen: {str(e)}")
-            raise HTTPException(status_code=500, detail=f"Erreur lors de la génération d'image: {str(e)}")
+            logging.error(f"Erreur lors de la génération avec Gemini: {str(e)}")
+            # En cas d'erreur, retourner un message sans image
+            response_text = f"Erreur lors de la génération d'image pour : {request.prompt}"
+            image_urls = []
 
         # Sauvegarder la réponse de l'assistant
         if request.edit_image_url and request.edit_message_id:
