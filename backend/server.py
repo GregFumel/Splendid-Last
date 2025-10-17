@@ -13,6 +13,7 @@ from typing import List, Optional
 import uuid
 from datetime import datetime
 from emergentintegrations.llm.chat import LlmChat, UserMessage
+from emergentintegrations.llm.openai.image_generation import OpenAIImageGeneration
 import litellm
 from PIL import Image, ImageDraw, ImageFont
 import io
