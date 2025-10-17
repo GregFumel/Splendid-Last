@@ -153,55 +153,52 @@ async def generate_image_with_nanobanana(request: GenerateImageRequest):
         if not api_key:
             raise HTTPException(status_code=500, detail="EMERGENT_LLM_KEY not configured")
 
-        # Créer une nouvelle instance pour chaque requête
-        if request.image_data and request.image_name:
-            # Mode édition d'image uploadée
-            system_message = f"Tu es NanoBanana, un générateur d'images créatif utilisant Google Gemini. L'utilisateur a uploadé une image et souhaite la modifier. Voici sa demande : '{request.prompt}'. Crée une nouvelle image qui applique les modifications demandées tout en respectant le style et les éléments principaux de l'image de référence."
-        elif request.edit_image_url and request.edit_message_id:
-            # Mode édition d'image générée précédemment
-            original_message = await db.nanobanana_messages.find_one({"id": request.edit_message_id})
-            original_prompt = original_message.get("content", "") if original_message else ""
-            
-            system_message = f"Tu es NanoBanana, un générateur d'images créatif utilisant Google Gemini. L'utilisateur veut modifier une image basée sur : '{original_prompt}'. Voici les modifications demandées : '{request.prompt}'. Crée une nouvelle image qui combine l'idée originale avec ces modifications."
-        else:
-            # Mode génération normale
-            system_message = "Tu es NanoBanana, un générateur d'images créatif utilisant Google Gemini. Tu crées des images visuellement impressionnantes à partir des descriptions texte des utilisateurs."
-            
-        chat = LlmChat(
-            api_key=api_key, 
-            session_id=request.session_id,
-            system_message=system_message
-        )
+        # Utiliser l'API Replicate avec le modèle google/nano-banana
+        replicate_token = os.environ.get('REPLICATE_API_TOKEN')
+        if not replicate_token:
+            raise HTTPException(status_code=500, detail="REPLICATE_API_TOKEN not configured")
         
-        # Utiliser Gemini 2.5 Flash avec support d'images
-        # Note: Ce modèle supporte la génération d'images via l'EMERGENT_LLM_KEY
-        chat = chat.with_model("gemini", "gemini-2.5-flash").with_params(modalities=["image", "text"])
-        
-        # Créer le message utilisateur
-        msg = UserMessage(text=request.prompt)
-        
-        # Générer avec Gemini (texte + images potentielles)
         try:
-            response_text, images = await chat.send_message_multimodal_response(msg)
+            # Préparer les inputs pour le modèle google/nano-banana
+            inputs = {
+                "prompt": request.prompt,
+                "output_format": "jpg"
+            }
             
-            # Traiter les images générées
-            image_urls = []
-            if images and len(images) > 0:
-                for i, img in enumerate(images):
-                    if 'data' in img:
-                        # Encoder en data URL
-                        image_data_url = f"data:{img.get('mime_type', 'image/png')};base64,{img['data']}"
-                        image_urls.append(image_data_url)
+            # Ajouter l'image uploadée si présente
+            if request.image_data and request.image_name:
+                # Le modèle nano-banana accepte des images en input
+                inputs["image_input"] = [request.image_data]
             
-            # Si aucune image n'est générée, créer un message explicatif
-            if not image_urls:
-                response_text = f"Image demandée : {request.prompt}. Note: La génération d'image avec Gemini nécessite une configuration spécifique."
-                
+            # Générer l'image avec Replicate
+            logging.info(f"Génération d'image avec Replicate - modèle: google/nano-banana, prompt: {request.prompt}")
+            
+            output = replicate.run(
+                "google/nano-banana",
+                input=inputs
+            )
+            
+            # Le output est une URL d'image
+            image_url = str(output) if output else None
+            
+            if not image_url:
+                raise Exception("Aucune image générée par Replicate")
+            
+            # Télécharger l'image depuis l'URL
+            logging.info(f"Téléchargement de l'image depuis: {image_url}")
+            response = requests.get(image_url, timeout=30)
+            response.raise_for_status()
+            
+            # Convertir en base64
+            image_base64 = base64.b64encode(response.content).decode('utf-8')
+            image_data_url = f"data:image/jpeg;base64,{image_base64}"
+            
+            image_urls = [image_data_url]
+            response_text = f"Image générée avec succès avec Google Nano Banana via Replicate pour : {request.prompt}"
+            
         except Exception as e:
-            logging.error(f"Erreur lors de la génération avec Gemini: {str(e)}")
-            # En cas d'erreur, retourner un message sans image
-            response_text = f"Erreur lors de la génération d'image pour : {request.prompt}"
-            image_urls = []
+            logging.error(f"Erreur lors de la génération avec Replicate: {str(e)}")
+            raise HTTPException(status_code=500, detail=f"Erreur lors de la génération d'image: {str(e)}")
 
         # Sauvegarder la réponse de l'assistant
         if request.edit_image_url and request.edit_message_id:
