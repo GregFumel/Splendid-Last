@@ -267,17 +267,11 @@ frontend:
 
 metadata:
   created_by: "main_agent"
-  version: "2.0"
-  test_sequence: 3
+  version: "2.1"
+  test_sequence: 4
 
 test_plan:
-  current_focus:
-    - "Ajout de SORA 2 dans la catégorie vidéo"
-    - "Mise à jour de Google Veo 3 vers Google Veo 3.1"
-    - "Ajout d'Alibaba Wan 2.5 dans la catégorie vidéo"
-    - "Ajout de Seedream 4 dans la catégorie image"
-    - "Ajout de Grok dans la catégorie image"
-    - "Ordre des nouvelles IA - En première position"
+  current_focus: []
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -285,3 +279,5 @@ test_plan:
 agent_communication:
   - agent: "main"
     message: "Début de l'ajout des nouvelles IA dans l'application. Modifications dans mockData.js, PricingSection.js et SuggestionModal.js. Les nouvelles IA ont toutes le badge NEW et sont placées en première position."
+  - agent: "testing"
+    message: "✅ TESTS TERMINÉS AVEC SUCCÈS: Toutes les nouvelles IA (SORA 2, Google Veo 3.1, Alibaba Wan 2.5, Seedream 4, Grok) sont visibles sur la page d'accueil avec badges NEW en première position. NanoBanana et ChatGPT-5 fonctionnent parfaitement dans le Studio avec génération d'images et de texte réussie. Backend intégrations opérationnelles (Gemini 2.5 Flash pour images, GPT-4o pour texte). Application prête pour utilisation."
