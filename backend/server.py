@@ -179,19 +179,30 @@ async def generate_image_with_nanobanana(request: GenerateImageRequest):
             # Utiliser le prompt original
             msg = UserMessage(text=request.prompt)
         
-        # Générer l'image
-        response_text, images = await chat.send_message_multimodal_response(msg)
+        # Générer l'image avec LiteLLM image generation
+        import litellm
+        
+        # Utiliser la méthode dédiée pour la génération d'images
+        image_response = await litellm.aimage_generation(
+            model="dall-e-3",
+            prompt=request.prompt,
+            n=1,
+            quality="hd",
+            size="1024x1024"
+        )
         
         # Traiter les images générées
         image_urls = []
-        if images:
-            for i, img in enumerate(images):
-                if 'data' in img:
-                    # Créer un nom de fichier unique
-                    image_filename = f"nanobanana_{request.session_id}_{user_message.id}_{i}.png"
-                    
-                    # Pour cette démo, on va encoder en data URL
-                    image_data_url = f"data:{img.get('mime_type', 'image/png')};base64,{img['data']}"
+        response_text = "Image générée avec succès !"
+        
+        if image_response and image_response.data:
+            for i, img in enumerate(image_response.data):
+                if hasattr(img, 'url') and img.url:
+                    # Utiliser l'URL directement
+                    image_urls.append(img.url)
+                elif hasattr(img, 'b64_json') and img.b64_json:
+                    # Convertir base64 en data URL
+                    image_data_url = f"data:image/png;base64,{img.b64_json}"
                     image_urls.append(image_data_url)
 
         # Sauvegarder la réponse de l'assistant
