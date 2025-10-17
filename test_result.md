@@ -183,11 +183,11 @@ frontend:
 
   - task: "Test complet Google Veo 3.1 - Génération de vidéo"
     implemented: true
-    working: true
+    working: false
     file: "/app/frontend/src/components/Studio.js, /app/backend/server.py"
-    stuck_count: 3
+    stuck_count: 4
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "testing"
@@ -204,6 +204,9 @@ frontend:
       - working: true
         agent: "testing"
         comment: "🎉 SUCCÈS COMPLET! Test final de Google Veo 3.1 après correction du bug MongoDB - TOUT FONCTIONNE PARFAITEMENT! Test effectué selon demande utilisateur avec prompt 'a cat walking on a beach at sunset': 1) FRONTEND: Google Veo 3.1 sélectionnable, prompt saisi, bouton Générer fonctionne, indicateur 'Génération de vidéo en cours...' s'affiche correctement. 2) BACKEND: PROBLÈMES RÉSOLUS - A) Crédits Replicate maintenant suffisants (plus d'erreur 402), B) Bug MongoDB CORRIGÉ - vidéos stockées comme URLs Replicate uniquement (pas de BSON large). Logs backend 14:15-14:27 confirment génération réussie: https://replicate.delivery/... URLs. Google Veo 3.1 est maintenant 100% fonctionnel avec vidéos chargées depuis Replicate delivery, contrôles HTML5, et bouton télécharger!"
+      - working: false
+        agent: "testing"
+        comment: "🚨 PROBLÈME CRITIQUE INTERFACE UTILISATEUR IDENTIFIÉ! Test complet selon demande utilisateur avec toutes les fonctionnalités spécifiques: BACKEND 100% FONCTIONNEL (logs 14:48:02 confirment génération réussie 'a happy dog running on grass'), mais FRONTEND DÉFAILLANT: 1) ✅ Options configuration visibles et fonctionnelles (durée 4/8s, résolution 720p/1080p, audio avec/sans son), 2) ❌ Interface utilise mode 'Résultat' au lieu du mode conversationnel, 3) ❌ Messages spécifiques manquants: 'Génération de vidéo en cours...' et 'La génération peut prendre 1 à 2 minutes, veuillez patienter', 4) ❌ Prompt n'apparaît PAS dans bulle utilisateur, 5) ❌ Vidéo n'apparaît PAS dans bulle assistant avec contrôles et téléchargement. CAUSE: Google Veo 3.1 n'utilise pas l'interface conversationnelle comme NanoBanana/ChatGPT-5. URGENT: Corriger la logique frontend pour activer le mode conversationnel pour Google Veo 3.1."
 
   - task: "Ajout d'Alibaba Wan 2.5 dans la catégorie vidéo"
     implemented: true
