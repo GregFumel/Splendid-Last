@@ -127,7 +127,7 @@ const Studio = () => {
       const existingSession = toolSessions[selectedTool.id];
       if (existingSession) {
         setSessionId(existingSession.sessionId);
-        const toolType = isNanoBananaTool ? 'nanobanana' : isGoogleVeoTool ? 'google-veo' : 'chatgpt5';
+        const toolType = isNanoBananaTool ? 'nanobanana' : isGoogleVeoTool ? 'google-veo' : isSora2Tool ? 'sora2' : 'chatgpt5';
         loadConversationHistory(existingSession.sessionId, toolType);
       } else {
         // Créer une nouvelle session
@@ -137,6 +137,8 @@ const Studio = () => {
           initializeChatGPT5Session();
         } else if (isGoogleVeoTool) {
           initializeGoogleVeoSession();
+        } else if (isSora2Tool) {
+          initializeSora2Session();
         }
       }
     } else {
