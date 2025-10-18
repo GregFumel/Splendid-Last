@@ -1868,21 +1868,21 @@ const Studio = () => {
             ) : (
               /* Layout desktop : horizontal avec bouton petit à droite */
               <div className="flex flex-col gap-3">
-                {/* Aperçu de l'image uploadée pour ChatGPT-5, NanoBanana et Image Upscaler */}
-                {(isChatGPT5 || isNanoBanana || isImageUpscaler) && uploadedImage && (
-                  <div className={`flex items-center gap-3 p-3 ${isImageUpscaler ? 'bg-green-500/10 border-green-400/30' : 'bg-green-500/10 border-green-400/30'} border rounded-lg`}>
+                {/* Aperçu de l'image uploadée pour ChatGPT-5, NanoBanana, Image Upscaler et Flux Kontext */}
+                {(isChatGPT5 || isNanoBanana || isImageUpscaler || isFluxKontext) && uploadedImage && (
+                  <div className={`flex items-center gap-3 p-3 ${isImageUpscaler ? 'bg-green-500/10 border-green-400/30' : isFluxKontext ? 'bg-orange-500/10 border-orange-400/30' : 'bg-green-500/10 border-green-400/30'} border rounded-lg`}>
                     <img 
                       src={uploadedImage.dataUrl} 
                       alt="Image uploadée"
                       className="w-12 h-12 rounded object-cover"
                     />
                     <div className="flex-1">
-                      <p className="text-sm text-green-200">Image attachée</p>
-                      <p className="text-xs text-green-300">{uploadedImage.name}</p>
+                      <p className={`text-sm ${isFluxKontext ? 'text-orange-200' : 'text-green-200'}`}>Image attachée</p>
+                      <p className={`text-xs ${isFluxKontext ? 'text-orange-300' : 'text-green-300'}`}>{uploadedImage.name}</p>
                     </div>
                     <button
                       onClick={removeUploadedImage}
-                      className="text-green-300 hover:text-white transition-colors"
+                      className={`${isFluxKontext ? 'text-orange-300' : 'text-green-300'} hover:text-white transition-colors`}
                     >
                       <X className="w-5 h-5" />
                     </button>
