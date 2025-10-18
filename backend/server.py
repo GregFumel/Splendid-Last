@@ -37,6 +37,40 @@ app = FastAPI()
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
+# Create temp directory for storing images
+TEMP_IMAGES_DIR = Path("/tmp/kling_images")
+TEMP_IMAGES_DIR.mkdir(parents=True, exist_ok=True)
+
+# Helper function to convert data URL to public URL
+def data_url_to_public_url(data_url: str, backend_url: str) -> str:
+    """Convert a data URL to a public HTTP URL by saving the image temporarily"""
+    try:
+        # Extract the base64 data
+        if not data_url.startswith("data:"):
+            # Already a URL
+            return data_url
+        
+        # Parse data URL: data:image/png;base64,xxxxx
+        header, encoded = data_url.split(",", 1)
+        
+        # Decode base64
+        image_data = base64.b64decode(encoded)
+        
+        # Generate unique filename
+        filename = f"{uuid.uuid4()}.png"
+        filepath = TEMP_IMAGES_DIR / filename
+        
+        # Save image
+        with open(filepath, "wb") as f:
+            f.write(image_data)
+        
+        # Return public URL
+        public_url = f"{backend_url}/temp-images/{filename}"
+        return public_url
+    except Exception as e:
+        logging.error(f"Error converting data URL to public URL: {str(e)}")
+        raise
+
 
 # Define Models
 class StatusCheck(BaseModel):
