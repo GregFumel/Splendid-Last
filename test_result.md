@@ -553,7 +553,9 @@ metadata:
   test_sequence: 7
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Kling AI v2.1 - Backend endpoints (session, generate, history)"
+    - "Kling AI v2.1 - Frontend complet avec upload images et options"
   stuck_tasks:
     - "Bug critique interface NanoBanana - État React non synchronisé"
   test_all: false
