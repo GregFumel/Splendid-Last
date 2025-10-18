@@ -1463,21 +1463,60 @@ const Studio = () => {
                 )}
 
 
+                {/* Options de configuration pour AI Image Upscaler - Desktop */}
+                {isImageUpscaler && (
+                  <div className="bg-green-500/10 border border-green-400/30 rounded-lg mb-3 overflow-hidden">
+                    {/* En-tête cliquable avec flèche */}
+                    <button
+                      onClick={() => setShowUpscalerOptions(!showUpscalerOptions)}
+                      className="w-full flex items-center justify-between p-3 hover:bg-green-500/5 transition-colors"
+                    >
+                      <span className="text-sm font-medium text-gray-200">Options d'upscaling</span>
+                      {showUpscalerOptions ? (
+                        <ChevronDown className="w-4 h-4 text-gray-400" />
+                      ) : (
+                        <ChevronUp className="w-4 h-4 text-gray-400" />
+                      )}
+                    </button>
+                    
+                    {/* Contenu pliable */}
+                    {showUpscalerOptions && (
+                      <div className="flex flex-wrap gap-3 px-3 pb-3 pt-2 border-t border-green-400/20 mt-2">
+                        {/* Facteur d'agrandissement */}
+                        <div className="flex items-center gap-2">
+                          <label className="text-sm text-gray-300">Facteur:</label>
+                          <select
+                            value={upscalerOptions.scaleFactor}
+                            onChange={(e) => setUpscalerOptions({...upscalerOptions, scaleFactor: parseInt(e.target.value)})}
+                            className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-green-400 focus:outline-none"
+                          >
+                            <option value={2}>X2</option>
+                            <option value={4}>X4</option>
+                            <option value={8}>X8</option>
+                          </select>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+
                 
                 <div className="flex items-center gap-3">
-                  {/* Icône d'upload pour ChatGPT-5 et NanoBanana */}
-                  {(isChatGPT5 || isNanoBanana) && (
+                  {/* Icône d'upload pour ChatGPT-5, NanoBanana et Image Upscaler */}
+                  {(isChatGPT5 || isNanoBanana || isImageUpscaler) && (
                     <button
                       onClick={handleImageUpload}
-                      className="bg-gray-600/80 hover:bg-gray-600 text-white p-2 rounded-lg transition-colors"
+                      className={`${isImageUpscaler ? 'bg-green-600/80 hover:bg-green-600' : 'bg-gray-600/80 hover:bg-gray-600'} text-white p-2 rounded-lg transition-colors`}
                       title="Ajouter une image"
                     >
                       <Plus className="w-5 h-5" />
                     </button>
                   )}
                   
-                  <input
-                    type="text"
+                  {!isImageUpscaler && (
+                    <input
+                      type="text"
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder={uploadedImage && isNanoBanana ? "Décrivez les modifications à apporter à l'image..." : `Demandez à ${selectedTool.name}...`}
