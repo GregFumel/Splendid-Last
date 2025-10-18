@@ -2055,11 +2055,50 @@ const Studio = () => {
                         </div>
                       )}
                     </div>
-                  </>
                 )}
                 
-                {/* Zone de saisie avec icône d'upload pour ChatGPT-5, NanoBanana, Image Upscaler et Flux Kontext */}
-                {(isChatGPT5 || isNanoBanana || isImageUpscaler || isFluxKontext) ? (
+                {/* Zone de saisie pour Kling AI avec boutons upload à gauche - Mobile */}
+                {isKling ? (
+                  <div className="flex items-center gap-2">
+                    {/* Bouton start image */}
+                    <button
+                      onClick={handleKlingStartImageUpload}
+                      className={`${klingStartImage ? 'bg-purple-600' : 'bg-purple-600/80 hover:bg-purple-600'} text-white p-2 rounded-lg transition-colors relative`}
+                      title="Image de départ (obligatoire)"
+                    >
+                      <Plus className="w-5 h-5" />
+                      {klingStartImage && (
+                        <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-white"></span>
+                      )}
+                    </button>
+                    
+                    {/* Bouton end image */}
+                    <button
+                      onClick={handleKlingEndImageUpload}
+                      disabled={klingOptions.mode !== "pro"}
+                      className={`${klingEndImage ? 'bg-purple-600' : klingOptions.mode === "pro" ? 'bg-purple-600/80 hover:bg-purple-600' : 'bg-gray-600/50 cursor-not-allowed'} text-white p-2 rounded-lg transition-colors relative`}
+                      title={klingOptions.mode === "pro" ? "Image de fin (optionnelle)" : "Image de fin (nécessite mode Pro)"}
+                    >
+                      <Plus className="w-5 h-5" />
+                      {klingEndImage && (
+                        <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-white"></span>
+                      )}
+                    </button>
+                    
+                    <input
+                      type="text"
+                      value={prompt}
+                      onChange={(e) => setPrompt(e.target.value)}
+                      placeholder="Décrivez la vidéo que vous souhaitez générer..."
+                      className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2"
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter' && prompt.trim() && !isGenerating && klingStartImage) {
+                          handleGenerate();
+                        }
+                      }}
+                    />
+                  </div>
+                ) : (isChatGPT5 || isNanoBanana || isImageUpscaler || isFluxKontext) ? (
                   <div className="flex items-center gap-2">
                     <button
                       onClick={handleImageUpload}
