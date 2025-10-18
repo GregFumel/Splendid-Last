@@ -3,6 +3,127 @@ import { Send, Sparkles, Menu, X, Download, Plus, ChevronDown, ChevronUp } from 
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { mockAITools } from "../data/mockData";
 
+// Composant de comparaison avant-après avec slider
+const BeforeAfterSlider = ({ beforeImage, afterImage, onDownload }) => {
+  const [sliderPosition, setSliderPosition] = useState(50);
+  const [isDragging, setIsDragging] = useState(false);
+  const containerRef = useRef(null);
+
+  const handleMove = (clientX) => {
+    if (!containerRef.current) return;
+    
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const percentage = (x / rect.width) * 100;
+    
+    // Limiter entre 0 et 100
+    const newPosition = Math.min(Math.max(percentage, 0), 100);
+    setSliderPosition(newPosition);
+  };
+
+  const handleMouseDown = () => {
+    setIsDragging(true);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    handleMove(e.clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging) return;
+    handleMove(e.touches[0].clientX);
+  };
+
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      document.addEventListener('touchmove', handleTouchMove);
+      document.addEventListener('touchend', handleMouseUp);
+
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+        document.removeEventListener('touchmove', handleTouchMove);
+        document.removeEventListener('touchend', handleMouseUp);
+      };
+    }
+  }, [isDragging]);
+
+  return (
+    <div className="space-y-3">
+      {/* Conteneur de comparaison */}
+      <div 
+        ref={containerRef}
+        className="relative w-full rounded-lg overflow-hidden border border-green-400/30 cursor-ew-resize select-none"
+        style={{ aspectRatio: '16/9', maxHeight: '600px' }}
+        onMouseDown={handleMouseDown}
+        onTouchStart={handleMouseDown}
+      >
+        {/* Image AFTER (upscalée) - en arrière-plan */}
+        <div className="absolute inset-0">
+          <img 
+            src={afterImage} 
+            alt="Image upscalée (Après)"
+            className="w-full h-full object-contain bg-gray-900"
+            draggable={false}
+          />
+          <div className="absolute top-2 right-2 bg-green-600/90 text-white text-xs px-2 py-1 rounded">
+            APRÈS
+          </div>
+        </div>
+
+        {/* Image BEFORE (originale) - avec clip */}
+        <div 
+          className="absolute inset-0 overflow-hidden"
+          style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
+        >
+          <img 
+            src={beforeImage} 
+            alt="Image originale (Avant)"
+            className="w-full h-full object-contain bg-gray-900"
+            draggable={false}
+          />
+          <div className="absolute top-2 left-2 bg-blue-600/90 text-white text-xs px-2 py-1 rounded">
+            AVANT
+          </div>
+        </div>
+
+        {/* Ligne de séparation et handle du slider */}
+        <div 
+          className="absolute top-0 bottom-0 w-1 bg-white shadow-lg cursor-ew-resize"
+          style={{ left: `${sliderPosition}%`, transform: 'translateX(-50%)' }}
+        >
+          {/* Handle rond au milieu */}
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center border-4 border-green-400">
+            <div className="flex gap-1">
+              <div className="w-0.5 h-4 bg-gray-700"></div>
+              <div className="w-0.5 h-4 bg-gray-700"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Bouton télécharger l'image upscalée */}
+      <div className="flex justify-center">
+        <button
+          onClick={onDownload}
+          className="bg-green-600/80 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 text-sm"
+          title="Télécharger l'image upscalée"
+        >
+          <Download className="w-4 h-4" />
+          <span>Télécharger l'image upscalée</span>
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const Studio = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
