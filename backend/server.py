@@ -403,6 +403,157 @@ async def get_nanobanana_sessions():
         raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
 
 
+# Flux Kontext Pro endpoints
+
+@api_router.post("/flux-kontext/session", response_model=FluxKontextSession)
+async def create_flux_kontext_session():
+    """Crée une nouvelle session Flux Kontext Pro"""
+    try:
+        session = FluxKontextSession()
+        await db.flux_kontext_sessions.insert_one(session.dict())
+        return session
+    except Exception as e:
+        logger.error(f"Erreur lors de la création de session Flux Kontext: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.post("/flux-kontext/generate", response_model=GenerateFluxKontextResponse)
+async def generate_image_with_flux_kontext(request: GenerateFluxKontextRequest):
+    """Génère ou édite une image avec Flux Kontext Pro"""
+    try:
+        # Créer ou récupérer la session
+        session = await db.flux_kontext_sessions.find_one({"id": request.session_id})
+        if not session:
+            session_obj = FluxKontextSession(id=request.session_id)
+            await db.flux_kontext_sessions.insert_one(session_obj.dict())
+            session = session_obj.dict()
+
+        # Sauvegarder le message utilisateur avec l'image de référence si présente
+        user_content = request.prompt
+        user_image_urls = []
+        if request.input_image:
+            user_image_urls = [request.input_image]
+            user_content = f"Édition d'image: {request.prompt}"
+        
+        user_message = FluxKontextMessage(
+            session_id=request.session_id,
+            role="user",
+            content=user_content,
+            image_urls=user_image_urls
+        )
+        await db.flux_kontext_messages.insert_one(user_message.dict())
+
+        # Vérifier le token Replicate
+        replicate_token = os.environ.get('REPLICATE_API_TOKEN')
+        if not replicate_token:
+            raise HTTPException(status_code=500, detail="REPLICATE_API_TOKEN not configured")
+        
+        image_urls = []
+        response_text = ""
+        error_occurred = False
+        
+        try:
+            # Préparer les inputs pour le modèle black-forest-labs/flux-kontext-pro
+            inputs = {
+                "prompt": request.prompt,
+                "aspect_ratio": request.aspect_ratio,
+                "prompt_upsampling": request.prompt_upsampling,
+                "safety_tolerance": request.safety_tolerance,
+                "output_format": "jpg"
+            }
+            
+            # Ajouter l'image de référence si présente
+            if request.input_image:
+                # Convertir data URL en URL accessible si nécessaire
+                inputs["input_image"] = request.input_image
+            
+            # Générer l'image avec Replicate
+            logging.info(f"Génération d'image avec Replicate - modèle: black-forest-labs/flux-kontext-pro, prompt: {request.prompt}")
+            
+            output = replicate.run(
+                "black-forest-labs/flux-kontext-pro",
+                input=inputs
+            )
+            
+            # Le output est une URL d'image
+            image_url = str(output) if output else None
+            
+            if not image_url:
+                raise Exception("Aucune image générée par Replicate")
+            
+            # Télécharger l'image depuis l'URL et la convertir en base64
+            logging.info(f"Téléchargement de l'image depuis: {image_url}")
+            response_img = requests.get(image_url, timeout=60)
+            response_img.raise_for_status()
+            
+            # Convertir en base64
+            image_base64 = base64.b64encode(response_img.content).decode('utf-8')
+            image_data_url = f"data:image/jpeg;base64,{image_base64}"
+            
+            image_urls = [image_data_url]
+            if request.input_image:
+                response_text = f"✅ Image éditée avec succès avec Flux Kontext Pro!"
+            else:
+                response_text = f"✅ Image générée avec succès avec Flux Kontext Pro!"
+            
+        except Exception as e:
+            error_occurred = True
+            error_message = str(e)
+            logging.error(f"Erreur lors de la génération avec Replicate: {error_message}")
+            
+            # Analyser le type d'erreur pour donner un message plus précis
+            if "402" in error_message or "Insufficient credit" in error_message:
+                response_text = "❌ **Erreur de génération d'image**\n\nNous n'avons pas pu générer votre image car notre compte Replicate API n'a plus de crédit suffisant. Veuillez réessayer plus tard ou contactez l'administrateur pour recharger le compte."
+            elif "NSFW" in error_message or "content policy" in error_message.lower() or "inappropriate" in error_message.lower() or "sensitive" in error_message.lower() or "safety" in error_message.lower():
+                response_text = f"❌ **Contenu inapproprié détecté**\n\nVotre demande '{request.prompt}' a été refusée car elle pourrait contenir du contenu sensible ou inapproprié selon les politiques de Flux Kontext Pro. Veuillez reformuler votre prompt avec un contenu approprié."
+            elif "timeout" in error_message.lower() or "timed out" in error_message.lower():
+                response_text = "❌ **Délai d'attente dépassé**\n\nLa génération de votre image a pris trop de temps et a été interrompue. Veuillez réessayer avec un prompt plus simple."
+            elif "rate limit" in error_message.lower():
+                response_text = "❌ **Limite de requêtes atteinte**\n\nNous avons atteint la limite de requêtes autorisées par l'API. Veuillez attendre quelques instants avant de réessayer."
+            else:
+                response_text = f"❌ **Erreur de génération d'image**\n\nNous n'avons pas pu générer votre image pour la raison suivante :\n{error_message}\n\nVeuillez réessayer avec un prompt différent."
+
+        # Sauvegarder la réponse de l'assistant
+        assistant_message = FluxKontextMessage(
+            session_id=request.session_id,
+            role="assistant",
+            content=response_text,
+            image_urls=image_urls
+        )
+        await db.flux_kontext_messages.insert_one(assistant_message.dict())
+
+        # Mettre à jour la session
+        await db.flux_kontext_sessions.update_one(
+            {"id": request.session_id},
+            {"$set": {"last_updated": datetime.utcnow()}}
+        )
+
+        return GenerateFluxKontextResponse(
+            session_id=request.session_id,
+            message_id=assistant_message.id,
+            image_urls=image_urls,
+            response_text=response_text
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Erreur lors de la génération: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur lors de la génération: {str(e)}")
+
+@api_router.get("/flux-kontext/session/{session_id}", response_model=List[FluxKontextMessage])
+async def get_flux_kontext_session(session_id: str):
+    """Récupère l'historique d'une session Flux Kontext Pro"""
+    try:
+        messages = await db.flux_kontext_messages.find(
+            {"session_id": session_id}
+        ).sort("timestamp", 1).to_list(1000)
+        
+        return [FluxKontextMessage(**msg) for msg in messages]
+    except Exception as e:
+        logger.error(f"Erreur lors de la récupération de session: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+
 
 # Google Veo 3.1 endpoints (Video Generation)
 
