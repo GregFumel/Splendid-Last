@@ -115,9 +115,11 @@ export const mockAITools = [
   {
     id: 13,
     name: "ChatGPT-5",
-    description: "Assistant conversationnel avancé propulsé par OpenAI GPT-5.",
-    category: "text",
+    description: "Assistant conversationnel avancé propulsé par OpenAI.",
+    category: "assist",
     image: "https://customer-assets.emergentagent.com/job_gemini-draw/artifacts/444ywiim_yau7ce7n_replicate-prediction-qhzgvzbn7.png",
-    fullDescription: "Conversation intelligente avec ChatGPT-5 d'OpenAI pour répondre à toutes vos questions"
+    fullDescription: "Conversation intelligente avec ChatGPT-5 d'OpenAI pour répondre à toutes vos questions",
+    toolType: "chat",
+    apiEndpoint: "chatgpt5"
   }
 ];
