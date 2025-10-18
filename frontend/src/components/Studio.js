@@ -1486,7 +1486,7 @@ const Studio = () => {
                           <div className="flex items-center space-x-2 mb-2">
                             <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-400 border-t-transparent"></div>
                             <span className="text-sm text-gray-300">
-                              {isNanoBanana ? 'Génération d\'image en cours...' : isImageUpscaler ? 'Upscaling de l\'image en cours...' : (isGoogleVeo || isSora2) ? 'Génération de vidéo en cours...' : 'Réflexion en cours...'}
+                              {isNanoBanana ? 'Génération d\'image en cours...' : isImageUpscaler ? 'Upscaling de l\'image en cours...' : isFluxKontext ? (uploadedImage ? 'Édition d\'image en cours...' : 'Génération d\'image en cours...') : (isGoogleVeo || isSora2) ? 'Génération de vidéo en cours...' : 'Réflexion en cours...'}
                             </span>
                           </div>
                           {(isGoogleVeo || isSora2) && (
@@ -1497,6 +1497,11 @@ const Studio = () => {
                           {isImageUpscaler && (
                             <p className="text-xs text-gray-400 mt-1">
                               L'upscaling peut prendre quelques secondes selon la taille de l'image.
+                            </p>
+                          )}
+                          {isFluxKontext && (
+                            <p className="text-xs text-gray-400 mt-1">
+                              {uploadedImage ? 'L\'édition peut prendre quelques instants.' : 'La génération peut prendre quelques instants.'}
                             </p>
                           )}
                         </div>
