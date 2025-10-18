@@ -546,6 +546,9 @@ frontend:
       - working: "NA"
         agent: "main"
         comment: "✅ Frontend complet implémenté: 1) Upload start_image (obligatoire) et end_image (optionnelle), 2) Options durée (5s/10s) et qualité (Standard 720p / Pro 1080p), 3) Accordéon options dépliables par défaut, 4) Interface conversationnelle avec affichage vidéos, 5) Badge NEW ajouté dans mockData.js, 6) Bouton télécharger vidéo avec thème violet (purple), 7) Gestion validation: end_image nécessite mode pro, start_image obligatoire, 8) Interface mobile et desktop. Tout est prêt pour testing."
+      - working: "NA"
+        agent: "main"
+        comment: "🔧 INTERFACE REDESIGN & BUG FIXES: 1) Interface upload redesignée - 2 boutons 'plus' compacts à gauche de la zone de saisie (start et end), indicateur visuel vert quand image uploadée, aperçu miniature (80x80 mobile, 96x96 desktop) au-dessus, 2) Bug backend résolu - Modules manquants installés: httpx, aiohttp, openai, fastuuid, ajoutés dans requirements.txt, 3) Backend redémarré avec succès, tous services RUNNING. Interface plus compacte et visible sur mobile/petits écrans. Prêt pour testing utilisateur."
 
 metadata:
   created_by: "main_agent"
