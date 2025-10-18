@@ -71,6 +71,32 @@ class ChatGPT5Response(BaseModel):
     prompt: str
     response_text: str
 
+# AI Image Upscaler Models
+class ImageUpscalerMessage(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    session_id: str
+    role: str  # "user" or "assistant"
+    content: str
+    image_urls: List[str] = []  # URLs des images (input pour user, output pour assistant)
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+
+class ImageUpscalerSession(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    last_updated: datetime = Field(default_factory=datetime.utcnow)
+    messages: List[ImageUpscalerMessage] = []
+
+class UpscaleImageRequest(BaseModel):
+    session_id: str
+    image_data: str  # Data URL de l'image à upscaler
+    scale_factor: int  # 2, 4 ou 8
+
+class UpscaleImageResponse(BaseModel):
+    session_id: str
+    message_id: str
+    image_urls: List[str]  # URLs des images upscalées
+    response_text: str
+
 # NanoBanana Models
 class NanoBananaMessage(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
