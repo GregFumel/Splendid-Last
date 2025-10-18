@@ -109,7 +109,9 @@ export const mockAITools = [
     description: "Le meilleur upscaler du marché pour améliorer vos images.",
     category: "image",
     image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/8um9qont_Bildschirmfoto_2024-03-30_um_09.2%20-%2001.png",
-    fullDescription: "l'amélioration et l'upscaling d'images avec ajout de détails ultra-précis"
+    fullDescription: "l'amélioration et l'upscaling d'images avec ajout de détails ultra-précis",
+    toolType: "image-upscaler",
+    apiEndpoint: "image-upscaler"
   },
   // Text
   {
