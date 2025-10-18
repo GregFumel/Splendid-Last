@@ -423,6 +423,19 @@ const Studio = () => {
         });
       }
       
+      // Log spécial pour les images AI Image Upscaler
+      if (toolType === 'image-upscaler') {
+        const messagesWithImages = history.filter(m => m.image_urls && m.image_urls.length > 0);
+        console.log('🔍 Messages avec images AI Image Upscaler:', messagesWithImages.length);
+        messagesWithImages.forEach((msg, idx) => {
+          console.log(`  Image ${idx + 1}:`, {
+            role: msg.role,
+            imageCount: msg.image_urls.length,
+            firstImagePreview: msg.image_urls[0]?.substring(0, 50) + '...'
+          });
+        });
+      }
+      
       setConversationHistory([...history]); // Force new array reference for React
       console.log(`✅ State conversationHistory mis à jour avec:`, history.length, 'messages');
       
