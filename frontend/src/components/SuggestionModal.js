@@ -25,7 +25,6 @@ const SuggestionModal = ({ isOpen, onClose }) => {
         "**Grok:** IA puissante pour la génération d'images créatives et réalistes.",
         "**NanoBanana:** Générateur d'images avancé propulsé par Google Gemini.",
         "**Midjourney V7:** Parfait pour créer des images artistiques et photoréalistes à partir de votre description.",
-        "**DALL-E 3:** Excellent choix pour transformer vos idées textuelles en images uniques et créatives.",
         "**Kling AI:** Parfait pour générer des avatars parlants ultra-réalistes.",
         "**ChatGPT-5:** Votre meilleur assistant pour la rédaction, le codage et la création de contenu."
       ];
