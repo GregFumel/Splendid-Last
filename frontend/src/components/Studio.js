@@ -475,14 +475,16 @@ const Studio = () => {
     const isGoogleVeoTool = selectedTool && selectedTool.name === "Google Veo 3.1";
     const isSora2Tool = selectedTool && selectedTool.name === "SORA 2";
     const isImageUpscalerTool = selectedTool && selectedTool.name === "AI Image Upscaler";
+    const isFluxKontextTool = selectedTool && selectedTool.name === "Flux Kontext Pro";
     
     setIsNanoBanana(isNanoBananaTool);
     setIsChatGPT5(isChatGPT5Tool);
     setIsGoogleVeo(isGoogleVeoTool);
     setIsSora2(isSora2Tool);
     setIsImageUpscaler(isImageUpscalerTool);
+    setIsFluxKontext(isFluxKontextTool);
     
-    if (isNanoBananaTool || isChatGPT5Tool || isGoogleVeoTool || isSora2Tool || isImageUpscalerTool) {
+    if (isNanoBananaTool || isChatGPT5Tool || isGoogleVeoTool || isSora2Tool || isImageUpscalerTool || isFluxKontextTool) {
       // Commencer l'animation de chargement
       setIsLoadingHistory(true);
       setConversationHistory([]); // Vider l'historique précédent immédiatement
