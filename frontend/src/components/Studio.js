@@ -900,8 +900,21 @@ const Studio = () => {
         messagesWithImages.forEach((msg, idx) => {
           console.log(`  Image ${idx + 1}:`, {
             role: msg.role,
-            imageCount: msg.image_urls.length,
+            imageCount: m.image_urls.length,
             firstImagePreview: msg.image_urls[0]?.substring(0, 50) + '...'
+          });
+        });
+      }
+      
+      // Log spécial pour les vidéos Kling AI
+      if (toolType === 'kling') {
+        const messagesWithVideos = history.filter(m => m.video_urls && m.video_urls.length > 0);
+        console.log('🎬 Messages avec vidéos Kling AI:', messagesWithVideos.length);
+        messagesWithVideos.forEach((msg, idx) => {
+          console.log(`  Vidéo ${idx + 1}:`, {
+            role: msg.role,
+            videoCount: msg.video_urls.length,
+            firstVideoPreview: msg.video_urls[0]?.substring(0, 50) + '...'
           });
         });
       }
