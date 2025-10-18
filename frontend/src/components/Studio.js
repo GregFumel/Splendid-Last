@@ -1363,8 +1363,8 @@ const Studio = () => {
                             </div>
                           )}
                           
-                          {/* Affichage des images générées pour NanoBanana uniquement */}
-                          {isNanoBanana && message.role === 'assistant' && message.image_urls && message.image_urls.length > 0 && (
+                          {/* Affichage des images générées pour NanoBanana et Flux Kontext Pro */}
+                          {(isNanoBanana || isFluxKontext) && message.role === 'assistant' && message.image_urls && message.image_urls.length > 0 && (
                             <div className="mt-3 space-y-2">
                               {message.image_urls.map((imageUrl, imgIndex) => (
                                 <div key={imgIndex} className="rounded-lg overflow-hidden border border-white/20">
@@ -1379,7 +1379,7 @@ const Studio = () => {
                                   <div className="p-3 bg-black/20 flex justify-center">
                                     <button
                                       onClick={() => handleDownloadImage(imageUrl, message.id)}
-                                      className="bg-gray-600/80 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 text-sm"
+                                      className={`${isFluxKontext ? 'bg-orange-600/80 hover:bg-orange-600' : 'bg-gray-600/80 hover:bg-gray-600'} text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 text-sm`}
                                       title="Télécharger l'image"
                                     >
                                       <Download className="w-4 h-4" />
