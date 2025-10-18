@@ -1807,7 +1807,7 @@ const Studio = () => {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={handleImageUpload}
-                      className={`${isImageUpscaler ? 'bg-green-600/80 hover:bg-green-600' : 'bg-gray-600/80 hover:bg-gray-600'} text-white p-2 rounded-lg transition-colors`}
+                      className={`${isImageUpscaler ? 'bg-green-600/80 hover:bg-green-600' : isFluxKontext ? 'bg-orange-600/80 hover:bg-orange-600' : 'bg-gray-600/80 hover:bg-gray-600'} text-white p-2 rounded-lg transition-colors`}
                       title="Ajouter une image"
                     >
                       <Plus className="w-5 h-5" />
