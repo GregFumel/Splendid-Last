@@ -504,17 +504,52 @@ async def generate_image_with_flux_kontext(request: GenerateFluxKontextRequest):
                 response_text = "❌ **Délai d'attente dépassé**\n\nLa génération de votre image a pris trop de temps et a été interrompue. Veuillez réessayer avec un prompt plus simple."
             elif "rate limit" in error_message.lower():
                 response_text = "❌ **Limite de requêtes atteinte**\n\nNous avons atteint la limite de requêtes autorisées par l'API. Veuillez attendre quelques instants avant de réessayer."
+            elif "BSON document too large" in error_message:
+                # Extraire la taille du document si disponible
+                import re
+                size_match = re.search(r'(\d+)\s*bytes', error_message)
+                size_mb = ""
+                if size_match:
+                    size_bytes = int(size_match.group(1))
+                    size_mb = f" ({size_bytes // (1024*1024)}MB > 16MB limite)"
+                response_text = f"❌ **Image trop volumineuse**\n\nL'image générée est trop grande pour être stockée{size_mb}. Cette limitation technique de MongoDB empêche la sauvegarde. Veuillez réessayer avec un aspect ratio plus petit ou contactez l'administrateur."
             else:
                 response_text = f"❌ **Erreur de génération d'image**\n\nNous n'avons pas pu générer votre image pour la raison suivante :\n{error_message}\n\nVeuillez réessayer avec un prompt différent."
 
         # Sauvegarder la réponse de l'assistant
-        assistant_message = FluxKontextMessage(
-            session_id=request.session_id,
-            role="assistant",
-            content=response_text,
-            image_urls=image_urls
-        )
-        await db.flux_kontext_messages.insert_one(assistant_message.dict())
+        try:
+            assistant_message = FluxKontextMessage(
+                session_id=request.session_id,
+                role="assistant",
+                content=response_text,
+                image_urls=image_urls
+            )
+            await db.flux_kontext_messages.insert_one(assistant_message.dict())
+        except Exception as save_error:
+            # Gérer les erreurs de sauvegarde MongoDB (notamment BSON document too large)
+            save_error_message = str(save_error)
+            logging.error(f"Erreur lors de la sauvegarde du message: {save_error_message}")
+            
+            if "BSON document too large" in save_error_message:
+                # Extraire la taille du document
+                import re
+                size_match = re.search(r'(\d+)\s*bytes', save_error_message)
+                size_mb = ""
+                if size_match:
+                    size_bytes = int(size_match.group(1))
+                    size_mb = f" ({size_bytes // (1024*1024)}MB > 16MB limite)"
+                
+                # Créer un message d'erreur explicite
+                error_assistant_message = FluxKontextMessage(
+                    session_id=request.session_id,
+                    role="assistant",
+                    content=f"❌ **Image trop volumineuse**\n\nL'image générée est trop grande pour être stockée{size_mb}. Cette limitation technique de MongoDB empêche la sauvegarde. L'image a bien été générée par l'IA mais ne peut pas être affichée. Veuillez réessayer avec un aspect ratio plus petit.",
+                    image_urls=[]  # Pas d'image car trop volumineuse
+                )
+                await db.flux_kontext_messages.insert_one(error_assistant_message.dict())
+            else:
+                # Autre erreur de sauvegarde
+                raise save_error
 
         # Mettre à jour la session
         await db.flux_kontext_sessions.update_one(
