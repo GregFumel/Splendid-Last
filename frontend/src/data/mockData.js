@@ -69,6 +69,7 @@ export const mockAITools = [
     category: "video",
     image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/li3xo3mc_replicate-prediction-2epyczsz.gif",
     fullDescription: "la génération de vidéos à partir d'images de départ et de fin avec Kling AI v2.1",
+    isNew: true,
     toolType: "video-generator",
     apiEndpoint: "kling"
   },
