@@ -730,30 +730,37 @@ def test_sora2_api():
         return False
 
 def main():
-    print("🚀 DÉBUT DES TESTS API AI IMAGE UPSCALER")
+    print("🚀 DÉBUT DES TESTS API FLUX KONTEXT PRO")
     print(f"⏰ Heure: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print("🔧 Test complet de l'AI Image Upscaler intégré avec l'API Replicate")
-    print("🎯 Modèle: philz1337x/crystal-upscaler")
-    print("📏 Options: X2, X4, X8")
+    print("🔧 Test complet de Flux Kontext Pro avec nouvelles fonctionnalités")
+    print("🎯 Modèle: black-forest-labs/flux-kontext-pro")
+    print("📐 Aspect ratios: 1:1, 16:9, 9:16, 4:3, 3:4, 3:2, 2:3, 4:5, 5:4, 21:9, 9:21, 2:1, 1:2")
+    print("⚙️ Options: prompt_upsampling, safety_tolerance")
+    print("🖼️ Modes: Génération (prompt seul) + Édition (avec image uploadée)")
     print("=" * 80)
     
-    # Test AI Image Upscaler
-    print("\n🔍 TESTS AI IMAGE UPSCALER")
+    # Test Flux Kontext Pro
+    print("\n🎨 TESTS FLUX KONTEXT PRO")
     print("=" * 80)
-    upscaler_success = test_image_upscaler_api()
+    flux_success = test_flux_kontext_pro_api()
     
     # Résultats finaux
     print("\n" + "=" * 80)
     print("📊 RÉSULTATS FINAUX:")
-    print(f"   AI Image Upscaler: {'✅ RÉUSSI' if upscaler_success else '❌ ÉCHEC'}")
+    print(f"   Flux Kontext Pro: {'✅ RÉUSSI' if flux_success else '❌ ÉCHEC'}")
     
-    if upscaler_success:
+    if flux_success:
         print("\n🎉 RÉSULTAT GLOBAL: TOUS LES TESTS RÉUSSIS")
-        print("✅ L'AI Image Upscaler fonctionne correctement avec l'API Replicate")
+        print("✅ Flux Kontext Pro fonctionne correctement avec l'API Replicate")
+        print("✅ Nouvelles fonctionnalités validées:")
+        print("   - Icône import photo (optionnel)")
+        print("   - Tous les aspect ratios disponibles")
+        print("   - Options prompt_upsampling et safety_tolerance")
+        print("   - Mode génération et mode édition")
         sys.exit(0)
     else:
         print("\n❌ RÉSULTAT GLOBAL: ÉCHEC DES TESTS")
-        print("⚠️  AI Image Upscaler: Problème d'upscaling d'images")
+        print("⚠️  Flux Kontext Pro: Problème avec les nouvelles fonctionnalités")
         sys.exit(1)
 
 if __name__ == "__main__":
