@@ -519,6 +519,9 @@ frontend:
       - working: "NA"
         agent: "main"
         comment: "🔧 CORRECTION MONGODB APPLIQUÉE: Modification du backend (server.py lignes 483-492) pour stocker uniquement l'URL Replicate au lieu de télécharger et convertir en base64. Suppression du téléchargement et de la conversion base64. Les images sont maintenant stockées comme URLs Replicate delivery (comme Google Veo et SORA 2). Backend redémarré. Cette correction élimine le problème de taille de document MongoDB et permet la génération d'images avec Flux Kontext Pro."
+      - working: "NA"
+        agent: "main"
+        comment: "🔧 AMÉLIORATION MESSAGE D'ERREUR: Ajout d'un message d'erreur explicite pour l'erreur MongoDB 'BSON document too large'. Si le problème se reproduit (cas improbable maintenant que nous stockons uniquement les URLs), l'utilisateur verra un message clair: '❌ Image trop volumineuse - L'image générée est trop grande pour être stockée (34MB > 16MB limite). Cette limitation technique de MongoDB empêche la sauvegarde.' Le message inclut la taille exacte extraite de l'erreur. Backend redémarré."
 
 metadata:
   created_by: "main_agent"
