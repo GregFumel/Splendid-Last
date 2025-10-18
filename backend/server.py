@@ -50,22 +50,36 @@ def data_url_to_public_url(data_url: str, backend_url: str) -> str:
             # Already a URL
             return data_url
         
-        # Parse data URL: data:image/png;base64,xxxxx
+        # Parse data URL: data:image/png;base64,xxxxx or data:image/jpeg;base64,xxxxx
         header, encoded = data_url.split(",", 1)
         
         # Decode base64
         image_data = base64.b64decode(encoded)
         
+        # Open image with PIL to ensure it's valid
+        image = Image.open(io.BytesIO(image_data))
+        
+        # Convert to RGB if necessary (for PNG with transparency)
+        if image.mode in ('RGBA', 'LA', 'P'):
+            # Create white background
+            background = Image.new('RGB', image.size, (255, 255, 255))
+            if image.mode == 'P':
+                image = image.convert('RGBA')
+            background.paste(image, mask=image.split()[-1] if image.mode in ('RGBA', 'LA') else None)
+            image = background
+        elif image.mode != 'RGB':
+            image = image.convert('RGB')
+        
         # Generate unique filename
-        filename = f"{uuid.uuid4()}.png"
+        filename = f"{uuid.uuid4()}.jpg"
         filepath = TEMP_IMAGES_DIR / filename
         
-        # Save image
-        with open(filepath, "wb") as f:
-            f.write(image_data)
+        # Save as JPEG (better compatibility with Replicate)
+        image.save(filepath, 'JPEG', quality=95)
         
         # Return public URL
         public_url = f"{backend_url}/temp-images/{filename}"
+        logging.info(f"Image saved successfully: {filepath} -> {public_url}")
         return public_url
     except Exception as e:
         logging.error(f"Error converting data URL to public URL: {str(e)}")
