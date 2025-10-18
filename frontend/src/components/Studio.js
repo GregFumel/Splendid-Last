@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Send, Sparkles, Menu, X, Download, Plus, ChevronDown, ChevronUp } from "lucide-react";
+import { Send, Sparkles, Menu, X, Download, Plus, ChevronDown, ChevronUp, Maximize2, ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { mockAITools } from "../data/mockData";
 
-// Composant de comparaison avant-après avec slider
+// Composant de comparaison avant-après avec slider sobre
 const BeforeAfterSlider = ({ beforeImage, afterImage, onDownload }) => {
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const containerRef = useRef(null);
 
   const handleMove = (clientX) => {
@@ -55,59 +56,76 @@ const BeforeAfterSlider = ({ beforeImage, afterImage, onDownload }) => {
     }
   }, [isDragging]);
 
-  return (
-    <div className="space-y-3">
-      {/* Conteneur de comparaison */}
-      <div 
-        ref={containerRef}
-        className="relative w-full rounded-lg overflow-hidden border border-green-400/30 cursor-ew-resize select-none"
-        style={{ aspectRatio: '16/9', maxHeight: '600px' }}
-        onMouseDown={handleMouseDown}
-        onTouchStart={handleMouseDown}
-      >
-        {/* Image AFTER (upscalée) - en arrière-plan */}
-        <div className="absolute inset-0">
-          <img 
-            src={afterImage} 
-            alt="Image upscalée (Après)"
-            className="w-full h-full object-contain bg-gray-900"
-            draggable={false}
-          />
-          <div className="absolute top-2 right-2 bg-green-600/90 text-white text-xs px-2 py-1 rounded">
-            APRÈS
-          </div>
-        </div>
-
-        {/* Image BEFORE (originale) - avec clip */}
-        <div 
-          className="absolute inset-0 overflow-hidden"
-          style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
-        >
-          <img 
-            src={beforeImage} 
-            alt="Image originale (Avant)"
-            className="w-full h-full object-contain bg-gray-900"
-            draggable={false}
-          />
-          <div className="absolute top-2 left-2 bg-blue-600/90 text-white text-xs px-2 py-1 rounded">
-            AVANT
-          </div>
-        </div>
-
-        {/* Ligne de séparation et handle du slider */}
-        <div 
-          className="absolute top-0 bottom-0 w-1 bg-white shadow-lg cursor-ew-resize"
-          style={{ left: `${sliderPosition}%`, transform: 'translateX(-50%)' }}
-        >
-          {/* Handle rond au milieu */}
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center border-4 border-green-400">
-            <div className="flex gap-1">
-              <div className="w-0.5 h-4 bg-gray-700"></div>
-              <div className="w-0.5 h-4 bg-gray-700"></div>
-            </div>
-          </div>
+  const SliderContent = ({ isFullscreenView = false }) => (
+    <div 
+      ref={!isFullscreenView ? containerRef : null}
+      className="relative w-full rounded-lg overflow-hidden cursor-ew-resize select-none"
+      style={{ 
+        aspectRatio: isFullscreenView ? 'auto' : '16/9', 
+        maxHeight: isFullscreenView ? '100vh' : '600px',
+        height: isFullscreenView ? '100vh' : 'auto'
+      }}
+      onMouseDown={handleMouseDown}
+      onTouchStart={handleMouseDown}
+    >
+      {/* Image AFTER (upscalée) - en arrière-plan */}
+      <div className="absolute inset-0">
+        <img 
+          src={afterImage} 
+          alt="Image upscalée (Après)"
+          className="w-full h-full object-contain bg-gray-900"
+          draggable={false}
+        />
+        <div className="absolute top-3 right-3 bg-black/40 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded">
+          APRÈS
         </div>
       </div>
+
+      {/* Image BEFORE (originale) - avec clip */}
+      <div 
+        className="absolute inset-0 overflow-hidden"
+        style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
+      >
+        <img 
+          src={beforeImage} 
+          alt="Image originale (Avant)"
+          className="w-full h-full object-contain bg-gray-900"
+          draggable={false}
+        />
+        <div className="absolute top-3 left-3 bg-black/40 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded">
+          AVANT
+        </div>
+      </div>
+
+      {/* Ligne de séparation fine avec flèches */}
+      <div 
+        className="absolute top-0 bottom-0 w-0.5 bg-white/80 shadow-lg cursor-ew-resize"
+        style={{ left: `${sliderPosition}%`, transform: 'translateX(-50%)' }}
+      >
+        {/* Flèches au milieu - sobres */}
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center bg-white/90 rounded-full shadow-xl px-1 py-2">
+          <ChevronLeft className="w-4 h-4 text-gray-700" strokeWidth={3} />
+          <ChevronRight className="w-4 h-4 text-gray-700" strokeWidth={3} />
+        </div>
+      </div>
+
+      {/* Bouton plein écran (seulement en mode normal) */}
+      {!isFullscreenView && (
+        <button
+          onClick={() => setIsFullscreen(true)}
+          className="absolute bottom-3 right-3 bg-black/40 backdrop-blur-sm hover:bg-black/60 text-white p-2 rounded-lg transition-colors"
+          title="Voir en plein écran"
+        >
+          <Maximize2 className="w-4 h-4" />
+        </button>
+      )}
+    </div>
+  );
+
+  return (
+    <div className="space-y-3">
+      {/* Vue normale */}
+      <SliderContent />
 
       {/* Bouton télécharger l'image upscalée */}
       <div className="flex justify-center">
@@ -120,6 +138,69 @@ const BeforeAfterSlider = ({ beforeImage, afterImage, onDownload }) => {
           <span>Télécharger l'image upscalée</span>
         </button>
       </div>
+
+      {/* Modal Plein écran */}
+      {isFullscreen && (
+        <div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
+          {/* Bouton fermer en haut à droite */}
+          <button
+            onClick={() => setIsFullscreen(false)}
+            className="absolute top-4 right-4 bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white p-3 rounded-full transition-colors z-10"
+            title="Fermer le plein écran"
+          >
+            <X className="w-6 h-6" />
+          </button>
+
+          {/* Slider en plein écran */}
+          <div 
+            ref={containerRef}
+            className="w-full h-full cursor-ew-resize select-none"
+            onMouseDown={handleMouseDown}
+            onTouchStart={handleMouseDown}
+          >
+            {/* Image AFTER (upscalée) - en arrière-plan */}
+            <div className="absolute inset-0">
+              <img 
+                src={afterImage} 
+                alt="Image upscalée (Après)"
+                className="w-full h-full object-contain bg-black"
+                draggable={false}
+              />
+              <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-sm text-white text-sm px-4 py-2 rounded mr-16">
+                APRÈS
+              </div>
+            </div>
+
+            {/* Image BEFORE (originale) - avec clip */}
+            <div 
+              className="absolute inset-0 overflow-hidden"
+              style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
+            >
+              <img 
+                src={beforeImage} 
+                alt="Image originale (Avant)"
+                className="w-full h-full object-contain bg-black"
+                draggable={false}
+              />
+              <div className="absolute top-4 left-4 bg-black/40 backdrop-blur-sm text-white text-sm px-4 py-2 rounded">
+                AVANT
+              </div>
+            </div>
+
+            {/* Ligne de séparation fine avec flèches */}
+            <div 
+              className="absolute top-0 bottom-0 w-0.5 bg-white/80 shadow-2xl cursor-ew-resize"
+              style={{ left: `${sliderPosition}%`, transform: 'translateX(-50%)' }}
+            >
+              {/* Flèches au milieu - sobres */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center bg-white/90 rounded-full shadow-2xl px-1.5 py-3">
+                <ChevronLeft className="w-5 h-5 text-gray-700" strokeWidth={3} />
+                <ChevronRight className="w-5 h-5 text-gray-700" strokeWidth={3} />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
