@@ -78,14 +78,6 @@ export const mockAITools = [
     image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/gnt5f1ea_topaz_img%20-%2001.png",
     fullDescription: "l'amélioration de la résolution de vidéos existantes"
   },
-  {
-    id: 9,
-    name: "UGC Creator AI",
-    description: "Créez des vidéos UGC authentiques pour vendre vos produits.",
-    category: "video",
-    image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/x8wpwp0u_tmp2ni84f_5.gif",
-    fullDescription: "la création de vidéos UGC avec des acteurs virtuels présentant vos produits"
-  },
   // Image
   {
     id: 10,
@@ -94,14 +86,6 @@ export const mockAITools = [
     category: "image",
     image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/ei2pu1s3_ew_20240925-midjourney-review.png",
     fullDescription: "la génération d'images artistiques et photoréalistes"
-  },
-  {
-    id: 11,
-    name: "DALL-E 3",
-    description: "Transformez n'importe quelle idée en image unique.",
-    category: "image",
-    image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/kjh1zimg_Screenshot_2025-05-12_at_1.31.02P%20-%2001.png",
-    fullDescription: "la transformation d'idées texte en images uniques"
   },
   {
     id: 12,
