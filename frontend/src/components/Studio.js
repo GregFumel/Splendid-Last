@@ -722,12 +722,52 @@ const Studio = () => {
     }
   };
 
+  const initializeFluxKontextSession = async () => {
+    try {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL;
+      console.log('Backend URL Flux Kontext Pro:', backendUrl);
+      
+      const response = await fetch(`${backendUrl}/api/flux-kontext/session`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      console.log('Flux Kontext Pro Session response status:', response.status);
+      
+      if (!response.ok) {
+        throw new Error('Erreur lors de la création de la session Flux Kontext Pro');
+      }
+      
+      const session = await response.json();
+      console.log('Session Flux Kontext Pro créée:', session.id);
+      setSessionId(session.id);
+      
+      // Sauvegarder la session pour cet outil
+      setToolSessions(prev => ({
+        ...prev,
+        [selectedTool.id]: {
+          sessionId: session.id,
+          toolName: selectedTool.name
+        }
+      }));
+      
+      // Charger l'historique existant (vide pour une nouvelle session)
+      loadConversationHistory(session.id, 'flux-kontext');
+    } catch (error) {
+      console.error('Erreur lors de l\'initialisation de la session Flux Kontext Pro:', error);
+      // Arrêter l'animation en cas d'erreur
+      setIsLoadingHistory(false);
+    }
+  };
+
 
 
   const loadConversationHistory = async (sessionIdToLoad, toolType) => {
     try {
       const backendUrl = process.env.REACT_APP_BACKEND_URL;
-      const endpoint = toolType === 'nanobanana' ? 'nanobanana' : toolType === 'google-veo' ? 'google-veo' : toolType === 'sora2' ? 'sora2' : toolType === 'image-upscaler' ? 'image-upscaler' : 'chatgpt5';
+      const endpoint = toolType === 'nanobanana' ? 'nanobanana' : toolType === 'google-veo' ? 'google-veo' : toolType === 'sora2' ? 'sora2' : toolType === 'image-upscaler' ? 'image-upscaler' : toolType === 'flux-kontext' ? 'flux-kontext' : 'chatgpt5';
       const url = `${backendUrl}/api/${endpoint}/session/${sessionIdToLoad}`;
       console.log('🌐 Chargement historique depuis:', url);
       
