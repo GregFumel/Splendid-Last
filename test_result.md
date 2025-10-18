@@ -487,6 +487,18 @@ frontend:
         agent: "testing"
         comment: "🤖 VALIDATION FINALE ChatGPT-5! Test selon demande utilisateur: Prompt 'Explique-moi comment fonctionnent les LLMs en 2 phrases' généré avec succès. Réponse complète et détaillée affichée dans l'interface. Backend utilise GPT-4o (ligne 303 server.py). ChatGPT-5 fonctionne parfaitement pour la génération de texte comme demandé!"
 
+  - task: "Flux Kontext Pro - Ajout icône import photo et options aspect ratio"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Studio.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "✅ IMPLÉMENTÉ: Ajout de l'icône 'plus' pour importer une photo (optionnel) pour Flux Kontext Pro. Ajout de tous les aspect ratios demandés (1:1, 16:9, 9:16, 4:3, 3:4, 3:2, 2:3, 4:5, 5:4, 21:9, 9:21, 2:1, 1:2). Ajout de toutes les options disponibles dans l'interface: aspect ratio, prompt upsampling, safety tolerance. Accordéon ouvert par défaut. Modifications effectuées pour mobile et desktop. Les deux modes fonctionnent: génération avec prompt seul OU modification d'une image uploadée + prompt."
+
 metadata:
   created_by: "main_agent"
   version: "2.3"
