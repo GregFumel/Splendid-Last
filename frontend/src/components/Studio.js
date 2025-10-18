@@ -368,6 +368,7 @@ const Studio = () => {
   const [isGoogleVeo, setIsGoogleVeo] = useState(false); // Pour Google Veo 3.1
   const [isSora2, setIsSora2] = useState(false); // Pour SORA 2
   const [isImageUpscaler, setIsImageUpscaler] = useState(false); // Pour AI Image Upscaler
+  const [isFluxKontext, setIsFluxKontext] = useState(false); // Pour Flux Kontext Pro
   const [toolSessions, setToolSessions] = useState({}); // Stocker les sessions par outil
   const [isLoadingHistory, setIsLoadingHistory] = useState(false); // État pour l'animation de chargement
   
@@ -396,6 +397,13 @@ const Studio = () => {
   });
   const [showUpscalerOptions, setShowUpscalerOptions] = useState(true); // Par défaut dépliées
 
+  // États pour les options Flux Kontext Pro
+  const [fluxKontextOptions, setFluxKontextOptions] = useState({
+    aspectRatio: "16:9",  // Default aspect ratio
+    promptUpsampling: false,
+    safetyTolerance: 2
+  });
+  const [showFluxKontextOptions, setShowFluxKontextOptions] = useState(true); // Par défaut dépliées
 
 
   // Sélectionner l'outil basé sur le paramètre URL
