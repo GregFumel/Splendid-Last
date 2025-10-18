@@ -29,6 +29,243 @@ def get_backend_url():
     
     return "http://localhost:8001"
 
+def create_test_image():
+    """Crée une petite image de test en base64 pour l'upscaling"""
+    # Créer une petite image de test (50x50 pixels, rouge)
+    from PIL import Image
+    import io
+    
+    # Créer une image rouge simple
+    img = Image.new('RGB', (50, 50), color='red')
+    
+    # Convertir en base64
+    buffer = io.BytesIO()
+    img.save(buffer, format='JPEG')
+    img_data = buffer.getvalue()
+    
+    # Encoder en base64
+    img_base64 = base64.b64encode(img_data).decode('utf-8')
+    return f"data:image/jpeg;base64,{img_base64}"
+
+def test_image_upscaler_api():
+    """Test complet de l'API AI Image Upscaler"""
+    
+    # Configuration
+    base_url = get_backend_url()
+    api_url = f"{base_url}/api"
+    print(f"🔗 URL de test: {api_url}")
+    print("=" * 80)
+    
+    session_id = None
+    
+    try:
+        # Test 1: Créer une nouvelle session AI Image Upscaler
+        print("📝 TEST 1: POST /api/image-upscaler/session - Créer une session AI Image Upscaler")
+        print("-" * 70)
+        
+        response = requests.post(f"{api_url}/image-upscaler/session", timeout=30)
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            session_data = response.json()
+            session_id = session_data.get('id')
+            print(f"✅ Session AI Image Upscaler créée avec succès!")
+            print(f"   Session ID: {session_id}")
+            print(f"   Created at: {session_data.get('created_at')}")
+            print(f"   Last updated: {session_data.get('last_updated')}")
+            print(f"   Response: {json.dumps(session_data, indent=2)}")
+        else:
+            print(f"❌ Échec création session AI Image Upscaler: {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False
+            
+        print("\n" + "=" * 80)
+        
+        # Créer une image de test
+        test_image = create_test_image()
+        print(f"🖼️ Image de test créée: {len(test_image)} caractères")
+        
+        # Test 2: Upscaler une image X2
+        print("🔍 TEST 2: POST /api/image-upscaler/upscale - Upscaler image X2")
+        print("-" * 70)
+        
+        if not session_id:
+            print("❌ Pas de session_id disponible pour le test d'upscaling")
+            return False
+            
+        upscale_payload_x2 = {
+            "session_id": session_id,
+            "image_data": test_image,
+            "scale_factor": 2
+        }
+        
+        print(f"Payload X2: session_id={session_id}, scale_factor=2, image_data_length={len(test_image)}")
+        
+        response = requests.post(
+            f"{api_url}/image-upscaler/upscale", 
+            json=upscale_payload_x2,
+            timeout=120  # 2 minutes pour l'upscaling
+        )
+        
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            upscale_data = response.json()
+            print(f"✅ Image upscalée X2 avec succès!")
+            print(f"   Session ID: {upscale_data.get('session_id')}")
+            print(f"   Message ID: {upscale_data.get('message_id')}")
+            print(f"   Response Text: {upscale_data.get('response_text')}")
+            
+            image_urls = upscale_data.get('image_urls', [])
+            print(f"   Nombre d'images upscalées: {len(image_urls)}")
+            
+            for i, url in enumerate(image_urls):
+                if url.startswith('data:image'):
+                    print(f"   Image {i+1}: Data URL valide ({len(url)} caractères)")
+                else:
+                    print(f"   Image {i+1}: {url}")
+                    
+        else:
+            print(f"❌ Échec upscaling X2: {response.status_code}")
+            print(f"   Response: {response.text}")
+            # Continue avec les autres tests même si X2 échoue
+            
+        print("\n" + "=" * 80)
+        
+        # Test 3: Upscaler une image X4
+        print("🔍 TEST 3: POST /api/image-upscaler/upscale - Upscaler image X4")
+        print("-" * 70)
+        
+        upscale_payload_x4 = {
+            "session_id": session_id,
+            "image_data": test_image,
+            "scale_factor": 4
+        }
+        
+        print(f"Payload X4: session_id={session_id}, scale_factor=4, image_data_length={len(test_image)}")
+        
+        response = requests.post(
+            f"{api_url}/image-upscaler/upscale", 
+            json=upscale_payload_x4,
+            timeout=120
+        )
+        
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            upscale_data = response.json()
+            print(f"✅ Image upscalée X4 avec succès!")
+            print(f"   Session ID: {upscale_data.get('session_id')}")
+            print(f"   Message ID: {upscale_data.get('message_id')}")
+            print(f"   Response Text: {upscale_data.get('response_text')}")
+            
+            image_urls = upscale_data.get('image_urls', [])
+            print(f"   Nombre d'images upscalées: {len(image_urls)}")
+            
+            for i, url in enumerate(image_urls):
+                if url.startswith('data:image'):
+                    print(f"   Image {i+1}: Data URL valide ({len(url)} caractères)")
+                else:
+                    print(f"   Image {i+1}: {url}")
+                    
+        else:
+            print(f"❌ Échec upscaling X4: {response.status_code}")
+            print(f"   Response: {response.text}")
+            
+        print("\n" + "=" * 80)
+        
+        # Test 4: Upscaler une image X8
+        print("🔍 TEST 4: POST /api/image-upscaler/upscale - Upscaler image X8")
+        print("-" * 70)
+        
+        upscale_payload_x8 = {
+            "session_id": session_id,
+            "image_data": test_image,
+            "scale_factor": 8
+        }
+        
+        print(f"Payload X8: session_id={session_id}, scale_factor=8, image_data_length={len(test_image)}")
+        
+        response = requests.post(
+            f"{api_url}/image-upscaler/upscale", 
+            json=upscale_payload_x8,
+            timeout=120
+        )
+        
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            upscale_data = response.json()
+            print(f"✅ Image upscalée X8 avec succès!")
+            print(f"   Session ID: {upscale_data.get('session_id')}")
+            print(f"   Message ID: {upscale_data.get('message_id')}")
+            print(f"   Response Text: {upscale_data.get('response_text')}")
+            
+            image_urls = upscale_data.get('image_urls', [])
+            print(f"   Nombre d'images upscalées: {len(image_urls)}")
+            
+            for i, url in enumerate(image_urls):
+                if url.startswith('data:image'):
+                    print(f"   Image {i+1}: Data URL valide ({len(url)} caractères)")
+                else:
+                    print(f"   Image {i+1}: {url}")
+                    
+        else:
+            print(f"❌ Échec upscaling X8: {response.status_code}")
+            print(f"   Response: {response.text}")
+            
+        print("\n" + "=" * 80)
+        
+        # Test 5: Récupérer l'historique de la session
+        print("📚 TEST 5: GET /api/image-upscaler/session/{session_id} - Récupérer l'historique")
+        print("-" * 70)
+        
+        response = requests.get(f"{api_url}/image-upscaler/session/{session_id}", timeout=30)
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            history_data = response.json()
+            print(f"✅ Historique AI Image Upscaler récupéré avec succès!")
+            print(f"   Nombre de messages: {len(history_data)}")
+            
+            user_messages = 0
+            assistant_messages = 0
+            
+            for i, message in enumerate(history_data):
+                print(f"   Message {i+1}:")
+                print(f"     ID: {message.get('id')}")
+                print(f"     Role: {message.get('role')}")
+                print(f"     Content: {message.get('content')}")
+                print(f"     Images: {len(message.get('image_urls', []))}")
+                print(f"     Timestamp: {message.get('timestamp')}")
+                
+                if message.get('role') == 'user':
+                    user_messages += 1
+                elif message.get('role') == 'assistant':
+                    assistant_messages += 1
+                    
+            print(f"   Messages utilisateur: {user_messages}")
+            print(f"   Messages assistant: {assistant_messages}")
+                
+        else:
+            print(f"❌ Échec récupération historique: {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False
+            
+        print("\n" + "=" * 80)
+        print("🎉 TOUS LES TESTS AI IMAGE UPSCALER TERMINÉS!")
+        return True
+        
+    except requests.exceptions.Timeout:
+        print("❌ ERREUR: Timeout lors de la requête AI Image Upscaler")
+        return False
+    except requests.exceptions.ConnectionError:
+        print("❌ ERREUR: Impossible de se connecter au backend AI Image Upscaler")
+        return False
+    except Exception as e:
+        print(f"❌ ERREUR INATTENDUE AI Image Upscaler: {str(e)}")
+        return False
+
 def test_google_veo_api():
     """Test complet de l'API Google Veo 3.1"""
     
