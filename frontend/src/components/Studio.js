@@ -1723,9 +1723,87 @@ const Studio = () => {
                 )}
 
 
+                {/* Options de configuration pour Flux Kontext Pro - Mobile */}
+                {isFluxKontext && (
+                  <div className="bg-orange-500/10 border border-orange-400/30 rounded-lg overflow-hidden">
+                    {/* En-tête cliquable avec flèche */}
+                    <button
+                      onClick={() => setShowFluxKontextOptions(!showFluxKontextOptions)}
+                      className="w-full flex items-center justify-between p-3 hover:bg-orange-500/5 transition-colors"
+                    >
+                      <span className="text-sm font-medium text-gray-200">Options de génération</span>
+                      {showFluxKontextOptions ? (
+                        <ChevronDown className="w-4 h-4 text-gray-400" />
+                      ) : (
+                        <ChevronUp className="w-4 h-4 text-gray-400" />
+                      )}
+                    </button>
+                    
+                    {/* Contenu pliable */}
+                    {showFluxKontextOptions && (
+                      <div className="flex flex-col gap-3 px-3 pb-3 pt-2 border-t border-orange-400/20 mt-2">
+                        {/* Aspect Ratio */}
+                        <div className="flex items-center gap-2">
+                          <label className="text-sm text-gray-300">Aspect Ratio:</label>
+                          <select
+                            value={fluxKontextOptions.aspectRatio}
+                            onChange={(e) => setFluxKontextOptions({...fluxKontextOptions, aspectRatio: e.target.value})}
+                            className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-orange-400 focus:outline-none"
+                          >
+                            <option value="1:1">1:1 (Carré)</option>
+                            <option value="16:9">16:9 (Paysage)</option>
+                            <option value="9:16">9:16 (Portrait)</option>
+                            <option value="4:3">4:3</option>
+                            <option value="3:4">3:4</option>
+                            <option value="3:2">3:2</option>
+                            <option value="2:3">2:3</option>
+                            <option value="4:5">4:5</option>
+                            <option value="5:4">5:4</option>
+                            <option value="21:9">21:9 (Ultra-large)</option>
+                            <option value="9:21">9:21 (Ultra-portrait)</option>
+                            <option value="2:1">2:1</option>
+                            <option value="1:2">1:2</option>
+                          </select>
+                        </div>
+                        
+                        {/* Prompt Upsampling */}
+                        <div className="flex items-center gap-2">
+                          <label className="text-sm text-gray-300">Amélioration du prompt:</label>
+                          <select
+                            value={fluxKontextOptions.promptUpsampling}
+                            onChange={(e) => setFluxKontextOptions({...fluxKontextOptions, promptUpsampling: e.target.value === 'true'})}
+                            className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-orange-400 focus:outline-none"
+                          >
+                            <option value="false">Désactivée</option>
+                            <option value="true">Activée</option>
+                          </select>
+                        </div>
+                        
+                        {/* Safety Tolerance */}
+                        <div className="flex items-center gap-2">
+                          <label className="text-sm text-gray-300">Tolérance de sécurité:</label>
+                          <select
+                            value={fluxKontextOptions.safetyTolerance}
+                            onChange={(e) => setFluxKontextOptions({...fluxKontextOptions, safetyTolerance: parseInt(e.target.value)})}
+                            className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-orange-400 focus:outline-none"
+                          >
+                            <option value={0}>0 (Stricte)</option>
+                            <option value={1}>1</option>
+                            <option value={2}>2 (Modérée)</option>
+                            <option value={3}>3</option>
+                            <option value={4}>4</option>
+                            <option value={5}>5</option>
+                            <option value={6}>6 (Permissive)</option>
+                          </select>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 
-                {/* Zone de saisie avec icône d'upload pour ChatGPT-5, NanoBanana et Image Upscaler */}
-                {(isChatGPT5 || isNanoBanana || isImageUpscaler) ? (
+                {/* Zone de saisie avec icône d'upload pour ChatGPT-5, NanoBanana, Image Upscaler et Flux Kontext */}
+                {(isChatGPT5 || isNanoBanana || isImageUpscaler || isFluxKontext) ? (
                   <div className="flex items-center gap-2">
                     <button
                       onClick={handleImageUpload}
