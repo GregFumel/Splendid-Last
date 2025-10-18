@@ -616,6 +616,174 @@ async def get_flux_kontext_session(session_id: str):
 
 
 
+# Kling AI v2.1 endpoints (Image-to-Video Generation)
+
+@api_router.post("/kling/session", response_model=KlingSession)
+async def create_kling_session():
+    """Crée une nouvelle session Kling AI"""
+    try:
+        session = KlingSession()
+        await db.kling_sessions.insert_one(session.dict())
+        return session
+    except Exception as e:
+        logger.error(f"Erreur lors de la création de session Kling: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.post("/kling/generate", response_model=GenerateKlingResponse)
+async def generate_video_with_kling(request: GenerateKlingRequest):
+    """Génère une vidéo avec Kling AI v2.1 (image-to-video)"""
+    try:
+        # Créer ou récupérer la session
+        session = await db.kling_sessions.find_one({"id": request.session_id})
+        if not session:
+            session_obj = KlingSession(id=request.session_id)
+            await db.kling_sessions.insert_one(session_obj.dict())
+            session = session_obj.dict()
+
+        # Sauvegarder le message utilisateur avec les images
+        user_image_urls = [request.start_image]
+        if request.end_image:
+            user_image_urls.append(request.end_image)
+        
+        user_content = f"Vidéo avec image de départ{' et image de fin' if request.end_image else ''}: {request.prompt}"
+        
+        user_message = KlingMessage(
+            session_id=request.session_id,
+            role="user",
+            content=user_content,
+            image_urls=user_image_urls
+        )
+        await db.kling_messages.insert_one(user_message.dict())
+
+        # Vérifier le token Replicate
+        replicate_token = os.environ.get('REPLICATE_API_TOKEN')
+        if not replicate_token:
+            raise HTTPException(status_code=500, detail="REPLICATE_API_TOKEN not configured")
+        
+        video_urls = []
+        response_text = ""
+        error_occurred = False
+        
+        try:
+            # Préparer les inputs pour le modèle kwaivgi/kling-v2.1
+            inputs = {
+                "prompt": request.prompt,
+                "start_image": request.start_image,
+                "mode": request.mode,
+                "duration": request.duration,
+                "negative_prompt": request.negative_prompt or ""
+            }
+            
+            # Ajouter l'image de fin si présente (nécessite mode pro)
+            if request.end_image:
+                if request.mode != "pro":
+                    raise Exception("L'image de fin (end_image) nécessite le mode 'pro' (1080p)")
+                inputs["end_image"] = request.end_image
+            
+            # Générer la vidéo avec Replicate
+            logging.info(f"Génération de vidéo avec Replicate - modèle: kwaivgi/kling-v2.1, prompt: {request.prompt}, durée: {request.duration}s, mode: {request.mode}")
+            
+            output = replicate.run(
+                "kwaivgi/kling-v2.1",
+                input=inputs
+            )
+            
+            # Le output est une URL de vidéo
+            video_url = str(output) if output else None
+            
+            if not video_url:
+                raise Exception("Aucune vidéo générée par Replicate")
+            
+            # Stocker directement l'URL Replicate (pas de téléchargement)
+            logging.info(f"Vidéo générée disponible à: {video_url}")
+            
+            video_urls = [video_url]
+            response_text = f"✅ Vidéo générée avec succès avec Kling AI v2.1!\n\nDurée: {request.duration}s\nRésolution: {request.mode} ({'720p' if request.mode == 'standard' else '1080p'})\n{'Avec image de fin' if request.end_image else 'Avec image de départ uniquement'}"
+            
+        except Exception as e:
+            error_occurred = True
+            error_message = str(e)
+            logging.error(f"Erreur lors de la génération avec Replicate: {error_message}")
+            
+            # Analyser le type d'erreur pour donner un message plus précis
+            if "402" in error_message or "Insufficient credit" in error_message:
+                response_text = "❌ **Erreur de génération de vidéo**\n\nNous n'avons pas pu générer votre vidéo car notre compte Replicate API n'a plus de crédit suffisant. Veuillez réessayer plus tard ou contactez l'administrateur pour recharger le compte."
+            elif "NSFW" in error_message or "content policy" in error_message.lower() or "inappropriate" in error_message.lower() or "sensitive" in error_message.lower() or "safety" in error_message.lower():
+                response_text = f"❌ **Contenu inapproprié détecté**\n\nVotre demande a été refusée car elle pourrait contenir du contenu sensible ou inapproprié selon les politiques de Kling AI. Veuillez reformuler votre prompt avec un contenu approprié."
+            elif "timeout" in error_message.lower() or "timed out" in error_message.lower():
+                response_text = "❌ **Délai d'attente dépassé**\n\nLa génération de votre vidéo a pris trop de temps et a été interrompue. Veuillez réessayer avec un prompt plus simple."
+            elif "rate limit" in error_message.lower():
+                response_text = "❌ **Limite de requêtes atteinte**\n\nNous avons atteint la limite de requêtes autorisées par l'API. Veuillez attendre quelques instants avant de réessayer."
+            elif "end_image" in error_message.lower() and "pro" in error_message.lower():
+                response_text = "❌ **Configuration invalide**\n\nL'utilisation d'une image de fin (end_image) nécessite le mode 'pro' (1080p). Veuillez activer le mode pro ou retirer l'image de fin."
+            else:
+                response_text = f"❌ **Erreur de génération de vidéo**\n\nNous n'avons pas pu générer votre vidéo pour la raison suivante :\n{error_message}\n\nVeuillez réessayer avec un prompt différent."
+
+        # Sauvegarder la réponse de l'assistant
+        try:
+            assistant_message = KlingMessage(
+                session_id=request.session_id,
+                role="assistant",
+                content=response_text,
+                video_urls=video_urls
+            )
+            await db.kling_messages.insert_one(assistant_message.dict())
+        except Exception as save_error:
+            save_error_message = str(save_error)
+            logging.error(f"Erreur lors de la sauvegarde du message: {save_error_message}")
+            
+            if "BSON document too large" in save_error_message:
+                # Extraire la taille du document
+                import re
+                size_match = re.search(r'(\d+)\s*bytes', save_error_message)
+                size_mb = ""
+                if size_match:
+                    size_bytes = int(size_match.group(1))
+                    size_mb = f" ({size_bytes // (1024*1024)}MB > 16MB limite)"
+                
+                error_assistant_message = KlingMessage(
+                    session_id=request.session_id,
+                    role="assistant",
+                    content=f"❌ **Vidéo trop volumineuse**\n\nLa vidéo générée est trop grande pour être stockée{size_mb}. Cette limitation technique de MongoDB empêche la sauvegarde. La vidéo a bien été générée par l'IA mais ne peut pas être affichée.",
+                    video_urls=[]
+                )
+                await db.kling_messages.insert_one(error_assistant_message.dict())
+            else:
+                raise save_error
+
+        # Mettre à jour la session
+        await db.kling_sessions.update_one(
+            {"id": request.session_id},
+            {"$set": {"last_updated": datetime.utcnow()}}
+        )
+
+        return GenerateKlingResponse(
+            session_id=request.session_id,
+            message_id=assistant_message.id if not error_occurred else "error",
+            video_urls=video_urls,
+            response_text=response_text
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Erreur lors de la génération: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur lors de la génération: {str(e)}")
+
+@api_router.get("/kling/session/{session_id}", response_model=List[KlingMessage])
+async def get_kling_session(session_id: str):
+    """Récupère l'historique d'une session Kling AI"""
+    try:
+        messages = await db.kling_messages.find(
+            {"session_id": session_id}
+        ).sort("timestamp", 1).to_list(1000)
+        
+        return [KlingMessage(**msg) for msg in messages]
+    except Exception as e:
+        logger.error(f"Erreur lors de la récupération de session: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+
+
 # Google Veo 3.1 endpoints (Video Generation)
 
 @api_router.post("/google-veo/session", response_model=GoogleVeoSession)
