@@ -489,11 +489,11 @@ frontend:
 
   - task: "Flux Kontext Pro - Ajout icône import photo et options aspect ratio"
     implemented: true
-    working: true
+    working: "NA"
     file: "/app/frontend/src/components/Studio.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
@@ -501,6 +501,12 @@ frontend:
       - working: true
         agent: "testing"
         comment: "✅ TESTÉ COMPLET: Flux Kontext Pro fonctionne parfaitement avec toutes les nouvelles fonctionnalités! Tests réussis: 1) POST /api/flux-kontext/session - Session créée (ID: 10fe46f9-cc0d-4968-8c00-67de00440eba), 2) Mode 1 génération sans image - Image générée avec prompt 'a beautiful sunset over mountains' (aspect_ratio: 1:1, prompt_upsampling: false, safety_tolerance: 2), 3) Mode 2 édition avec image uploadée - Image éditée avec prompt 'turn this into a beautiful landscape' (aspect_ratio: 16:9, prompt_upsampling: true, safety_tolerance: 4), 4) Test aspect ratios multiples (4:3, 21:9) - Tous fonctionnels, 5) GET historique - 8 messages récupérés (4 user + 4 assistant, 5 images totales). Backend utilise modèle black-forest-labs/flux-kontext-pro avec API Replicate. Toutes les options (prompt_upsampling, safety_tolerance) transmises correctement. Les deux modes (génération et édition) opérationnels."
+      - working: false
+        agent: "main"
+        comment: "🚨 PROBLÈME INTERFACE UTILISATEUR IDENTIFIÉ: L'utilisateur rapporte que l'import de photo fonctionne, les options d'aspect ratio fonctionnent, toutes les options de génération fonctionnent, MAIS après génération, rien ne s'affiche - ni le prompt, ni l'image importée, ni le résultat final. Même problème que NanoBanana - l'interface ne se met pas à jour après génération."
+      - working: "NA"
+        agent: "main"
+        comment: "🔧 CORRECTION APPLIQUÉE: Ajout de isFluxKontext dans la condition d'affichage de l'interface conversationnelle (ligne 1319). Flux Kontext Pro utilise maintenant l'interface conversationnelle comme NanoBanana, ChatGPT-5, Google Veo, SORA 2 et Image Upscaler. Le message de génération était déjà configuré ('Génération d'image en cours...' ou 'Édition d'image en cours...' selon le mode). Frontend redémarré. Prêt pour re-test utilisateur."
 
 metadata:
   created_by: "main_agent"
