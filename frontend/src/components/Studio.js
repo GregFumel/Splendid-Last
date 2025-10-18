@@ -1614,8 +1614,8 @@ const Studio = () => {
                           )}
 
                           
-                          {/* Affichage des vidéos générées pour Google Veo et SORA 2 */}
-                          {(isGoogleVeo || isSora2) && message.role === 'assistant' && message.video_urls && message.video_urls.length > 0 && (
+                          {/* Affichage des vidéos générées pour Google Veo, SORA 2 et Kling AI */}
+                          {(isGoogleVeo || isSora2 || isKling) && message.role === 'assistant' && message.video_urls && message.video_urls.length > 0 && (
                             <div className="mt-3 space-y-2">
                               {message.video_urls.map((videoUrl, vidIndex) => (
                                 <div key={vidIndex} className="rounded-lg overflow-hidden border border-white/20">
@@ -1633,7 +1633,7 @@ const Studio = () => {
                                   <div className="p-3 bg-black/20 flex justify-center">
                                     <button
                                       onClick={() => handleDownloadVideo(videoUrl, message.id)}
-                                      className="bg-gray-600/80 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 text-sm"
+                                      className={`${isKling ? 'bg-purple-600/80 hover:bg-purple-600' : 'bg-gray-600/80 hover:bg-gray-600'} text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 text-sm`}
                                       title="Télécharger la vidéo"
                                     >
                                       <Download className="w-4 h-4" />
