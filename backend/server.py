@@ -1,5 +1,6 @@
 from fastapi import FastAPI, APIRouter, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -18,6 +19,8 @@ import replicate
 import requests
 from PIL import Image, ImageDraw, ImageFont
 import io
+import tempfile
+import shutil
 
 
 ROOT_DIR = Path(__file__).parent
