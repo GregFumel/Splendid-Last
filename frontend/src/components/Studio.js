@@ -1304,18 +1304,18 @@ const Studio = () => {
                 
                 <button
                   onClick={handleGenerate}
-                  disabled={!prompt.trim() || isGenerating}
-                  className="btn-3d-effect bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold rounded-xl transition flex items-center justify-center space-x-2 shadow-lg px-4 py-3 w-full"
+                  disabled={(isImageUpscaler ? !uploadedImage : !prompt.trim()) || isGenerating}
+                  className={`btn-3d-effect ${isImageUpscaler ? 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700' : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700'} disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold rounded-xl transition flex items-center justify-center space-x-2 shadow-lg px-4 py-3 w-full`}
                 >
                   {isGenerating ? (
                     <>
                       <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                      <span>Génération...</span>
+                      <span>{isImageUpscaler ? 'Upscaling...' : 'Génération...'}</span>
                     </>
                   ) : (
                     <>
                       <Send className="w-4 h-4" />
-                      <span>Générer</span>
+                      <span>{isImageUpscaler ? 'Upscaler' : 'Générer'}</span>
                     </>
                   )}
                 </button>
