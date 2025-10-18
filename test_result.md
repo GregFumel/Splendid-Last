@@ -222,6 +222,66 @@ backend:
         agent: "testing"
         comment: "✅ TESTÉ URGENT: Récupération d'historique SORA 2 parfaite. Retourne 2 messages (user + assistant) avec tous les champs corrects: ID, role, content, video_urls, timestamp. Message assistant contient 1 vidéo dans video_urls. Structure conforme au modèle Sora2Message."
 
+  - task: "POST /api/image-upscaler/session - Créer une session AI Image Upscaler"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTÉ: Session AI Image Upscaler créée avec succès! ID unique généré (7d97c2ed-3519-4002-b6d1-3862ee294043), timestamps corrects (created_at, last_updated), structure conforme au modèle ImageUpscalerSession. Status 200 avec JSON valide."
+
+  - task: "POST /api/image-upscaler/upscale - Upscaler image X2"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTÉ: Upscaling X2 réussi! API Replicate avec modèle philz1337x/crystal-upscaler fonctionne parfaitement. Image 50x50px upscalée avec succès, data URL valide retournée (4866 caractères), message de succès présent. Temps de traitement: ~11 secondes."
+
+  - task: "POST /api/image-upscaler/upscale - Upscaler image X4"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTÉ: Upscaling X4 réussi! API Replicate avec modèle philz1337x/crystal-upscaler fonctionne parfaitement. Image 50x50px upscalée avec succès, data URL valide retournée (23614 caractères), message de succès présent. Temps de traitement: ~12 secondes."
+
+  - task: "POST /api/image-upscaler/upscale - Upscaler image X8"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTÉ: Upscaling X8 réussi! API Replicate avec modèle philz1337x/crystal-upscaler fonctionne parfaitement. Image 50x50px upscalée avec succès, data URL valide retournée (104034 caractères), message de succès présent. Temps de traitement: ~10 secondes."
+
+  - task: "GET /api/image-upscaler/session/{session_id} - Récupérer l'historique AI Image Upscaler"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTÉ: Récupération d'historique AI Image Upscaler parfaite. Retourne 6 messages (3 user + 3 assistant) avec tous les champs corrects: ID, role, content, image_urls, timestamp. Messages assistant contiennent les images upscalées. Structure conforme au modèle ImageUpscalerMessage."
+
 frontend:
   - task: "Ajout de SORA 2 dans la catégorie vidéo"
     implemented: true
