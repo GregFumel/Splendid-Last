@@ -523,9 +523,33 @@ frontend:
         agent: "main"
         comment: "🔧 AMÉLIORATION MESSAGE D'ERREUR: Ajout d'un message d'erreur explicite pour l'erreur MongoDB 'BSON document too large'. Si le problème se reproduit (cas improbable maintenant que nous stockons uniquement les URLs), l'utilisateur verra un message clair: '❌ Image trop volumineuse - L'image générée est trop grande pour être stockée (34MB > 16MB limite). Cette limitation technique de MongoDB empêche la sauvegarde.' Le message inclut la taille exacte extraite de l'erreur. Backend redémarré."
 
+  - task: "Kling AI v2.1 - Backend endpoints (session, generate, history)"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "✅ Backend déjà implémenté avec endpoints: POST /api/kling/session, POST /api/kling/generate, GET /api/kling/session/{id}. Utilise Replicate API avec modèle kwaivgi/kling-v2.1. Génération vidéo avec start_image (obligatoire), end_image (optionnelle, nécessite mode pro), durée (5 ou 10s), mode (standard 720p ou pro 1080p). Token REPLICATE_API_TOKEN déjà configuré dans .env."
+
+  - task: "Kling AI v2.1 - Frontend complet avec upload images et options"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Studio.js, /app/frontend/src/data/mockData.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "✅ Frontend complet implémenté: 1) Upload start_image (obligatoire) et end_image (optionnelle), 2) Options durée (5s/10s) et qualité (Standard 720p / Pro 1080p), 3) Accordéon options dépliables par défaut, 4) Interface conversationnelle avec affichage vidéos, 5) Badge NEW ajouté dans mockData.js, 6) Bouton télécharger vidéo avec thème violet (purple), 7) Gestion validation: end_image nécessite mode pro, start_image obligatoire, 8) Interface mobile et desktop. Tout est prêt pour testing."
+
 metadata:
   created_by: "main_agent"
-  version: "2.4"
+  version: "2.5"
   test_sequence: 7
 
 test_plan:
