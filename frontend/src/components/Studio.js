@@ -900,7 +900,7 @@ const Studio = () => {
         messagesWithImages.forEach((msg, idx) => {
           console.log(`  Image ${idx + 1}:`, {
             role: msg.role,
-            imageCount: m.image_urls.length,
+            imageCount: msg.image_urls.length,
             firstImagePreview: msg.image_urls[0]?.substring(0, 50) + '...'
           });
         });
