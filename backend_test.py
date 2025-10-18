@@ -50,6 +50,229 @@ def create_test_image():
     img_base64 = base64.b64encode(img_data).decode('utf-8')
     return f"data:image/jpeg;base64,{img_base64}"
 
+def test_flux_kontext_pro_api():
+    """Test complet de l'API Flux Kontext Pro selon les nouvelles fonctionnalités"""
+    
+    # Configuration
+    base_url = get_backend_url()
+    api_url = f"{base_url}/api"
+    print(f"🔗 URL de test: {api_url}")
+    print("=" * 80)
+    
+    session_id = None
+    
+    try:
+        # Test 1: Créer une nouvelle session Flux Kontext Pro
+        print("📝 TEST 1: POST /api/flux-kontext/session - Créer une nouvelle session")
+        print("-" * 70)
+        
+        response = requests.post(f"{api_url}/flux-kontext/session", timeout=30)
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            session_data = response.json()
+            session_id = session_data.get('id')
+            print(f"✅ Session Flux Kontext Pro créée avec succès!")
+            print(f"   Session ID: {session_id}")
+            print(f"   Created at: {session_data.get('created_at')}")
+            print(f"   Last updated: {session_data.get('last_updated')}")
+            print(f"   Response: {json.dumps(session_data, indent=2)}")
+        else:
+            print(f"❌ Échec création session Flux Kontext Pro: {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False
+            
+        print("\n" + "=" * 80)
+        
+        # Test 2: Mode 1 - Génération sans image (prompt seul)
+        print("🎨 TEST 2: POST /api/flux-kontext/generate - Mode 1: Génération sans image (prompt seul)")
+        print("-" * 70)
+        
+        if not session_id:
+            print("❌ Pas de session_id disponible pour le test de génération")
+            return False
+            
+        generate_payload_mode1 = {
+            "session_id": session_id,
+            "prompt": "a beautiful sunset over mountains",
+            "aspect_ratio": "1:1",
+            "prompt_upsampling": False,
+            "safety_tolerance": 2
+        }
+        
+        print(f"Payload Mode 1: {json.dumps(generate_payload_mode1, indent=2)}")
+        
+        response = requests.post(
+            f"{api_url}/flux-kontext/generate", 
+            json=generate_payload_mode1,
+            timeout=180  # 3 minutes pour la génération d'image
+        )
+        
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            generate_data = response.json()
+            print(f"✅ Image générée avec succès (Mode 1)!")
+            print(f"   Session ID: {generate_data.get('session_id')}")
+            print(f"   Message ID: {generate_data.get('message_id')}")
+            print(f"   Response Text: {generate_data.get('response_text')}")
+            
+            image_urls = generate_data.get('image_urls', [])
+            print(f"   Nombre d'images générées: {len(image_urls)}")
+            
+            for i, url in enumerate(image_urls):
+                if url.startswith('data:image'):
+                    print(f"   Image {i+1}: Data URL valide ({len(url)} caractères)")
+                else:
+                    print(f"   Image {i+1}: {url}")
+                    
+        else:
+            print(f"❌ Échec génération Mode 1: {response.status_code}")
+            print(f"   Response: {response.text}")
+            # Continue avec les autres tests même si Mode 1 échoue
+            
+        print("\n" + "=" * 80)
+        
+        # Test 3: Mode 2 - Édition avec image uploadée
+        print("🖼️ TEST 3: POST /api/flux-kontext/generate - Mode 2: Édition avec image uploadée")
+        print("-" * 70)
+        
+        # Créer une image de test pour l'édition
+        test_image = create_test_image()
+        print(f"🖼️ Image de test créée: {len(test_image)} caractères")
+        
+        generate_payload_mode2 = {
+            "session_id": session_id,
+            "prompt": "turn this into a beautiful landscape",
+            "input_image": test_image,
+            "aspect_ratio": "16:9",
+            "prompt_upsampling": True,
+            "safety_tolerance": 4
+        }
+        
+        print(f"Payload Mode 2: session_id={session_id}, prompt='turn this into a beautiful landscape'")
+        print(f"   aspect_ratio=16:9, prompt_upsampling=True, safety_tolerance=4")
+        print(f"   input_image_length={len(test_image)}")
+        
+        response = requests.post(
+            f"{api_url}/flux-kontext/generate", 
+            json=generate_payload_mode2,
+            timeout=180  # 3 minutes pour l'édition d'image
+        )
+        
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            generate_data = response.json()
+            print(f"✅ Image éditée avec succès (Mode 2)!")
+            print(f"   Session ID: {generate_data.get('session_id')}")
+            print(f"   Message ID: {generate_data.get('message_id')}")
+            print(f"   Response Text: {generate_data.get('response_text')}")
+            
+            image_urls = generate_data.get('image_urls', [])
+            print(f"   Nombre d'images éditées: {len(image_urls)}")
+            
+            for i, url in enumerate(image_urls):
+                if url.startswith('data:image'):
+                    print(f"   Image {i+1}: Data URL valide ({len(url)} caractères)")
+                else:
+                    print(f"   Image {i+1}: {url}")
+                    
+        else:
+            print(f"❌ Échec édition Mode 2: {response.status_code}")
+            print(f"   Response: {response.text}")
+            
+        print("\n" + "=" * 80)
+        
+        # Test 4: Test avec différents aspect ratios
+        print("📐 TEST 4: POST /api/flux-kontext/generate - Test aspect ratios multiples")
+        print("-" * 70)
+        
+        aspect_ratios_to_test = ["4:3", "21:9"]
+        
+        for aspect_ratio in aspect_ratios_to_test:
+            print(f"   🔍 Test aspect ratio: {aspect_ratio}")
+            
+            generate_payload_aspect = {
+                "session_id": session_id,
+                "prompt": f"a simple geometric pattern in {aspect_ratio} format",
+                "aspect_ratio": aspect_ratio,
+                "prompt_upsampling": False,
+                "safety_tolerance": 3
+            }
+            
+            response = requests.post(
+                f"{api_url}/flux-kontext/generate", 
+                json=generate_payload_aspect,
+                timeout=180
+            )
+            
+            print(f"   Status Code ({aspect_ratio}): {response.status_code}")
+            
+            if response.status_code == 200:
+                generate_data = response.json()
+                image_urls = generate_data.get('image_urls', [])
+                print(f"   ✅ Aspect ratio {aspect_ratio}: {len(image_urls)} image(s) générée(s)")
+            else:
+                print(f"   ❌ Aspect ratio {aspect_ratio}: Échec ({response.status_code})")
+                
+        print("\n" + "=" * 80)
+        
+        # Test 5: Récupérer l'historique de la session
+        print("📚 TEST 5: GET /api/flux-kontext/session/{session_id} - Récupérer l'historique")
+        print("-" * 70)
+        
+        response = requests.get(f"{api_url}/flux-kontext/session/{session_id}", timeout=30)
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            history_data = response.json()
+            print(f"✅ Historique Flux Kontext Pro récupéré avec succès!")
+            print(f"   Nombre de messages: {len(history_data)}")
+            
+            user_messages = 0
+            assistant_messages = 0
+            total_images = 0
+            
+            for i, message in enumerate(history_data):
+                print(f"   Message {i+1}:")
+                print(f"     ID: {message.get('id')}")
+                print(f"     Role: {message.get('role')}")
+                print(f"     Content: {message.get('content')[:50]}...")
+                
+                image_urls = message.get('image_urls', [])
+                print(f"     Images: {len(image_urls)}")
+                total_images += len(image_urls)
+                print(f"     Timestamp: {message.get('timestamp')}")
+                
+                if message.get('role') == 'user':
+                    user_messages += 1
+                elif message.get('role') == 'assistant':
+                    assistant_messages += 1
+                    
+            print(f"   Messages utilisateur: {user_messages}")
+            print(f"   Messages assistant: {assistant_messages}")
+            print(f"   Total images dans l'historique: {total_images}")
+                
+        else:
+            print(f"❌ Échec récupération historique: {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False
+            
+        print("\n" + "=" * 80)
+        print("🎉 TOUS LES TESTS FLUX KONTEXT PRO TERMINÉS!")
+        return True
+        
+    except requests.exceptions.Timeout:
+        print("❌ ERREUR: Timeout lors de la requête Flux Kontext Pro")
+        return False
+    except requests.exceptions.ConnectionError:
+        print("❌ ERREUR: Impossible de se connecter au backend Flux Kontext Pro")
+        return False
+    except Exception as e:
+        print(f"❌ ERREUR INATTENDUE Flux Kontext Pro: {str(e)}")
+        return False
+
 def test_image_upscaler_api():
     """Test complet de l'API AI Image Upscaler"""
     
