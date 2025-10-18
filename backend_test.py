@@ -504,37 +504,30 @@ def test_sora2_api():
         return False
 
 def main():
-    print("🚀 DÉBUT DES TESTS API VIDÉO - GOOGLE VEO 3.1 ET SORA 2")
+    print("🚀 DÉBUT DES TESTS API AI IMAGE UPSCALER")
     print(f"⏰ Heure: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print("🔧 Test après correction du bug 'litellm' manquant")
+    print("🔧 Test complet de l'AI Image Upscaler intégré avec l'API Replicate")
+    print("🎯 Modèle: philz1337x/crystal-upscaler")
+    print("📏 Options: X2, X4, X8")
     print("=" * 80)
     
-    # Test Google Veo 3.1
-    print("\n🎬 TESTS GOOGLE VEO 3.1")
+    # Test AI Image Upscaler
+    print("\n🔍 TESTS AI IMAGE UPSCALER")
     print("=" * 80)
-    google_veo_success = test_google_veo_api()
-    
-    # Test SORA 2
-    print("\n🎬 TESTS SORA 2")
-    print("=" * 80)
-    sora2_success = test_sora2_api()
+    upscaler_success = test_image_upscaler_api()
     
     # Résultats finaux
     print("\n" + "=" * 80)
     print("📊 RÉSULTATS FINAUX:")
-    print(f"   Google Veo 3.1: {'✅ RÉUSSI' if google_veo_success else '❌ ÉCHEC'}")
-    print(f"   SORA 2: {'✅ RÉUSSI' if sora2_success else '❌ ÉCHEC'}")
+    print(f"   AI Image Upscaler: {'✅ RÉUSSI' if upscaler_success else '❌ ÉCHEC'}")
     
-    if google_veo_success and sora2_success:
+    if upscaler_success:
         print("\n🎉 RÉSULTAT GLOBAL: TOUS LES TESTS RÉUSSIS")
-        print("✅ Les vidéos sont générées et stockées correctement")
+        print("✅ L'AI Image Upscaler fonctionne correctement avec l'API Replicate")
         sys.exit(0)
     else:
-        print("\n❌ RÉSULTAT GLOBAL: ÉCHEC DE CERTAINS TESTS")
-        if not google_veo_success:
-            print("⚠️  Google Veo 3.1: Problème de génération de vidéo")
-        if not sora2_success:
-            print("⚠️  SORA 2: Problème de génération de vidéo")
+        print("\n❌ RÉSULTAT GLOBAL: ÉCHEC DES TESTS")
+        print("⚠️  AI Image Upscaler: Problème d'upscaling d'images")
         sys.exit(1)
 
 if __name__ == "__main__":
