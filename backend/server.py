@@ -1421,6 +1421,15 @@ async def get_image_upscaler_session(session_id: str):
         logger.error(f"Erreur lors de la récupération de session: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
 
+# Endpoint to serve temporary images
+@app.get("/temp-images/{filename}")
+async def serve_temp_image(filename: str):
+    """Serve temporary images for Replicate API"""
+    filepath = TEMP_IMAGES_DIR / filename
+    if not filepath.exists():
+        raise HTTPException(status_code=404, detail="Image not found")
+    return FileResponse(filepath)
+
 # Include the router in the main app
 app.include_router(api_router)
 
