@@ -493,7 +493,7 @@ const Studio = () => {
       const existingSession = toolSessions[selectedTool.id];
       if (existingSession) {
         setSessionId(existingSession.sessionId);
-        const toolType = isNanoBananaTool ? 'nanobanana' : isGoogleVeoTool ? 'google-veo' : isSora2Tool ? 'sora2' : isImageUpscalerTool ? 'image-upscaler' : 'chatgpt5';
+        const toolType = isNanoBananaTool ? 'nanobanana' : isGoogleVeoTool ? 'google-veo' : isSora2Tool ? 'sora2' : isImageUpscalerTool ? 'image-upscaler' : isFluxKontextTool ? 'flux-kontext' : 'chatgpt5';
         loadConversationHistory(existingSession.sessionId, toolType);
       } else {
         // Créer une nouvelle session
@@ -507,6 +507,8 @@ const Studio = () => {
           initializeSora2Session();
         } else if (isImageUpscalerTool) {
           initializeImageUpscalerSession();
+        } else if (isFluxKontextTool) {
+          initializeFluxKontextSession();
         }
       }
     } else {
