@@ -2125,7 +2125,7 @@ const Studio = () => {
                   {(isChatGPT5 || isNanoBanana || isImageUpscaler || isFluxKontext) && (
                     <button
                       onClick={handleImageUpload}
-                      className={`${isImageUpscaler ? 'bg-green-600/80 hover:bg-green-600' : 'bg-gray-600/80 hover:bg-gray-600'} text-white p-2 rounded-lg transition-colors`}
+                      className={`${isImageUpscaler ? 'bg-green-600/80 hover:bg-green-600' : isFluxKontext ? 'bg-orange-600/80 hover:bg-orange-600' : 'bg-gray-600/80 hover:bg-gray-600'} text-white p-2 rounded-lg transition-colors`}
                       title="Ajouter une image"
                     >
                       <Plus className="w-5 h-5" />
@@ -2137,7 +2137,7 @@ const Studio = () => {
                       type="text"
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
-                    placeholder={uploadedImage && isNanoBanana ? "Décrivez les modifications à apporter à l'image..." : `Demandez à ${selectedTool.name}...`}
+                    placeholder={uploadedImage && isNanoBanana ? "Décrivez les modifications à apporter à l'image..." : uploadedImage && isFluxKontext ? "Décrivez les modifications à apporter à l'image..." : `Demandez à ${selectedTool.name}...`}
                     className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2"
                     onKeyPress={(e) => {
                       if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
