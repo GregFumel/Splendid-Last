@@ -34,3 +34,4 @@ pyyaml
 jinja2
 tiktoken
 tokenizers
+Pillow
