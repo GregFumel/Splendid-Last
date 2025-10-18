@@ -491,6 +491,7 @@ const Studio = () => {
     const isSora2Tool = selectedTool && selectedTool.name === "SORA 2";
     const isImageUpscalerTool = selectedTool && selectedTool.name === "AI Image Upscaler";
     const isFluxKontextTool = selectedTool && selectedTool.name === "Flux Kontext Pro";
+    const isKlingTool = selectedTool && selectedTool.name === "Kling AI v2.1";
     
     setIsNanoBanana(isNanoBananaTool);
     setIsChatGPT5(isChatGPT5Tool);
@@ -498,8 +499,9 @@ const Studio = () => {
     setIsSora2(isSora2Tool);
     setIsImageUpscaler(isImageUpscalerTool);
     setIsFluxKontext(isFluxKontextTool);
+    setIsKling(isKlingTool);
     
-    if (isNanoBananaTool || isChatGPT5Tool || isGoogleVeoTool || isSora2Tool || isImageUpscalerTool || isFluxKontextTool) {
+    if (isNanoBananaTool || isChatGPT5Tool || isGoogleVeoTool || isSora2Tool || isImageUpscalerTool || isFluxKontextTool || isKlingTool) {
       // Commencer l'animation de chargement
       setIsLoadingHistory(true);
       setConversationHistory([]); // Vider l'historique précédent immédiatement
@@ -508,7 +510,7 @@ const Studio = () => {
       const existingSession = toolSessions[selectedTool.id];
       if (existingSession) {
         setSessionId(existingSession.sessionId);
-        const toolType = isNanoBananaTool ? 'nanobanana' : isGoogleVeoTool ? 'google-veo' : isSora2Tool ? 'sora2' : isImageUpscalerTool ? 'image-upscaler' : isFluxKontextTool ? 'flux-kontext' : 'chatgpt5';
+        const toolType = isNanoBananaTool ? 'nanobanana' : isGoogleVeoTool ? 'google-veo' : isSora2Tool ? 'sora2' : isImageUpscalerTool ? 'image-upscaler' : isFluxKontextTool ? 'flux-kontext' : isKlingTool ? 'kling' : 'chatgpt5';
         loadConversationHistory(existingSession.sessionId, toolType);
       } else {
         // Créer une nouvelle session
