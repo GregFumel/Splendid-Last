@@ -835,6 +835,146 @@ async def get_chatgpt5_sessions():
         logger.error(f"Erreur lors de la récupération des sessions: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
 
+
+# AI Image Upscaler endpoints
+
+@api_router.post("/image-upscaler/session", response_model=ImageUpscalerSession)
+async def create_image_upscaler_session():
+    """Crée une nouvelle session AI Image Upscaler"""
+    try:
+        session = ImageUpscalerSession()
+        await db.image_upscaler_sessions.insert_one(session.dict())
+        return session
+    except Exception as e:
+        logger.error(f"Erreur lors de la création de session Image Upscaler: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.post("/image-upscaler/upscale", response_model=UpscaleImageResponse)
+async def upscale_image(request: UpscaleImageRequest):
+    """Upscale une image avec AI Image Upscaler"""
+    try:
+        # Créer ou récupérer la session
+        session = await db.image_upscaler_sessions.find_one({"id": request.session_id})
+        if not session:
+            session_obj = ImageUpscalerSession(id=request.session_id)
+            await db.image_upscaler_sessions.insert_one(session_obj.dict())
+            session = session_obj.dict()
+
+        # Sauvegarder le message utilisateur avec l'image originale
+        user_message = ImageUpscalerMessage(
+            session_id=request.session_id,
+            role="user",
+            content=f"Upscale de l'image avec facteur X{request.scale_factor}",
+            image_urls=[request.image_data]
+        )
+        await db.image_upscaler_messages.insert_one(user_message.dict())
+
+        # Vérifier le token Replicate
+        replicate_token = os.environ.get('REPLICATE_API_TOKEN')
+        if not replicate_token:
+            raise HTTPException(status_code=500, detail="REPLICATE_API_TOKEN not configured")
+        
+        image_urls = []
+        response_text = ""
+        error_occurred = False
+        
+        try:
+            # Uploader l'image sur un service temporaire ou utiliser directement la data URL
+            # Le modèle Replicate accepte des URLs, donc on doit convertir la data URL
+            
+            # Pour l'instant, on va uploader l'image temporairement sur Replicate
+            # ou utiliser une autre méthode
+            
+            # Préparer les inputs pour le modèle philz1337x/crystal-upscaler
+            inputs = {
+                "image": request.image_data,
+                "scale_factor": request.scale_factor
+            }
+            
+            # Upscaler l'image avec Replicate
+            logging.info(f"Upscaling d'image avec Replicate - modèle: philz1337x/crystal-upscaler, scale: X{request.scale_factor}")
+            
+            output = replicate.run(
+                "philz1337x/crystal-upscaler",
+                input=inputs
+            )
+            
+            # Le output est une liste d'URLs d'images
+            if isinstance(output, list) and len(output) > 0:
+                upscaled_url = str(output[0])
+                
+                # Télécharger l'image upscalée et la convertir en base64
+                logging.info(f"Téléchargement de l'image upscalée depuis: {upscaled_url}")
+                response_img = requests.get(upscaled_url, timeout=60)
+                response_img.raise_for_status()
+                
+                # Convertir en base64
+                image_base64 = base64.b64encode(response_img.content).decode('utf-8')
+                image_data_url = f"data:image/png;base64,{image_base64}"
+                
+                image_urls = [image_data_url]
+                response_text = f"✅ Image upscalée avec succès! Facteur d'agrandissement: X{request.scale_factor}"
+            else:
+                raise Exception("Aucune image upscalée générée par Replicate")
+            
+        except Exception as e:
+            error_occurred = True
+            error_message = str(e)
+            logging.error(f"Erreur lors de l'upscaling avec Replicate: {error_message}")
+            
+            # Analyser le type d'erreur pour donner un message plus précis
+            if "402" in error_message or "Insufficient credit" in error_message:
+                response_text = "❌ **Erreur d'upscaling**\n\nNous n'avons pas pu upscaler votre image car notre compte Replicate API n'a plus de crédit suffisant. Veuillez réessayer plus tard ou contactez l'administrateur pour recharger le compte."
+            elif "timeout" in error_message.lower() or "timed out" in error_message.lower():
+                response_text = "❌ **Délai d'attente dépassé**\n\nL'upscaling de votre image a pris trop de temps et a été interrompu. Veuillez réessayer avec une image plus petite."
+            elif "rate limit" in error_message.lower():
+                response_text = "❌ **Limite de requêtes atteinte**\n\nNous avons atteint la limite de requêtes autorisées par l'API. Veuillez attendre quelques instants avant de réessayer."
+            elif "invalid image" in error_message.lower() or "image format" in error_message.lower():
+                response_text = "❌ **Format d'image invalide**\n\nLe format de votre image n'est pas supporté. Veuillez utiliser une image au format JPG, PNG ou WebP."
+            else:
+                response_text = f"❌ **Erreur d'upscaling**\n\nNous n'avons pas pu upscaler votre image pour la raison suivante :\n{error_message}\n\nVeuillez réessayer avec une image différente."
+
+        # Sauvegarder la réponse de l'assistant
+        assistant_message = ImageUpscalerMessage(
+            session_id=request.session_id,
+            role="assistant",
+            content=response_text,
+            image_urls=image_urls
+        )
+        await db.image_upscaler_messages.insert_one(assistant_message.dict())
+
+        # Mettre à jour la session
+        await db.image_upscaler_sessions.update_one(
+            {"id": request.session_id},
+            {"$set": {"last_updated": datetime.utcnow()}}
+        )
+
+        return UpscaleImageResponse(
+            session_id=request.session_id,
+            message_id=assistant_message.id,
+            image_urls=image_urls,
+            response_text=response_text
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Erreur lors de l'upscaling: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.get("/image-upscaler/session/{session_id}", response_model=List[ImageUpscalerMessage])
+async def get_image_upscaler_session(session_id: str):
+    """Récupère l'historique d'une session AI Image Upscaler"""
+    try:
+        messages = await db.image_upscaler_messages.find(
+            {"session_id": session_id}
+        ).sort("timestamp", 1).to_list(1000)
+        
+        return [ImageUpscalerMessage(**msg) for msg in messages]
+    except Exception as e:
+        logger.error(f"Erreur lors de la récupération de session: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
 # Include the router in the main app
 app.include_router(api_router)
 
