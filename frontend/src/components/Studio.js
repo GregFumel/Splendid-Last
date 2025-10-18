@@ -1069,6 +1069,22 @@ const Studio = () => {
           if (uploadedImage) {
             requestBody.input_image = uploadedImage.dataUrl;
           }
+        } else if (isKling) {
+          // Kling AI v2.1 - génération de vidéo à partir d'images
+          endpoint = 'kling/generate';
+          requestBody = {
+            session_id: sessionId,
+            prompt: prompt,
+            start_image: klingStartImage.dataUrl,  // Obligatoire
+            mode: klingOptions.mode,
+            duration: klingOptions.duration,
+            negative_prompt: klingOptions.negativePrompt || ""
+          };
+          
+          // Ajouter l'image de fin si uploadée (nécessite mode pro)
+          if (klingEndImage) {
+            requestBody.end_image = klingEndImage.dataUrl;
+          }
         } else {
           // Autres outils
           endpoint = isNanoBanana ? 'nanobanana/generate' : isGoogleVeo ? 'google-veo/generate' : isSora2 ? 'sora2/generate' : 'chatgpt5/generate';
