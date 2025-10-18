@@ -119,13 +119,15 @@ const Studio = () => {
     const isChatGPT5Tool = selectedTool && selectedTool.name === "ChatGPT-5";
     const isGoogleVeoTool = selectedTool && selectedTool.name === "Google Veo 3.1";
     const isSora2Tool = selectedTool && selectedTool.name === "SORA 2";
+    const isImageUpscalerTool = selectedTool && selectedTool.name === "AI Image Upscaler";
     
     setIsNanoBanana(isNanoBananaTool);
     setIsChatGPT5(isChatGPT5Tool);
     setIsGoogleVeo(isGoogleVeoTool);
     setIsSora2(isSora2Tool);
+    setIsImageUpscaler(isImageUpscalerTool);
     
-    if (isNanoBananaTool || isChatGPT5Tool || isGoogleVeoTool || isSora2Tool) {
+    if (isNanoBananaTool || isChatGPT5Tool || isGoogleVeoTool || isSora2Tool || isImageUpscalerTool) {
       // Commencer l'animation de chargement
       setIsLoadingHistory(true);
       setConversationHistory([]); // Vider l'historique précédent immédiatement
@@ -134,7 +136,7 @@ const Studio = () => {
       const existingSession = toolSessions[selectedTool.id];
       if (existingSession) {
         setSessionId(existingSession.sessionId);
-        const toolType = isNanoBananaTool ? 'nanobanana' : isGoogleVeoTool ? 'google-veo' : isSora2Tool ? 'sora2' : 'chatgpt5';
+        const toolType = isNanoBananaTool ? 'nanobanana' : isGoogleVeoTool ? 'google-veo' : isSora2Tool ? 'sora2' : isImageUpscalerTool ? 'image-upscaler' : 'chatgpt5';
         loadConversationHistory(existingSession.sessionId, toolType);
       } else {
         // Créer une nouvelle session
@@ -146,6 +148,8 @@ const Studio = () => {
           initializeGoogleVeoSession();
         } else if (isSora2Tool) {
           initializeSora2Session();
+        } else if (isImageUpscalerTool) {
+          initializeImageUpscalerSession();
         }
       }
     } else {
