@@ -1079,31 +1079,55 @@ const Studio = () => {
                             </div>
                           )}
 
-                          {/* Affichage des images upscalées pour AI Image Upscaler */}
+                          {/* Affichage des images upscalées pour AI Image Upscaler avec slider avant-après */}
                           {isImageUpscaler && message.role === 'assistant' && message.image_urls && message.image_urls.length > 0 && (
                             <div className="mt-3 space-y-2">
-                              {message.image_urls.map((imageUrl, imgIndex) => (
-                                <div key={imgIndex} className="rounded-lg overflow-hidden border border-green-400/30">
-                                  <img 
-                                    src={imageUrl} 
-                                    alt={`Image upscalée ${imgIndex + 1}`}
-                                    className="w-full h-auto max-w-2xl"
-                                    style={{ maxHeight: '600px', objectFit: 'contain' }}
-                                  />
-                                  
-                                  {/* Bouton télécharger uniquement */}
-                                  <div className="p-3 bg-black/20 flex justify-center">
-                                    <button
-                                      onClick={() => handleDownloadImage(imageUrl, message.id)}
-                                      className="bg-green-600/80 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 text-sm"
-                                      title="Télécharger l'image upscalée"
-                                    >
-                                      <Download className="w-4 h-4" />
-                                      <span>Télécharger</span>
-                                    </button>
+                              {message.image_urls.map((upscaledImageUrl, imgIndex) => {
+                                // Trouver l'image originale (message utilisateur précédent)
+                                const messageIndex = conversationHistory.findIndex(m => m.id === message.id);
+                                let originalImageUrl = null;
+                                
+                                // Chercher le message utilisateur juste avant ce message assistant
+                                if (messageIndex > 0) {
+                                  const userMessage = conversationHistory[messageIndex - 1];
+                                  if (userMessage.role === 'user' && userMessage.image_urls && userMessage.image_urls.length > 0) {
+                                    originalImageUrl = userMessage.image_urls[0];
+                                  }
+                                }
+                                
+                                return (
+                                  <div key={imgIndex}>
+                                    {originalImageUrl ? (
+                                      <BeforeAfterSlider
+                                        beforeImage={originalImageUrl}
+                                        afterImage={upscaledImageUrl}
+                                        onDownload={() => handleDownloadImage(upscaledImageUrl, message.id)}
+                                      />
+                                    ) : (
+                                      // Fallback si on ne trouve pas l'image originale
+                                      <div className="rounded-lg overflow-hidden border border-green-400/30">
+                                        <img 
+                                          src={upscaledImageUrl} 
+                                          alt={`Image upscalée ${imgIndex + 1}`}
+                                          className="w-full h-auto max-w-2xl"
+                                          style={{ maxHeight: '600px', objectFit: 'contain' }}
+                                        />
+                                        
+                                        <div className="p-3 bg-black/20 flex justify-center">
+                                          <button
+                                            onClick={() => handleDownloadImage(upscaledImageUrl, message.id)}
+                                            className="bg-green-600/80 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 text-sm"
+                                            title="Télécharger l'image upscalée"
+                                          >
+                                            <Download className="w-4 h-4" />
+                                            <span>Télécharger</span>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    )}
                                   </div>
-                                </div>
-                              ))}
+                                );
+                              })}
                             </div>
                           )}
 
