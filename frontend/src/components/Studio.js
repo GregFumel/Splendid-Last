@@ -526,6 +526,8 @@ const Studio = () => {
           initializeImageUpscalerSession();
         } else if (isFluxKontextTool) {
           initializeFluxKontextSession();
+        } else if (isKlingTool) {
+          initializeKlingSession();
         }
       }
     } else {
