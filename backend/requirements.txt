@@ -27,3 +27,4 @@ emergentintegrations
 replicate
 litellm
 httpx
+aiohttp
