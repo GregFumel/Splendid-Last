@@ -20,6 +20,7 @@ const Studio = () => {
   const [isChatGPT5, setIsChatGPT5] = useState(false);
   const [isGoogleVeo, setIsGoogleVeo] = useState(false); // Pour Google Veo 3.1
   const [isSora2, setIsSora2] = useState(false); // Pour SORA 2
+  const [isImageUpscaler, setIsImageUpscaler] = useState(false); // Pour AI Image Upscaler
   const [toolSessions, setToolSessions] = useState({}); // Stocker les sessions par outil
   const [isLoadingHistory, setIsLoadingHistory] = useState(false); // État pour l'animation de chargement
   
@@ -41,6 +42,12 @@ const Studio = () => {
     aspectRatio: "landscape"  // landscape ou portrait
   });
   const [showSora2Options, setShowSora2Options] = useState(true); // Par défaut dépliées
+
+  // États pour les options AI Image Upscaler
+  const [upscalerOptions, setUpscalerOptions] = useState({
+    scaleFactor: 2  // 2, 4 ou 8
+  });
+  const [showUpscalerOptions, setShowUpscalerOptions] = useState(true); // Par défaut dépliées
 
 
 
