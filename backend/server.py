@@ -747,7 +747,7 @@ async def generate_video_with_kling(request: GenerateKlingRequest):
             client = replicate.Client(api_token=os.environ.get('REPLICATE_API_TOKEN'))
             
             prediction = client.predictions.create(
-                version="kwaivgi/kling-v2.1",
+                model="kwaivgi/kling-v2.1",
                 input=inputs
             )
             
