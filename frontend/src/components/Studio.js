@@ -368,7 +368,7 @@ const Studio = () => {
   const loadConversationHistory = async (sessionIdToLoad, toolType) => {
     try {
       const backendUrl = process.env.REACT_APP_BACKEND_URL;
-      const endpoint = toolType === 'nanobanana' ? 'nanobanana' : toolType === 'google-veo' ? 'google-veo' : toolType === 'sora2' ? 'sora2' : 'chatgpt5';
+      const endpoint = toolType === 'nanobanana' ? 'nanobanana' : toolType === 'google-veo' ? 'google-veo' : toolType === 'sora2' ? 'sora2' : toolType === 'image-upscaler' ? 'image-upscaler' : 'chatgpt5';
       const url = `${backendUrl}/api/${endpoint}/session/${sessionIdToLoad}`;
       console.log('🌐 Chargement historique depuis:', url);
       
