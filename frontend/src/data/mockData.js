@@ -64,11 +64,13 @@ export const mockAITools = [
   // Vidéo
   {
     id: 7,
-    name: "Kling AI",
-    description: "Générez des avatars parlants ultra-réalistes.",
+    name: "Kling AI v2.1",
+    description: "Génération de vidéos à partir d'images avec transitions fluides (image-to-video).",
     category: "video",
     image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/li3xo3mc_replicate-prediction-2epyczsz.gif",
-    fullDescription: "la génération d'avatars parlants ultra-réalistes"
+    fullDescription: "la génération de vidéos à partir d'images de départ et de fin avec Kling AI v2.1",
+    toolType: "video-generator",
+    apiEndpoint: "kling"
   },
   {
     id: 8,
