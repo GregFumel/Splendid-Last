@@ -480,16 +480,11 @@ async def generate_image_with_flux_kontext(request: GenerateFluxKontextRequest):
             if not image_url:
                 raise Exception("Aucune image générée par Replicate")
             
-            # Télécharger l'image depuis l'URL et la convertir en base64
-            logging.info(f"Téléchargement de l'image depuis: {image_url}")
-            response_img = requests.get(image_url, timeout=60)
-            response_img.raise_for_status()
+            # Stocker directement l'URL Replicate (pas de téléchargement ni conversion base64)
+            # Cela évite les problèmes de taille de document MongoDB (limite 16MB)
+            logging.info(f"Image générée disponible à: {image_url}")
             
-            # Convertir en base64
-            image_base64 = base64.b64encode(response_img.content).decode('utf-8')
-            image_data_url = f"data:image/jpeg;base64,{image_base64}"
-            
-            image_urls = [image_data_url]
+            image_urls = [image_url]
             if request.input_image:
                 response_text = f"✅ Image éditée avec succès avec Flux Kontext Pro!"
             else:
