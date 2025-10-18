@@ -1222,6 +1222,67 @@ const Studio = () => {
     }
   };
 
+  // Fonctions pour l'upload d'images Kling (start et end)
+  const handleKlingStartImageUpload = () => {
+    if (klingStartInputRef.current) {
+      klingStartInputRef.current.click();
+    }
+  };
+
+  const handleKlingEndImageUpload = () => {
+    if (klingEndInputRef.current) {
+      klingEndInputRef.current.click();
+    }
+  };
+
+  const handleKlingStartFileSelect = (event) => {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setKlingStartImage({
+          file: file,
+          dataUrl: e.target.result,
+          name: file.name
+        });
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert('Veuillez sélectionner un fichier image valide.');
+    }
+  };
+
+  const handleKlingEndFileSelect = (event) => {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setKlingEndImage({
+          file: file,
+          dataUrl: e.target.result,
+          name: file.name
+        });
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert('Veuillez sélectionner un fichier image valide.');
+    }
+  };
+
+  const removeKlingStartImage = () => {
+    setKlingStartImage(null);
+    if (klingStartInputRef.current) {
+      klingStartInputRef.current.value = '';
+    }
+  };
+
+  const removeKlingEndImage = () => {
+    setKlingEndImage(null);
+    if (klingEndInputRef.current) {
+      klingEndInputRef.current.value = '';
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black relative">
       {/* Fond d'écran */}
