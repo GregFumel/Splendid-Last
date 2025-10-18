@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 """
-Test script for AI Image Upscaler API endpoints
-Tests AI Image Upscaler integration with Replicate API:
-1. POST /api/image-upscaler/session - Create AI Image Upscaler session
-2. POST /api/image-upscaler/upscale - Upscale image with X2, X4, X8 factors
-3. GET /api/image-upscaler/session/{session_id} - Get session history
+Test script for Flux Kontext Pro API endpoints
+Tests Flux Kontext Pro integration with Replicate API:
+1. POST /api/flux-kontext/session - Create Flux Kontext Pro session
+2. POST /api/flux-kontext/generate - Generate image (Mode 1: prompt only)
+3. POST /api/flux-kontext/generate - Edit image (Mode 2: with uploaded image)
+4. GET /api/flux-kontext/session/{session_id} - Get session history
+
+Also includes tests for AI Image Upscaler, Google Veo 3.1, and SORA 2.
 """
 
 import requests
