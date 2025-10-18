@@ -738,25 +738,55 @@ async def generate_video_with_kling(request: GenerateKlingRequest):
                 logging.info(f"End image converted to: {end_image_url}")
                 inputs["end_image"] = end_image_url
             
-            # Générer la vidéo avec Replicate
+            # Générer la vidéo avec Replicate en mode asynchrone (peut prendre 2-3 minutes)
             logging.info(f"Génération de vidéo avec Replicate - modèle: kwaivgi/kling-v2.1, prompt: {request.prompt}, durée: {request.duration}s, mode: {request.mode}")
+            logging.info(f"⏳ La génération peut prendre 2-3 minutes, veuillez patienter...")
             
-            output = replicate.run(
-                "kwaivgi/kling-v2.1",
+            # Créer une prediction asynchrone
+            import replicate.prediction
+            client = replicate.Client(api_token=os.environ.get('REPLICATE_API_TOKEN'))
+            
+            prediction = client.predictions.create(
+                version="kwaivgi/kling-v2.1",
                 input=inputs
             )
             
-            # Le output est une URL de vidéo
-            video_url = str(output) if output else None
+            logging.info(f"Prediction créée: {prediction.id}, status: {prediction.status}")
+            
+            # Attendre que la génération soit terminée (avec timeout de 5 minutes)
+            max_wait_seconds = 300  # 5 minutes
+            poll_interval = 3  # Vérifier toutes les 3 secondes
+            elapsed = 0
+            
+            while prediction.status not in ["succeeded", "failed", "canceled"]:
+                if elapsed >= max_wait_seconds:
+                    raise Exception(f"Timeout: La génération a dépassé {max_wait_seconds//60} minutes")
+                
+                await asyncio.sleep(poll_interval)
+                elapsed += poll_interval
+                
+                # Rafraîchir le statut
+                prediction.reload()
+                logging.info(f"Status après {elapsed}s: {prediction.status}")
+            
+            if prediction.status == "failed":
+                error_msg = prediction.error or "Erreur inconnue"
+                raise Exception(f"La génération a échoué: {error_msg}")
+            
+            if prediction.status == "canceled":
+                raise Exception("La génération a été annulée")
+            
+            # Récupérer l'URL de la vidéo
+            video_url = str(prediction.output) if prediction.output else None
             
             if not video_url:
                 raise Exception("Aucune vidéo générée par Replicate")
             
             # Stocker directement l'URL Replicate (pas de téléchargement)
-            logging.info(f"Vidéo générée disponible à: {video_url}")
+            logging.info(f"✅ Vidéo générée avec succès en {elapsed}s, disponible à: {video_url}")
             
             video_urls = [video_url]
-            response_text = f"✅ Vidéo générée avec succès avec Kling AI v2.1!\n\nDurée: {request.duration}s\nRésolution: {request.mode} ({'720p' if request.mode == 'standard' else '1080p'})\n{'Avec image de fin' if request.end_image else 'Avec image de départ uniquement'}"
+            response_text = f"✅ Vidéo générée avec succès avec Kling AI v2.1!\n\n⏱️ Temps de génération: {elapsed}s\nDurée: {request.duration}s\nRésolution: {request.mode} ({'720p' if request.mode == 'standard' else '1080p'})\n{'Avec image de fin' if request.end_image else 'Avec image de départ uniquement'}"
             
         except Exception as e:
             error_occurred = True
