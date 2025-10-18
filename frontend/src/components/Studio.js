@@ -2498,10 +2498,37 @@ const Studio = () => {
                         </div>
                       )}
                     </div>
-                  </>
                 )}
                 
                 <div className="flex items-center gap-3">
+                  {/* Boutons upload pour Kling AI - Desktop */}
+                  {isKling && (
+                    <>
+                      <button
+                        onClick={handleKlingStartImageUpload}
+                        className={`${klingStartImage ? 'bg-purple-600' : 'bg-purple-600/80 hover:bg-purple-600'} text-white p-2 rounded-lg transition-colors relative`}
+                        title="Image de départ (obligatoire)"
+                      >
+                        <Plus className="w-5 h-5" />
+                        {klingStartImage && (
+                          <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-white"></span>
+                        )}
+                      </button>
+                      
+                      <button
+                        onClick={handleKlingEndImageUpload}
+                        disabled={klingOptions.mode !== "pro"}
+                        className={`${klingEndImage ? 'bg-purple-600' : klingOptions.mode === "pro" ? 'bg-purple-600/80 hover:bg-purple-600' : 'bg-gray-600/50 cursor-not-allowed'} text-white p-2 rounded-lg transition-colors relative`}
+                        title={klingOptions.mode === "pro" ? "Image de fin (optionnelle)" : "Image de fin (nécessite mode Pro)"}
+                      >
+                        <Plus className="w-5 h-5" />
+                        {klingEndImage && (
+                          <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-white"></span>
+                        )}
+                      </button>
+                    </>
+                  )}
+                
                   {/* Icône d'upload pour ChatGPT-5, NanoBanana, Image Upscaler et Flux Kontext */}
                   {(isChatGPT5 || isNanoBanana || isImageUpscaler || isFluxKontext) && (
                     <button
@@ -2513,7 +2540,7 @@ const Studio = () => {
                     </button>
                   )}
                   
-                  {!isImageUpscaler && !isKling && (
+                  {!isImageUpscaler && (
                     <input
                       type="text"
                     value={prompt}
