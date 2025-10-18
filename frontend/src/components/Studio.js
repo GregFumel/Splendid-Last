@@ -936,18 +936,24 @@ const Studio = () => {
       return;
     }
     
-    if (!isImageUpscaler && !prompt.trim()) return;
+    if (!isImageUpscaler && !isFluxKontext && !prompt.trim()) return;
+    
+    // Pour Flux Kontext, un prompt est requis
+    if (isFluxKontext && !prompt.trim()) {
+      alert('Veuillez entrer un prompt pour générer ou éditer une image');
+      return;
+    }
     
     setIsGenerating(true);
     
-    if ((isNanoBanana || isChatGPT5 || isGoogleVeo || isSora2 || isImageUpscaler) && sessionId) {
-      // Traitement pour NanoBanana, ChatGPT-5, Google Veo, SORA 2 et Image Upscaler
+    if ((isNanoBanana || isChatGPT5 || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext) && sessionId) {
+      // Traitement pour NanoBanana, ChatGPT-5, Google Veo, SORA 2, Image Upscaler et Flux Kontext
       try {
         const backendUrl = process.env.REACT_APP_BACKEND_URL;
         console.log('Génération avec backend URL:', backendUrl);
         console.log('Session ID:', sessionId);
         console.log('Prompt:', prompt);
-        console.log('Outil:', isNanoBanana ? 'NanoBanana' : isGoogleVeo ? 'Google Veo 3.1' : isSora2 ? 'SORA 2' : isImageUpscaler ? 'AI Image Upscaler' : 'ChatGPT-5');
+        console.log('Outil:', isNanoBanana ? 'NanoBanana' : isGoogleVeo ? 'Google Veo 3.1' : isSora2 ? 'SORA 2' : isImageUpscaler ? 'AI Image Upscaler' : isFluxKontext ? 'Flux Kontext Pro' : 'ChatGPT-5');
         
         let endpoint, requestBody;
         
@@ -959,6 +965,21 @@ const Studio = () => {
             image_data: uploadedImage.dataUrl,
             scale_factor: upscalerOptions.scaleFactor
           };
+        } else if (isFluxKontext) {
+          // Flux Kontext peut avoir ou non une image de référence
+          endpoint = 'flux-kontext/generate';
+          requestBody = {
+            session_id: sessionId,
+            prompt: prompt,
+            aspect_ratio: fluxKontextOptions.aspectRatio,
+            prompt_upsampling: fluxKontextOptions.promptUpsampling,
+            safety_tolerance: fluxKontextOptions.safetyTolerance
+          };
+          
+          // Ajouter l'image de référence si une image est uploadée
+          if (uploadedImage) {
+            requestBody.input_image = uploadedImage.dataUrl;
+          }
         } else {
           // Autres outils
           endpoint = isNanoBanana ? 'nanobanana/generate' : isGoogleVeo ? 'google-veo/generate' : isSora2 ? 'sora2/generate' : 'chatgpt5/generate';
