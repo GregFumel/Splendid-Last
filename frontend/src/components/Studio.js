@@ -1,15 +1,56 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { Send, Sparkles, Menu, X, Download, Plus, ChevronDown, ChevronUp, Maximize2, ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { mockAITools } from "../data/mockData";
 
-// Composant de comparaison avant-après avec slider sobre et fluide
+// Composant de comparaison avant-après avec slider sobre et ultra-fluide
 const BeforeAfterSlider = ({ beforeImage, afterImage, onDownload }) => {
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
   const containerRef = useRef(null);
   const animationFrameRef = useRef(null);
+  const beforeImgRef = useRef(null);
+  const afterImgRef = useRef(null);
+
+  // Précharger les images pour des performances optimales
+  useEffect(() => {
+    let mounted = true;
+    
+    const preloadImages = async () => {
+      try {
+        const loadImage = (src) => {
+          return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.src = src;
+          });
+        };
+
+        await Promise.all([
+          loadImage(beforeImage),
+          loadImage(afterImage)
+        ]);
+
+        if (mounted) {
+          setImagesLoaded(true);
+        }
+      } catch (error) {
+        console.error('Erreur de préchargement des images:', error);
+        if (mounted) {
+          setImagesLoaded(true); // Afficher quand même en cas d'erreur
+        }
+      }
+    };
+
+    preloadImages();
+
+    return () => {
+      mounted = false;
+    };
+  }, [beforeImage, afterImage]);
 
   const handleMove = useCallback((clientX) => {
     if (!containerRef.current) return;
@@ -19,8 +60,10 @@ const BeforeAfterSlider = ({ beforeImage, afterImage, onDownload }) => {
       cancelAnimationFrame(animationFrameRef.current);
     }
 
-    // Utiliser requestAnimationFrame pour une mise à jour fluide
+    // Utiliser requestAnimationFrame pour une mise à jour fluide à 60 FPS
     animationFrameRef.current = requestAnimationFrame(() => {
+      if (!containerRef.current) return;
+      
       const rect = containerRef.current.getBoundingClientRect();
       const x = clientX - rect.left;
       const percentage = (x / rect.width) * 100;
@@ -61,16 +104,18 @@ const BeforeAfterSlider = ({ beforeImage, afterImage, onDownload }) => {
 
   useEffect(() => {
     if (isDragging) {
-      document.addEventListener('mousemove', handleMouseMove, { passive: false });
-      document.addEventListener('mouseup', handleMouseUp);
-      document.addEventListener('touchmove', handleTouchMove, { passive: false });
-      document.addEventListener('touchend', handleMouseUp);
+      const options = { passive: false, capture: true };
+      
+      document.addEventListener('mousemove', handleMouseMove, options);
+      document.addEventListener('mouseup', handleMouseUp, options);
+      document.addEventListener('touchmove', handleTouchMove, options);
+      document.addEventListener('touchend', handleMouseUp, options);
 
       return () => {
-        document.removeEventListener('mousemove', handleMouseMove);
-        document.removeEventListener('mouseup', handleMouseUp);
-        document.removeEventListener('touchmove', handleTouchMove);
-        document.removeEventListener('touchend', handleMouseUp);
+        document.removeEventListener('mousemove', handleMouseMove, options);
+        document.removeEventListener('mouseup', handleMouseUp, options);
+        document.removeEventListener('touchmove', handleTouchMove, options);
+        document.removeEventListener('touchend', handleMouseUp, options);
       };
     }
   }, [isDragging, handleMouseMove, handleMouseUp, handleTouchMove]);
@@ -86,92 +131,123 @@ const BeforeAfterSlider = ({ beforeImage, afterImage, onDownload }) => {
 
   const toggleFullscreen = useCallback((e) => {
     e.stopPropagation();
+    e.preventDefault();
     setIsFullscreen(prev => !prev);
   }, []);
 
-  const SliderContent = ({ isFullscreenView = false }) => (
-    <div 
-      ref={!isFullscreenView ? containerRef : null}
-      className="relative w-full overflow-hidden cursor-ew-resize select-none"
-      style={{ 
-        aspectRatio: isFullscreenView ? 'auto' : '16/9', 
-        maxHeight: isFullscreenView ? '100vh' : '600px',
-        height: isFullscreenView ? '100vh' : 'auto',
-        borderRadius: isFullscreenView ? '0' : '0.5rem',
-        willChange: 'transform'
-      }}
-      onMouseDown={handleMouseDown}
-      onTouchStart={handleTouchStart}
-    >
-      {/* Image AFTER (upscalée) - en arrière-plan */}
-      <div className="absolute inset-0" style={{ willChange: 'transform' }}>
-        <img 
-          src={afterImage} 
-          alt="Image upscalée (Après)"
-          className="w-full h-full object-contain bg-gray-900"
-          draggable={false}
-          style={{ pointerEvents: 'none' }}
-        />
-        <div className="absolute top-3 right-3 bg-black/40 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded pointer-events-none">
-          APRÈS
+  // Mémoriser les styles pour éviter les recalculs
+  const sliderStyle = useMemo(() => ({
+    left: `${sliderPosition}%`,
+    transform: 'translateX(-50%)',
+    willChange: 'transform'
+  }), [sliderPosition]);
+
+  const clipPathStyle = useMemo(() => ({
+    clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`,
+    willChange: 'clip-path',
+    WebkitClipPath: `inset(0 ${100 - sliderPosition}% 0 0)`, // Support Safari
+  }), [sliderPosition]);
+
+  if (!imagesLoaded) {
+    return (
+      <div className="space-y-3">
+        <div className="relative w-full rounded-lg overflow-hidden bg-gray-800 flex items-center justify-center" style={{ aspectRatio: '16/9', maxHeight: '600px' }}>
+          <div className="flex flex-col items-center space-y-3">
+            <div className="animate-spin rounded-full h-8 w-8 border-2 border-white border-t-transparent"></div>
+            <span className="text-gray-400 text-sm">Chargement des images...</span>
+          </div>
         </div>
       </div>
-
-      {/* Image BEFORE (originale) - avec clip */}
-      <div 
-        className="absolute inset-0 overflow-hidden"
-        style={{ 
-          clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`,
-          willChange: 'clip-path'
-        }}
-      >
-        <img 
-          src={beforeImage} 
-          alt="Image originale (Avant)"
-          className="w-full h-full object-contain bg-gray-900"
-          draggable={false}
-          style={{ pointerEvents: 'none' }}
-        />
-        <div className="absolute top-3 left-3 bg-black/40 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded pointer-events-none">
-          AVANT
-        </div>
-      </div>
-
-      {/* Ligne de séparation fine avec flèches réduites */}
-      <div 
-        className="absolute top-0 bottom-0 w-0.5 bg-white/80 shadow-lg cursor-ew-resize pointer-events-none"
-        style={{ 
-          left: `${sliderPosition}%`, 
-          transform: 'translateX(-50%)',
-          willChange: 'transform'
-        }}
-      >
-        {/* Flèches au milieu - plus petites */}
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center bg-white/90 rounded-full shadow-xl px-0.5 py-1.5 pointer-events-none">
-          <ChevronLeft className="w-3 h-3 text-gray-700" strokeWidth={3} />
-          <ChevronRight className="w-3 h-3 text-gray-700" strokeWidth={3} />
-        </div>
-      </div>
-
-      {/* Bouton plein écran (seulement en mode normal) */}
-      {!isFullscreenView && (
-        <button
-          onClick={toggleFullscreen}
-          onMouseDown={(e) => e.stopPropagation()}
-          onTouchStart={(e) => e.stopPropagation()}
-          className="absolute bottom-3 right-3 bg-black/40 backdrop-blur-sm hover:bg-black/60 text-white p-2 rounded-lg transition-colors pointer-events-auto z-10"
-          title="Voir en plein écran"
-        >
-          <Maximize2 className="w-4 h-4" />
-        </button>
-      )}
-    </div>
-  );
+    );
+  }
 
   return (
     <div className="space-y-3">
       {/* Vue normale */}
-      {!isFullscreen && <SliderContent />}
+      {!isFullscreen && (
+        <div 
+          ref={containerRef}
+          className="relative w-full overflow-hidden cursor-ew-resize select-none"
+          style={{ 
+            aspectRatio: '16/9',
+            maxHeight: '600px',
+            borderRadius: '0.5rem',
+            willChange: 'transform',
+            transform: 'translateZ(0)', // Force GPU acceleration
+            backfaceVisibility: 'hidden',
+          }}
+          onMouseDown={handleMouseDown}
+          onTouchStart={handleTouchStart}
+        >
+          {/* Image AFTER (upscalée) - en arrière-plan */}
+          <div className="absolute inset-0" style={{ transform: 'translateZ(0)' }}>
+            <img 
+              ref={afterImgRef}
+              src={afterImage} 
+              alt="Image upscalée (Après)"
+              className="w-full h-full object-contain bg-gray-900"
+              draggable={false}
+              loading="eager"
+              decoding="async"
+              style={{ 
+                pointerEvents: 'none',
+                transform: 'translateZ(0)',
+                imageRendering: 'crisp-edges'
+              }}
+            />
+            <div className="absolute top-3 right-3 bg-black/40 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded pointer-events-none">
+              APRÈS
+            </div>
+          </div>
+
+          {/* Image BEFORE (originale) - avec clip */}
+          <div 
+            className="absolute inset-0 overflow-hidden"
+            style={clipPathStyle}
+          >
+            <img 
+              ref={beforeImgRef}
+              src={beforeImage} 
+              alt="Image originale (Avant)"
+              className="w-full h-full object-contain bg-gray-900"
+              draggable={false}
+              loading="eager"
+              decoding="async"
+              style={{ 
+                pointerEvents: 'none',
+                transform: 'translateZ(0)',
+                imageRendering: 'crisp-edges'
+              }}
+            />
+            <div className="absolute top-3 left-3 bg-black/40 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded pointer-events-none">
+              AVANT
+            </div>
+          </div>
+
+          {/* Ligne de séparation fine avec flèches réduites */}
+          <div 
+            className="absolute top-0 bottom-0 w-0.5 bg-white/80 shadow-lg cursor-ew-resize pointer-events-none"
+            style={sliderStyle}
+          >
+            {/* Flèches au milieu - plus petites */}
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center bg-white/90 rounded-full shadow-xl px-0.5 py-1.5 pointer-events-none">
+              <ChevronLeft className="w-3 h-3 text-gray-700" strokeWidth={3} />
+              <ChevronRight className="w-3 h-3 text-gray-700" strokeWidth={3} />
+            </div>
+          </div>
+
+          {/* Bouton plein écran */}
+          <button
+            onClick={toggleFullscreen}
+            onMouseDown={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
+            className="absolute bottom-3 right-3 bg-black/40 backdrop-blur-sm hover:bg-black/60 text-white p-2 rounded-lg transition-colors pointer-events-auto z-10"
+            title="Voir en plein écran"
+          >
+            <Maximize2 className="w-4 h-4" />
+          </button>
+        </div>
+      )}
 
       {/* Bouton télécharger l'image upscalée */}
       {!isFullscreen && (
@@ -207,16 +283,26 @@ const BeforeAfterSlider = ({ beforeImage, afterImage, onDownload }) => {
             className="w-full h-full cursor-ew-resize select-none"
             onMouseDown={handleMouseDown}
             onTouchStart={handleTouchStart}
-            style={{ willChange: 'transform' }}
+            style={{ 
+              willChange: 'transform',
+              transform: 'translateZ(0)',
+              backfaceVisibility: 'hidden',
+            }}
           >
             {/* Image AFTER (upscalée) - en arrière-plan */}
-            <div className="absolute inset-0" style={{ willChange: 'transform' }}>
+            <div className="absolute inset-0" style={{ transform: 'translateZ(0)' }}>
               <img 
                 src={afterImage} 
                 alt="Image upscalée (Après)"
                 className="w-full h-full object-contain bg-black"
                 draggable={false}
-                style={{ pointerEvents: 'none' }}
+                loading="eager"
+                decoding="async"
+                style={{ 
+                  pointerEvents: 'none',
+                  transform: 'translateZ(0)',
+                  imageRendering: 'crisp-edges'
+                }}
               />
               <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-sm text-white text-sm px-4 py-2 rounded mr-16 pointer-events-none">
                 APRÈS
@@ -226,17 +312,20 @@ const BeforeAfterSlider = ({ beforeImage, afterImage, onDownload }) => {
             {/* Image BEFORE (originale) - avec clip */}
             <div 
               className="absolute inset-0 overflow-hidden"
-              style={{ 
-                clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`,
-                willChange: 'clip-path'
-              }}
+              style={clipPathStyle}
             >
               <img 
                 src={beforeImage} 
                 alt="Image originale (Avant)"
                 className="w-full h-full object-contain bg-black"
                 draggable={false}
-                style={{ pointerEvents: 'none' }}
+                loading="eager"
+                decoding="async"
+                style={{ 
+                  pointerEvents: 'none',
+                  transform: 'translateZ(0)',
+                  imageRendering: 'crisp-edges'
+                }}
               />
               <div className="absolute top-4 left-4 bg-black/40 backdrop-blur-sm text-white text-sm px-4 py-2 rounded pointer-events-none">
                 AVANT
@@ -246,11 +335,7 @@ const BeforeAfterSlider = ({ beforeImage, afterImage, onDownload }) => {
             {/* Ligne de séparation fine avec flèches réduites */}
             <div 
               className="absolute top-0 bottom-0 w-0.5 bg-white/80 shadow-2xl cursor-ew-resize pointer-events-none"
-              style={{ 
-                left: `${sliderPosition}%`, 
-                transform: 'translateX(-50%)',
-                willChange: 'transform'
-              }}
+              style={sliderStyle}
             >
               {/* Flèches au milieu - plus petites */}
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center bg-white/90 rounded-full shadow-2xl px-1 py-2 pointer-events-none">
