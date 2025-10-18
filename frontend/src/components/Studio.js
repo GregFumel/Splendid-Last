@@ -2448,7 +2448,7 @@ const Studio = () => {
 
                 {/* Options de configuration pour Kling AI - Desktop */}
                 {isKling && (
-                    <div className="bg-purple-500/10 border border-purple-400/30 rounded-lg mb-3 overflow-hidden">
+                  <div className="bg-purple-500/10 border border-purple-400/30 rounded-lg mb-3 overflow-hidden">
                       <button
                         onClick={() => setShowKlingOptions(!showKlingOptions)}
                         className="w-full flex items-center justify-between p-3 hover:bg-purple-500/5 transition-colors"
