@@ -1,19 +1,17 @@
 #!/usr/bin/env python3
 """
-Test script for Video Generation API endpoints
-Tests Google Veo 3.1 and SORA 2 endpoints after litellm bug fix:
-1. POST /api/google-veo/session - Create Google Veo session
-2. POST /api/google-veo/generate - Generate video with Google Veo 3.1
-3. GET /api/google-veo/session/{session_id} - Get Google Veo session history
-4. POST /api/sora2/session - Create SORA 2 session
-5. POST /api/sora2/generate - Generate video with SORA 2
-6. GET /api/sora2/session/{session_id} - Get SORA 2 session history
+Test script for AI Image Upscaler API endpoints
+Tests AI Image Upscaler integration with Replicate API:
+1. POST /api/image-upscaler/session - Create AI Image Upscaler session
+2. POST /api/image-upscaler/upscale - Upscale image with X2, X4, X8 factors
+3. GET /api/image-upscaler/session/{session_id} - Get session history
 """
 
 import requests
 import json
 import sys
 import os
+import base64
 from datetime import datetime
 
 # Get backend URL from frontend/.env
