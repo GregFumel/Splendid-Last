@@ -412,6 +412,14 @@ const Studio = () => {
   });
   const [showFluxKontextOptions, setShowFluxKontextOptions] = useState(true); // Par défaut dépliées
 
+  // États pour les options Kling AI v2.1
+  const [klingOptions, setKlingOptions] = useState({
+    duration: 5,  // 5 ou 10 secondes
+    mode: "standard",  // "standard" (720p) ou "pro" (1080p)
+    negativePrompt: ""  // Ce qu'on ne veut pas voir
+  });
+  const [showKlingOptions, setShowKlingOptions] = useState(true); // Par défaut dépliées
+
 
   // Sélectionner l'outil basé sur le paramètre URL
   useEffect(() => {
