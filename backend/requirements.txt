@@ -28,3 +28,4 @@ replicate
 litellm
 httpx
 aiohttp
+openai
