@@ -85,7 +85,9 @@ export const mockAITools = [
     description: "L'outil de référence pour la génération d'images artistiques.",
     category: "image",
     image: "https://customer-assets.emergentagent.com/job_nano-banana-fix/artifacts/uc4nfrpn_Capture%20d%E2%80%99e%CC%81cran%202025-10-18%20a%CC%80%2020.36.26.png",
-    fullDescription: "la génération d'images artistiques et photoréalistes"
+    fullDescription: "la génération d'images artistiques et photoréalistes",
+    toolType: "flux-kontext",
+    apiEndpoint: "flux-kontext"
   },
   {
     id: 12,
