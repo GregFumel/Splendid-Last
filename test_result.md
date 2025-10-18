@@ -507,6 +507,12 @@ frontend:
       - working: "NA"
         agent: "main"
         comment: "🔧 CORRECTION APPLIQUÉE: Ajout de isFluxKontext dans la condition d'affichage de l'interface conversationnelle (ligne 1319). Flux Kontext Pro utilise maintenant l'interface conversationnelle comme NanoBanana, ChatGPT-5, Google Veo, SORA 2 et Image Upscaler. Le message de génération était déjà configuré ('Génération d'image en cours...' ou 'Édition d'image en cours...' selon le mode). Frontend redémarré. Prêt pour re-test utilisateur."
+      - working: false
+        agent: "main"
+        comment: "🚨 PROBLÈME PARTIEL RÉSOLU: L'utilisateur confirme que maintenant le prompt s'affiche et l'image uploadée aussi, MAIS le résultat final (l'image générée) ne s'affiche toujours pas. Il manque l'affichage du résultat et la possibilité de télécharger ce résultat."
+      - working: "NA"
+        agent: "main"
+        comment: "🔧 CORRECTION FINALE APPLIQUÉE: Ajout de isFluxKontext dans la condition d'affichage des images générées (ligne 1367). Maintenant les images générées par Flux Kontext Pro s'affichent comme celles de NanoBanana. Ajout du bouton télécharger avec thème orange pour Flux Kontext Pro. Frontend redémarré. Maintenant l'historique complet devrait s'afficher: prompt utilisateur + image uploadée (si présente) + résultat généré avec bouton télécharger."
 
 metadata:
   created_by: "main_agent"
