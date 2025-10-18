@@ -141,6 +141,37 @@ class GenerateFluxKontextResponse(BaseModel):
     image_urls: List[str]
     response_text: str
 
+# Kling AI v2.1 Models (Image-to-Video Generation)
+class KlingMessage(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    session_id: str
+    role: str  # "user" or "assistant"
+    content: str
+    video_urls: List[str] = []
+    image_urls: List[str] = []  # Pour stocker start_image et end_image
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+
+class KlingSession(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    last_updated: datetime = Field(default_factory=datetime.utcnow)
+    messages: List[KlingMessage] = []
+
+class GenerateKlingRequest(BaseModel):
+    session_id: str
+    prompt: str
+    start_image: str  # Data URL de l'image de départ (OBLIGATOIRE)
+    end_image: Optional[str] = None  # Data URL de l'image de fin (optionnelle, nécessite mode pro)
+    mode: str = "standard"  # "standard" (720p) ou "pro" (1080p)
+    duration: int = 5  # 5 ou 10 secondes
+    negative_prompt: Optional[str] = ""
+
+class GenerateKlingResponse(BaseModel):
+    session_id: str
+    message_id: str
+    video_urls: List[str]
+    response_text: str
+
 # Google Veo 3.1 Models (Video Generation)
 class GoogleVeoMessage(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
