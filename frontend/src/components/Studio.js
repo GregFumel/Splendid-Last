@@ -2127,19 +2127,6 @@ const Studio = () => {
                       </span>
                     )}
                   </div>
-                ) : isKling ? (
-                  <input
-                    type="text"
-                    value={prompt}
-                    onChange={(e) => setPrompt(e.target.value)}
-                    placeholder="Décrivez la vidéo que vous souhaitez générer..."
-                    className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2"
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter' && prompt.trim() && !isGenerating && klingStartImage) {
-                        handleGenerate();
-                      }
-                    }}
-                  />
                 ) : (
                   <input
                     type="text"
