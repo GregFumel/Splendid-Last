@@ -1971,74 +1971,40 @@ const Studio = () => {
                   </div>
                 )}
 
-                {/* Options et upload d'images pour Kling AI v2.1 - Mobile */}
+                {/* Aperçu des images uploadées pour Kling AI - Mobile */}
+                {isKling && (klingStartImage || klingEndImage) && (
+                  <div className="bg-purple-500/10 border border-purple-400/30 rounded-lg p-2 flex gap-2 overflow-x-auto">
+                    {klingStartImage && (
+                      <div className="relative flex-shrink-0">
+                        <img src={klingStartImage.dataUrl} alt="Start" className="h-20 w-20 object-cover rounded border border-purple-400/30" />
+                        <button
+                          onClick={removeKlingStartImage}
+                          className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-0.5 hover:bg-red-600"
+                          title="Supprimer start"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                        <span className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs px-1 text-center">Start</span>
+                      </div>
+                    )}
+                    {klingEndImage && (
+                      <div className="relative flex-shrink-0">
+                        <img src={klingEndImage.dataUrl} alt="End" className="h-20 w-20 object-cover rounded border border-purple-400/30" />
+                        <button
+                          onClick={removeKlingEndImage}
+                          className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-0.5 hover:bg-red-600"
+                          title="Supprimer end"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                        <span className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs px-1 text-center">End</span>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Options de configuration pour Kling AI - Mobile */}
                 {isKling && (
-                  <>
-                    {/* Upload des images start et end */}
-                    <div className="bg-purple-500/10 border border-purple-400/30 rounded-lg p-3 space-y-3">
-                      <p className="text-sm font-medium text-gray-200">Images (start obligatoire)</p>
-                      
-                      {/* Image de départ (obligatoire) */}
-                      <div className="space-y-2">
-                        <label className="text-xs text-gray-300">Image de départ *</label>
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={handleKlingStartImageUpload}
-                            className="bg-purple-600/80 hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
-                          >
-                            <Plus className="w-4 h-4" />
-                            <span className="text-sm">Ajouter</span>
-                          </button>
-                          {klingStartImage && (
-                            <div className="flex items-center gap-2 flex-1">
-                              <span className="text-xs text-gray-300 truncate flex-1">{klingStartImage.name}</span>
-                              <button
-                                onClick={removeKlingStartImage}
-                                className="text-red-400 hover:text-red-300"
-                                title="Supprimer"
-                              >
-                                <X className="w-4 h-4" />
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                        {klingStartImage && (
-                          <img src={klingStartImage.dataUrl} alt="Start" className="w-full max-w-xs rounded-lg border border-purple-400/30" />
-                        )}
-                      </div>
-                      
-                      {/* Image de fin (optionnelle, nécessite mode pro) */}
-                      <div className="space-y-2">
-                        <label className="text-xs text-gray-300">Image de fin (optionnelle, nécessite mode Pro)</label>
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={handleKlingEndImageUpload}
-                            disabled={klingOptions.mode !== "pro"}
-                            className={`${klingOptions.mode === "pro" ? 'bg-purple-600/80 hover:bg-purple-600' : 'bg-gray-600/50 cursor-not-allowed'} text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2`}
-                          >
-                            <Plus className="w-4 h-4" />
-                            <span className="text-sm">Ajouter</span>
-                          </button>
-                          {klingEndImage && (
-                            <div className="flex items-center gap-2 flex-1">
-                              <span className="text-xs text-gray-300 truncate flex-1">{klingEndImage.name}</span>
-                              <button
-                                onClick={removeKlingEndImage}
-                                className="text-red-400 hover:text-red-300"
-                                title="Supprimer"
-                              >
-                                <X className="w-4 h-4" />
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                        {klingEndImage && (
-                          <img src={klingEndImage.dataUrl} alt="End" className="w-full max-w-xs rounded-lg border border-purple-400/30" />
-                        )}
-                      </div>
-                    </div>
-                    
-                    {/* Options de configuration */}
                     <div className="bg-purple-500/10 border border-purple-400/30 rounded-lg overflow-hidden">
                       <button
                         onClick={() => setShowKlingOptions(!showKlingOptions)}
