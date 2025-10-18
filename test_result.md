@@ -563,6 +563,8 @@ test_plan:
 
 agent_communication:
   - agent: "main"
+    message: "🎬 KLING AI v2.1 - IMPLÉMENTATION COMPLÈTE TERMINÉE! Frontend et Backend 100% développés: 1) BACKEND: Endpoints déjà implémentés (session, generate, history) utilisant Replicate API kwaivgi/kling-v2.1. Génération vidéo image-to-video avec start_image (obligatoire), end_image (optionnelle mode pro), durée 5/10s, qualité 720p/1080p. 2) FRONTEND: Interface complète ajoutée - upload start/end images, options durée et qualité dans accordéon, validation end_image nécessite mode pro, interface conversationnelle avec affichage vidéos et téléchargement, thème violet (purple). 3) Badge NEW ajouté dans mockData.js. 4) Mobile et desktop supportés. Prêt pour testing backend et frontend complet!"
+  - agent: "main"
     message: "Début de l'ajout des nouvelles IA dans l'application. Modifications dans mockData.js, PricingSection.js et SuggestionModal.js. Les nouvelles IA ont toutes le badge NEW et sont placées en première position."
   - agent: "main"
     message: "⚠️ PROBLÈME CRITIQUE IDENTIFIÉ - Backend ne démarrait pas! Cause: Module 'litellm' manquant (requis par emergentintegrations). Solution appliquée: Installation de litellm et ajout dans requirements.txt. Backend redémarré avec succès. NanoBanana fonctionne, mais Google Veo 3.1 et SORA 2 nécessitent des tests pour vérifier si les vidéos sont maintenant générées et affichées correctement. L'utilisateur rapporte que seule la bulle de texte (prompt) apparaît sans le résultat vidéo."
