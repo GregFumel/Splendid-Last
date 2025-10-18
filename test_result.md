@@ -513,6 +513,12 @@ frontend:
       - working: "NA"
         agent: "main"
         comment: "🔧 CORRECTION FINALE APPLIQUÉE: Ajout de isFluxKontext dans la condition d'affichage des images générées (ligne 1367). Maintenant les images générées par Flux Kontext Pro s'affichent comme celles de NanoBanana. Ajout du bouton télécharger avec thème orange pour Flux Kontext Pro. Frontend redémarré. Maintenant l'historique complet devrait s'afficher: prompt utilisateur + image uploadée (si présente) + résultat généré avec bouton télécharger."
+      - working: false
+        agent: "main"
+        comment: "🚨 ERREUR MONGODB IDENTIFIÉE: L'utilisateur rencontre l'erreur 'Erreur lors de la génération. Veuillez réessayer.' Analyse des logs backend révèle: 'BSON document too large (34110376 bytes) - the connected server supports BSON document sizes up to 16793598 bytes'. Même problème que Google Veo avait - le backend télécharge l'image générée par Replicate et la convertit en base64, créant un document trop volumineux pour MongoDB (34MB > 16MB limite)."
+      - working: "NA"
+        agent: "main"
+        comment: "🔧 CORRECTION MONGODB APPLIQUÉE: Modification du backend (server.py lignes 483-492) pour stocker uniquement l'URL Replicate au lieu de télécharger et convertir en base64. Suppression du téléchargement et de la conversion base64. Les images sont maintenant stockées comme URLs Replicate delivery (comme Google Veo et SORA 2). Backend redémarré. Cette correction élimine le problème de taille de document MongoDB et permet la génération d'images avec Flux Kontext Pro."
 
 metadata:
   created_by: "main_agent"
