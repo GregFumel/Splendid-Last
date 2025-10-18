@@ -605,14 +605,14 @@ const Studio = () => {
         });
         
         // Recharger l'historique de conversation
-        const toolType = isNanoBanana ? 'nanobanana' : isGoogleVeo ? 'google-veo' : isSora2 ? 'sora2' : 'chatgpt5';
+        const toolType = isNanoBanana ? 'nanobanana' : isGoogleVeo ? 'google-veo' : isSora2 ? 'sora2' : isImageUpscaler ? 'image-upscaler' : 'chatgpt5';
         console.log('🔄 Rechargement historique pour session:', sessionId, 'type:', toolType);
         await loadConversationHistory(sessionId, toolType);
         console.log('✅ Historique rechargé, conversationHistory.length:', conversationHistory.length);
         
         // Vider le prompt et l'image uploadée
         setPrompt("");
-        if (isChatGPT5 || isNanoBanana || isGoogleVeo || isSora2) {
+        if (isChatGPT5 || isNanoBanana || isGoogleVeo || isSora2 || isImageUpscaler) {
           setUploadedImage(null);
         }
         
