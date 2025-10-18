@@ -399,7 +399,7 @@ const Studio = () => {
 
   // États pour les options Flux Kontext Pro
   const [fluxKontextOptions, setFluxKontextOptions] = useState({
-    aspectRatio: "16:9",  // Default aspect ratio
+    aspectRatio: "1:1",  // Default aspect ratio
     promptUpsampling: false,
     safetyTolerance: 2
   });
