@@ -1007,7 +1007,19 @@ const Studio = () => {
       return;
     }
     
-    if (!isImageUpscaler && !isFluxKontext && !prompt.trim()) return;
+    // Pour Kling AI, une start_image est obligatoire
+    if (isKling && !klingStartImage) {
+      alert('Veuillez uploader une image de départ (obligatoire)');
+      return;
+    }
+    
+    // Pour Kling AI avec end_image, le mode pro est obligatoire
+    if (isKling && klingEndImage && klingOptions.mode !== "pro") {
+      alert('L\'image de fin nécessite le mode "Pro (1080p)"');
+      return;
+    }
+    
+    if (!isImageUpscaler && !isFluxKontext && !isKling && !prompt.trim()) return;
     
     // Pour Flux Kontext, un prompt est requis
     if (isFluxKontext && !prompt.trim()) {
@@ -1015,9 +1027,15 @@ const Studio = () => {
       return;
     }
     
+    // Pour Kling AI, un prompt est requis
+    if (isKling && !prompt.trim()) {
+      alert('Veuillez entrer un prompt pour générer la vidéo');
+      return;
+    }
+    
     setIsGenerating(true);
     
-    if ((isNanoBanana || isChatGPT5 || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext) && sessionId) {
+    if ((isNanoBanana || isChatGPT5 || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isKling) && sessionId) {
       // Traitement pour NanoBanana, ChatGPT-5, Google Veo, SORA 2, Image Upscaler et Flux Kontext
       try {
         const backendUrl = process.env.REACT_APP_BACKEND_URL;
