@@ -882,8 +882,8 @@ const Studio = () => {
 
           {/* Zone de discussion scrollable - SIMPLE */}
           <div className="flex-1 overflow-y-auto pr-2 space-y-4 min-h-0 max-h-full pb-32">
-            {/* Historique conversationnel pour NanoBanana et ChatGPT-5 ou zone de résultat pour les autres */}
-            {(isNanoBanana || isChatGPT5 || isGoogleVeo || isSora2) ? (
+            {/* Historique conversationnel pour NanoBanana, ChatGPT-5, Google Veo, SORA 2 et Image Upscaler ou zone de résultat pour les autres */}
+            {(isNanoBanana || isChatGPT5 || isGoogleVeo || isSora2 || isImageUpscaler) ? (
               <>
                 {/* Animation de chargement de l'historique */}
                 {isLoadingHistory ? (
