@@ -702,10 +702,15 @@ async def generate_video_with_kling(request: GenerateKlingRequest):
         error_occurred = False
         
         try:
+            # Convert data URLs to public URLs for Replicate
+            backend_url = "https://image-to-video-ui.preview.emergentagent.com"
+            start_image_url = data_url_to_public_url(request.start_image, backend_url)
+            logging.info(f"Start image converted to: {start_image_url}")
+            
             # Préparer les inputs pour le modèle kwaivgi/kling-v2.1
             inputs = {
                 "prompt": request.prompt,
-                "start_image": request.start_image,
+                "start_image": start_image_url,
                 "mode": request.mode,
                 "duration": request.duration,
                 "negative_prompt": request.negative_prompt or ""
@@ -715,7 +720,9 @@ async def generate_video_with_kling(request: GenerateKlingRequest):
             if request.end_image:
                 if request.mode != "pro":
                     raise Exception("L'image de fin (end_image) nécessite le mode 'pro' (1080p)")
-                inputs["end_image"] = request.end_image
+                end_image_url = data_url_to_public_url(request.end_image, backend_url)
+                logging.info(f"End image converted to: {end_image_url}")
+                inputs["end_image"] = end_image_url
             
             # Générer la vidéo avec Replicate
             logging.info(f"Génération de vidéo avec Replicate - modèle: kwaivgi/kling-v2.1, prompt: {request.prompt}, durée: {request.duration}s, mode: {request.mode}")
