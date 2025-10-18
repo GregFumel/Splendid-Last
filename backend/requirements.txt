@@ -31,3 +31,4 @@ aiohttp
 openai
 fastuuid
 pyyaml
+jinja2
