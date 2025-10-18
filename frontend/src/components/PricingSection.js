@@ -68,7 +68,7 @@ const PricingSection = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
-                <span className="text-gray-200 text-sm">GPT-5 Structured - IA la plus avancée</span>
+                <span className="text-gray-200 text-sm">ChatGPT-5 - IA la plus avancée</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
