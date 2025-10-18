@@ -518,24 +518,43 @@ const Studio = () => {
   };
 
   const handleGenerate = async () => {
-    if (!prompt.trim()) return;
+    // Pour AI Image Upscaler, une image est requise
+    if (isImageUpscaler && !uploadedImage) {
+      alert('Veuillez uploader une image à upscaler');
+      return;
+    }
+    
+    if (!isImageUpscaler && !prompt.trim()) return;
     
     setIsGenerating(true);
     
-    if ((isNanoBanana || isChatGPT5 || isGoogleVeo || isSora2) && sessionId) {
-      // Traitement pour NanoBanana, ChatGPT-5 et Google Veo
+    if ((isNanoBanana || isChatGPT5 || isGoogleVeo || isSora2 || isImageUpscaler) && sessionId) {
+      // Traitement pour NanoBanana, ChatGPT-5, Google Veo, SORA 2 et Image Upscaler
       try {
         const backendUrl = process.env.REACT_APP_BACKEND_URL;
         console.log('Génération avec backend URL:', backendUrl);
         console.log('Session ID:', sessionId);
         console.log('Prompt:', prompt);
-        console.log('Outil:', isNanoBanana ? 'NanoBanana' : isGoogleVeo ? 'Google Veo 3.1' : isSora2 ? 'SORA 2' : 'ChatGPT-5');
+        console.log('Outil:', isNanoBanana ? 'NanoBanana' : isGoogleVeo ? 'Google Veo 3.1' : isSora2 ? 'SORA 2' : isImageUpscaler ? 'AI Image Upscaler' : 'ChatGPT-5');
         
-        const endpoint = isNanoBanana ? 'nanobanana/generate' : isGoogleVeo ? 'google-veo/generate' : isSora2 ? 'sora2/generate' : 'chatgpt5/generate';
-        const requestBody = {
-          session_id: sessionId,
-          prompt: prompt,
-        };
+        let endpoint, requestBody;
+        
+        if (isImageUpscaler) {
+          // Upscaler nécessite une image et un scale_factor
+          endpoint = 'image-upscaler/upscale';
+          requestBody = {
+            session_id: sessionId,
+            image_data: uploadedImage.dataUrl,
+            scale_factor: upscalerOptions.scaleFactor
+          };
+        } else {
+          // Autres outils
+          endpoint = isNanoBanana ? 'nanobanana/generate' : isGoogleVeo ? 'google-veo/generate' : isSora2 ? 'sora2/generate' : 'chatgpt5/generate';
+          requestBody = {
+            session_id: sessionId,
+            prompt: prompt,
+          };
+        }
         
         // Ajouter l'image pour ChatGPT-5 ou NanoBanana si une image est uploadée
         if ((isChatGPT5 || isNanoBanana) && uploadedImage) {
