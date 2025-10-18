@@ -508,8 +508,7 @@ metadata:
   test_sequence: 6
 
 test_plan:
-  current_focus:
-    - "Flux Kontext Pro - Ajout icône import photo et options aspect ratio"
+  current_focus: []
   stuck_tasks:
     - "Bug critique interface NanoBanana - État React non synchronisé"
   test_all: false
