@@ -369,12 +369,19 @@ const Studio = () => {
   const [isSora2, setIsSora2] = useState(false); // Pour SORA 2
   const [isImageUpscaler, setIsImageUpscaler] = useState(false); // Pour AI Image Upscaler
   const [isFluxKontext, setIsFluxKontext] = useState(false); // Pour Flux Kontext Pro
+  const [isKling, setIsKling] = useState(false); // Pour Kling AI v2.1
   const [toolSessions, setToolSessions] = useState({}); // Stocker les sessions par outil
   const [isLoadingHistory, setIsLoadingHistory] = useState(false); // État pour l'animation de chargement
   
   // États pour l'upload d'images
   const [uploadedImage, setUploadedImage] = useState(null); // {file, dataUrl}
   const fileInputRef = useRef(null);
+
+  // États pour l'upload d'images Kling (start et end)
+  const [klingStartImage, setKlingStartImage] = useState(null); // {file, dataUrl, name}
+  const [klingEndImage, setKlingEndImage] = useState(null); // {file, dataUrl, name}
+  const klingStartInputRef = useRef(null);
+  const klingEndInputRef = useRef(null);
 
   // États pour les options Google Veo 3.1
   const [veoOptions, setVeoOptions] = useState({
