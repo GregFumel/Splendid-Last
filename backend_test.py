@@ -33,7 +33,7 @@ def get_backend_url():
     return "http://localhost:8001"
 
 def create_test_image():
-    """Crée une petite image de test en base64 pour l'upscaling"""
+    """Crée une petite image de test en base64 pour l'upscaling et Flux Kontext Pro"""
     # Créer une petite image de test (50x50 pixels, rouge)
     from PIL import Image
     import io
