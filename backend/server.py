@@ -77,8 +77,8 @@ def data_url_to_public_url(data_url: str, backend_url: str) -> str:
         # Save as JPEG (better compatibility with Replicate)
         image.save(filepath, 'JPEG', quality=95)
         
-        # Return public URL
-        public_url = f"{backend_url}/temp-images/{filename}"
+        # Return public URL (under /api prefix for Kubernetes ingress routing)
+        public_url = f"{backend_url}/api/temp-images/{filename}"
         logging.info(f"Image saved successfully: {filepath} -> {public_url}")
         return public_url
     except Exception as e:
