@@ -112,6 +112,35 @@ class NanoBananaSession(BaseModel):
     last_updated: datetime = Field(default_factory=datetime.utcnow)
     messages: List[NanoBananaMessage] = []
 
+# Flux Kontext Pro Models
+class FluxKontextMessage(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    session_id: str
+    role: str  # "user" or "assistant"
+    content: str
+    image_urls: List[str] = []
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+
+class FluxKontextSession(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    last_updated: datetime = Field(default_factory=datetime.utcnow)
+    messages: List[FluxKontextMessage] = []
+
+class GenerateFluxKontextRequest(BaseModel):
+    session_id: str
+    prompt: str
+    input_image: Optional[str] = None  # Data URL de l'image de référence (optionnelle)
+    aspect_ratio: str = "16:9"  # Default aspect ratio
+    prompt_upsampling: bool = False
+    safety_tolerance: int = 2
+
+class GenerateFluxKontextResponse(BaseModel):
+    session_id: str
+    message_id: str
+    image_urls: List[str]
+    response_text: str
+
 # Google Veo 3.1 Models (Video Generation)
 class GoogleVeoMessage(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
