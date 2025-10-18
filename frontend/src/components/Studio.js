@@ -1659,9 +1659,14 @@ const Studio = () => {
                               {isNanoBanana ? 'Génération d\'image en cours...' : isImageUpscaler ? 'Upscaling de l\'image en cours...' : isFluxKontext ? (uploadedImage ? 'Édition d\'image en cours...' : 'Génération d\'image en cours...') : (isGoogleVeo || isSora2 || isKling) ? 'Génération de vidéo en cours...' : 'Réflexion en cours...'}
                             </span>
                           </div>
-                          {(isGoogleVeo || isSora2 || isKling) && (
+                          {(isGoogleVeo || isSora2) && (
                             <p className="text-xs text-gray-400 mt-1">
                               La génération peut prendre 1 à 2 minutes, veuillez patienter.
+                            </p>
+                          )}
+                          {isKling && (
+                            <p className="text-xs text-gray-400 mt-1">
+                              ⏳ La génération peut prendre 2 à 3 minutes ou plus, veuillez patienter...
                             </p>
                           )}
                           {isImageUpscaler && (
