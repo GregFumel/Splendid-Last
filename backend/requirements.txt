@@ -32,3 +32,4 @@ openai
 fastuuid
 pyyaml
 jinja2
+tiktoken
