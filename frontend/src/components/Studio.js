@@ -1328,9 +1328,9 @@ const Studio = () => {
             ) : (
               /* Layout desktop : horizontal avec bouton petit à droite */
               <div className="flex flex-col gap-3">
-                {/* Aperçu de l'image uploadée pour ChatGPT-5 ou NanoBanana */}
-                {(isChatGPT5 || isNanoBanana) && uploadedImage && (
-                  <div className="flex items-center gap-3 p-3 bg-green-500/10 border border-green-400/30 rounded-lg">
+                {/* Aperçu de l'image uploadée pour ChatGPT-5, NanoBanana et Image Upscaler */}
+                {(isChatGPT5 || isNanoBanana || isImageUpscaler) && uploadedImage && (
+                  <div className={`flex items-center gap-3 p-3 ${isImageUpscaler ? 'bg-green-500/10 border-green-400/30' : 'bg-green-500/10 border-green-400/30'} border rounded-lg`}>
                     <img 
                       src={uploadedImage.dataUrl} 
                       alt="Image uploadée"
