@@ -1971,6 +1971,126 @@ const Studio = () => {
                   </div>
                 )}
 
+                {/* Options et upload d'images pour Kling AI v2.1 - Mobile */}
+                {isKling && (
+                  <>
+                    {/* Upload des images start et end */}
+                    <div className="bg-purple-500/10 border border-purple-400/30 rounded-lg p-3 space-y-3">
+                      <p className="text-sm font-medium text-gray-200">Images (start obligatoire)</p>
+                      
+                      {/* Image de départ (obligatoire) */}
+                      <div className="space-y-2">
+                        <label className="text-xs text-gray-300">Image de départ *</label>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={handleKlingStartImageUpload}
+                            className="bg-purple-600/80 hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
+                          >
+                            <Plus className="w-4 h-4" />
+                            <span className="text-sm">Ajouter</span>
+                          </button>
+                          {klingStartImage && (
+                            <div className="flex items-center gap-2 flex-1">
+                              <span className="text-xs text-gray-300 truncate flex-1">{klingStartImage.name}</span>
+                              <button
+                                onClick={removeKlingStartImage}
+                                className="text-red-400 hover:text-red-300"
+                                title="Supprimer"
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                        {klingStartImage && (
+                          <img src={klingStartImage.dataUrl} alt="Start" className="w-full max-w-xs rounded-lg border border-purple-400/30" />
+                        )}
+                      </div>
+                      
+                      {/* Image de fin (optionnelle, nécessite mode pro) */}
+                      <div className="space-y-2">
+                        <label className="text-xs text-gray-300">Image de fin (optionnelle, nécessite mode Pro)</label>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={handleKlingEndImageUpload}
+                            disabled={klingOptions.mode !== "pro"}
+                            className={`${klingOptions.mode === "pro" ? 'bg-purple-600/80 hover:bg-purple-600' : 'bg-gray-600/50 cursor-not-allowed'} text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2`}
+                          >
+                            <Plus className="w-4 h-4" />
+                            <span className="text-sm">Ajouter</span>
+                          </button>
+                          {klingEndImage && (
+                            <div className="flex items-center gap-2 flex-1">
+                              <span className="text-xs text-gray-300 truncate flex-1">{klingEndImage.name}</span>
+                              <button
+                                onClick={removeKlingEndImage}
+                                className="text-red-400 hover:text-red-300"
+                                title="Supprimer"
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                        {klingEndImage && (
+                          <img src={klingEndImage.dataUrl} alt="End" className="w-full max-w-xs rounded-lg border border-purple-400/30" />
+                        )}
+                      </div>
+                    </div>
+                    
+                    {/* Options de configuration */}
+                    <div className="bg-purple-500/10 border border-purple-400/30 rounded-lg overflow-hidden">
+                      <button
+                        onClick={() => setShowKlingOptions(!showKlingOptions)}
+                        className="w-full flex items-center justify-between p-3 hover:bg-purple-500/5 transition-colors"
+                      >
+                        <span className="text-sm font-medium text-gray-200">Options de génération</span>
+                        {showKlingOptions ? (
+                          <ChevronDown className="w-4 h-4 text-gray-400" />
+                        ) : (
+                          <ChevronUp className="w-4 h-4 text-gray-400" />
+                        )}
+                      </button>
+                      
+                      {showKlingOptions && (
+                        <div className="flex flex-col gap-3 px-3 pb-3 pt-2 border-t border-purple-400/20 mt-2">
+                          {/* Durée */}
+                          <div className="flex items-center gap-2">
+                            <label className="text-sm text-gray-300">Durée:</label>
+                            <select
+                              value={klingOptions.duration}
+                              onChange={(e) => setKlingOptions({...klingOptions, duration: parseInt(e.target.value)})}
+                              className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-purple-400 focus:outline-none"
+                            >
+                              <option value={5}>5 secondes</option>
+                              <option value={10}>10 secondes</option>
+                            </select>
+                          </div>
+                          
+                          {/* Qualité / Mode */}
+                          <div className="flex items-center gap-2">
+                            <label className="text-sm text-gray-300">Qualité:</label>
+                            <select
+                              value={klingOptions.mode}
+                              onChange={(e) => {
+                                const newMode = e.target.value;
+                                setKlingOptions({...klingOptions, mode: newMode});
+                                // Supprimer l'image de fin si on passe en mode standard
+                                if (newMode === "standard" && klingEndImage) {
+                                  setKlingEndImage(null);
+                                }
+                              }}
+                              className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-purple-400 focus:outline-none"
+                            >
+                              <option value="standard">Standard (720p)</option>
+                              <option value="pro">Pro (1080p)</option>
+                            </select>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </>
+                )}
                 
                 {/* Zone de saisie avec icône d'upload pour ChatGPT-5, NanoBanana, Image Upscaler et Flux Kontext */}
                 {(isChatGPT5 || isNanoBanana || isImageUpscaler || isFluxKontext) ? (
