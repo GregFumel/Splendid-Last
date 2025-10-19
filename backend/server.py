@@ -303,6 +303,33 @@ class GenerateAlibabaWanResponse(BaseModel):
     video_urls: List[str]
     response_text: str
 
+# Video Upscale AI Models (Video Upscaling)
+class VideoUpscaleMessage(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    session_id: str
+    role: str  # "user" or "assistant"
+    content: str
+    video_urls: List[str] = []
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+
+class VideoUpscaleSession(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    last_updated: datetime = Field(default_factory=datetime.utcnow)
+    messages: List[VideoUpscaleMessage] = []
+
+class GenerateVideoUpscaleRequest(BaseModel):
+    session_id: str
+    video_input: str  # Data URL de la vidéo (obligatoire)
+    target_resolution: str = "1080p"  # "720p", "1080p", "4k"
+    target_fps: int = 30  # 25, 30, 40, 50, 60
+
+class GenerateVideoUpscaleResponse(BaseModel):
+    session_id: str
+    message_id: str
+    video_urls: List[str]
+    response_text: str
+
 # Google Veo 3.1 Models (Video Generation)
 class GoogleVeoMessage(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
