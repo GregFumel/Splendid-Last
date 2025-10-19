@@ -37,3 +37,6 @@ tokenizers
 Pillow
 multidict
 attrs
+-e yarl
+aiosignal
+frozenlist
