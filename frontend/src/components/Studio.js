@@ -1929,8 +1929,8 @@ const Studio = () => {
                           )}
 
                           
-                          {/* Affichage des vidéos générées pour Google Veo, SORA 2, Kling AI et Alibaba Wan */}
-                          {(isGoogleVeo || isSora2 || isKling || isAlibabaWan) && message.role === 'assistant' && message.video_urls && message.video_urls.length > 0 && (
+                          {/* Affichage des vidéos générées pour Google Veo, SORA 2, Kling AI, Alibaba Wan et Video Upscale */}
+                          {(isGoogleVeo || isSora2 || isKling || isAlibabaWan || isVideoUpscale) && message.role === 'assistant' && message.video_urls && message.video_urls.length > 0 && (
                             <div className="mt-3 space-y-2">
                               {message.video_urls.map((videoUrl, vidIndex) => (
                                 <div key={vidIndex} className="rounded-lg overflow-hidden border border-white/20">
