@@ -878,6 +878,46 @@ const Studio = () => {
     }
   };
 
+  const initializeGrokSession = async () => {
+    try {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL;
+      console.log('Backend URL Grok:', backendUrl);
+      
+      const response = await fetch(`${backendUrl}/api/grok/session`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      console.log('Grok Session response status:', response.status);
+      
+      if (!response.ok) {
+        throw new Error('Erreur lors de la création de la session Grok');
+      }
+      
+      const session = await response.json();
+      console.log('Session Grok créée:', session.id);
+      setSessionId(session.id);
+      
+      // Sauvegarder la session pour cet outil
+      setToolSessions(prev => ({
+        ...prev,
+        [selectedTool.id]: {
+          sessionId: session.id,
+          toolName: selectedTool.name
+        }
+      }));
+      
+      // Charger l'historique existant (vide pour une nouvelle session)
+      loadConversationHistory(session.id, 'grok');
+    } catch (error) {
+      console.error('Erreur lors de l\'initialisation de la session Grok:', error);
+      // Arrêter l'animation en cas d'erreur
+      setIsLoadingHistory(false);
+    }
+  };
+
 
   const loadConversationHistory = async (sessionIdToLoad, toolType) => {
     try {
