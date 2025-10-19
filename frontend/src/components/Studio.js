@@ -511,6 +511,7 @@ const Studio = () => {
     const isKlingTool = selectedTool && selectedTool.name === "Kling AI v2.1";
     const isSeedreamTool = selectedTool && selectedTool.name === "Seedream 4";
     const isGrokTool = selectedTool && selectedTool.name === "Grok";
+    const isAlibabaWanTool = selectedTool && selectedTool.name === "Alibaba Wan 2.5";
     
     setIsNanoBanana(isNanoBananaTool);
     setIsChatGPT5(isChatGPT5Tool);
@@ -521,8 +522,9 @@ const Studio = () => {
     setIsKling(isKlingTool);
     setIsSeedream(isSeedreamTool);
     setIsGrok(isGrokTool);
+    setIsAlibabaWan(isAlibabaWanTool);
     
-    if (isNanoBananaTool || isChatGPT5Tool || isGoogleVeoTool || isSora2Tool || isImageUpscalerTool || isFluxKontextTool || isKlingTool || isSeedreamTool || isGrokTool) {
+    if (isNanoBananaTool || isChatGPT5Tool || isGoogleVeoTool || isSora2Tool || isImageUpscalerTool || isFluxKontextTool || isKlingTool || isSeedreamTool || isGrokTool || isAlibabaWanTool) {
       // Commencer l'animation de chargement
       setIsLoadingHistory(true);
       setConversationHistory([]); // Vider l'historique précédent immédiatement
