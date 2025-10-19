@@ -1413,7 +1413,7 @@ const Studio = () => {
         });
         
         // Recharger l'historique de conversation
-        const toolType = isNanoBanana ? 'nanobanana' : isGoogleVeo ? 'google-veo' : isSora2 ? 'sora2' : isImageUpscaler ? 'image-upscaler' : isFluxKontext ? 'flux-kontext' : isKling ? 'kling' : isSeedream ? 'seedream' : isGrok ? 'grok' : isAlibabaWan ? 'alibaba-wan' : 'chatgpt5';
+        const toolType = isNanoBanana ? 'nanobanana' : isGoogleVeo ? 'google-veo' : isSora2 ? 'sora2' : isImageUpscaler ? 'image-upscaler' : isFluxKontext ? 'flux-kontext' : isKling ? 'kling' : isSeedream ? 'seedream' : isGrok ? 'grok' : isAlibabaWan ? 'alibaba-wan' : isVideoUpscale ? 'video-upscale' : 'chatgpt5';
         console.log('🔄 Rechargement historique pour session:', sessionId, 'type:', toolType);
         await loadConversationHistory(sessionId, toolType);
         console.log('✅ Historique rechargé, conversationHistory.length:', conversationHistory.length);
@@ -1426,6 +1426,9 @@ const Studio = () => {
         if (isKling) {
           setKlingStartImage(null);
           setKlingEndImage(null);
+        }
+        if (isVideoUpscale) {
+          setUploadedVideo(null);
         }
         
       } catch (error) {
