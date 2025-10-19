@@ -35,3 +35,4 @@ jinja2
 tiktoken
 tokenizers
 Pillow
+multidict
