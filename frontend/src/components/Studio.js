@@ -831,6 +831,46 @@ const Studio = () => {
     }
   };
 
+  const initializeSeedreamSession = async () => {
+    try {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL;
+      console.log('Backend URL Seedream 4:', backendUrl);
+      
+      const response = await fetch(`${backendUrl}/api/seedream/session`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      console.log('Seedream 4 Session response status:', response.status);
+      
+      if (!response.ok) {
+        throw new Error('Erreur lors de la création de la session Seedream 4');
+      }
+      
+      const session = await response.json();
+      console.log('Session Seedream 4 créée:', session.id);
+      setSessionId(session.id);
+      
+      // Sauvegarder la session pour cet outil
+      setToolSessions(prev => ({
+        ...prev,
+        [selectedTool.id]: {
+          sessionId: session.id,
+          toolName: selectedTool.name
+        }
+      }));
+      
+      // Charger l'historique existant (vide pour une nouvelle session)
+      loadConversationHistory(session.id, 'seedream');
+    } catch (error) {
+      console.error('Erreur lors de l\'initialisation de la session Seedream 4:', error);
+      // Arrêter l'animation en cas d'erreur
+      setIsLoadingHistory(false);
+    }
+  };
+
 
   const loadConversationHistory = async (sessionIdToLoad, toolType) => {
     try {
