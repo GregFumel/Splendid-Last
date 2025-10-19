@@ -79,7 +79,9 @@ export const mockAITools = [
     category: "image",
     image: "https://customer-assets.emergentagent.com/job_d1e17cd1-d4b1-4e77-89f1-4869587941f4/artifacts/xd3xussb_tmp3jprvm7n.png",
     fullDescription: "la création d'images créatives et réalistes avec Grok",
-    isNew: true
+    isNew: true,
+    toolType: "image-generator",
+    apiEndpoint: "grok"
   },
   // 8. Alibaba Wan 2.5
   {
