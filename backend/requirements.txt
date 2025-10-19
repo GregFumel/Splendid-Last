@@ -36,3 +36,4 @@ tiktoken
 tokenizers
 Pillow
 multidict
+attrs
