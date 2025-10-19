@@ -550,6 +550,18 @@ frontend:
         agent: "main"
         comment: "🔧 INTERFACE REDESIGN & BUG FIXES: 1) Interface upload redesignée - 2 boutons 'plus' compacts à gauche de la zone de saisie (start et end), indicateur visuel vert quand image uploadée, aperçu miniature (80x80 mobile, 96x96 desktop) au-dessus, 2) Bug backend résolu - Modules manquants installés: httpx, aiohttp, openai, fastuuid, ajoutés dans requirements.txt, 3) Backend redémarré avec succès, tous services RUNNING. Interface plus compacte et visible sur mobile/petits écrans. Prêt pour testing utilisateur."
 
+  - task: "Video Upscale AI - Backend et Frontend complet"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py, /app/frontend/src/components/Studio.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "✅ INTÉGRATION COMPLÈTE Video Upscale AI! BACKEND: Déjà implémenté avec endpoints (POST /api/video-upscale/session, POST /api/video-upscale/generate, GET /api/video-upscale/session/{id}), modèle Replicate topazlabs/video-upscale, REPLICATE_API_TOKEN configuré dans .env. FRONTEND: 1) États (isVideoUpscale, videoUpscaleOptions: targetResolution/targetFps, uploadedVideo), 2) Session init avec initializeVideoUpscaleSession, 3) Upload vidéo obligatoire (bouton plus teal avec indicateur vert), 4) Aperçu vidéo uploadée avec bouton supprimer, 5) Accordéon options dépliables (Résolution: 720p/1080p/4K, FPS: 25/30/40/50/60), 6) Validation: vidéo obligatoire, 7) API call avec video_input, target_resolution, target_fps, 8) Interface conversationnelle avec affichage vidéos upscalées, 9) Bouton télécharger avec couleur TEAL (teal-600), 10) Message génération: 'Upscaling de la vidéo en cours... ⏳ 3 à 5 minutes ou plus', 11) Input caché accept='video/*'. Desktop complet, prêt pour test backend+frontend!"
+
 metadata:
   created_by: "main_agent"
   version: "2.5"
