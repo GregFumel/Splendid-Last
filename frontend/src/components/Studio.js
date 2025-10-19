@@ -1480,6 +1480,14 @@ const Studio = () => {
               </span>
             )}
             
+            {/* Badge TOP en haut à droite */}
+            {selectedTool.isTop && (
+              <span className="bg-gradient-to-r from-red-600 to-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold absolute top-4 right-4 flex items-center gap-1.5 shadow-lg">
+                <Trophy className="w-4 h-4" />
+                TOP
+              </span>
+            )}
+            
             <div className="flex items-center space-x-4">
               <img 
                 src={selectedTool.image} 
