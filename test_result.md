@@ -566,6 +566,8 @@ test_plan:
 
 agent_communication:
   - agent: "main"
+    message: "🎨 BADGE TOP - EFFET 3D EXACT DU BADGE NEW: Classe CSS .badge-top-3d créée dans App.css identique à .badge-new-3d mais rouge! 1) EFFET INTÉRIEUR: inset 0 1px 2px rgba(255,255,255,0.4) - dégradé blanc intérieur, 2) GLOW: 0 4px 12px rgba(239,68,68,0.3) - lueur rouge autour, 3) BORDER: 1px solid rgba(255,255,255,0.3) - liséré blanc, 4) GRADIENT: linear-gradient(135deg, #dc2626, #b91c1c), 5) HOVER: effet translateY(-1px) + glow renforcé. Appliqué sur 4 endroits (AIToolsGrid + 3 dans Studio). Badge TOP identique visuellement au NEW mais rouge!"
+  - agent: "main"
     message: "✨ BADGE TOP FINALISÉ + RENOMMAGE: 1) EFFET 3D AJOUTÉ: Liséré blanc avec boxShadow '0 0 0 2px rgba(255, 255, 255, 0.3)' sur les 4 endroits (AIToolsGrid + 3 dans Studio), badge ressort visuellement comme NEW, 2) RENOMMAGE: 'AI Image Upscaler' → 'Image Upscaler' dans mockData.js, PricingSection.js, Studio.js (comparaison name). Mot 'AI' retiré de tous les affichages visibles. Badge TOP avec effet 3D professionnel maintenant actif sur Image Upscaler et Kling AI!"
   - agent: "main"
     message: "🏆 NOUVEAU BADGE TOP CRÉÉ! Badge rouge avec trophée ajouté: 1) DESIGN: Gradient rouge (red-600 → red-500), icône Trophy de lucide-react, liséré animé rouge comme badge NEW, 2) PLACEMENT: AI Image Upscaler (isTop: true) + Kling AI v2.1 (isTop: true, isNew retiré), 3) INTÉGRATION: AIToolsGrid.js - page d'accueil avec animation, Studio.js - menu mobile, sidebar desktop, en-tête outil sélectionné, 4) Import Trophy ajouté dans lucide-react. Badge visible sur grille d'outils, menus et en-tête. TOP remplace NEW pour les meilleurs outils!"
