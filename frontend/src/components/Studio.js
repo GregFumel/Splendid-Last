@@ -499,6 +499,7 @@ const Studio = () => {
     const isImageUpscalerTool = selectedTool && selectedTool.name === "Image Upscaler";
     const isFluxKontextTool = selectedTool && selectedTool.name === "Flux Kontext Pro";
     const isKlingTool = selectedTool && selectedTool.name === "Kling AI v2.1";
+    const isSeedreamTool = selectedTool && selectedTool.name === "Seedream 4";
     
     setIsNanoBanana(isNanoBananaTool);
     setIsChatGPT5(isChatGPT5Tool);
