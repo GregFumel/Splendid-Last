@@ -1447,18 +1447,38 @@ const Studio = () => {
   };
 
   // Fonction pour télécharger une image
-  const handleDownloadImage = (imageUrl, messageId) => {
+  const handleDownloadImage = async (imageUrl, messageId) => {
     try {
+      console.log('📥 Téléchargement de l\'image en cours...');
+      
+      // Fetch l'image depuis l'URL
+      const response = await fetch(imageUrl);
+      
+      if (!response.ok) {
+        throw new Error('Erreur lors du téléchargement de l\'image');
+      }
+      
+      // Convertir en blob
+      const blob = await response.blob();
+      
+      // Créer une URL blob locale
+      const blobUrl = window.URL.createObjectURL(blob);
+      
       // Créer un élément anchor pour télécharger
       const link = document.createElement('a');
-      link.href = imageUrl;
-      link.download = `nanobanana-image-${messageId}-${Date.now()}.png`;
+      link.href = blobUrl;
+      link.download = `image-${messageId}-${Date.now()}.png`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      
+      // Libérer l'URL blob
+      window.URL.revokeObjectURL(blobUrl);
+      
+      console.log('✅ Image téléchargée avec succès');
     } catch (error) {
-      console.error('Erreur lors du téléchargement:', error);
-      alert('Erreur lors du téléchargement de l\'image');
+      console.error('❌ Erreur lors du téléchargement de l\'image:', error);
+      alert('Erreur lors du téléchargement de l\'image. Veuillez réessayer.');
     }
   };
 
