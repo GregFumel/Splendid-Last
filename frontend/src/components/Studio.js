@@ -1332,6 +1332,10 @@ const Studio = () => {
           };
         } else if (isVideoUpscale) {
           // Video Upscale AI - upscaling de vidéo
+          console.log('🎬 Video Upscale AI - Preparing request');
+          console.log('📹 uploadedVideo:', uploadedVideo ? `${uploadedVideo.name} (${(uploadedVideo.dataUrl.length / 1024 / 1024).toFixed(2)}MB)` : 'null');
+          console.log('⚙️ Options:', videoUpscaleOptions);
+          
           endpoint = 'video-upscale/generate';
           requestBody = {
             session_id: sessionId,
@@ -1339,6 +1343,8 @@ const Studio = () => {
             target_resolution: videoUpscaleOptions.targetResolution,
             target_fps: videoUpscaleOptions.targetFps
           };
+          
+          console.log('📤 Request body prepared (video_input length:', uploadedVideo.dataUrl.length, 'chars)');
         } else {
           // Autres outils
           endpoint = isNanoBanana ? 'nanobanana/generate' : isGoogleVeo ? 'google-veo/generate' : isSora2 ? 'sora2/generate' : 'chatgpt5/generate';
