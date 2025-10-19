@@ -1449,6 +1449,12 @@ const Studio = () => {
                         New
                       </span>
                     )}
+                    {tool.isTop && (
+                      <span className="bg-gradient-to-r from-red-600 to-red-500 text-white px-2 py-0.5 rounded-full text-xs font-semibold flex items-center gap-1">
+                        <Trophy className="w-3 h-3" />
+                        TOP
+                      </span>
+                    )}
                   </div>
                   <p className={`text-sm mt-1 ${
                     selectedTool.id === tool.id ? 'text-blue-200' : 'text-gray-400'
