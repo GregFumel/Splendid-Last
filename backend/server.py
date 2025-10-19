@@ -898,6 +898,176 @@ async def get_kling_session(session_id: str):
         logger.error(f"Erreur lors de la récupération de session: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
 
+# Seedream 4 endpoints (Text-to-Image and Image-to-Image Generation)
+
+@api_router.post("/seedream/session", response_model=SeedreamSession)
+async def create_seedream_session():
+    """Crée une nouvelle session Seedream 4"""
+    try:
+        session = SeedreamSession()
+        await db.seedream_sessions.insert_one(session.dict())
+        return session
+    except Exception as e:
+        logger.error(f"Erreur lors de la création de session Seedream: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.post("/seedream/generate", response_model=GenerateSeedreamResponse)
+async def generate_image_with_seedream(request: GenerateSeedreamRequest):
+    """Génère une image avec Seedream 4 (text-to-image ou image-to-image)"""
+    try:
+        # Créer ou récupérer la session
+        session = await db.seedream_sessions.find_one({"id": request.session_id})
+        if not session:
+            raise HTTPException(status_code=404, detail="Session non trouvée")
+        
+        # Message utilisateur
+        user_message_id = str(uuid.uuid4())
+        user_images = []
+        
+        # Si une image input est fournie, la convertir en URL publique
+        if request.image_input:
+            backend_url = "https://image-to-video-ui.preview.emergentagent.com"
+            image_url = data_url_to_public_url(request.image_input, backend_url)
+            logging.info(f"Input image converted to: {image_url}")
+            user_images.append(image_url)
+        
+        user_content = f"Prompt: {request.prompt}\nSize: {request.size}\nAspect Ratio: {request.aspect_ratio}"
+        if request.image_input:
+            user_content += f"\nImage input fournie"
+        
+        user_message = SeedreamMessage(
+            id=user_message_id,
+            session_id=request.session_id,
+            role="user",
+            content=user_content,
+            image_urls=user_images
+        )
+        await db.seedream_messages.insert_one(user_message.dict())
+        
+        # Générer l'image avec Replicate en mode asynchrone
+        try:
+            logging.info(f"Génération d'image avec Replicate - modèle: bytedance/seedream-4, prompt: {request.prompt}, size: {request.size}, aspect_ratio: {request.aspect_ratio}")
+            
+            # Préparer les inputs pour le modèle
+            inputs = {
+                "prompt": request.prompt,
+                "size": request.size,
+                "aspect_ratio": request.aspect_ratio,
+                "sequential_image_generation": "disabled"
+            }
+            
+            # Ajouter l'image input si présente
+            if request.image_input:
+                inputs["image_input"] = [image_url]
+            
+            # Créer une prediction asynchrone
+            client = replicate.Client(api_token=os.environ.get('REPLICATE_API_TOKEN'))
+            
+            prediction = client.predictions.create(
+                model="bytedance/seedream-4",
+                input=inputs
+            )
+            
+            logging.info(f"Prediction créée: {prediction.id}, status: {prediction.status}")
+            
+            # Attendre que la génération soit terminée (avec timeout de 3 minutes)
+            max_wait_seconds = 180  # 3 minutes
+            poll_interval = 3
+            elapsed = 0
+            
+            while prediction.status not in ["succeeded", "failed", "canceled"]:
+                if elapsed >= max_wait_seconds:
+                    raise Exception(f"Timeout: La génération a dépassé {max_wait_seconds//60} minutes")
+                
+                await asyncio.sleep(poll_interval)
+                elapsed += poll_interval
+                
+                prediction.reload()
+                logging.info(f"Status après {elapsed}s: {prediction.status}")
+            
+            if prediction.status == "failed":
+                error_msg = prediction.error or "Erreur inconnue"
+                raise Exception(f"La génération a échoué: {error_msg}")
+            
+            if prediction.status == "canceled":
+                raise Exception("La génération a été annulée")
+            
+            # Récupérer les URLs des images (output est un array)
+            image_urls = prediction.output if prediction.output else []
+            
+            if not image_urls or len(image_urls) == 0:
+                raise Exception("Aucune image générée par Replicate")
+            
+            logging.info(f"✅ {len(image_urls)} image(s) générée(s) en {elapsed}s")
+            
+            response_text = f"✅ Image générée avec succès avec Seedream 4!\n\n⏱️ Temps de génération: {elapsed}s\nRésolution: {request.size}\nRatio: {request.aspect_ratio}\n{len(image_urls)} image(s) générée(s)"
+            
+        except Exception as e:
+            # Message d'erreur
+            error_message_id = str(uuid.uuid4())
+            error_assistant_message = SeedreamMessage(
+                id=error_message_id,
+                session_id=request.session_id,
+                role="assistant",
+                content=f"❌ **Erreur de génération d'image**\n\nNous n'avons pas pu générer votre image pour la raison suivante :\n{str(e)}\n\nVeuillez réessayer avec un prompt différent.",
+                image_urls=[]
+            )
+            
+            await db.seedream_sessions.update_one(
+                {"id": request.session_id},
+                {"$set": {"last_updated": datetime.utcnow()}}
+            )
+            
+            await db.seedream_messages.insert_one(error_assistant_message.dict())
+            
+            return GenerateSeedreamResponse(
+                session_id=request.session_id,
+                message_id=error_message_id,
+                image_urls=[],
+                response_text=error_assistant_message.content
+            )
+        
+        # Message assistant avec les images
+        assistant_message_id = str(uuid.uuid4())
+        assistant_message = SeedreamMessage(
+            id=assistant_message_id,
+            session_id=request.session_id,
+            role="assistant",
+            content=response_text,
+            image_urls=image_urls
+        )
+        
+        # Mettre à jour la session
+        await db.seedream_sessions.update_one(
+            {"id": request.session_id},
+            {"$set": {"last_updated": datetime.utcnow()}}
+        )
+        
+        # Insérer le message assistant
+        await db.seedream_messages.insert_one(assistant_message.dict())
+        
+        return GenerateSeedreamResponse(
+            session_id=request.session_id,
+            message_id=assistant_message_id,
+            image_urls=image_urls,
+            response_text=response_text
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Erreur lors de la génération avec Seedream: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.get("/seedream/session/{session_id}", response_model=List[SeedreamMessage])
+async def get_seedream_conversation(session_id: str):
+    """Récupère l'historique de conversation d'une session Seedream"""
+    try:
+        messages = await db.seedream_messages.find({"session_id": session_id}).sort("timestamp", 1).to_list(None)
+        return [SeedreamMessage(**msg) for msg in messages]
+    except Exception as e:
+        logger.error(f"Erreur lors de la récupération de l'historique Seedream: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
 
 
 # Google Veo 3.1 endpoints (Video Generation)
