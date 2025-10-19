@@ -76,7 +76,7 @@ const PricingSection = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
-                <span className="text-gray-200 text-sm">AI Image Upscaler - Meilleur upscaler</span>
+                <span className="text-gray-200 text-sm">Image Upscaler - Meilleur upscaler</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
