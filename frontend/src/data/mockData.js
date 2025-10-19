@@ -94,7 +94,7 @@ export const mockAITools = [
   },
   {
     id: 12,
-    name: "AI Image Upscaler",
+    name: "Image Upscaler",
     description: "Le meilleur upscaler du marché pour améliorer vos images.",
     category: "image",
     image: "https://customer-assets.emergentagent.com/job_nano-banana-fix/artifacts/vtefylxi_crystal-cover%20%281%29.webp",
