@@ -1261,6 +1261,15 @@ const Studio = () => {
             session_id: sessionId,
             prompt: prompt
           };
+        } else if (isAlibabaWan) {
+          // Alibaba Wan 2.5 - génération de vidéo text-to-video
+          endpoint = 'alibaba-wan/generate';
+          requestBody = {
+            session_id: sessionId,
+            prompt: prompt,
+            duration: alibabaWanOptions.duration,
+            size: alibabaWanOptions.size
+          };
         } else {
           // Autres outils
           endpoint = isNanoBanana ? 'nanobanana/generate' : isGoogleVeo ? 'google-veo/generate' : isSora2 ? 'sora2/generate' : 'chatgpt5/generate';
