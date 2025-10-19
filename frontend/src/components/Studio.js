@@ -1480,9 +1480,9 @@ const Studio = () => {
               </span>
             )}
             
-            {/* Badge TOP en haut à droite */}
+            {/* Badge TOP en haut à droite avec effet 3D */}
             {selectedTool.isTop && (
-              <span className="bg-gradient-to-r from-red-600 to-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold absolute top-4 right-4 flex items-center gap-1.5 shadow-lg">
+              <span className="bg-gradient-to-r from-red-600 to-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold absolute top-4 right-4 flex items-center gap-1.5 shadow-lg" style={{boxShadow: '0 0 0 2px rgba(255, 255, 255, 0.3), 0 4px 6px rgba(0, 0, 0, 0.3)'}}>
                 <Trophy className="w-4 h-4" />
                 TOP
               </span>
