@@ -2630,12 +2630,12 @@ const Studio = () => {
                   {isGenerating ? (
                     <>
                       <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                      <span>{isImageUpscaler ? 'Upscaling...' : isFluxKontext ? 'Génération...' : 'Génération...'}</span>
+                      <span>{isImageUpscaler ? 'Upscaling...' : isVideoUpscale ? 'Upscaling...' : isFluxKontext ? 'Génération...' : 'Génération...'}</span>
                     </>
                   ) : (
                     <>
                       <Send className="w-4 h-4" />
-                      <span>{isImageUpscaler ? 'Upscaler' : isFluxKontext ? 'Générer' : 'Générer'}</span>
+                      <span>{isImageUpscaler ? 'Upscaler' : isVideoUpscale ? 'Upscaler' : isFluxKontext ? 'Générer' : 'Générer'}</span>
                     </>
                   )}
                 </button>
