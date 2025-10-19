@@ -1202,6 +1202,13 @@ const Studio = () => {
           if (uploadedImage) {
             requestBody.image_input = uploadedImage.dataUrl;
           }
+        } else if (isGrok) {
+          // Grok - génération d'image text-to-image simple
+          endpoint = 'grok/generate';
+          requestBody = {
+            session_id: sessionId,
+            prompt: prompt
+          };
         } else {
           // Autres outils
           endpoint = isNanoBanana ? 'nanobanana/generate' : isGoogleVeo ? 'google-veo/generate' : isSora2 ? 'sora2/generate' : 'chatgpt5/generate';
