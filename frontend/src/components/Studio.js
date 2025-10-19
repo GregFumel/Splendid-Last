@@ -2744,8 +2744,8 @@ const Studio = () => {
                     </>
                   )}
                 
-                  {/* Icône d'upload pour ChatGPT-5, NanoBanana, Image Upscaler et Flux Kontext */}
-                  {(isChatGPT5 || isNanoBanana || isImageUpscaler || isFluxKontext) && (
+                  {/* Icône d'upload pour ChatGPT-5, NanoBanana, Image Upscaler, Flux Kontext et Seedream 4 */}
+                  {(isChatGPT5 || isNanoBanana || isImageUpscaler || isFluxKontext || isSeedream) && (
                     <button
                       onClick={handleImageUpload}
                       className={`${isImageUpscaler ? 'bg-green-600/80 hover:bg-green-600' : isFluxKontext ? 'bg-orange-600/80 hover:bg-orange-600' : 'bg-gray-600/80 hover:bg-gray-600'} text-white p-2 rounded-lg transition-colors`}
