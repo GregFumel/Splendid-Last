@@ -251,6 +251,31 @@ class GenerateSeedreamResponse(BaseModel):
     image_urls: List[str]
     response_text: str
 
+# Grok Models (Text-to-Image Generation)
+class GrokMessage(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    session_id: str
+    role: str  # "user" or "assistant"
+    content: str
+    image_urls: List[str] = []
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+
+class GrokSession(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    last_updated: datetime = Field(default_factory=datetime.utcnow)
+    messages: List[GrokMessage] = []
+
+class GenerateGrokRequest(BaseModel):
+    session_id: str
+    prompt: str
+
+class GenerateGrokResponse(BaseModel):
+    session_id: str
+    message_id: str
+    image_urls: List[str]
+    response_text: str
+
 # Google Veo 3.1 Models (Video Generation)
 class GoogleVeoMessage(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
