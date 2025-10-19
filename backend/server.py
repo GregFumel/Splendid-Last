@@ -824,7 +824,7 @@ async def generate_video_with_kling(request: GenerateKlingRequest):
         
         try:
             # Convert data URLs to public URLs for Replicate
-            backend_url = "https://image-to-video-ui.preview.emergentagent.com"
+            backend_url = "https://ai-video-enhance-1.preview.emergentagent.com"
             start_image_url = data_url_to_public_url(request.start_image, backend_url)
             logging.info(f"Start image converted to: {start_image_url}")
             
@@ -1005,7 +1005,7 @@ async def generate_image_with_seedream(request: GenerateSeedreamRequest):
         
         # Si une image input est fournie, la convertir en URL publique
         if request.image_input:
-            backend_url = "https://image-to-video-ui.preview.emergentagent.com"
+            backend_url = "https://ai-video-enhance-1.preview.emergentagent.com"
             image_url = data_url_to_public_url(request.image_input, backend_url)
             logging.info(f"Input image converted to: {image_url}")
             user_images.append(image_url)
@@ -1487,7 +1487,7 @@ async def upscale_video(request: GenerateVideoUpscaleRequest):
             raise HTTPException(status_code=404, detail="Session non trouvée")
         
         # Convertir la vidéo data URL en URL publique
-        backend_url = "https://image-to-video-ui.preview.emergentagent.com"
+        backend_url = "https://ai-video-enhance-1.preview.emergentagent.com"
         
         # Pour une vidéo, on peut sauvegarder comme fichier temporaire avec extension .mp4
         try:
