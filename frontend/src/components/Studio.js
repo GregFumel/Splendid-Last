@@ -984,6 +984,46 @@ const Studio = () => {
     }
   };
 
+  const initializeVideoUpscaleSession = async () => {
+    try {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL;
+      console.log('Backend URL Video Upscale AI:', backendUrl);
+      
+      const response = await fetch(`${backendUrl}/api/video-upscale/session`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      console.log('Video Upscale AI Session response status:', response.status);
+      
+      if (!response.ok) {
+        throw new Error('Erreur lors de la création de la session Video Upscale AI');
+      }
+      
+      const session = await response.json();
+      console.log('Session Video Upscale AI créée:', session.id);
+      setSessionId(session.id);
+      
+      // Sauvegarder la session pour cet outil
+      setToolSessions(prev => ({
+        ...prev,
+        [selectedTool.id]: {
+          sessionId: session.id,
+          toolName: selectedTool.name
+        }
+      }));
+      
+      // Charger l'historique existant (vide pour une nouvelle session)
+      loadConversationHistory(session.id, 'video-upscale');
+    } catch (error) {
+      console.error('Erreur lors de l\'initialisation de la session Video Upscale AI:', error);
+      // Arrêter l'animation en cas d'erreur
+      setIsLoadingHistory(false);
+    }
+  };
+
 
   const loadConversationHistory = async (sessionIdToLoad, toolType) => {
     try {
