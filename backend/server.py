@@ -1095,6 +1095,161 @@ async def get_seedream_conversation(session_id: str):
         raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
 
 
+# Grok endpoints (Text-to-Image Generation)
+
+@api_router.post("/grok/session", response_model=GrokSession)
+async def create_grok_session():
+    """Crée une nouvelle session Grok"""
+    try:
+        session = GrokSession()
+        await db.grok_sessions.insert_one(session.dict())
+        return session
+    except Exception as e:
+        logger.error(f"Erreur lors de la création de session Grok: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.post("/grok/generate", response_model=GenerateGrokResponse)
+async def generate_image_with_grok(request: GenerateGrokRequest):
+    """Génère une image avec Grok (text-to-image)"""
+    try:
+        # Créer ou récupérer la session
+        session = await db.grok_sessions.find_one({"id": request.session_id})
+        if not session:
+            raise HTTPException(status_code=404, detail="Session non trouvée")
+        
+        # Message utilisateur
+        user_message_id = str(uuid.uuid4())
+        user_content = f"Prompt: {request.prompt}"
+        
+        user_message = GrokMessage(
+            id=user_message_id,
+            session_id=request.session_id,
+            role="user",
+            content=user_content,
+            image_urls=[]
+        )
+        await db.grok_messages.insert_one(user_message.dict())
+        
+        # Générer l'image avec Replicate en mode asynchrone
+        try:
+            logging.info(f"Génération d'image avec Replicate - modèle: xai/grok-2-image, prompt: {request.prompt}")
+            
+            # Préparer les inputs pour le modèle
+            inputs = {
+                "prompt": request.prompt
+            }
+            
+            # Créer une prediction asynchrone
+            client = replicate.Client(api_token=os.environ.get('REPLICATE_API_TOKEN'))
+            
+            prediction = client.predictions.create(
+                model="xai/grok-2-image",
+                input=inputs
+            )
+            
+            logging.info(f"Prediction créée: {prediction.id}, status: {prediction.status}")
+            
+            # Attendre que la génération soit terminée (avec timeout de 3 minutes)
+            max_wait_seconds = 180  # 3 minutes
+            poll_interval = 3
+            elapsed = 0
+            
+            while prediction.status not in ["succeeded", "failed", "canceled"]:
+                if elapsed >= max_wait_seconds:
+                    raise Exception(f"Timeout: La génération a dépassé {max_wait_seconds//60} minutes")
+                
+                await asyncio.sleep(poll_interval)
+                elapsed += poll_interval
+                
+                prediction.reload()
+                logging.info(f"Status après {elapsed}s: {prediction.status}")
+            
+            if prediction.status == "failed":
+                error_msg = prediction.error or "Erreur inconnue"
+                raise Exception(f"La génération a échoué: {error_msg}")
+            
+            if prediction.status == "canceled":
+                raise Exception("La génération a été annulée")
+            
+            # Récupérer l'URL de l'image (output est une string)
+            image_url = str(prediction.output) if prediction.output else None
+            
+            if not image_url:
+                raise Exception("Aucune image générée par Replicate")
+            
+            logging.info(f"✅ Image générée en {elapsed}s: {image_url}")
+            
+            image_urls = [image_url]
+            response_text = f"✅ Image générée avec succès avec Grok!\n\n⏱️ Temps de génération: {elapsed}s"
+            
+        except Exception as e:
+            # Message d'erreur
+            error_message_id = str(uuid.uuid4())
+            error_assistant_message = GrokMessage(
+                id=error_message_id,
+                session_id=request.session_id,
+                role="assistant",
+                content=f"❌ **Erreur de génération d'image**\n\nNous n'avons pas pu générer votre image pour la raison suivante :\n{str(e)}\n\nVeuillez réessayer avec un prompt différent.",
+                image_urls=[]
+            )
+            
+            await db.grok_sessions.update_one(
+                {"id": request.session_id},
+                {"$set": {"last_updated": datetime.utcnow()}}
+            )
+            
+            await db.grok_messages.insert_one(error_assistant_message.dict())
+            
+            return GenerateGrokResponse(
+                session_id=request.session_id,
+                message_id=error_message_id,
+                image_urls=[],
+                response_text=error_assistant_message.content
+            )
+        
+        # Message assistant avec l'image
+        assistant_message_id = str(uuid.uuid4())
+        assistant_message = GrokMessage(
+            id=assistant_message_id,
+            session_id=request.session_id,
+            role="assistant",
+            content=response_text,
+            image_urls=image_urls
+        )
+        
+        # Mettre à jour la session
+        await db.grok_sessions.update_one(
+            {"id": request.session_id},
+            {"$set": {"last_updated": datetime.utcnow()}}
+        )
+        
+        # Insérer le message assistant
+        await db.grok_messages.insert_one(assistant_message.dict())
+        
+        return GenerateGrokResponse(
+            session_id=request.session_id,
+            message_id=assistant_message_id,
+            image_urls=image_urls,
+            response_text=response_text
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Erreur lors de la génération avec Grok: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.get("/grok/session/{session_id}", response_model=List[GrokMessage])
+async def get_grok_conversation(session_id: str):
+    """Récupère l'historique de conversation d'une session Grok"""
+    try:
+        messages = await db.grok_messages.find({"session_id": session_id}).sort("timestamp", 1).to_list(None)
+        return [GrokMessage(**msg) for msg in messages]
+    except Exception as e:
+        logger.error(f"Erreur lors de la récupération de l'historique Grok: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+
 # Google Veo 3.1 endpoints (Video Generation)
 
 @api_router.post("/google-veo/session", response_model=GoogleVeoSession)
