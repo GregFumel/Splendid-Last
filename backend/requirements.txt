@@ -41,3 +41,5 @@ attrs
 aiosignal
 frozenlist
 distro
+-e markupsafe
+jinja2
