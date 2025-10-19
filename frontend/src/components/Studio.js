@@ -3029,6 +3029,74 @@ const Studio = () => {
                       )}
                     </div>
                 )}
+
+                {/* Aperçu de la vidéo uploadée pour Video Upscale AI - Desktop */}
+                {isVideoUpscale && uploadedVideo && (
+                  <div className="bg-teal-500/10 border border-teal-400/30 rounded-lg p-2 mb-3">
+                    <div className="relative flex-shrink-0">
+                      <video src={uploadedVideo.dataUrl} className="h-24 w-auto object-cover rounded border border-teal-400/30" controls={false} />
+                      <button
+                        onClick={removeUploadedVideo}
+                        className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-0.5 hover:bg-red-600"
+                        title="Supprimer la vidéo"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                      <span className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs px-1 text-center truncate">{uploadedVideo.name}</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Options de configuration pour Video Upscale AI - Desktop */}
+                {isVideoUpscale && (
+                  <div className="bg-teal-500/10 border border-teal-400/30 rounded-lg mb-3 overflow-hidden">
+                      <button
+                        onClick={() => setShowVideoUpscaleOptions(!showVideoUpscaleOptions)}
+                        className="w-full flex items-center justify-between p-3 hover:bg-teal-500/5 transition-colors"
+                      >
+                        <span className="text-sm font-medium text-gray-200">Options d'upscaling</span>
+                        {showVideoUpscaleOptions ? (
+                          <ChevronDown className="w-4 h-4 text-gray-400" />
+                        ) : (
+                          <ChevronUp className="w-4 h-4 text-gray-400" />
+                        )}
+                      </button>
+                      
+                      {showVideoUpscaleOptions && (
+                        <div className="flex flex-wrap gap-3 px-3 pb-3 pt-2 border-t border-teal-400/20 mt-2">
+                          {/* Résolution cible */}
+                          <div className="flex items-center gap-2">
+                            <label className="text-sm text-gray-300">Résolution:</label>
+                            <select
+                              value={videoUpscaleOptions.targetResolution}
+                              onChange={(e) => setVideoUpscaleOptions({...videoUpscaleOptions, targetResolution: e.target.value})}
+                              className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-teal-400 focus:outline-none"
+                            >
+                              <option value="720p">720p (HD)</option>
+                              <option value="1080p">1080p (Full HD)</option>
+                              <option value="4k">4K (Ultra HD)</option>
+                            </select>
+                          </div>
+                          
+                          {/* FPS cible */}
+                          <div className="flex items-center gap-2">
+                            <label className="text-sm text-gray-300">FPS:</label>
+                            <select
+                              value={videoUpscaleOptions.targetFps}
+                              onChange={(e) => setVideoUpscaleOptions({...videoUpscaleOptions, targetFps: parseInt(e.target.value)})}
+                              className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-teal-400 focus:outline-none"
+                            >
+                              <option value={25}>25 FPS</option>
+                              <option value={30}>30 FPS</option>
+                              <option value={40}>40 FPS</option>
+                              <option value={50}>50 FPS</option>
+                              <option value={60}>60 FPS</option>
+                            </select>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                )}
                 
                 <div className="flex items-center gap-3">
                   {/* Boutons upload pour Kling AI - Desktop */}
