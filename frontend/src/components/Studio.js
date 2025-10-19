@@ -3241,6 +3241,15 @@ const Studio = () => {
           accept="image/*"
           style={{ display: 'none' }}
         />
+        
+        {/* Input caché pour Video Upscale AI */}
+        <input
+          type="file"
+          ref={videoUpscaleInputRef}
+          onChange={handleVideoUpscaleFileSelect}
+          accept="video/*"
+          style={{ display: 'none' }}
+        />
       </div>
     </div>
   );
