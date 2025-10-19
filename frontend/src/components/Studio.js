@@ -1222,7 +1222,13 @@ const Studio = () => {
       return;
     }
     
-    if (!isImageUpscaler && !isFluxKontext && !isKling && !isSeedream && !isGrok && !isAlibabaWan && !prompt.trim()) return;
+    // Pour Video Upscale AI, une vidéo est obligatoire
+    if (isVideoUpscale && !uploadedVideo) {
+      alert('Veuillez uploader une vidéo à upscaler');
+      return;
+    }
+    
+    if (!isImageUpscaler && !isFluxKontext && !isKling && !isSeedream && !isGrok && !isAlibabaWan && !isVideoUpscale && !prompt.trim()) return;
     
     // Pour Flux Kontext, un prompt est requis
     if (isFluxKontext && !prompt.trim()) {
