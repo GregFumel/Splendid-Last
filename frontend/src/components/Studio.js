@@ -2601,6 +2601,11 @@ const Studio = () => {
                         {uploadedImage ? `Image prête à être upscalée (X${upscalerOptions.scaleFactor})` : "Uploadez une image à upscaler"}
                       </span>
                     )}
+                    {isVideoUpscale && (
+                      <span className="flex-1 text-gray-400 text-sm">
+                        {uploadedVideo ? `Vidéo prête à être upscalée (${videoUpscaleOptions.targetResolution} @ ${videoUpscaleOptions.targetFps} FPS)` : "Uploadez une vidéo à upscaler"}
+                      </span>
+                    )}
                   </div>
                 ) : (
                   <input
