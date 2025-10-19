@@ -67,7 +67,9 @@ export const mockAITools = [
     category: "image",
     image: "https://customer-assets.emergentagent.com/job_d1e17cd1-d4b1-4e77-89f1-4869587941f4/artifacts/43o9wrgb_seedream4-sm.jpg",
     fullDescription: "la génération d'images ultra-réalistes et artistiques avec Seedream 4",
-    isNew: true
+    isNew: true,
+    toolType: "image-generator",
+    apiEndpoint: "seedream"
   },
   // 7. Grok
   {
