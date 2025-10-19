@@ -2570,16 +2570,19 @@ const Studio = () => {
                       }}
                     />
                   </div>
-                ) : (isChatGPT5 || isNanoBanana || isImageUpscaler || isFluxKontext) ? (
+                ) : (isChatGPT5 || isNanoBanana || isImageUpscaler || isFluxKontext || isVideoUpscale) ? (
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={handleImageUpload}
-                      className={`${isImageUpscaler ? 'bg-green-600/80 hover:bg-green-600' : isFluxKontext ? 'bg-orange-600/80 hover:bg-orange-600' : 'bg-gray-600/80 hover:bg-gray-600'} text-white p-2 rounded-lg transition-colors`}
-                      title="Ajouter une image"
+                      onClick={isVideoUpscale ? handleVideoUpscaleUpload : handleImageUpload}
+                      className={`${isImageUpscaler ? 'bg-green-600/80 hover:bg-green-600' : isFluxKontext ? 'bg-orange-600/80 hover:bg-orange-600' : isVideoUpscale ? (uploadedVideo ? 'bg-teal-600' : 'bg-teal-600/80 hover:bg-teal-600') : 'bg-gray-600/80 hover:bg-gray-600'} text-white p-2 rounded-lg transition-colors relative`}
+                      title={isVideoUpscale ? "Uploader une vidéo (obligatoire)" : "Ajouter une image"}
                     >
                       <Plus className="w-5 h-5" />
+                      {isVideoUpscale && uploadedVideo && (
+                        <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-white"></span>
+                      )}
                     </button>
-                    {!isImageUpscaler && (
+                    {!isImageUpscaler && !isVideoUpscale && (
                       <input
                         type="text"
                         value={prompt}
