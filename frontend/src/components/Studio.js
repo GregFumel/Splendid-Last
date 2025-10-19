@@ -509,8 +509,9 @@ const Studio = () => {
     setIsImageUpscaler(isImageUpscalerTool);
     setIsFluxKontext(isFluxKontextTool);
     setIsKling(isKlingTool);
+    setIsSeedream(isSeedreamTool);
     
-    if (isNanoBananaTool || isChatGPT5Tool || isGoogleVeoTool || isSora2Tool || isImageUpscalerTool || isFluxKontextTool || isKlingTool) {
+    if (isNanoBananaTool || isChatGPT5Tool || isGoogleVeoTool || isSora2Tool || isImageUpscalerTool || isFluxKontextTool || isKlingTool || isSeedreamTool) {
       // Commencer l'animation de chargement
       setIsLoadingHistory(true);
       setConversationHistory([]); // Vider l'historique précédent immédiatement
