@@ -1879,7 +1879,7 @@ const Studio = () => {
                               La génération peut prendre 1 à 2 minutes, veuillez patienter.
                             </p>
                           )}
-                          {isKling && (
+                          {(isKling || isAlibabaWan) && (
                             <p className="text-xs text-gray-400 mt-1">
                               ⏳ La génération peut prendre 2 à 3 minutes ou plus, veuillez patienter...
                             </p>
