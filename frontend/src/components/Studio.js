@@ -1848,6 +1848,25 @@ const Studio = () => {
                             </div>
                           )}
                           
+                          {/* Affichage des vidéos uploadées par l'utilisateur pour Video Upscale AI */}
+                          {isVideoUpscale && message.role === 'user' && message.video_urls && message.video_urls.length > 0 && (
+                            <div className="mt-3 space-y-2">
+                              {message.video_urls.map((videoUrl, vidIndex) => (
+                                <div key={vidIndex} className="rounded-lg overflow-hidden border border-teal-400/30">
+                                  <video 
+                                    src={videoUrl} 
+                                    controls
+                                    className="w-full h-auto max-w-sm"
+                                    style={{ maxHeight: '200px', objectFit: 'contain' }}
+                                    preload="metadata"
+                                  >
+                                    Votre navigateur ne supporte pas la balise vidéo.
+                                  </video>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                          
                           {/* Affichage des images générées pour NanoBanana, Flux Kontext Pro, Seedream 4 et Grok */}
                           {(isNanoBanana || isFluxKontext || isSeedream || isGrok) && message.role === 'assistant' && message.image_urls && message.image_urls.length > 0 && (
                             <div className="mt-3 space-y-2">
