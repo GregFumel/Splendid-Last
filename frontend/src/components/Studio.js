@@ -429,6 +429,13 @@ const Studio = () => {
   });
   const [showSeedreamOptions, setShowSeedreamOptions] = useState(true); // Par défaut dépliées
 
+  // États pour les options Alibaba Wan 2.5
+  const [alibabaWanOptions, setAlibabaWanOptions] = useState({
+    duration: 5,  // 5 ou 10 secondes
+    size: "1280*720"  // "832*480", "480*832", "1280*720", "720*1280", "1920*1080", "1080*1920"
+  });
+  const [showAlibabaWanOptions, setShowAlibabaWanOptions] = useState(true); // Par défaut dépliées
+
 
   // Sélectionner l'outil basé sur le paramètre URL
   useEffect(() => {
