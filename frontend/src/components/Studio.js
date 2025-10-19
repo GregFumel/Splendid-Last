@@ -1071,7 +1071,7 @@ const Studio = () => {
       return;
     }
     
-    if (!isImageUpscaler && !isFluxKontext && !isKling && !prompt.trim()) return;
+    if (!isImageUpscaler && !isFluxKontext && !isKling && !isSeedream && !prompt.trim()) return;
     
     // Pour Flux Kontext, un prompt est requis
     if (isFluxKontext && !prompt.trim()) {
@@ -1085,9 +1085,15 @@ const Studio = () => {
       return;
     }
     
+    // Pour Seedream 4, un prompt est requis
+    if (isSeedream && !prompt.trim()) {
+      alert('Veuillez entrer un prompt pour générer l\'image');
+      return;
+    }
+    
     setIsGenerating(true);
     
-    if ((isNanoBanana || isChatGPT5 || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isKling) && sessionId) {
+    if ((isNanoBanana || isChatGPT5 || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isKling || isSeedream) && sessionId) {
       // Traitement pour NanoBanana, ChatGPT-5, Google Veo, SORA 2, Image Upscaler et Flux Kontext
       try {
         const backendUrl = process.env.REACT_APP_BACKEND_URL;
