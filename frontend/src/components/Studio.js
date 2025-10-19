@@ -1330,6 +1330,15 @@ const Studio = () => {
             duration: alibabaWanOptions.duration,
             size: alibabaWanOptions.size
           };
+        } else if (isVideoUpscale) {
+          // Video Upscale AI - upscaling de vidéo
+          endpoint = 'video-upscale/generate';
+          requestBody = {
+            session_id: sessionId,
+            video_input: uploadedVideo.dataUrl,  // Obligatoire
+            target_resolution: videoUpscaleOptions.targetResolution,
+            target_fps: videoUpscaleOptions.targetFps
+          };
         } else {
           // Autres outils
           endpoint = isNanoBanana ? 'nanobanana/generate' : isGoogleVeo ? 'google-veo/generate' : isSora2 ? 'sora2/generate' : 'chatgpt5/generate';
