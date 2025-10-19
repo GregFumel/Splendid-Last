@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import { Send, Sparkles, Menu, X, Download, Plus, ChevronDown, ChevronUp, Maximize2, ChevronLeft, ChevronRight } from "lucide-react";
+import { Send, Sparkles, Menu, X, Download, Plus, ChevronDown, ChevronUp, Maximize2, ChevronLeft, ChevronRight, Trophy } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { mockAITools } from "../data/mockData";
 
