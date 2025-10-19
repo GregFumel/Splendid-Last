@@ -1800,8 +1800,8 @@ const Studio = () => {
             
             {/* Badge TOP en haut à droite avec effet 3D */}
             {selectedTool.isTop && (
-              <span className="badge-top-3d text-white px-3 py-1 rounded-full text-sm font-semibold absolute top-4 right-4 flex items-center gap-1.5">
-                <Trophy className="w-4 h-4" />
+              <span className="badge-top-3d text-white px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-xs sm:text-sm font-semibold absolute top-2 sm:top-4 right-2 sm:right-4 flex items-center gap-1 sm:gap-1.5">
+                <Trophy className="w-3 h-3 sm:w-4 sm:h-4" />
                 TOP
               </span>
             )}
