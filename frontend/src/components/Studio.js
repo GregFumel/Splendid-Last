@@ -3099,6 +3099,20 @@ const Studio = () => {
                 )}
                 
                 <div className="flex items-center gap-3">
+                  {/* Bouton upload pour Video Upscale AI - Desktop */}
+                  {isVideoUpscale && (
+                    <button
+                      onClick={handleVideoUpscaleUpload}
+                      className={`${uploadedVideo ? 'bg-teal-600' : 'bg-teal-600/80 hover:bg-teal-600'} text-white p-2 rounded-lg transition-colors relative`}
+                      title="Uploader une vidéo (obligatoire)"
+                    >
+                      <Plus className="w-5 h-5" />
+                      {uploadedVideo && (
+                        <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-white"></span>
+                      )}
+                    </button>
+                  )}
+
                   {/* Boutons upload pour Kling AI - Desktop */}
                   {isKling && (
                     <>
