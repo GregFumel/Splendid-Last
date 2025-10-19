@@ -1116,7 +1116,7 @@ const Studio = () => {
       return;
     }
     
-    if (!isImageUpscaler && !isFluxKontext && !isKling && !isSeedream && !prompt.trim()) return;
+    if (!isImageUpscaler && !isFluxKontext && !isKling && !isSeedream && !isGrok && !prompt.trim()) return;
     
     // Pour Flux Kontext, un prompt est requis
     if (isFluxKontext && !prompt.trim()) {
