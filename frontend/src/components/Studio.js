@@ -370,6 +370,7 @@ const Studio = () => {
   const [isImageUpscaler, setIsImageUpscaler] = useState(false); // Pour AI Image Upscaler
   const [isFluxKontext, setIsFluxKontext] = useState(false); // Pour Flux Kontext Pro
   const [isKling, setIsKling] = useState(false); // Pour Kling AI v2.1
+  const [isSeedream, setIsSeedream] = useState(false); // Pour Seedream 4
   const [toolSessions, setToolSessions] = useState({}); // Stocker les sessions par outil
   const [isLoadingHistory, setIsLoadingHistory] = useState(false); // État pour l'animation de chargement
   
