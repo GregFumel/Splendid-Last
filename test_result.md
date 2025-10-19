@@ -569,14 +569,15 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Kling AI v2.1 - Backend endpoints (session, generate, history)"
-    - "Kling AI v2.1 - Frontend complet avec upload images et options"
+    - "Video Upscale AI - Backend et Frontend complet"
   stuck_tasks:
     - "Bug critique interface NanoBanana - État React non synchronisé"
   test_all: false
   test_priority: "high_first"
 
 agent_communication:
+  - agent: "main"
+    message: "🎬 VIDEO UPSCALE AI - INTÉGRATION COMPLÈTE TERMINÉE! Backend déjà implémenté (topazlabs/video-upscale via Replicate, token configuré). Frontend 100% développé: États (isVideoUpscale, options résolution 720p/1080p/4K + FPS 25/30/40/50/60), Session init, Upload vidéo obligatoire avec aperçu et suppression, Accordéon options dépliables par défaut, Validation vidéo requise, API call avec video_input/target_resolution/target_fps, Interface conversationnelle affichage vidéos upscalées, Bouton télécharger TEAL (teal-600), Message génération '3-5 minutes+', Input caché video/*. Services redémarrés, tous RUNNING. Prêt pour testing backend et frontend complet!"
   - agent: "main"
     message: "✅ SEEDREAM 4 - INTÉGRATION COMPLÈTE TERMINÉE! Backend + Frontend 100% fonctionnels: BACKEND: Modèles (SeedreamSession, SeedreamMessage, GenerateSeedreamRequest/Response), Endpoints (/api/seedream/session POST, /api/seedream/generate POST, /api/seedream/session/{id} GET), API Replicate bytedance/seedream-4, Mode async polling 3min, Upload image optionnel avec conversion data URL. FRONTEND: États (isSeedream, seedreamOptions: size/aspectRatio, showSeedreamOptions), Init session useEffect, handleGenerate avec appel API, Interface options (Size: 1K/2K/4K, Ratio: 1:1/4:3/3:4/16:9/9:16/3:2/2:3/21:9), Upload image optionnel avec aperçu, Affichage images générées interface conversationnelle, Mobile + Desktop. Seedream prêt à générer!"
   - agent: "main"
