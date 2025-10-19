@@ -276,6 +276,33 @@ class GenerateGrokResponse(BaseModel):
     image_urls: List[str]
     response_text: str
 
+# Alibaba Wan 2.5 Models (Text-to-Video Generation)
+class AlibabaWanMessage(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    session_id: str
+    role: str  # "user" or "assistant"
+    content: str
+    video_urls: List[str] = []
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+
+class AlibabaWanSession(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    last_updated: datetime = Field(default_factory=datetime.utcnow)
+    messages: List[AlibabaWanMessage] = []
+
+class GenerateAlibabaWanRequest(BaseModel):
+    session_id: str
+    prompt: str
+    duration: int = 5  # 5 ou 10 secondes
+    size: str = "1280*720"  # "832*480", "480*832", "1280*720", "720*1280", "1920*1080", "1080*1920"
+
+class GenerateAlibabaWanResponse(BaseModel):
+    session_id: str
+    message_id: str
+    video_urls: List[str]
+    response_text: str
+
 # Google Veo 3.1 Models (Video Generation)
 class GoogleVeoMessage(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
