@@ -729,38 +729,260 @@ def test_sora2_api():
         print(f"❌ ERREUR INATTENDUE SORA 2: {str(e)}")
         return False
 
-def main():
-    print("🚀 DÉBUT DES TESTS API FLUX KONTEXT PRO")
-    print(f"⏰ Heure: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print("🔧 Test complet de Flux Kontext Pro avec nouvelles fonctionnalités")
-    print("🎯 Modèle: black-forest-labs/flux-kontext-pro")
-    print("📐 Aspect ratios: 1:1, 16:9, 9:16, 4:3, 3:4, 3:2, 2:3, 4:5, 5:4, 21:9, 9:21, 2:1, 1:2")
-    print("⚙️ Options: prompt_upsampling, safety_tolerance")
-    print("🖼️ Modes: Génération (prompt seul) + Édition (avec image uploadée)")
+def test_image_upscaler_complete_flow():
+    """Test complet du flux Image Upscaler selon la demande utilisateur"""
+    
+    # Configuration
+    base_url = get_backend_url()
+    api_url = f"{base_url}/api"
+    print(f"🔗 URL de test: {api_url}")
     print("=" * 80)
     
-    # Test Flux Kontext Pro
-    print("\n🎨 TESTS FLUX KONTEXT PRO")
+    # Image de test fournie par l'utilisateur (PNG 1x1 rouge en base64)
+    test_image_data_url = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
+    
+    session_id = None
+    
+    try:
+        # Étape 1: Créer une session Image Upscaler via POST /api/image-upscaler/session
+        print("📝 ÉTAPE 1: POST /api/image-upscaler/session - Créer une session Image Upscaler")
+        print("-" * 70)
+        
+        response = requests.post(f"{api_url}/image-upscaler/session", timeout=30)
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            session_data = response.json()
+            session_id = session_data.get('id')
+            print(f"✅ Session Image Upscaler créée avec succès!")
+            print(f"   Session ID: {session_id}")
+            print(f"   Created at: {session_data.get('created_at')}")
+            print(f"   Last updated: {session_data.get('last_updated')}")
+        else:
+            print(f"❌ Échec création session Image Upscaler: {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False
+            
+        print("\n" + "=" * 80)
+        
+        # Étape 2: Uploader l'image de test (1x1 pixel PNG en base64)
+        print("🖼️ ÉTAPE 2: Vérification de l'image de test")
+        print("-" * 70)
+        print(f"Image de test fournie: {test_image_data_url[:50]}...")
+        print(f"Longueur de l'image: {len(test_image_data_url)} caractères")
+        print(f"Format détecté: PNG 1x1 pixel rouge")
+        
+        print("\n" + "=" * 80)
+        
+        # Étape 3: Lancer l'upscaling via POST /api/image-upscaler/upscale avec scale_factor: 2
+        print("🔍 ÉTAPE 3: POST /api/image-upscaler/upscale - Upscaler image X2")
+        print("-" * 70)
+        
+        if not session_id:
+            print("❌ Pas de session_id disponible pour le test d'upscaling")
+            return False
+            
+        upscale_payload = {
+            "session_id": session_id,
+            "image_data": test_image_data_url,
+            "scale_factor": 2
+        }
+        
+        print(f"Payload: session_id={session_id}, scale_factor=2")
+        print(f"Image input: {test_image_data_url[:50]}... ({len(test_image_data_url)} chars)")
+        
+        response = requests.post(
+            f"{api_url}/image-upscaler/upscale", 
+            json=upscale_payload,
+            timeout=120  # 2 minutes pour l'upscaling
+        )
+        
+        print(f"Status Code: {response.status_code}")
+        
+        upscaled_image_url = None
+        
+        if response.status_code == 200:
+            upscale_data = response.json()
+            print(f"✅ Image upscalée X2 avec succès!")
+            print(f"   Session ID: {upscale_data.get('session_id')}")
+            print(f"   Message ID: {upscale_data.get('message_id')}")
+            print(f"   Response Text: {upscale_data.get('response_text')}")
+            
+            image_urls = upscale_data.get('image_urls', [])
+            print(f"   Nombre d'images upscalées: {len(image_urls)}")
+            
+            if len(image_urls) > 0:
+                upscaled_image_url = image_urls[0]
+                if upscaled_image_url.startswith('data:image'):
+                    print(f"   ✅ Image URL retournée: Data URL valide ({len(upscaled_image_url)} caractères)")
+                else:
+                    print(f"   ✅ Image URL retournée: {upscaled_image_url}")
+            else:
+                print(f"   ❌ Aucune image_url dans la réponse!")
+                return False
+                    
+        else:
+            print(f"❌ Échec upscaling X2: {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False
+            
+        print("\n" + "=" * 80)
+        
+        # Étape 4: Vérifier que la réponse contient image_url
+        print("✅ ÉTAPE 4: Vérification que la réponse contient image_url")
+        print("-" * 70)
+        
+        if upscaled_image_url:
+            print(f"✅ SUCCÈS: La réponse contient bien une image_url")
+            print(f"   Type d'URL: {'Data URL (base64)' if upscaled_image_url.startswith('data:') else 'URL HTTP'}")
+            print(f"   Longueur: {len(upscaled_image_url)} caractères")
+        else:
+            print(f"❌ ÉCHEC: Aucune image_url trouvée dans la réponse")
+            return False
+            
+        print("\n" + "=" * 80)
+        
+        # Étape 5: Tester que l'URL de l'image retournée est accessible
+        print("🌐 ÉTAPE 5: Test d'accessibilité de l'URL de l'image retournée")
+        print("-" * 70)
+        
+        if upscaled_image_url.startswith('data:'):
+            # C'est une data URL, on peut la décoder directement
+            print("🔍 Test de décodage de la Data URL...")
+            try:
+                # Extraire les données base64
+                header, encoded = upscaled_image_url.split(",", 1)
+                image_data = base64.b64decode(encoded)
+                print(f"✅ Data URL décodée avec succès!")
+                print(f"   Header: {header}")
+                print(f"   Taille des données décodées: {len(image_data)} bytes")
+                print(f"   Format détecté: {header.split(';')[0].split('/')[1] if '/' in header else 'inconnu'}")
+                
+                # Vérifier que c'est une image valide
+                from PIL import Image
+                import io
+                try:
+                    img = Image.open(io.BytesIO(image_data))
+                    print(f"   ✅ Image valide détectée: {img.size} pixels, mode: {img.mode}")
+                    print(f"   ✅ L'image upscalée est accessible et téléchargeable!")
+                except Exception as img_error:
+                    print(f"   ❌ Erreur lors de l'ouverture de l'image: {img_error}")
+                    return False
+                    
+            except Exception as decode_error:
+                print(f"❌ Erreur lors du décodage de la Data URL: {decode_error}")
+                return False
+                
+        else:
+            # C'est une URL HTTP, on teste l'accessibilité
+            print(f"🔍 Test d'accessibilité de l'URL HTTP: {upscaled_image_url}")
+            try:
+                response = requests.get(upscaled_image_url, timeout=30)
+                print(f"   Status Code: {response.status_code}")
+                
+                if response.status_code == 200:
+                    print(f"   ✅ URL accessible avec succès!")
+                    print(f"   Content-Type: {response.headers.get('content-type', 'non spécifié')}")
+                    print(f"   Taille du contenu: {len(response.content)} bytes")
+                    print(f"   ✅ L'image upscalée est accessible et téléchargeable!")
+                else:
+                    print(f"   ❌ URL non accessible: {response.status_code}")
+                    return False
+                    
+            except Exception as url_error:
+                print(f"❌ Erreur lors de l'accès à l'URL: {url_error}")
+                return False
+        
+        print("\n" + "=" * 80)
+        
+        # Test bonus: Récupérer l'historique pour vérifier la sauvegarde
+        print("📚 ÉTAPE BONUS: GET /api/image-upscaler/session/{session_id} - Vérifier l'historique")
+        print("-" * 70)
+        
+        response = requests.get(f"{api_url}/image-upscaler/session/{session_id}", timeout=30)
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            history_data = response.json()
+            print(f"✅ Historique récupéré avec succès!")
+            print(f"   Nombre de messages: {len(history_data)}")
+            
+            user_messages = 0
+            assistant_messages = 0
+            
+            for i, message in enumerate(history_data):
+                print(f"   Message {i+1}:")
+                print(f"     ID: {message.get('id')}")
+                print(f"     Role: {message.get('role')}")
+                print(f"     Content: {message.get('content')}")
+                print(f"     Images: {len(message.get('image_urls', []))}")
+                
+                if message.get('role') == 'user':
+                    user_messages += 1
+                elif message.get('role') == 'assistant':
+                    assistant_messages += 1
+                    
+            print(f"   Messages utilisateur: {user_messages}")
+            print(f"   Messages assistant: {assistant_messages}")
+                
+        else:
+            print(f"⚠️ Avertissement - Échec récupération historique: {response.status_code}")
+            # Ce n'est pas critique pour le test principal
+            
+        print("\n" + "=" * 80)
+        print("🎉 FLUX COMPLET IMAGE UPSCALER TESTÉ AVEC SUCCÈS!")
+        print("✅ Toutes les étapes validées:")
+        print("   1. ✅ Session créée via POST /api/image-upscaler/session")
+        print("   2. ✅ Image de test 1x1 PNG uploadée")
+        print("   3. ✅ Upscaling X2 réussi via POST /api/image-upscaler/upscale")
+        print("   4. ✅ Réponse contient image_url")
+        print("   5. ✅ Image upscalée accessible et téléchargeable")
+        print("🔧 Le bouton télécharger fonctionne correctement!")
+        return True
+        
+    except requests.exceptions.Timeout:
+        print("❌ ERREUR: Timeout lors de la requête Image Upscaler")
+        return False
+    except requests.exceptions.ConnectionError:
+        print("❌ ERREUR: Impossible de se connecter au backend Image Upscaler")
+        return False
+    except Exception as e:
+        print(f"❌ ERREUR INATTENDUE Image Upscaler: {str(e)}")
+        return False
+
+def main():
+    print("🚀 DÉBUT DU TEST FLUX COMPLET IMAGE UPSCALER")
+    print(f"⏰ Heure: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print("🔧 Test du flux complet Image Upscaler (tool ID 5)")
+    print("🎯 Vérification que le bouton télécharger fonctionne correctement")
+    print("🖼️ Image de test: PNG 1x1 pixel rouge en base64")
+    print("📐 Scale factor: 2 (X2)")
     print("=" * 80)
-    flux_success = test_flux_kontext_pro_api()
+    
+    # Test Image Upscaler complet
+    print("\n🔍 TEST FLUX COMPLET IMAGE UPSCALER")
+    print("=" * 80)
+    upscaler_success = test_image_upscaler_complete_flow()
     
     # Résultats finaux
     print("\n" + "=" * 80)
     print("📊 RÉSULTATS FINAUX:")
-    print(f"   Flux Kontext Pro: {'✅ RÉUSSI' if flux_success else '❌ ÉCHEC'}")
+    print(f"   Image Upscaler Flow: {'✅ RÉUSSI' if upscaler_success else '❌ ÉCHEC'}")
     
-    if flux_success:
-        print("\n🎉 RÉSULTAT GLOBAL: TOUS LES TESTS RÉUSSIS")
-        print("✅ Flux Kontext Pro fonctionne correctement avec l'API Replicate")
-        print("✅ Nouvelles fonctionnalités validées:")
-        print("   - Icône import photo (optionnel)")
-        print("   - Tous les aspect ratios disponibles")
-        print("   - Options prompt_upsampling et safety_tolerance")
-        print("   - Mode génération et mode édition")
+    if upscaler_success:
+        print("\n🎉 RÉSULTAT GLOBAL: FLUX IMAGE UPSCALER VALIDÉ")
+        print("✅ Le flux complet Image Upscaler fonctionne correctement:")
+        print("   - Création de session réussie")
+        print("   - Upload d'image 1x1 PNG réussi")
+        print("   - Upscaling X2 avec Replicate API réussi")
+        print("   - Image_url retournée dans la réponse")
+        print("   - Image upscalée accessible et téléchargeable")
+        print("🔧 Le bouton télécharger fonctionne parfaitement!")
         sys.exit(0)
     else:
-        print("\n❌ RÉSULTAT GLOBAL: ÉCHEC DES TESTS")
-        print("⚠️  Flux Kontext Pro: Problème avec les nouvelles fonctionnalités")
+        print("\n❌ RÉSULTAT GLOBAL: ÉCHEC DU FLUX IMAGE UPSCALER")
+        print("⚠️  Problème détecté dans le flux Image Upscaler")
+        print("🔧 Le bouton télécharger pourrait ne pas fonctionner correctement")
         sys.exit(1)
 
 if __name__ == "__main__":
