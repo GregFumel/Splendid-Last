@@ -110,10 +110,12 @@ export const mockAITools = [
   {
     id: 10,
     name: "Video Upscale AI",
-    description: "Améliorez la résolution de vos vidéos jusqu'à 8K.",
+    description: "Améliorez la résolution de vos vidéos jusqu'à 4K avec Topaz Labs.",
     category: "video",
     image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/gnt5f1ea_topaz_img%20-%2001.png",
-    fullDescription: "l'amélioration de la résolution de vidéos existantes"
+    fullDescription: "l'amélioration de la résolution de vidéos existantes jusqu'à 4K",
+    toolType: "video-upscaler",
+    apiEndpoint: "video-upscale"
   },
   // 11. ChatGPT-5
   {
