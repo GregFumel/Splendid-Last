@@ -40,3 +40,4 @@ attrs
 -e yarl
 aiosignal
 frozenlist
+distro
