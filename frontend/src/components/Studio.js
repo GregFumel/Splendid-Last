@@ -2330,6 +2330,57 @@ const Studio = () => {
                       )}
                     </div>
                 )}
+
+                {/* Options de configuration pour Alibaba Wan 2.5 - Mobile */}
+                {isAlibabaWan && (
+                  <div className="bg-red-500/10 border border-red-400/30 rounded-lg overflow-hidden">
+                      <button
+                        onClick={() => setShowAlibabaWanOptions(!showAlibabaWanOptions)}
+                        className="w-full flex items-center justify-between p-3 hover:bg-red-500/5 transition-colors"
+                      >
+                        <span className="text-sm font-medium text-gray-200">Options de génération</span>
+                        {showAlibabaWanOptions ? (
+                          <ChevronDown className="w-4 h-4 text-gray-400" />
+                        ) : (
+                          <ChevronUp className="w-4 h-4 text-gray-400" />
+                        )}
+                      </button>
+                      
+                      {showAlibabaWanOptions && (
+                        <div className="flex flex-col gap-3 px-3 pb-3 pt-2 border-t border-red-400/20 mt-2">
+                          {/* Durée */}
+                          <div className="flex items-center gap-2">
+                            <label className="text-sm text-gray-300">Durée:</label>
+                            <select
+                              value={alibabaWanOptions.duration}
+                              onChange={(e) => setAlibabaWanOptions({...alibabaWanOptions, duration: parseInt(e.target.value)})}
+                              className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-red-400 focus:outline-none"
+                            >
+                              <option value={5}>5 secondes</option>
+                              <option value={10}>10 secondes</option>
+                            </select>
+                          </div>
+                          
+                          {/* Résolution */}
+                          <div className="flex items-center gap-2">
+                            <label className="text-sm text-gray-300">Taille:</label>
+                            <select
+                              value={alibabaWanOptions.size}
+                              onChange={(e) => setAlibabaWanOptions({...alibabaWanOptions, size: e.target.value})}
+                              className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-red-400 focus:outline-none"
+                            >
+                              <option value="832*480">832×480 (Paysage)</option>
+                              <option value="480*832">480×832 (Portrait)</option>
+                              <option value="1280*720">1280×720 (HD)</option>
+                              <option value="720*1280">720×1280 (HD Portrait)</option>
+                              <option value="1920*1080">1920×1080 (Full HD)</option>
+                              <option value="1080*1920">1080×1920 (Full HD Portrait)</option>
+                            </select>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                )}
                 
                 {/* Zone de saisie pour Kling AI avec boutons upload à gauche - Mobile */}
                 {isKling ? (
