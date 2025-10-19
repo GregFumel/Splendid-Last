@@ -3152,7 +3152,7 @@ const Studio = () => {
                     </button>
                   )}
                   
-                  {!isImageUpscaler && !isKling && (
+                  {!isImageUpscaler && !isKling && !isVideoUpscale && (
                     <input
                       type="text"
                     value={prompt}
