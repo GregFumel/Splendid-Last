@@ -2277,6 +2277,23 @@ const Studio = () => {
                 )}
 
 
+                {/* Aperçu de l'image uploadée pour Flux Kontext Pro - Mobile */}
+                {isFluxKontext && uploadedImage && (
+                  <div className="bg-orange-500/10 border border-orange-400/30 rounded-lg p-2">
+                    <div className="relative flex-shrink-0">
+                      <img src={uploadedImage.dataUrl} className="h-20 w-auto object-cover rounded border border-orange-400/30 mx-auto" />
+                      <button
+                        onClick={removeUploadedImage}
+                        className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-0.5 hover:bg-red-600"
+                        title="Supprimer l'image"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                      <span className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs px-1 text-center truncate">{uploadedImage.name}</span>
+                    </div>
+                  </div>
+                )}
+
                 {/* Options de configuration pour Flux Kontext Pro - Mobile */}
                 {isFluxKontext && (
                   <div className="bg-orange-500/10 border border-orange-400/30 rounded-lg overflow-hidden">
