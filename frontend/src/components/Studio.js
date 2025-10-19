@@ -437,6 +437,16 @@ const Studio = () => {
   });
   const [showAlibabaWanOptions, setShowAlibabaWanOptions] = useState(true); // Par défaut dépliées
 
+  // États pour Video Upscale AI
+  const [isVideoUpscale, setIsVideoUpscale] = useState(false);
+  const [videoUpscaleOptions, setVideoUpscaleOptions] = useState({
+    targetResolution: "1080p",  // "720p", "1080p", "4k"
+    targetFps: 30  // 25, 30, 40, 50, 60
+  });
+  const [showVideoUpscaleOptions, setShowVideoUpscaleOptions] = useState(true); // Par défaut dépliées
+  const [uploadedVideo, setUploadedVideo] = useState(null); // {file, dataUrl, name}
+  const videoUpscaleInputRef = useRef(null);
+
 
   // Sélectionner l'outil basé sur le paramètre URL
   useEffect(() => {
