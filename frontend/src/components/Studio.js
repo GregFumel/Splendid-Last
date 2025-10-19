@@ -930,6 +930,46 @@ const Studio = () => {
     }
   };
 
+  const initializeAlibabaWanSession = async () => {
+    try {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL;
+      console.log('Backend URL Alibaba Wan 2.5:', backendUrl);
+      
+      const response = await fetch(`${backendUrl}/api/alibaba-wan/session`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      console.log('Alibaba Wan 2.5 Session response status:', response.status);
+      
+      if (!response.ok) {
+        throw new Error('Erreur lors de la création de la session Alibaba Wan 2.5');
+      }
+      
+      const session = await response.json();
+      console.log('Session Alibaba Wan 2.5 créée:', session.id);
+      setSessionId(session.id);
+      
+      // Sauvegarder la session pour cet outil
+      setToolSessions(prev => ({
+        ...prev,
+        [selectedTool.id]: {
+          sessionId: session.id,
+          toolName: selectedTool.name
+        }
+      }));
+      
+      // Charger l'historique existant (vide pour une nouvelle session)
+      loadConversationHistory(session.id, 'alibaba-wan');
+    } catch (error) {
+      console.error('Erreur lors de l\'initialisation de la session Alibaba Wan 2.5:', error);
+      // Arrêter l'animation en cas d'erreur
+      setIsLoadingHistory(false);
+    }
+  };
+
 
   const loadConversationHistory = async (sessionIdToLoad, toolType) => {
     try {
