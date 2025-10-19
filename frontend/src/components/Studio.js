@@ -1176,6 +1176,16 @@ const Studio = () => {
           }
         }
         
+        // Paramètres spécifiques pour Seedream 4
+        if (isSeedream) {
+          requestBody.size = seedreamOptions.size;
+          requestBody.aspect_ratio = seedreamOptions.aspectRatio;
+          // Ajouter l'image input si uploadée (optionnelle)
+          if (uploadedImage) {
+            requestBody.image_input = uploadedImage.dataUrl;
+          }
+        }
+        
         const response = await fetch(`${backendUrl}/api/${endpoint}`, {
           method: 'POST',
           headers: {
