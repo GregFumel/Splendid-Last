@@ -522,6 +522,7 @@ const Studio = () => {
     const isSeedreamTool = selectedTool && selectedTool.name === "Seedream 4";
     const isGrokTool = selectedTool && selectedTool.name === "Grok";
     const isAlibabaWanTool = selectedTool && selectedTool.name === "Alibaba Wan 2.5";
+    const isVideoUpscaleTool = selectedTool && selectedTool.name === "Video Upscale AI";
     
     setIsNanoBanana(isNanoBananaTool);
     setIsChatGPT5(isChatGPT5Tool);
@@ -533,8 +534,9 @@ const Studio = () => {
     setIsSeedream(isSeedreamTool);
     setIsGrok(isGrokTool);
     setIsAlibabaWan(isAlibabaWanTool);
+    setIsVideoUpscale(isVideoUpscaleTool);
     
-    if (isNanoBananaTool || isChatGPT5Tool || isGoogleVeoTool || isSora2Tool || isImageUpscalerTool || isFluxKontextTool || isKlingTool || isSeedreamTool || isGrokTool || isAlibabaWanTool) {
+    if (isNanoBananaTool || isChatGPT5Tool || isGoogleVeoTool || isSora2Tool || isImageUpscalerTool || isFluxKontextTool || isKlingTool || isSeedreamTool || isGrokTool || isAlibabaWanTool || isVideoUpscaleTool) {
       // Commencer l'animation de chargement
       setIsLoadingHistory(true);
       setConversationHistory([]); // Vider l'historique précédent immédiatement
