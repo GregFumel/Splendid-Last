@@ -1700,8 +1700,8 @@ const Studio = () => {
 
           {/* Zone de discussion scrollable - SIMPLE */}
           <div className="flex-1 overflow-y-auto pr-2 space-y-4 min-h-0 max-h-full pb-32">
-            {/* Historique conversationnel pour NanoBanana, ChatGPT-5, Google Veo, SORA 2, Image Upscaler, Flux Kontext, Kling AI, Seedream 4 et Grok ou zone de résultat pour les autres */}
-            {(isNanoBanana || isChatGPT5 || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isKling || isSeedream || isGrok) ? (
+            {/* Historique conversationnel pour NanoBanana, ChatGPT-5, Google Veo, SORA 2, Image Upscaler, Flux Kontext, Kling AI, Seedream 4, Grok et Alibaba Wan ou zone de résultat pour les autres */}
+            {(isNanoBanana || isChatGPT5 || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isKling || isSeedream || isGrok || isAlibabaWan) ? (
               <>
                 {/* Animation de chargement de l'historique */}
                 {isLoadingHistory ? (
