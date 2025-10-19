@@ -420,6 +420,13 @@ const Studio = () => {
   });
   const [showKlingOptions, setShowKlingOptions] = useState(true); // Par défaut dépliées
 
+  // États pour les options Seedream 4
+  const [seedreamOptions, setSeedreamOptions] = useState({
+    size: "2K",  // "1K", "2K", ou "4K"
+    aspectRatio: "1:1"  // "1:1", "4:3", "3:4", "16:9", "9:16", "3:2", "2:3", "21:9"
+  });
+  const [showSeedreamOptions, setShowSeedreamOptions] = useState(true); // Par défaut dépliées
+
 
   // Sélectionner l'outil basé sur le paramètre URL
   useEffect(() => {
