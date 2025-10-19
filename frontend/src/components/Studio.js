@@ -502,6 +502,7 @@ const Studio = () => {
     const isFluxKontextTool = selectedTool && selectedTool.name === "Flux Kontext Pro";
     const isKlingTool = selectedTool && selectedTool.name === "Kling AI v2.1";
     const isSeedreamTool = selectedTool && selectedTool.name === "Seedream 4";
+    const isGrokTool = selectedTool && selectedTool.name === "Grok";
     
     setIsNanoBanana(isNanoBananaTool);
     setIsChatGPT5(isChatGPT5Tool);
@@ -511,8 +512,9 @@ const Studio = () => {
     setIsFluxKontext(isFluxKontextTool);
     setIsKling(isKlingTool);
     setIsSeedream(isSeedreamTool);
+    setIsGrok(isGrokTool);
     
-    if (isNanoBananaTool || isChatGPT5Tool || isGoogleVeoTool || isSora2Tool || isImageUpscalerTool || isFluxKontextTool || isKlingTool || isSeedreamTool) {
+    if (isNanoBananaTool || isChatGPT5Tool || isGoogleVeoTool || isSora2Tool || isImageUpscalerTool || isFluxKontextTool || isKlingTool || isSeedreamTool || isGrokTool) {
       // Commencer l'animation de chargement
       setIsLoadingHistory(true);
       setConversationHistory([]); // Vider l'historique précédent immédiatement
