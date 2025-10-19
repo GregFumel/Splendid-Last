@@ -555,6 +555,8 @@ const Studio = () => {
           initializeSeedreamSession();
         } else if (isGrokTool) {
           initializeGrokSession();
+        } else if (isAlibabaWanTool) {
+          initializeAlibabaWanSession();
         }
       }
     } else {
