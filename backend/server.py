@@ -223,6 +223,34 @@ class GenerateKlingResponse(BaseModel):
     video_urls: List[str]
     response_text: str
 
+# Seedream 4 Models (Text-to-Image and Image-to-Image Generation)
+class SeedreamMessage(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    session_id: str
+    role: str  # "user" or "assistant"
+    content: str
+    image_urls: List[str] = []
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+
+class SeedreamSession(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    last_updated: datetime = Field(default_factory=datetime.utcnow)
+    messages: List[SeedreamMessage] = []
+
+class GenerateSeedreamRequest(BaseModel):
+    session_id: str
+    prompt: str
+    image_input: Optional[str] = None  # Data URL de l'image input (optionnelle)
+    size: str = "2K"  # "1K", "2K", ou "4K"
+    aspect_ratio: str = "1:1"  # "1:1", "4:3", "3:4", "16:9", "9:16", "3:2", "2:3", "21:9"
+
+class GenerateSeedreamResponse(BaseModel):
+    session_id: str
+    message_id: str
+    image_urls: List[str]
+    response_text: str
+
 # Google Veo 3.1 Models (Video Generation)
 class GoogleVeoMessage(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
