@@ -1397,7 +1397,7 @@ const Studio = () => {
                         </span>
                       )}
                       {tool.isTop && (
-                        <span className="bg-gradient-to-r from-red-600 to-red-500 text-white px-2 py-0.5 rounded-full text-xs font-semibold flex items-center gap-1">
+                        <span className="bg-gradient-to-r from-red-600 to-red-500 text-white px-2 py-0.5 rounded-full text-xs font-semibold flex items-center gap-1" style={{boxShadow: '0 0 0 2px rgba(255, 255, 255, 0.3), 0 4px 6px rgba(0, 0, 0, 0.3)'}}>
                           <Trophy className="w-3 h-3" />
                           TOP
                         </span>
