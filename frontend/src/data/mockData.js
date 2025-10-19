@@ -99,6 +99,7 @@ export const mockAITools = [
     category: "image",
     image: "https://customer-assets.emergentagent.com/job_nano-banana-fix/artifacts/vtefylxi_crystal-cover%20%281%29.webp",
     fullDescription: "l'amélioration et l'upscaling d'images avec ajout de détails ultra-précis",
+    isTop: true,
     toolType: "image-upscaler",
     apiEndpoint: "image-upscaler"
   },
