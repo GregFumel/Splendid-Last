@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Trophy } from "lucide-react";
 
 const AIToolsGrid = ({ tools, onGenerateIdeas }) => {
   const navigate = useNavigate();
