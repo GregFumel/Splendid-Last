@@ -1464,6 +1464,191 @@ async def get_alibaba_wan_conversation(session_id: str):
         raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
 
 
+# Video Upscale AI endpoints (Video Upscaling)
+
+@api_router.post("/video-upscale/session", response_model=VideoUpscaleSession)
+async def create_video_upscale_session():
+    """Crée une nouvelle session Video Upscale AI"""
+    try:
+        session = VideoUpscaleSession()
+        await db.video_upscale_sessions.insert_one(session.dict())
+        return session
+    except Exception as e:
+        logger.error(f"Erreur lors de la création de session Video Upscale: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.post("/video-upscale/generate", response_model=GenerateVideoUpscaleResponse)
+async def upscale_video(request: GenerateVideoUpscaleRequest):
+    """Upscale une vidéo avec Topaz Video Upscale AI"""
+    try:
+        # Créer ou récupérer la session
+        session = await db.video_upscale_sessions.find_one({"id": request.session_id})
+        if not session:
+            raise HTTPException(status_code=404, detail="Session non trouvée")
+        
+        # Convertir la vidéo data URL en URL publique
+        backend_url = "https://image-to-video-ui.preview.emergentagent.com"
+        
+        # Pour une vidéo, on peut sauvegarder comme fichier temporaire avec extension .mp4
+        try:
+            # Extract base64 data
+            if not request.video_input.startswith("data:"):
+                raise Exception("Format de vidéo invalide, data URL requis")
+            
+            header, encoded = request.video_input.split(",", 1)
+            video_data = base64.b64decode(encoded)
+            
+            # Generate unique filename
+            filename = f"{uuid.uuid4()}.mp4"
+            filepath = TEMP_IMAGES_DIR / filename
+            
+            # Save video
+            with open(filepath, "wb") as f:
+                f.write(video_data)
+            
+            # Return public URL
+            video_input_url = f"{backend_url}/api/temp-images/{filename}"
+            logging.info(f"Video input saved: {filepath} -> {video_input_url}")
+        except Exception as e:
+            logging.error(f"Error converting video data URL: {str(e)}")
+            raise Exception(f"Erreur lors de la conversion de la vidéo: {str(e)}")
+        
+        # Message utilisateur
+        user_message_id = str(uuid.uuid4())
+        user_content = f"Upscale vidéo\nRésolution: {request.target_resolution}\nFPS: {request.target_fps}"
+        
+        user_message = VideoUpscaleMessage(
+            id=user_message_id,
+            session_id=request.session_id,
+            role="user",
+            content=user_content,
+            video_urls=[video_input_url]
+        )
+        await db.video_upscale_messages.insert_one(user_message.dict())
+        
+        # Upscaler la vidéo avec Replicate en mode asynchrone
+        try:
+            logging.info(f"Upscaling vidéo avec Replicate - modèle: topazlabs/video-upscale, résolution: {request.target_resolution}, FPS: {request.target_fps}")
+            logging.info(f"⏳ L'upscaling peut prendre 3-5 minutes ou plus selon la taille de la vidéo...")
+            
+            # Préparer les inputs pour le modèle
+            inputs = {
+                "video": video_input_url,
+                "target_resolution": request.target_resolution,
+                "target_fps": request.target_fps
+            }
+            
+            # Créer une prediction asynchrone
+            client = replicate.Client(api_token=os.environ.get('REPLICATE_API_TOKEN'))
+            
+            prediction = client.predictions.create(
+                model="topazlabs/video-upscale",
+                input=inputs
+            )
+            
+            logging.info(f"Prediction créée: {prediction.id}, status: {prediction.status}")
+            
+            # Attendre que l'upscaling soit terminé (avec timeout de 10 minutes)
+            max_wait_seconds = 600  # 10 minutes
+            poll_interval = 5
+            elapsed = 0
+            
+            while prediction.status not in ["succeeded", "failed", "canceled"]:
+                if elapsed >= max_wait_seconds:
+                    raise Exception(f"Timeout: L'upscaling a dépassé {max_wait_seconds//60} minutes")
+                
+                await asyncio.sleep(poll_interval)
+                elapsed += poll_interval
+                
+                prediction.reload()
+                logging.info(f"Status après {elapsed}s: {prediction.status}")
+            
+            if prediction.status == "failed":
+                error_msg = prediction.error or "Erreur inconnue"
+                raise Exception(f"L'upscaling a échoué: {error_msg}")
+            
+            if prediction.status == "canceled":
+                raise Exception("L'upscaling a été annulé")
+            
+            # Récupérer l'URL de la vidéo upscalée (output est une string)
+            video_url = str(prediction.output) if prediction.output else None
+            
+            if not video_url:
+                raise Exception("Aucune vidéo upscalée générée par Replicate")
+            
+            logging.info(f"✅ Vidéo upscalée avec succès en {elapsed}s, disponible à: {video_url}")
+            
+            video_urls = [video_url]
+            response_text = f"✅ Vidéo upscalée avec succès avec Topaz Video Upscale AI!\n\n⏱️ Temps de traitement: {elapsed}s\nRésolution: {request.target_resolution}\nFPS: {request.target_fps}"
+            
+        except Exception as e:
+            # Message d'erreur
+            error_message_id = str(uuid.uuid4())
+            error_assistant_message = VideoUpscaleMessage(
+                id=error_message_id,
+                session_id=request.session_id,
+                role="assistant",
+                content=f"❌ **Erreur d'upscaling vidéo**\n\nNous n'avons pas pu upscaler votre vidéo pour la raison suivante :\n{str(e)}\n\nVeuillez réessayer avec une autre vidéo.",
+                video_urls=[]
+            )
+            
+            await db.video_upscale_sessions.update_one(
+                {"id": request.session_id},
+                {"$set": {"last_updated": datetime.utcnow()}}
+            )
+            
+            await db.video_upscale_messages.insert_one(error_assistant_message.dict())
+            
+            return GenerateVideoUpscaleResponse(
+                session_id=request.session_id,
+                message_id=error_message_id,
+                video_urls=[],
+                response_text=error_assistant_message.content
+            )
+        
+        # Message assistant avec la vidéo upscalée
+        assistant_message_id = str(uuid.uuid4())
+        assistant_message = VideoUpscaleMessage(
+            id=assistant_message_id,
+            session_id=request.session_id,
+            role="assistant",
+            content=response_text,
+            video_urls=video_urls
+        )
+        
+        # Mettre à jour la session
+        await db.video_upscale_sessions.update_one(
+            {"id": request.session_id},
+            {"$set": {"last_updated": datetime.utcnow()}}
+        )
+        
+        # Insérer le message assistant
+        await db.video_upscale_messages.insert_one(assistant_message.dict())
+        
+        return GenerateVideoUpscaleResponse(
+            session_id=request.session_id,
+            message_id=assistant_message_id,
+            video_urls=video_urls,
+            response_text=response_text
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Erreur lors de l'upscaling vidéo: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.get("/video-upscale/session/{session_id}", response_model=List[VideoUpscaleMessage])
+async def get_video_upscale_conversation(session_id: str):
+    """Récupère l'historique de conversation d'une session Video Upscale"""
+    try:
+        messages = await db.video_upscale_messages.find({"session_id": session_id}).sort("timestamp", 1).to_list(None)
+        return [VideoUpscaleMessage(**msg) for msg in messages]
+    except Exception as e:
+        logger.error(f"Erreur lors de la récupération de l'historique Video Upscale: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+
 # Google Veo 3.1 endpoints (Video Generation)
 
 @api_router.post("/google-veo/session", response_model=GoogleVeoSession)
