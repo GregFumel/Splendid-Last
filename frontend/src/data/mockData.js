@@ -91,7 +91,9 @@ export const mockAITools = [
     category: "video",
     image: "https://customer-assets.emergentagent.com/job_d1e17cd1-d4b1-4e77-89f1-4869587941f4/artifacts/tfsncvf7_output.gif",
     fullDescription: "la génération de vidéos de haute qualité avec Alibaba Wan 2.5",
-    isNew: true
+    isNew: true,
+    toolType: "video-generator",
+    apiEndpoint: "alibaba-wan"
   },
   // 9. Flux Kontext Pro
   {
