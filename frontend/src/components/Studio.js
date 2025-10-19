@@ -543,6 +543,8 @@ const Studio = () => {
           initializeKlingSession();
         } else if (isSeedreamTool) {
           initializeSeedreamSession();
+        } else if (isGrokTool) {
+          initializeGrokSession();
         }
       }
     } else {
