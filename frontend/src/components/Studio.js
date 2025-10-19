@@ -1948,7 +1948,7 @@ const Studio = () => {
                                   <div className="p-3 bg-black/20 flex justify-center">
                                     <button
                                       onClick={() => handleDownloadVideo(videoUrl, message.id)}
-                                      className={`${isKling ? 'bg-purple-600/80 hover:bg-purple-600' : 'bg-gray-600/80 hover:bg-gray-600'} text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 text-sm`}
+                                      className={`${isKling ? 'bg-purple-600/80 hover:bg-purple-600' : isVideoUpscale ? 'bg-teal-600/80 hover:bg-teal-600' : 'bg-gray-600/80 hover:bg-gray-600'} text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 text-sm`}
                                       title="Télécharger la vidéo"
                                     >
                                       <Download className="w-4 h-4" />
