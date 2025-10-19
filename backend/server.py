@@ -1277,6 +1277,166 @@ async def get_grok_conversation(session_id: str):
         raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
 
 
+# Alibaba Wan 2.5 endpoints (Text-to-Video Generation)
+
+@api_router.post("/alibaba-wan/session", response_model=AlibabaWanSession)
+async def create_alibaba_wan_session():
+    """Crée une nouvelle session Alibaba Wan 2.5"""
+    try:
+        session = AlibabaWanSession()
+        await db.alibaba_wan_sessions.insert_one(session.dict())
+        return session
+    except Exception as e:
+        logger.error(f"Erreur lors de la création de session Alibaba Wan: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.post("/alibaba-wan/generate", response_model=GenerateAlibabaWanResponse)
+async def generate_video_with_alibaba_wan(request: GenerateAlibabaWanRequest):
+    """Génère une vidéo avec Alibaba Wan 2.5 (text-to-video)"""
+    try:
+        # Créer ou récupérer la session
+        session = await db.alibaba_wan_sessions.find_one({"id": request.session_id})
+        if not session:
+            raise HTTPException(status_code=404, detail="Session non trouvée")
+        
+        # Message utilisateur
+        user_message_id = str(uuid.uuid4())
+        user_content = f"Prompt: {request.prompt}\nDurée: {request.duration}s\nRésolution: {request.size}"
+        
+        user_message = AlibabaWanMessage(
+            id=user_message_id,
+            session_id=request.session_id,
+            role="user",
+            content=user_content,
+            video_urls=[]
+        )
+        await db.alibaba_wan_messages.insert_one(user_message.dict())
+        
+        # Générer la vidéo avec Replicate en mode asynchrone
+        try:
+            logging.info(f"Génération de vidéo avec Replicate - modèle: wan-video/wan-2.5-t2v, prompt: {request.prompt}, durée: {request.duration}s, size: {request.size}")
+            logging.info(f"⏳ La génération peut prendre 2-3 minutes, veuillez patienter...")
+            
+            # Préparer les inputs pour le modèle
+            inputs = {
+                "prompt": request.prompt,
+                "duration": request.duration,
+                "size": request.size,
+                "negative_prompt": "",
+                "enable_prompt_expansion": True
+            }
+            
+            # Créer une prediction asynchrone
+            client = replicate.Client(api_token=os.environ.get('REPLICATE_API_TOKEN'))
+            
+            prediction = client.predictions.create(
+                model="wan-video/wan-2.5-t2v",
+                input=inputs
+            )
+            
+            logging.info(f"Prediction créée: {prediction.id}, status: {prediction.status}")
+            
+            # Attendre que la génération soit terminée (avec timeout de 5 minutes)
+            max_wait_seconds = 300  # 5 minutes
+            poll_interval = 3
+            elapsed = 0
+            
+            while prediction.status not in ["succeeded", "failed", "canceled"]:
+                if elapsed >= max_wait_seconds:
+                    raise Exception(f"Timeout: La génération a dépassé {max_wait_seconds//60} minutes")
+                
+                await asyncio.sleep(poll_interval)
+                elapsed += poll_interval
+                
+                prediction.reload()
+                logging.info(f"Status après {elapsed}s: {prediction.status}")
+            
+            if prediction.status == "failed":
+                error_msg = prediction.error or "Erreur inconnue"
+                raise Exception(f"La génération a échoué: {error_msg}")
+            
+            if prediction.status == "canceled":
+                raise Exception("La génération a été annulée")
+            
+            # Récupérer l'URL de la vidéo (output est une string)
+            video_url = str(prediction.output) if prediction.output else None
+            
+            if not video_url:
+                raise Exception("Aucune vidéo générée par Replicate")
+            
+            logging.info(f"✅ Vidéo générée avec succès en {elapsed}s, disponible à: {video_url}")
+            
+            video_urls = [video_url]
+            response_text = f"✅ Vidéo générée avec succès avec Alibaba Wan 2.5!\n\n⏱️ Temps de génération: {elapsed}s\nDurée: {request.duration}s\nRésolution: {request.size}"
+            
+        except Exception as e:
+            # Message d'erreur
+            error_message_id = str(uuid.uuid4())
+            error_assistant_message = AlibabaWanMessage(
+                id=error_message_id,
+                session_id=request.session_id,
+                role="assistant",
+                content=f"❌ **Erreur de génération de vidéo**\n\nNous n'avons pas pu générer votre vidéo pour la raison suivante :\n{str(e)}\n\nVeuillez réessayer avec un prompt différent.",
+                video_urls=[]
+            )
+            
+            await db.alibaba_wan_sessions.update_one(
+                {"id": request.session_id},
+                {"$set": {"last_updated": datetime.utcnow()}}
+            )
+            
+            await db.alibaba_wan_messages.insert_one(error_assistant_message.dict())
+            
+            return GenerateAlibabaWanResponse(
+                session_id=request.session_id,
+                message_id=error_message_id,
+                video_urls=[],
+                response_text=error_assistant_message.content
+            )
+        
+        # Message assistant avec la vidéo
+        assistant_message_id = str(uuid.uuid4())
+        assistant_message = AlibabaWanMessage(
+            id=assistant_message_id,
+            session_id=request.session_id,
+            role="assistant",
+            content=response_text,
+            video_urls=video_urls
+        )
+        
+        # Mettre à jour la session
+        await db.alibaba_wan_sessions.update_one(
+            {"id": request.session_id},
+            {"$set": {"last_updated": datetime.utcnow()}}
+        )
+        
+        # Insérer le message assistant
+        await db.alibaba_wan_messages.insert_one(assistant_message.dict())
+        
+        return GenerateAlibabaWanResponse(
+            session_id=request.session_id,
+            message_id=assistant_message_id,
+            video_urls=video_urls,
+            response_text=response_text
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Erreur lors de la génération avec Alibaba Wan: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.get("/alibaba-wan/session/{session_id}", response_model=List[AlibabaWanMessage])
+async def get_alibaba_wan_conversation(session_id: str):
+    """Récupère l'historique de conversation d'une session Alibaba Wan"""
+    try:
+        messages = await db.alibaba_wan_messages.find({"session_id": session_id}).sort("timestamp", 1).to_list(None)
+        return [AlibabaWanMessage(**msg) for msg in messages]
+    except Exception as e:
+        logger.error(f"Erreur lors de la récupération de l'historique Alibaba Wan: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+
 # Google Veo 3.1 endpoints (Video Generation)
 
 @api_router.post("/google-veo/session", response_model=GoogleVeoSession)
