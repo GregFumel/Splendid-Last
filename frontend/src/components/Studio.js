@@ -2163,6 +2163,60 @@ const Studio = () => {
                       )}
                     </div>
                 )}
+
+                {/* Options de configuration pour Seedream 4 - Mobile */}
+                {isSeedream && (
+                  <div className="bg-blue-500/10 border border-blue-400/30 rounded-lg overflow-hidden">
+                      <button
+                        onClick={() => setShowSeedreamOptions(!showSeedreamOptions)}
+                        className="w-full flex items-center justify-between p-3 hover:bg-blue-500/5 transition-colors"
+                      >
+                        <span className="text-sm font-medium text-gray-200">Options de génération</span>
+                        {showSeedreamOptions ? (
+                          <ChevronDown className="w-4 h-4 text-gray-400" />
+                        ) : (
+                          <ChevronUp className="w-4 h-4 text-gray-400" />
+                        )}
+                      </button>
+                      
+                      {showSeedreamOptions && (
+                        <div className="flex flex-col gap-3 px-3 pb-3 pt-2 border-t border-blue-400/20 mt-2">
+                          {/* Résolution */}
+                          <div className="flex items-center gap-2">
+                            <label className="text-sm text-gray-300">Résolution:</label>
+                            <select
+                              value={seedreamOptions.size}
+                              onChange={(e) => setSeedreamOptions({...seedreamOptions, size: e.target.value})}
+                              className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-blue-400 focus:outline-none"
+                            >
+                              <option value="1K">1K (1024px)</option>
+                              <option value="2K">2K (2048px)</option>
+                              <option value="4K">4K (4096px)</option>
+                            </select>
+                          </div>
+                          
+                          {/* Aspect Ratio */}
+                          <div className="flex items-center gap-2">
+                            <label className="text-sm text-gray-300">Ratio:</label>
+                            <select
+                              value={seedreamOptions.aspectRatio}
+                              onChange={(e) => setSeedreamOptions({...seedreamOptions, aspectRatio: e.target.value})}
+                              className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-blue-400 focus:outline-none"
+                            >
+                              <option value="1:1">1:1 (Carré)</option>
+                              <option value="4:3">4:3</option>
+                              <option value="3:4">3:4 (Portrait)</option>
+                              <option value="16:9">16:9 (Paysage)</option>
+                              <option value="9:16">9:16 (Portrait)</option>
+                              <option value="3:2">3:2</option>
+                              <option value="2:3">2:3</option>
+                              <option value="21:9">21:9 (Ultra-large)</option>
+                            </select>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                )}
                 
                 {/* Zone de saisie pour Kling AI avec boutons upload à gauche - Mobile */}
                 {isKling ? (
