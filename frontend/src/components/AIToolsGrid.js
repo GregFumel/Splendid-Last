@@ -58,6 +58,26 @@ const AIToolsGrid = ({ tools, onGenerateIdeas }) => {
             </div>
           )}
           
+          {/* Badge TOP avec trophée rouge */}
+          {tool.isTop && (
+            <div className="absolute top-3 right-3 z-10">
+              <div className="relative">
+                {/* Liséré animé rouge */}
+                <div className="absolute inset-0 rounded-full animate-irregular-spin">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-red-400 via-transparent to-red-400 opacity-60"></div>
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-l from-red-300/30 via-transparent to-red-400/70 rotate-45"></div>
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-t from-red-300/40 via-transparent to-red-400/50 -rotate-12"></div>
+                </div>
+                
+                {/* Badge TOP */}
+                <span className="relative bg-gradient-to-r from-red-600 to-red-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg btn-3d-effect flex items-center gap-1">
+                  <Trophy className="w-3 h-3" />
+                  TOP
+                </span>
+              </div>
+            </div>
+          )}
+          
           <img
             src={tool.image}
             alt={`Aperçu de ${tool.name}`}
