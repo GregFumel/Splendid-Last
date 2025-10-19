@@ -1570,6 +1570,37 @@ const Studio = () => {
     }
   };
 
+  // Fonctions pour l'upload de vidéo (Video Upscale AI)
+  const handleVideoUpscaleUpload = () => {
+    if (videoUpscaleInputRef.current) {
+      videoUpscaleInputRef.current.click();
+    }
+  };
+
+  const handleVideoUpscaleFileSelect = (event) => {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('video/')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setUploadedVideo({
+          file: file,
+          dataUrl: e.target.result,
+          name: file.name
+        });
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert('Veuillez sélectionner un fichier vidéo valide.');
+    }
+  };
+
+  const removeUploadedVideo = () => {
+    setUploadedVideo(null);
+    if (videoUpscaleInputRef.current) {
+      videoUpscaleInputRef.current.value = '';
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black relative">
       {/* Fond d'écran */}
