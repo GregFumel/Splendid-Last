@@ -1594,17 +1594,31 @@ const Studio = () => {
 
   const handleVideoUpscaleFileSelect = (event) => {
     const file = event.target.files[0];
+    console.log('📹 Video file selected:', file ? file.name : 'none', file ? `${(file.size / 1024 / 1024).toFixed(2)}MB` : '');
+    
     if (file && file.type.startsWith('video/')) {
+      console.log('✅ Valid video file, starting FileReader...');
       const reader = new FileReader();
+      
       reader.onload = (e) => {
+        console.log('✅ FileReader onload triggered, data URL length:', e.target.result.length);
         setUploadedVideo({
           file: file,
           dataUrl: e.target.result,
           name: file.name
         });
+        console.log('✅ uploadedVideo state set successfully');
       };
+      
+      reader.onerror = (e) => {
+        console.error('❌ FileReader error:', e);
+        alert('Erreur lors de la lecture de la vidéo');
+      };
+      
       reader.readAsDataURL(file);
+      console.log('📖 FileReader.readAsDataURL() called');
     } else {
+      console.error('❌ Invalid file type:', file ? file.type : 'no file');
       alert('Veuillez sélectionner un fichier vidéo valide.');
     }
   };
