@@ -1143,6 +1143,20 @@ const Studio = () => {
           if (klingEndImage) {
             requestBody.end_image = klingEndImage.dataUrl;
           }
+        } else if (isSeedream) {
+          // Seedream 4 - génération d'image text-to-image ou image-to-image
+          endpoint = 'seedream/generate';
+          requestBody = {
+            session_id: sessionId,
+            prompt: prompt,
+            size: seedreamOptions.size,
+            aspect_ratio: seedreamOptions.aspectRatio
+          };
+          
+          // Ajouter l'image input si uploadée (optionnelle)
+          if (uploadedImage) {
+            requestBody.image_input = uploadedImage.dataUrl;
+          }
         } else {
           // Autres outils
           endpoint = isNanoBanana ? 'nanobanana/generate' : isGoogleVeo ? 'google-veo/generate' : isSora2 ? 'sora2/generate' : 'chatgpt5/generate';
