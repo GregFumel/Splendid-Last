@@ -57,11 +57,23 @@ const PricingSection = () => {
             <div className="space-y-3 mb-8 text-left">
               <div className="flex items-center space-x-3">
                 <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
+                <span className="text-gray-200 text-sm">Google Veo 3.1 - Vidéos haute définition</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
+                <span className="text-gray-200 text-sm">NanoBanana - Générateur d'images Gemini</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
                 <span className="text-gray-200 text-sm">SORA 2 - Vidéos cinématographiques</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
-                <span className="text-gray-200 text-sm">Google Veo 3.1 - Vidéos haute définition</span>
+                <span className="text-gray-200 text-sm">Kling AI v2.1 - Vidéos image-to-video</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
+                <span className="text-gray-200 text-sm">Image Upscaler - Meilleur upscaler</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
@@ -73,19 +85,19 @@ const PricingSection = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
-                <span className="text-gray-200 text-sm">Video Upscale AI - Amélioration vidéo 8K</span>
+                <span className="text-gray-200 text-sm">Alibaba Wan 2.5 - Génération vidéo avancée</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
-                <span className="text-gray-200 text-sm">ChatGPT-5 - IA la plus avancée</span>
+                <span className="text-gray-200 text-sm">Flux Kontext Pro - Images artistiques</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
-                <span className="text-gray-200 text-sm">NanoBanana - Générateur d'images Gemini</span>
+                <span className="text-gray-200 text-sm">Video Upscale AI - Amélioration vidéo 4K</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
-                <span className="text-gray-200 text-sm">Image Upscaler - Meilleur upscaler</span>
+                <span className="text-gray-200 text-sm">ChatGPT-5 - IA conversationnelle avancée</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
