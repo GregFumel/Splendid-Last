@@ -28,8 +28,17 @@ const PricingSection = () => {
               </span>
             </div>
             
+            {/* Logo Premium */}
+            <div className="flex justify-center mb-4 mt-6">
+              <img 
+                src="https://customer-assets.emergentagent.com/job_ai-video-enhance-1/artifacts/3fcr0lo4_ChatGPT%20Image%2026%20may%202025%2C%2019_23_50-min%20%281%29%20%281%29.png" 
+                alt="Premium Logo" 
+                className="w-16 h-16 object-contain"
+              />
+            </div>
+            
             {/* Titre du plan */}
-            <h3 className="text-2xl font-bold text-white mt-6 mb-2">
+            <h3 className="text-2xl font-bold text-white mb-2">
               Premium
             </h3>
             
