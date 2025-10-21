@@ -24,7 +24,7 @@ const PrivacyPolicy = () => {
                   MONSIEUR GREGOIRE FUMEL<br />
                   120 COURS ALBERT THOMAS<br />
                   69008 LYON, France<br />
-                  Email : privacy@splendid.com
+                  Email : splendid.contact@protonmail.com
                 </p>
               </div>
             </section>
