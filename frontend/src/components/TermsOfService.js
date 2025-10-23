@@ -64,7 +64,7 @@ const TermsOfService = () => {
               <h2 className="text-2xl font-semibold text-white mb-4">5. Paiements et abonnements</h2>
               <div className="text-gray-300 space-y-4">
                 <p>
-                  L'abonnement mensuel est facturé 29,99€ TTC par mois après la période d'essai gratuit de 3 jours.
+                  L'abonnement mensuel est facturé 29,99€ TTC par mois sans engagement.
                 </p>
                 <p>
                   Les paiements sont traités de manière sécurisée. En cas de défaut de paiement, votre accès au service pourra être suspendu.
