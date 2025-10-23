@@ -46,6 +46,10 @@ const Dashboard = () => {
               src="https://customer-assets.emergentagent.com/job_google-connect-1/artifacts/yzobciwb_splendid-logo-text.png" 
               alt="Logo Splendid"
               className="h-14 sm:h-18 md:h-20 lg:h-24 w-auto"
+              onError={(e) => {
+                console.log("Erreur de chargement du logo");
+                e.target.style.display = 'none';
+              }}
             />
           </div>
           
