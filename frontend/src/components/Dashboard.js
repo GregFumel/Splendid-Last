@@ -38,26 +38,26 @@ const Dashboard = () => {
   // Vue déconnectée
   if (!isAuthenticated) {
     return (
-      <div className="max-w-6xl mx-auto px-4 py-4">
-        <div className="flex flex-col items-center justify-center min-h-[70vh]">
+      <div className="max-w-6xl mx-auto px-4 py-2">
+        <div className="flex flex-col items-center justify-center min-h-[75vh]">
           {/* Logo Splendid */}
-          <div className="flex items-center justify-center mb-8 mt-4">
+          <div className="flex items-center justify-center mb-6 mt-2">
             <img 
               src="https://customer-assets.emergentagent.com/job_google-connect-1/artifacts/yzobciwb_splendid-logo-text.png" 
-              alt="Splendid"
-              className="h-12 sm:h-16 md:h-20 w-auto"
+              alt="Logo Splendid"
+              className="h-14 sm:h-18 md:h-20 lg:h-24 w-auto"
             />
           </div>
           
           {/* Titre - responsive sans retour à la ligne */}
-          <h2 className="text-base sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 text-center mb-8 px-4 whitespace-nowrap">
+          <h2 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 text-center mb-8 px-2 whitespace-nowrap overflow-x-auto max-w-full" style={{WebkitOverflowScrolling: 'touch'}}>
             Découvrez tous les nouveaux outils IA
           </h2>
           
           {/* Bouton Se Connecter avec Google */}
           <button
             onClick={handleGoogleLogin}
-            className="btn-3d-effect bg-white hover:bg-gray-100 text-gray-800 font-semibold px-8 py-4 rounded-full transition flex items-center space-x-3 shadow-lg mb-4"
+            className="btn-3d-effect bg-white hover:bg-gray-100 text-gray-800 font-semibold px-8 py-4 rounded-full transition flex items-center space-x-3 shadow-lg mb-2"
           >
             <svg className="w-6 h-6" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
