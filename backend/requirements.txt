@@ -43,3 +43,4 @@ frozenlist
 distro
 -e markupsafe
 jinja2
+replicate>=1.0.0
