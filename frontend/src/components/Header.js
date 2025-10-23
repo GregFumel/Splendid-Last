@@ -87,6 +87,10 @@ const Header = ({ selectedCategory, onCategoryChange }) => {
                     ref={selectedCategory === category.id ? activeNavRef : null}
                     onClick={() => {
                       onCategoryChange(category.id);
+                      // Scroll vers le haut pour la section Compte
+                      if (category.id === 'account') {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }
                     }}
                     className={`nav-link relative z-10 px-2 md:px-4 py-1.5 md:py-2 text-xs sm:text-sm font-medium transition-colors duration-300 flex items-center justify-center pl-3 md:pl-5 flex-1 md:flex-initial ${
                       selectedCategory === category.id ? 'text-white' : 'text-gray-300'
