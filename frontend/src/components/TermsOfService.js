@@ -29,7 +29,7 @@ const TermsOfService = () => {
                   Splendid est une plateforme qui fournit l'accès à plus de 1200€ d'outils d'intelligence artificielle pour la création de contenu, incluant la génération d'images, de vidéos, et d'autres médias numériques.
                 </p>
                 <p>
-                  Notre service comprend un abonnement mensuel de 29,99€ avec un essai gratuit de 3 jours.
+                  Notre service comprend un abonnement mensuel de 29,99€ sans engagement.
                 </p>
               </div>
             </section>
