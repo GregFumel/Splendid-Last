@@ -151,12 +151,12 @@ const Home = () => {
                 onClick={handleScrollToPricing}
                 className="btn-3d-effect mt-4 mb-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-full transition text-sm sm:text-base flex items-center space-x-2 shadow-lg shadow-blue-500/30 whitespace-nowrap"
               >
-                <span>✨ Commencer mon essai gratuit</span>
+                <span>✨ Commencer à utiliser mes outils</span>
               </button>
               
               {/* Petit texte sous le bouton */}
               <p className="text-xs text-gray-400 mb-8">
-                Essai gratuit de 3 jours, puis 29,99€/mois.
+                29,99€/mois. Sans engagement
               </p>
             </div>
             
