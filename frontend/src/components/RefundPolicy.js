@@ -45,7 +45,6 @@ const RefundPolicy = () => {
               <div className="text-gray-300 space-y-4">
                 <p><strong className="text-white">3.1 Remboursement intégral :</strong></p>
                 <ul className="list-disc list-inside space-y-2 ml-4">
-                  <li>Annulation pendant la période d'essai gratuit</li>
                   <li>Problème technique majeur non résolu dans les 48h</li>
                   <li>Exercice du droit de rétractation dans les 14 jours (si le service n'a pas été utilisé)</li>
                 </ul>
