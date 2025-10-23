@@ -38,8 +38,8 @@ const Dashboard = () => {
   // Vue déconnectée
   if (!isAuthenticated) {
     return (
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex flex-col items-center text-center mb-8">
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="flex flex-col items-center text-center mb-8 mt-16 md:mt-20">
           {/* Logo Splendid */}
           <div className="mb-6">
             <img 
