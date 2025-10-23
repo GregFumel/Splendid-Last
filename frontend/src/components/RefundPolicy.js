@@ -20,7 +20,7 @@ const RefundPolicy = () => {
                   Conformément à la législation française et européenne, vous disposez d'un droit de rétractation de 14 jours calendaires à compter de la souscription de votre abonnement.
                 </p>
                 <p>
-                  <strong className="text-white">Important :</strong> Si vous commencez à utiliser le service pendant la période d'essai gratuit de 3 jours, vous renoncez expressément à votre droit de rétractation pour la période après l'essai gratuit.
+                  <strong className="text-white">Important :</strong> Si vous commencez à utiliser le service, vous renoncez expressément à votre droit de rétractation dès la première utilisation.
                 </p>
               </div>
             </section>
