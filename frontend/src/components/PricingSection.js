@@ -111,12 +111,12 @@ const PricingSection = () => {
             
             {/* Bouton CTA */}
             <button className="btn-3d-effect bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-semibold px-8 py-4 rounded-full transition w-full shadow-lg">
-              Commencer gratuitement
+              Commencer à utiliser
             </button>
             
             {/* Garantie */}
             <p className="text-gray-500 mt-4 px-2" style={{fontSize: '10px'}}>
-              3 jours gratuits • Puis 29,99€/mois • Sans engagement
+              29,99€/mois • Sans engagement
             </p>
           </div>
         </div>
