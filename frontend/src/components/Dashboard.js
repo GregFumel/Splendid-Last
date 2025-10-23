@@ -50,7 +50,7 @@ const Dashboard = () => {
           </div>
           
           {/* Titre - responsive sans retour à la ligne */}
-          <h2 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 text-center mb-8 px-2 whitespace-nowrap overflow-x-auto max-w-full" style={{WebkitOverflowScrolling: 'touch'}}>
+          <h2 className="text-sm sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 text-center mb-8 px-1 whitespace-nowrap max-w-[95vw]" style={{fontSize: 'clamp(0.875rem, 5vw, 2.25rem)'}}>
             Découvrez tous les nouveaux outils IA
           </h2>
           
