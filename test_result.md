@@ -102,7 +102,10 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Ajouter de nouvelles IA dans l'application: SORA 2, Google Veo 3.1 (mise à jour de Veo 3), Alibaba Wan 2.5 (vidéo), Seedream 4 et Grok (images). Toutes les nouvelles IA doivent avoir le badge NEW et être en première position dans Explore, Studio et leur catégorie respective."
+user_problem_statement: "Modifications de la catégorie Compte et suppression des mentions '3 jours gratuits':
+1. Dans Compte: Ajouter bouton 'Se Déconnecter' sous 'Informations Personnelles'
+2. Page déconnectée: Logo Splendid + loupe, titre 'Découvrez tous les nouveaux outils IA', bouton 'Continuer avec Google'
+3. Retirer '3 jours gratuits': Changer 'Commencer mon essai gratuit' en 'Commencer à utiliser mes outils', modifier pricing pour afficher '29,99€/mois. Sans engagement'"
 
 backend:
   - task: "POST /api/nanobanana/session - Créer une nouvelle session"
