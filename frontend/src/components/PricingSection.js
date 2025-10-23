@@ -44,8 +44,8 @@ const PricingSection = () => {
             
             {/* Prix */}
             <div className="mb-6 text-center">
-              <span className="text-3xl sm:text-4xl font-bold text-white block mb-2">3 jours gratuits</span>
-              <span className="text-xs sm:text-sm text-gray-300">puis 29,99€ facturés mensuellement</span>
+              <span className="text-3xl sm:text-4xl font-bold text-white block mb-2">29,99€</span>
+              <span className="text-xs sm:text-sm text-gray-300">facturés mensuellement</span>
             </div>
             
             {/* Description */}
