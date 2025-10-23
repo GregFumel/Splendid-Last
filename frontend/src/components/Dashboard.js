@@ -259,6 +259,17 @@ const Dashboard = () => {
             </div>
           )}
         </div>
+
+        {/* Bouton Se Déconnecter */}
+        <div className="flex justify-center mt-8">
+          <button
+            onClick={handleLogout}
+            className="btn-3d-effect bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-3 rounded-xl transition flex items-center justify-center space-x-2 w-full max-w-xs"
+          >
+            <LogOut className="w-5 h-5" />
+            <span>Se déconnecter</span>
+          </button>
+        </div>
       </div>
     </div>
   );
