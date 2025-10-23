@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { User, CreditCard, Settings, Zap, LogOut, Edit, Mail, Phone } from "lucide-react";
+import { User, CreditCard, Settings, Zap, LogOut, Edit, Mail, Phone, Search } from "lucide-react";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [showEditProfile, setShowEditProfile] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true); // État d'authentification
   
   // Données mockées pour l'utilisateur
   const [userProfile, setUserProfile] = useState({
@@ -22,6 +23,16 @@ const Dashboard = () => {
 
   const handleGoToStudio = () => {
     navigate('/studio');
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+  };
+
+  const handleGoogleLogin = () => {
+    // Logique de connexion Google à implémenter
+    console.log("Connexion avec Google...");
+    setIsAuthenticated(true);
   };
 
   return (
