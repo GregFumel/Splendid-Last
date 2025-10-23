@@ -104,6 +104,85 @@
 
 user_problem_statement: "Modifications de la catégorie Compte et suppression des mentions '3 jours gratuits':
 1. Dans Compte: Ajouter bouton 'Se Déconnecter' sous 'Informations Personnelles'
+
+frontend:
+  - task: "Dashboard - Ajout bouton 'Se Déconnecter' et page de connexion"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/Dashboard.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "✅ IMPLÉMENTÉ ET TESTÉ: 1) Ajout état isAuthenticated pour gérer connexion/déconnexion, 2) Bouton 'Se Déconnecter' ajouté sous 'Informations Personnelles' avec même design que 'Se Désabonner' (rouge, icône LogOut), 3) Page déconnectée créée avec logo Splendid + loupe, titre 'Découvrez tous les nouveaux outils IA', bouton 'Continuer avec Google' avec logo officiel, 4) Testé sur desktop et mobile - fonctionnel sur les deux"
+
+  - task: "Home.js - Retirer mentions '3 jours gratuits'"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/Home.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "✅ MODIFIÉ: Bouton changé de 'Commencer mon essai gratuit' vers 'Commencer à utiliser mes outils', texte sous bouton changé de 'Essai gratuit de 3 jours, puis 29,99€/mois.' vers '29,99€/mois. Sans engagement'"
+
+  - task: "PricingSection.js - Retirer mentions '3 jours gratuits'"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/PricingSection.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "✅ MODIFIÉ: Prix changé de '3 jours gratuits' vers '29,99€', sous-texte changé de 'puis 29,99€ facturés mensuellement' vers 'facturés mensuellement', bouton CTA changé de 'Commencer gratuitement' vers 'Commencer à utiliser', garantie changée de '3 jours gratuits • Puis 29,99€/mois • Sans engagement' vers '29,99€/mois • Sans engagement'"
+
+  - task: "TermsOfService.js - Mise à jour mentions essai gratuit"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/TermsOfService.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "✅ MODIFIÉ: Textes mis à jour pour remplacer 'essai gratuit de 3 jours' par 'sans engagement', cohérence avec le nouveau modèle tarifaire"
+
+  - task: "RefundPolicy.js - Mise à jour politique de remboursement"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/RefundPolicy.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "✅ MODIFIÉ: Section 'Période d'essai gratuit' remplacée par 'Abonnement sans engagement', mentions de l'essai gratuit supprimées des conditions de remboursement, textes adaptés au nouveau modèle sans essai gratuit"
+
+metadata:
+  created_by: "main_agent"
+  version: "2.6"
+  test_sequence: 8
+
+test_plan:
+  current_focus:
+    - "Dashboard - Ajout bouton 'Se Déconnecter' et page de connexion"
+    - "Retrait complet des mentions '3 jours gratuits'"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "main"
+    message: "🎉 MODIFICATIONS COMPLÈTES TERMINÉES! Toutes les demandes de l'utilisateur ont été implémentées: 1) Dashboard.js - Bouton 'Se Déconnecter' ajouté sous 'Informations Personnelles' avec design rouge identique à 'Se Désabonner', page déconnectée créée avec logo Splendid + loupe, titre 'Découvrez tous les nouveaux outils IA', bouton 'Continuer avec Google' avec logo officiel Google, 2) Home.js - Bouton changé en 'Commencer à utiliser mes outils', texte modifié en '29,99€/mois. Sans engagement', 3) PricingSection.js - Prix affiché '29,99€' (sans mention essai gratuit), bouton 'Commencer à utiliser', texte garantie '29,99€/mois • Sans engagement', 4) TermsOfService.js et RefundPolicy.js - Tous les textes mis à jour pour supprimer mentions essai gratuit. ✅ TESTÉ: Desktop et mobile - Toutes fonctionnalités opérationnelles (connexion/déconnexion, affichage correct des pages). Services redémarrés avec succès!"
+
 2. Page déconnectée: Logo Splendid + loupe, titre 'Découvrez tous les nouveaux outils IA', bouton 'Continuer avec Google'
 3. Retirer '3 jours gratuits': Changer 'Commencer mon essai gratuit' en 'Commencer à utiliser mes outils', modifier pricing pour afficher '29,99€/mois. Sans engagement'"
 
