@@ -26,16 +26,16 @@ const RefundPolicy = () => {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-white mb-4">2. Période d'essai gratuit</h2>
+              <h2 className="text-2xl font-semibold text-white mb-4">2. Abonnement sans engagement</h2>
               <div className="text-gray-300 space-y-4">
                 <p>
-                  Nous offrons une période d'essai gratuit de 3 jours qui vous permet de tester notre service sans engagement.
+                  Notre abonnement mensuel de 29,99€ TTC est sans engagement.
                 </p>
                 <p>
-                  Vous pouvez annuler votre abonnement à tout moment pendant cette période d'essai sans frais.
+                  Vous pouvez annuler votre abonnement à tout moment depuis votre compte.
                 </p>
                 <p>
-                  Si vous n'annulez pas avant la fin de la période d'essai, votre abonnement mensuel de 29,99€ TTC sera automatiquement activé.
+                  En cas d'annulation, vous conservez l'accès au service jusqu'à la fin de votre période de facturation en cours.
                 </p>
               </div>
             </section>
