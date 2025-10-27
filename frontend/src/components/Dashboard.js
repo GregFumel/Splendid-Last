@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { User, CreditCard, Settings, Zap, LogOut, Edit, Mail, Phone, Search } from "lucide-react";
+import { User, CreditCard, Settings, Zap, LogOut, Edit, Mail, Phone } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { user, isPremium, loading, login, logout } = useAuth();
   const [showEditProfile, setShowEditProfile] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(true); // État d'authentification
   
   // Données mockées pour l'utilisateur
   const [userProfile, setUserProfile] = useState({
