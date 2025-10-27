@@ -44,8 +44,16 @@ const Dashboard = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="max-w-6xl mx-auto px-4 py-8 text-center">
+        <p className="text-white">Chargement...</p>
+      </div>
+    );
+  }
+
   // Vue déconnectée
-  if (!isAuthenticated) {
+  if (!user) {
     return (
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="flex flex-col items-center text-center mb-8 mt-16 md:mt-20">
