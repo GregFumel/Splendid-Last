@@ -8,6 +8,7 @@ import SocialProof from "./SocialProof";
 import PricingSection from "./PricingSection";
 import Dashboard from "./Dashboard";
 import { mockAITools } from "../data/mockData";
+import { useAuth } from "../context/AuthContext";
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
