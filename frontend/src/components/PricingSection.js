@@ -56,8 +56,43 @@ const PricingSection = () => {
             plan_id: 'P-20B33183X5530231LND7XNPI'
           });
         },
-        onApprove: function(data, actions) {
-          alert('Abonnement créé avec succès! ID: ' + data.subscriptionID);
+        onApprove: async function(data, actions) {
+          // Demander l'email à l'utilisateur
+          const email = prompt('Veuillez entrer votre adresse email pour finaliser votre abonnement:');
+          
+          if (email && email.includes('@')) {
+            try {
+              // Enregistrer l'abonnement dans le backend
+              const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/subscription`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  subscriptionId: data.subscriptionID,
+                  email: email
+                })
+              });
+
+              if (response.ok) {
+                // Stocker temporairement l'email pour la connexion Google
+                localStorage.setItem('pendingEmail', email);
+                localStorage.setItem('pendingSubscriptionId', data.subscriptionID);
+                
+                alert('Abonnement créé! Maintenant, connectez-vous avec Google pour accéder au Studio.');
+                
+                // Rediriger vers la section Compte pour se connecter
+                window.location.href = '/?section=account';
+              } else {
+                alert('Erreur lors de l\'enregistrement. Contactez le support avec cet ID: ' + data.subscriptionID);
+              }
+            } catch (error) {
+              console.error('Erreur:', error);
+              alert('Erreur réseau. Contactez le support avec cet ID: ' + data.subscriptionID);
+            }
+          } else {
+            alert('Email invalide. Veuillez contacter le support avec cet ID: ' + data.subscriptionID);
+          }
         }
       }).render(paypalRef.current);
     }
