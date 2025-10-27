@@ -1,7 +1,47 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Check } from "lucide-react";
 
 const PricingSection = () => {
+  const paypalRef = useRef(null);
+
+  useEffect(() => {
+    // Charger le script PayPal
+    const script = document.createElement('script');
+    script.src = "https://www.paypal.com/sdk/js?client-id=AWkoEEE4PYBAeWYtFYRBeV6W4E5jLfZT-5L7liFr69A8inAP6_Sh08g0L9H1fSnWiLvW0kHHPT3h-qoJ&vault=true&intent=subscription";
+    script.setAttribute('data-sdk-integration-source', 'button-factory');
+    script.async = true;
+    
+    script.onload = () => {
+      if (window.paypal && paypalRef.current) {
+        window.paypal.Buttons({
+          style: {
+            shape: 'pill',
+            color: 'blue',
+            layout: 'vertical',
+            label: 'subscribe'
+          },
+          createSubscription: function(data, actions) {
+            return actions.subscription.create({
+              plan_id: 'P-20B33183X5530231LND7XNPI'
+            });
+          },
+          onApprove: function(data, actions) {
+            alert(data.subscriptionID);
+          }
+        }).render(paypalRef.current);
+      }
+    };
+
+    document.body.appendChild(script);
+
+    return () => {
+      // Cleanup: supprimer le script lors du démontage du composant
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+    };
+  }, []);
+
   return (
     <section id="pricing-section" className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
       <div className="flex flex-col items-center">
