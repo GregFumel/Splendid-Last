@@ -27,13 +27,21 @@ const Dashboard = () => {
   };
 
   const handleLogout = () => {
-    setIsAuthenticated(false);
+    logout();
   };
 
-  const handleGoogleLogin = () => {
-    // Logique de connexion Google à implémenter
-    console.log("Connexion avec Google...");
-    setIsAuthenticated(true);
+  const handleGoogleLogin = async () => {
+    // Pour le développement, on simule avec un email
+    // En production, utiliser Google OAuth réel
+    const email = prompt('Entrez votre email Google:');
+    if (email && email.includes('@')) {
+      const result = await login(email);
+      if (result.success) {
+        alert('Connexion réussie!');
+      } else {
+        alert('Erreur de connexion: ' + result.error);
+      }
+    }
   };
 
   // Vue déconnectée
