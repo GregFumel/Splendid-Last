@@ -3,8 +3,20 @@ import { Check } from "lucide-react";
 
 const PricingSection = () => {
   const paypalRef = useRef(null);
+  const paypalLoaded = useRef(false);
 
   useEffect(() => {
+    // Vérifier si le script PayPal est déjà chargé
+    if (paypalLoaded.current) {
+      return;
+    }
+
+    // Vérifier si PayPal SDK existe déjà
+    if (window.paypal) {
+      initPayPalButton();
+      return;
+    }
+
     // Charger le script PayPal
     const script = document.createElement('script');
     script.src = "https://www.paypal.com/sdk/js?client-id=AWkoEEE4PYBAeWYtFYRBeV6W4E5jLfZT-5L7liFr69A8inAP6_Sh08g0L9H1fSnWiLvW0kHHPT3h-qoJ&vault=true&intent=subscription";
@@ -12,27 +24,15 @@ const PricingSection = () => {
     script.async = true;
     
     script.onload = () => {
-      if (window.paypal && paypalRef.current) {
-        window.paypal.Buttons({
-          style: {
-            shape: 'pill',
-            color: 'blue',
-            layout: 'vertical',
-            label: 'subscribe'
-          },
-          createSubscription: function(data, actions) {
-            return actions.subscription.create({
-              plan_id: 'P-20B33183X5530231LND7XNPI'
-            });
-          },
-          onApprove: function(data, actions) {
-            alert(data.subscriptionID);
-          }
-        }).render(paypalRef.current);
-      }
+      initPayPalButton();
+    };
+
+    script.onerror = () => {
+      console.error('Erreur lors du chargement du script PayPal');
     };
 
     document.body.appendChild(script);
+    paypalLoaded.current = true;
 
     return () => {
       // Cleanup: supprimer le script lors du démontage du composant
@@ -41,6 +41,27 @@ const PricingSection = () => {
       }
     };
   }, []);
+
+  const initPayPalButton = () => {
+    if (window.paypal && paypalRef.current && !paypalRef.current.hasChildNodes()) {
+      window.paypal.Buttons({
+        style: {
+          shape: 'pill',
+          color: 'blue',
+          layout: 'vertical',
+          label: 'subscribe'
+        },
+        createSubscription: function(data, actions) {
+          return actions.subscription.create({
+            plan_id: 'P-20B33183X5530231LND7XNPI'
+          });
+        },
+        onApprove: function(data, actions) {
+          alert('Abonnement créé avec succès! ID: ' + data.subscriptionID);
+        }
+      }).render(paypalRef.current);
+    }
+  };
 
   return (
     <section id="pricing-section" className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
