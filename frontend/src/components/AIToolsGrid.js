@@ -1,12 +1,27 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Trophy } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 
 const AIToolsGrid = ({ tools, onGenerateIdeas }) => {
   const navigate = useNavigate();
+  const { user, isPremium } = useAuth();
 
   // Fonction pour naviguer vers Studio avec l'outil sélectionné
   const handleUseTool = (tool) => {
+    // Vérifier si l'utilisateur est connecté et premium
+    if (!user || !isPremium) {
+      // Rediriger vers la section pricing
+      const pricingSection = document.getElementById('pricing-section');
+      if (pricingSection) {
+        pricingSection.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+      return;
+    }
+
     // Scroll vers le haut AVANT la navigation pour s'assurer que Studio démarre en haut
     window.scrollTo(0, 0);
     document.documentElement.scrollTop = 0;
