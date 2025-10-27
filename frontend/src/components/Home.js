@@ -20,6 +20,20 @@ const Home = () => {
   const navContainerRef = useRef(null);
   const activeNavRef = useRef(null);
 
+  // Gérer le scroll vers pricing depuis l'URL
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const section = urlParams.get('section');
+    
+    if (section === 'pricing') {
+      setTimeout(() => {
+        handleScrollToPricing();
+      }, 500);
+    } else if (section === 'account') {
+      setSelectedCategory('account');
+    }
+  }, []);
+
   const categories = [
     { id: "all", label: "Explore" },
     { id: "image", label: "Image" },
