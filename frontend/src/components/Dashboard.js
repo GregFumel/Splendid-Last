@@ -8,19 +8,18 @@ const Dashboard = () => {
   const { user, isPremium, loading, login, logout } = useAuth();
   const [showEditProfile, setShowEditProfile] = useState(false);
   
-  // Données mockées pour l'utilisateur
-  const [userProfile, setUserProfile] = useState({
-    name: "Jean Dupont",
-    email: "jean.dupont@email.com",
-    phone: "+33 6 12 34 56 78",
-    plan: "premium", // "free_trial" ou "premium"
-    credits: 485,
-    subscriptionDate: "15 Décembre 2024",
+  // Données de l'utilisateur depuis AuthContext
+  const userProfile = {
+    name: user?.name || "Utilisateur",
+    email: user?.email || "",
+    phone: "+33 6 12 34 56 78", // À ajouter dans le profil si nécessaire
+    plan: isPremium ? "premium" : "free",
+    credits: 485, // À calculer selon l'utilisation
+    subscriptionDate: "15 Décembre 2024", // À récupérer depuis la BDD
     trialEndDate: "18 Décembre 2024"
-  });
+  };
 
-  const isPremium = userProfile.plan === "premium";
-  const isFreeTrial = userProfile.plan === "free_trial";
+  const isFreeTrial = false; // Plus d'essai gratuit
 
   const handleGoToStudio = () => {
     navigate('/studio');
