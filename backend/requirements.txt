@@ -44,3 +44,5 @@ distro
 -e markupsafe
 jinja2
 replicate>=1.0.0
+PyJWT>=2.8.0
+google-auth>=2.25.0
