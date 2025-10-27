@@ -2258,7 +2258,11 @@ async def serve_temp_image(filename: str):
         raise HTTPException(status_code=404, detail="Image not found")
     return FileResponse(filepath)
 
-# Include the router in the main app
+# Import auth router
+from auth import auth_router
+
+# Include the routers in the main app
+api_router.include_router(auth_router)
 app.include_router(api_router)
 
 app.add_middleware(
