@@ -1661,6 +1661,28 @@ const Studio = () => {
     }
   };
 
+  // Vérifier l'authentification et l'abonnement
+  useEffect(() => {
+    if (!loading && (!user || !isPremium)) {
+      // Rediriger vers la page d'accueil avec section pricing
+      navigate('/?section=pricing');
+    }
+  }, [user, isPremium, loading, navigate]);
+
+  // Afficher un écran de chargement pendant la vérification
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center">
+        <p className="text-white text-xl">Chargement...</p>
+      </div>
+    );
+  }
+
+  // Si pas connecté ou pas premium, ne rien afficher (redirection en cours)
+  if (!user || !isPremium) {
+    return null;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black relative">
       {/* Fond d'écran */}
