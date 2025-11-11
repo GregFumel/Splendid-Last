@@ -5,11 +5,12 @@ Barème de consommation des crédits IA
 
 CREDITS_CONFIG = {
     "meta": {
-        "description": "Barème de consommation des crédits IA — 500 crédits gratuits par utilisateur connecté avec Google. Les crédits sont déduits selon le coût réel des API.",
+        "description": "Barème de consommation des crédits IA — 500 crédits gratuits par utilisateur = 13€ d'utilisation. Les crédits sont déduits selon le coût réel des API.",
         "currency": "EUR",
         "euro_per_credit": 0.026,
         "rounding": {"mode": "ceil", "step_credit": 0.5},
-        "initial_credits": 500
+        "initial_credits": 500,
+        "initial_credits_value_eur": 13.0
     },
     "models": [
         {
