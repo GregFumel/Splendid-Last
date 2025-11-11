@@ -354,7 +354,7 @@ const BeforeAfterSlider = ({ beforeImage, afterImage, onDownload }) => {
 const Studio = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { user, isPremium, loading } = useAuth();
+  const { user, credits, loading } = useAuth();
   const [selectedTool, setSelectedTool] = useState(mockAITools.find(t => t.name === "NanoBanana") || mockAITools[0]); // NanoBanana par défaut
   const [prompt, setPrompt] = useState("");
   const [result, setResult] = useState("");
