@@ -357,6 +357,14 @@ const Studio = () => {
   const [searchParams] = useSearchParams();
   const { user, credits, loading } = useAuth();
   const [selectedTool, setSelectedTool] = useState(mockAITools.find(t => t.name === "NanoBanana") || mockAITools[0]); // NanoBanana par défaut
+  
+  // Hook d'historique
+  const { 
+    history: toolHistory, 
+    loading: historyLoading, 
+    saveToHistory, 
+    deleteFromHistory 
+  } = useHistory(selectedTool?.id, selectedTool?.name);
   const [prompt, setPrompt] = useState("");
   const [result, setResult] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
