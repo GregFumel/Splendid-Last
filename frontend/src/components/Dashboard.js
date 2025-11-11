@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { user, isPremium, loading, login, logout } = useAuth();
+  const { user, credits, creditsUsed, loading, login, logout } = useAuth();
   const [showEditProfile, setShowEditProfile] = useState(false);
   
   // Données de l'utilisateur depuis AuthContext
