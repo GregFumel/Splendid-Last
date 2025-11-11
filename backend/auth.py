@@ -25,11 +25,10 @@ JWT_EXPIRATION_DAYS = 30
 # Router
 auth_router = APIRouter(prefix="/auth", tags=["Authentication"])
 
-# Models
-class SubscriptionRequest(BaseModel):
-    subscriptionId: str
-    email: EmailStr
+# Import credits config
+from credits_config import CREDITS_CONFIG
 
+# Models
 class GoogleAuthRequest(BaseModel):
     token: str
 
@@ -37,8 +36,8 @@ class UserResponse(BaseModel):
     id: str
     email: str
     name: Optional[str] = None
-    isPremium: bool
-    subscriptionId: Optional[str] = None
+    credits: float
+    creditsUsed: float
 
 # Helper functions
 def create_token(user_id: str) -> str:
