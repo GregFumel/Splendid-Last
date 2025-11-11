@@ -658,18 +658,21 @@ frontend:
 
 metadata:
   created_by: "main_agent"
-  version: "2.5"
-  test_sequence: 7
+  version: "2.6"
+  test_sequence: 8
 
 test_plan:
   current_focus:
-    - "Video Upscale AI - Backend et Frontend complet"
+    - "Dashboard - Modifications UI crédits"
+    - "Studio - Intégration barème crédits réels"
   stuck_tasks:
     - "Bug critique interface NanoBanana - État React non synchronisé"
   test_all: false
   test_priority: "high_first"
 
 agent_communication:
+  - agent: "main"
+    message: "✨ DASHBOARD UI - MODIFICATIONS COMPLÈTES! Phase 1 terminée: 1) Retrait valeur en euros (suppression texte 'valeur 13,00€'), 2) Icône bouton 'Acheter des crédits' changée (Zap → coins-3d custom icon), 3) Retrait icône 'Vos Crédits' (titre aligné à gauche), 4) Espaces ajoutés ('Restants :' et 'Utilisés :' au lieu de 'Restants:' et 'Utilisés:'). Phase 2 en cours: Intégration barème crédits réels dans Studio.js avec credits_config.py - corrections appliquées pour Google Veo (generateAudio), Kling (duration), Alibaba Wan (mapping size→resolution), SORA 2 (seconds), Image Upscaler (calcul mégapixels réels). Prêt pour testing backend."
   - agent: "main"
     message: "🎬 VIDEO UPSCALE AI - INTÉGRATION COMPLÈTE TERMINÉE! Backend déjà implémenté (topazlabs/video-upscale via Replicate, token configuré). Frontend 100% développé: États (isVideoUpscale, options résolution 720p/1080p/4K + FPS 25/30/40/50/60), Session init, Upload vidéo obligatoire avec aperçu et suppression, Accordéon options dépliables par défaut, Validation vidéo requise, API call avec video_input/target_resolution/target_fps, Interface conversationnelle affichage vidéos upscalées, Bouton télécharger TEAL (teal-600), Message génération '3-5 minutes+', Input caché video/*. Services redémarrés, tous RUNNING. Prêt pour testing backend et frontend complet!"
   - agent: "main"
