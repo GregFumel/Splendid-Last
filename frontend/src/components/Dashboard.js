@@ -185,19 +185,12 @@ const Dashboard = () => {
               <div className="grid grid-cols-2 gap-4 text-xs">
                 <div className="flex items-center space-x-2">
                   <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-gray-300">Restants: {userProfile.credits}</span>
+                  <span className="text-gray-300">Restants : {userProfile.credits}</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className="w-2 h-2 bg-red-400 rounded-full"></div>
-                  <span className="text-gray-300">Utilisés: {userProfile.creditsUsed}</span>
+                  <span className="text-gray-300">Utilisés : {userProfile.creditsUsed}</span>
                 </div>
-              </div>
-              
-              {/* Valeur en euros */}
-              <div className="text-center pt-2 border-t border-white/10">
-                <span className="text-xs text-gray-400">
-                  Valeur: {(userProfile.credits * 0.026).toFixed(2)}€ restants / {(userProfile.creditsUsed * 0.026).toFixed(2)}€ utilisés
-                </span>
               </div>
             </div>
           </div>
