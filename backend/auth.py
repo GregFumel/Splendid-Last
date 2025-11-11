@@ -62,7 +62,7 @@ def verify_token(token: str) -> Optional[str]:
 async def google_auth(request: GoogleAuthRequest):
     """
     Authentification avec Google OAuth
-    Vérifie si l'utilisateur a un abonnement PayPal actif
+    Création automatique du compte avec 500 crédits gratuits
     """
     try:
         # Vérifier le token Google (à implémenter avec votre client ID Google)
@@ -76,40 +76,36 @@ async def google_auth(request: GoogleAuthRequest):
         google_email = request.token  # Temporaire: le token contient directement l'email
         google_name = google_email.split('@')[0]
         
-        # Chercher l'utilisateur par email Google OU email PayPal
-        user = await users_collection.find_one({
-            "$or": [
-                {"google_email": google_email},
-                {"paypal_email": google_email}
-            ]
-        })
+        # Chercher l'utilisateur par email Google
+        user = await users_collection.find_one({"email": google_email})
+        
+        initial_credits = CREDITS_CONFIG["meta"]["initial_credits"]
         
         if not user:
-            # Créer un nouvel utilisateur non premium
+            # Créer un nouvel utilisateur avec 500 crédits gratuits
             user_id = str(uuid.uuid4())
             user = {
                 "_id": user_id,
-                "google_email": google_email,
+                "email": google_email,
                 "name": google_name,
-                "is_premium": False,
+                "credits": initial_credits,
+                "credits_used": 0,
                 "created_at": datetime.utcnow(),
                 "updated_at": datetime.utcnow()
             }
             await users_collection.insert_one(user)
         else:
-            # Mettre à jour avec l'email Google si ce n'est pas déjà fait
-            if "google_email" not in user or user["google_email"] != google_email:
+            # Mettre à jour le nom si nécessaire
+            if user.get("name") != google_name:
                 await users_collection.update_one(
                     {"_id": user["_id"]},
                     {
                         "$set": {
-                            "google_email": google_email,
                             "name": google_name,
                             "updated_at": datetime.utcnow()
                         }
                     }
                 )
-                user["google_email"] = google_email
                 user["name"] = google_name
         
         # Créer un token JWT
@@ -121,10 +117,10 @@ async def google_auth(request: GoogleAuthRequest):
             "token": token,
             "user": {
                 "id": str(user["_id"]),
-                "email": user.get("google_email", user.get("paypal_email", "")),
+                "email": user.get("email", ""),
                 "name": user.get("name", ""),
-                "isPremium": user.get("is_premium", False),
-                "subscriptionId": user.get("subscription_id")
+                "credits": user.get("credits", initial_credits),
+                "creditsUsed": user.get("credits_used", 0)
             }
         }
     
