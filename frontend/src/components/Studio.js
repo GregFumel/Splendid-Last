@@ -1920,60 +1920,6 @@ const Studio = () => {
             </div>
           </div>
 
-          {/* Section Historique - Débug */}
-          {console.log('🔍 Debug Historique:', { toolHistory, length: toolHistory?.length, loading: historyLoading })}
-          
-          {/* Section Historique */}
-          {toolHistory && toolHistory.length > 0 && (
-            <div className="bg-black/10 backdrop-blur-lg border border-white/10 rounded-2xl p-4 mb-4 flex-shrink-0">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center space-x-2">
-                  <Clock className="w-5 h-5 text-blue-400" />
-                  <h3 className="text-lg font-semibold text-white">Historique</h3>
-                  <span className="bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded-full text-xs">
-                    {toolHistory.length}
-                  </span>
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 max-h-64 overflow-y-auto">
-                {toolHistory.slice(0, 10).map((entry) => (
-                  <div key={entry.id} className="group relative bg-white/5 rounded-lg overflow-hidden border border-white/10 hover:border-blue-400/50 transition">
-                    {/* Affichage image ou vidéo */}
-                    {typeof entry.result === 'string' && entry.result.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? (
-                      <img 
-                        src={entry.result} 
-                        alt={entry.prompt}
-                        className="w-full h-24 object-cover"
-                      />
-                    ) : Array.isArray(entry.result) && entry.result.length > 0 ? (
-                      <img 
-                        src={entry.result[0]} 
-                        alt={entry.prompt}
-                        className="w-full h-24 object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-24 bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center">
-                        <Sparkles className="w-8 h-8 text-white/50" />
-                      </div>
-                    )}
-                    
-                    {/* Prompt en overlay */}
-                    <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition flex flex-col items-center justify-center p-2 text-center">
-                      <p className="text-white text-xs line-clamp-2 mb-2">{entry.prompt}</p>
-                      <button
-                        onClick={() => deleteFromHistory(entry.id)}
-                        className="bg-red-500 hover:bg-red-600 text-white p-1 rounded-full transition"
-                      >
-                        <Trash2 className="w-3 h-3" />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
           {/* Zone de discussion scrollable - SIMPLE */}
           <div className="flex-1 overflow-y-auto pr-2 space-y-4 min-h-0 max-h-full pb-32">
             {/* Historique conversationnel pour NanoBanana, ChatGPT-5, Google Veo, SORA 2, Image Upscaler, Flux Kontext, Kling AI, Seedream 4, Grok, Alibaba Wan et Video Upscale ou zone de résultat pour les autres */}
