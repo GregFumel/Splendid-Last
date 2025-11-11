@@ -1495,7 +1495,7 @@ const Studio = () => {
                   };
                   variant = sizeToResolution[alibabaWanOptions.size] || "720p";
                 } else if (toolType === 'sora2') {
-                  units = parseInt(sora2Options.duration) || 4;
+                  units = parseInt(sora2Options.seconds) || 4;
                 }
               }
               
