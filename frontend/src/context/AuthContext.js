@@ -34,7 +34,8 @@ export const AuthProvider = ({ children }) => {
         if (response.ok) {
           const data = await response.json();
           setUser(data.user);
-          setIsPremium(data.user.isPremium);
+          setCredits(data.user.credits || 0);
+          setCreditsUsed(data.user.creditsUsed || 0);
         } else {
           localStorage.removeItem('authToken');
         }
