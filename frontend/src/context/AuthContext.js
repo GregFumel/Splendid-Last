@@ -104,12 +104,13 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     user,
-    isPremium,
+    credits,
+    creditsUsed,
     loading,
     login,
     logout,
     checkAuth,
-    updateSubscription
+    refreshCredits
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
