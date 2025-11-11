@@ -1484,7 +1484,16 @@ const Studio = () => {
                   variant = klingOptions.mode === 'pro' ? 'pro' : 'standard';
                 } else if (toolType === 'alibaba-wan') {
                   units = parseInt(alibabaWanOptions.duration) || 5;
-                  variant = alibabaWanOptions.resolution === '1080p' ? '1080p' : alibabaWanOptions.resolution === '720p' ? '720p' : '480p';
+                  // Mapper la taille à la résolution pour le barème de crédits
+                  const sizeToResolution = {
+                    "832*480": "480p",
+                    "480*832": "480p",
+                    "1280*720": "720p",
+                    "720*1280": "720p",
+                    "1920*1080": "1080p",
+                    "1080*1920": "1080p"
+                  };
+                  variant = sizeToResolution[alibabaWanOptions.size] || "720p";
                 } else if (toolType === 'sora2') {
                   units = parseInt(sora2Options.duration) || 4;
                 }
