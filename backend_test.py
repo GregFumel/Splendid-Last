@@ -961,33 +961,19 @@ def test_image_upscaler_complete_flow():
         print(f"❌ ERREUR INATTENDUE Image Upscaler: {str(e)}")
         return False
 
-def create_test_user():
-    """Create a test user with 500 credits for testing"""
-    base_url = get_backend_url()
-    api_url = f"{base_url}/api"
+def get_test_user():
+    """Get existing test user with credits for testing"""
+    # Use existing user token (brainraphic@gmail.com with 498.5 credits)
+    token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYWZkYjlhMjQtM2JkMS00ZDgwLTkxNjEtNzMzMjBhMWQ0MzA2IiwiZXhwIjoxNzY1NDg1ODQ4fQ.zXnVpl7__PtQbhWh1Ut7SvwCxOkt5UzFWCWTwTd768Y"
     
-    # Use development mode authentication (simulate Google token)
-    test_email = "test.credits@example.com"
+    user = {
+        "id": "afdb9a24-3bd1-4d80-9161-73320a1d4306",
+        "email": "brainraphic@gmail.com",
+        "credits": 498.5,
+        "creditsUsed": 1.5
+    }
     
-    try:
-        response = requests.post(
-            f"{api_url}/auth/google",
-            json={"token": test_email},
-            timeout=30
-        )
-        
-        if response.status_code == 200:
-            data = response.json()
-            if data.get("success"):
-                return data.get("token"), data.get("user")
-        
-        print(f"❌ Failed to create test user: {response.status_code}")
-        print(f"   Response: {response.text}")
-        return None, None
-        
-    except Exception as e:
-        print(f"❌ Error creating test user: {str(e)}")
-        return None, None
+    return token, user
 
 def test_credit_deduction_endpoint():
     """Comprehensive test of the credit deduction system"""
