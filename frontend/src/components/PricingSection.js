@@ -49,8 +49,8 @@ const PricingSection = () => {
             
             {/* Prix */}
             <div className="mb-6 text-center">
-              <span className="text-3xl sm:text-4xl font-bold text-white block mb-2">Gratuit</span>
-              <span className="text-xs sm:text-sm text-gray-300">500 crédits offerts</span>
+              <span className="text-3xl sm:text-4xl font-bold text-white block mb-2">29,99€</span>
+              <span className="text-xs sm:text-sm text-gray-300">par mois</span>
             </div>
             
             {/* Description */}
