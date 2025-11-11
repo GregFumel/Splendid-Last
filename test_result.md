@@ -377,6 +377,30 @@ backend:
         comment: "🎉 FLUX COMPLET TESTÉ AVEC SUCCÈS! Test selon demande utilisateur avec image PNG 1x1 rouge en base64: ✅ TOUTES LES ÉTAPES VALIDÉES: 1) Session créée (8e830023-260c-4d4b-98d1-3d57d3c024df) via POST /api/image-upscaler/session, 2) Image de test 1x1 PNG uploadée (118 caractères), 3) Upscaling X2 réussi via POST /api/image-upscaler/upscale avec session_id + image_input + scale_factor: 2, 4) Réponse contient image_url (data URL 622 caractères), 5) Image upscalée accessible et décodable (16x16 pixels, 450 bytes PNG valide), 6) Historique récupéré (2 messages: 1 user + 1 assistant). ✅ BOUTON TÉLÉCHARGER FONCTIONNE: L'image upscalée est accessible, décodable et téléchargeable. Le flux complet Image Upscaler (tool ID 5) est 100% opérationnel!"
 
 frontend:
+  - task: "Dashboard - Modifications UI affichage crédits"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Dashboard.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "✅ IMPLÉMENTÉ: 4 modifications UI Dashboard - 1) Suppression texte valeur en euros (ligne 196-201 supprimée), 2) Remplacement icône Zap par coins-3d custom icon dans bouton 'Acheter des crédits', 3) Suppression icône Zap de 'Vos Crédits' (titre maintenant aligné à gauche sans icône), 4) Ajout espaces après 'Restants' et 'Utilisés' avant le deux-points. Toutes les modifications cosmétiques complètes. Prêt pour vérification utilisateur."
+
+  - task: "Studio - Intégration barème crédits réels avec credits_config.py"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Studio.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "✅ IMPLÉMENTÉ: Connexion complète du barème crédits (credits_config.py) aux appels API - 1) Google Veo: utilise veoOptions.generateAudio pour variant (with_audio/without_audio) + durée correcte, 2) Kling: utilise klingOptions.duration + variant (pro/standard), 3) Alibaba Wan: mapping size→resolution (480p/720p/1080p) + durée correcte, 4) SORA 2: utilise sora2Options.seconds pour unités, 5) Image Upscaler: calcul mégapixels réels depuis dimensions image uploadée, 6) Tous les outils mappés au modelKey correct. Les crédits sont maintenant déduits selon coûts réels API + options choisies. Prêt pour testing backend."
+
   - task: "Ajout de SORA 2 dans la catégorie vidéo"
     implemented: true
     working: true
