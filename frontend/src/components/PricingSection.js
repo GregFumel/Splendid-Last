@@ -1,101 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { Check } from "lucide-react";
 
 const PricingSection = () => {
-  const paypalRef = useRef(null);
-  const paypalLoaded = useRef(false);
-
-  useEffect(() => {
-    // Vérifier si le script PayPal est déjà chargé
-    if (paypalLoaded.current) {
-      return;
-    }
-
-    // Vérifier si PayPal SDK existe déjà
-    if (window.paypal) {
-      initPayPalButton();
-      return;
-    }
-
-    // Charger le script PayPal
-    const script = document.createElement('script');
-    script.src = "https://www.paypal.com/sdk/js?client-id=AWkoEEE4PYBAeWYtFYRBeV6W4E5jLfZT-5L7liFr69A8inAP6_Sh08g0L9H1fSnWiLvW0kHHPT3h-qoJ&vault=true&intent=subscription";
-    script.setAttribute('data-sdk-integration-source', 'button-factory');
-    script.async = true;
-    
-    script.onload = () => {
-      initPayPalButton();
-    };
-
-    script.onerror = () => {
-      console.error('Erreur lors du chargement du script PayPal');
-    };
-
-    document.body.appendChild(script);
-    paypalLoaded.current = true;
-
-    return () => {
-      // Cleanup: supprimer le script lors du démontage du composant
-      if (script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
-    };
-  }, []);
-
-  const initPayPalButton = () => {
-    if (window.paypal && paypalRef.current && !paypalRef.current.hasChildNodes()) {
-      window.paypal.Buttons({
-        style: {
-          shape: 'pill',
-          color: 'blue',
-          layout: 'vertical',
-          label: 'subscribe'
-        },
-        createSubscription: function(data, actions) {
-          return actions.subscription.create({
-            plan_id: 'P-20B33183X5530231LND7XNPI'
-          });
-        },
-        onApprove: async function(data, actions) {
-          // Demander l'email à l'utilisateur
-          const email = prompt('Veuillez entrer votre adresse email pour finaliser votre abonnement:');
-          
-          if (email && email.includes('@')) {
-            try {
-              // Enregistrer l'abonnement dans le backend
-              const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/subscription`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                  subscriptionId: data.subscriptionID,
-                  email: email
-                })
-              });
-
-              if (response.ok) {
-                // Stocker temporairement l'email pour la connexion Google
-                localStorage.setItem('pendingEmail', email);
-                localStorage.setItem('pendingSubscriptionId', data.subscriptionID);
-                
-                alert('Abonnement créé! Maintenant, connectez-vous avec Google pour accéder au Studio.');
-                
-                // Rediriger vers la section Compte pour se connecter
-                window.location.href = '/?section=account';
-              } else {
-                alert('Erreur lors de l\'enregistrement. Contactez le support avec cet ID: ' + data.subscriptionID);
-              }
-            } catch (error) {
-              console.error('Erreur:', error);
-              alert('Erreur réseau. Contactez le support avec cet ID: ' + data.subscriptionID);
-            }
-          } else {
-            alert('Email invalide. Veuillez contacter le support avec cet ID: ' + data.subscriptionID);
-          }
-        }
-      }).render(paypalRef.current);
-    }
+  const handleStartUsing = () => {
+    // Rediriger vers la section Compte pour se connecter avec Google
+    window.location.href = '/?section=account';
   };
 
   return (
