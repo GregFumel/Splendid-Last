@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { User, CreditCard, Settings, Zap, LogOut, Edit, Mail, Phone } from "lucide-react";
+import { GoogleLogin } from '@react-oauth/google';
 import { useAuth } from "../context/AuthContext";
 
 const Dashboard = () => {
