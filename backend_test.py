@@ -1,13 +1,23 @@
 #!/usr/bin/env python3
 """
-Test script for Flux Kontext Pro API endpoints
-Tests Flux Kontext Pro integration with Replicate API:
-1. POST /api/flux-kontext/session - Create Flux Kontext Pro session
-2. POST /api/flux-kontext/generate - Generate image (Mode 1: prompt only)
-3. POST /api/flux-kontext/generate - Edit image (Mode 2: with uploaded image)
-4. GET /api/flux-kontext/session/{session_id} - Get session history
+Comprehensive Credit Deduction System Test Script
 
-Also includes tests for AI Image Upscaler, Google Veo 3.1, and SORA 2.
+Tests the credit deduction system with credits_config.py integration:
+1. POST /api/auth/deduct-credits - Credit deduction endpoint
+2. All model variants and pricing tiers
+3. Credit calculation accuracy and rounding
+4. User state management (credits, credits_used)
+5. Insufficient credits error handling
+
+Models tested:
+- ChatGPT (free)
+- NanoBanana (1.5 credits/image)
+- Google Veo 3.1 (7.69/15.38 credits/second)
+- SORA 2 (3.85 credits/second)
+- Kling AI v2.1 (1.92/3.46 credits/second)
+- Image Upscaler (tiered pricing by megapixels)
+- Flux Kontext Pro (1.54 credits/image)
+- Seedream 4 (1.15 credits/image)
 """
 
 import requests
@@ -15,6 +25,7 @@ import json
 import sys
 import os
 import base64
+import math
 from datetime import datetime
 
 # Get backend URL from frontend/.env
