@@ -699,8 +699,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Dashboard - Modifications UI crédits"
-    - "Studio - Intégration barème crédits réels"
+    - "POST /api/auth/deduct-credits - Système de déduction de crédits complet"
   stuck_tasks:
     - "Bug critique interface NanoBanana - État React non synchronisé"
   test_all: false
