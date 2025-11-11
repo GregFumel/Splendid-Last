@@ -1478,7 +1478,7 @@ const Studio = () => {
                 // Récupérer la durée spécifique à chaque outil
                 if (toolType === 'google-veo') {
                   units = parseInt(veoOptions.duration) || 5;
-                  variant = veoOptions.audio === 'Avec son' ? 'with_audio' : 'without_audio';
+                  variant = veoOptions.generateAudio ? 'with_audio' : 'without_audio';
                 } else if (toolType === 'kling') {
                   units = parseInt(klingOptions.duration) || 5;
                   variant = klingOptions.mode === 'pro' ? 'pro' : 'standard';
