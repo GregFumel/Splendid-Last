@@ -164,7 +164,8 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     checkAuth,
-    refreshCredits
+    refreshCredits,
+    deductCredits
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
