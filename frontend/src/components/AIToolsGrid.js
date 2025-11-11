@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 
 const AIToolsGrid = ({ tools, onGenerateIdeas }) => {
   const navigate = useNavigate();
-  const { user, isPremium } = useAuth();
+  const { user, credits } = useAuth();
 
   // Fonction pour naviguer vers Studio avec l'outil sélectionné
   const handleUseTool = (tool) => {
