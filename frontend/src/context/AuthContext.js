@@ -61,7 +61,8 @@ export const AuthProvider = ({ children }) => {
         const data = await response.json();
         localStorage.setItem('authToken', data.token);
         setUser(data.user);
-        setIsPremium(data.user.isPremium);
+        setCredits(data.user.credits || 0);
+        setCreditsUsed(data.user.creditsUsed || 0);
         return { success: true, user: data.user };
       } else {
         const error = await response.json();
@@ -76,26 +77,28 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('authToken');
     setUser(null);
-    setIsPremium(false);
+    setCredits(0);
+    setCreditsUsed(0);
   };
 
-  const updateSubscription = async (subscriptionId, email) => {
+  const refreshCredits = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/subscription`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ subscriptionId, email })
-      });
-
-      if (response.ok) {
-        return { success: true };
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/credits`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          setCredits(data.credits);
+          setCreditsUsed(data.creditsUsed);
+        }
       }
-      return { success: false };
     } catch (error) {
-      console.error('Erreur update subscription:', error);
-      return { success: false };
+      console.error('Erreur refresh credits:', error);
     }
   };
 
