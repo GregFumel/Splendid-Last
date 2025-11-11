@@ -961,39 +961,671 @@ def test_image_upscaler_complete_flow():
         print(f"❌ ERREUR INATTENDUE Image Upscaler: {str(e)}")
         return False
 
-def main():
-    print("🚀 DÉBUT DU TEST FLUX COMPLET IMAGE UPSCALER")
-    print(f"⏰ Heure: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print("🔧 Test du flux complet Image Upscaler (tool ID 5)")
-    print("🎯 Vérification que le bouton télécharger fonctionne correctement")
-    print("🖼️ Image de test: PNG 1x1 pixel rouge en base64")
-    print("📐 Scale factor: 2 (X2)")
+def create_test_user():
+    """Create a test user with 500 credits for testing"""
+    base_url = get_backend_url()
+    api_url = f"{base_url}/api"
+    
+    # Use development mode authentication (simulate Google token)
+    test_email = "test.credits@example.com"
+    
+    try:
+        response = requests.post(
+            f"{api_url}/auth/google",
+            json={"token": test_email},
+            timeout=30
+        )
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("success"):
+                return data.get("token"), data.get("user")
+        
+        print(f"❌ Failed to create test user: {response.status_code}")
+        print(f"   Response: {response.text}")
+        return None, None
+        
+    except Exception as e:
+        print(f"❌ Error creating test user: {str(e)}")
+        return None, None
+
+def test_credit_deduction_endpoint():
+    """Comprehensive test of the credit deduction system"""
+    
+    base_url = get_backend_url()
+    api_url = f"{base_url}/api"
+    print(f"🔗 URL de test: {api_url}")
     print("=" * 80)
     
-    # Test Image Upscaler complet
-    print("\n🔍 TEST FLUX COMPLET IMAGE UPSCALER")
-    print("=" * 80)
-    upscaler_success = test_image_upscaler_complete_flow()
+    # Create test user
+    print("👤 SETUP: Creating test user with 500 credits")
+    print("-" * 70)
     
-    # Résultats finaux
+    token, user = create_test_user()
+    if not token or not user:
+        print("❌ Failed to create test user - cannot proceed with credit tests")
+        return False
+    
+    print(f"✅ Test user created successfully!")
+    print(f"   User ID: {user.get('id')}")
+    print(f"   Email: {user.get('email')}")
+    print(f"   Initial Credits: {user.get('credits')}")
+    print(f"   Credits Used: {user.get('creditsUsed')}")
+    
+    headers = {"Authorization": f"Bearer {token}"}
+    
     print("\n" + "=" * 80)
-    print("📊 RÉSULTATS FINAUX:")
-    print(f"   Image Upscaler Flow: {'✅ RÉUSSI' if upscaler_success else '❌ ÉCHEC'}")
     
-    if upscaler_success:
-        print("\n🎉 RÉSULTAT GLOBAL: FLUX IMAGE UPSCALER VALIDÉ")
-        print("✅ Le flux complet Image Upscaler fonctionne correctement:")
-        print("   - Création de session réussie")
-        print("   - Upload d'image 1x1 PNG réussi")
-        print("   - Upscaling X2 avec Replicate API réussi")
-        print("   - Image_url retournée dans la réponse")
-        print("   - Image upscalée accessible et téléchargeable")
-        print("🔧 Le bouton télécharger fonctionne parfaitement!")
+    # Test results tracking
+    test_results = []
+    
+    # Test 1: ChatGPT (Free model)
+    print("💬 TEST 1: ChatGPT - Free model (0 credits)")
+    print("-" * 70)
+    
+    try:
+        response = requests.post(
+            f"{api_url}/auth/deduct-credits",
+            params={
+                "model_key": "chatgpt",
+                "units": 5.0
+            },
+            headers=headers,
+            timeout=30
+        )
+        
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            print(f"✅ ChatGPT test successful!")
+            print(f"   Credits deducted: {data.get('credits_deducted')}")
+            print(f"   Credits remaining: {data.get('credits_remaining')}")
+            
+            if data.get('credits_deducted') == 0:
+                print(f"   ✅ Correct: ChatGPT is free (0 credits deducted)")
+                test_results.append(("ChatGPT Free", True))
+            else:
+                print(f"   ❌ Error: ChatGPT should be free but {data.get('credits_deducted')} credits deducted")
+                test_results.append(("ChatGPT Free", False))
+        else:
+            print(f"❌ ChatGPT test failed: {response.status_code}")
+            print(f"   Response: {response.text}")
+            test_results.append(("ChatGPT Free", False))
+            
+    except Exception as e:
+        print(f"❌ ChatGPT test error: {str(e)}")
+        test_results.append(("ChatGPT Free", False))
+    
+    print("\n" + "=" * 80)
+    
+    # Test 2: NanoBanana (1.5 credits per image)
+    print("🍌 TEST 2: NanoBanana - 1.5 credits per image")
+    print("-" * 70)
+    
+    try:
+        response = requests.post(
+            f"{api_url}/auth/deduct-credits",
+            params={
+                "model_key": "nano_banana",
+                "units": 1.0
+            },
+            headers=headers,
+            timeout=30
+        )
+        
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            print(f"✅ NanoBanana test successful!")
+            print(f"   Credits deducted: {data.get('credits_deducted')}")
+            print(f"   Credits remaining: {data.get('credits_remaining')}")
+            
+            # Expected: 1.5 credits, rounded to 2.0 (ceil to 0.5 step)
+            expected_cost = math.ceil(1.5 * 2) / 2  # 1.5 -> 2.0
+            if data.get('credits_deducted') == expected_cost:
+                print(f"   ✅ Correct: 1.5 credits rounded to {expected_cost}")
+                test_results.append(("NanoBanana Cost", True))
+            else:
+                print(f"   ❌ Error: Expected {expected_cost} but got {data.get('credits_deducted')}")
+                test_results.append(("NanoBanana Cost", False))
+        else:
+            print(f"❌ NanoBanana test failed: {response.status_code}")
+            print(f"   Response: {response.text}")
+            test_results.append(("NanoBanana Cost", False))
+            
+    except Exception as e:
+        print(f"❌ NanoBanana test error: {str(e)}")
+        test_results.append(("NanoBanana Cost", False))
+    
+    print("\n" + "=" * 80)
+    
+    # Test 3: Google Veo 3.1 - without_audio variant (7.69 credits/second)
+    print("🎬 TEST 3: Google Veo 3.1 - without_audio (7.69 credits/second, 4 seconds)")
+    print("-" * 70)
+    
+    try:
+        response = requests.post(
+            f"{api_url}/auth/deduct-credits",
+            params={
+                "model_key": "google_veo_3_1",
+                "units": 4.0,
+                "variant": "without_audio"
+            },
+            headers=headers,
+            timeout=30
+        )
+        
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            print(f"✅ Google Veo 3.1 without_audio test successful!")
+            print(f"   Credits deducted: {data.get('credits_deducted')}")
+            print(f"   Credits remaining: {data.get('credits_remaining')}")
+            
+            # Expected: 7.69 * 4 = 30.76, rounded to 31.0
+            expected_cost = math.ceil(7.69 * 4 * 2) / 2  # 30.76 -> 31.0
+            if data.get('credits_deducted') == expected_cost:
+                print(f"   ✅ Correct: 7.69 * 4 = 30.76 rounded to {expected_cost}")
+                test_results.append(("Google Veo without_audio", True))
+            else:
+                print(f"   ❌ Error: Expected {expected_cost} but got {data.get('credits_deducted')}")
+                test_results.append(("Google Veo without_audio", False))
+        else:
+            print(f"❌ Google Veo 3.1 without_audio test failed: {response.status_code}")
+            print(f"   Response: {response.text}")
+            test_results.append(("Google Veo without_audio", False))
+            
+    except Exception as e:
+        print(f"❌ Google Veo 3.1 without_audio test error: {str(e)}")
+        test_results.append(("Google Veo without_audio", False))
+    
+    print("\n" + "=" * 80)
+    
+    # Test 4: Google Veo 3.1 - with_audio variant (15.38 credits/second)
+    print("🎬 TEST 4: Google Veo 3.1 - with_audio (15.38 credits/second, 8 seconds)")
+    print("-" * 70)
+    
+    try:
+        response = requests.post(
+            f"{api_url}/auth/deduct-credits",
+            params={
+                "model_key": "google_veo_3_1",
+                "units": 8.0,
+                "variant": "with_audio"
+            },
+            headers=headers,
+            timeout=30
+        )
+        
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            print(f"✅ Google Veo 3.1 with_audio test successful!")
+            print(f"   Credits deducted: {data.get('credits_deducted')}")
+            print(f"   Credits remaining: {data.get('credits_remaining')}")
+            
+            # Expected: 15.38 * 8 = 123.04, rounded to 123.5
+            expected_cost = math.ceil(15.38 * 8 * 2) / 2  # 123.04 -> 123.5
+            if data.get('credits_deducted') == expected_cost:
+                print(f"   ✅ Correct: 15.38 * 8 = 123.04 rounded to {expected_cost}")
+                test_results.append(("Google Veo with_audio", True))
+            else:
+                print(f"   ❌ Error: Expected {expected_cost} but got {data.get('credits_deducted')}")
+                test_results.append(("Google Veo with_audio", False))
+        else:
+            print(f"❌ Google Veo 3.1 with_audio test failed: {response.status_code}")
+            print(f"   Response: {response.text}")
+            test_results.append(("Google Veo with_audio", False))
+            
+    except Exception as e:
+        print(f"❌ Google Veo 3.1 with_audio test error: {str(e)}")
+        test_results.append(("Google Veo with_audio", False))
+    
+    print("\n" + "=" * 80)
+    
+    # Test 5: SORA 2 (3.85 credits/second)
+    print("🎥 TEST 5: SORA 2 - 3.85 credits/second (4 seconds)")
+    print("-" * 70)
+    
+    try:
+        response = requests.post(
+            f"{api_url}/auth/deduct-credits",
+            params={
+                "model_key": "sora_2",
+                "units": 4.0
+            },
+            headers=headers,
+            timeout=30
+        )
+        
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            print(f"✅ SORA 2 test successful!")
+            print(f"   Credits deducted: {data.get('credits_deducted')}")
+            print(f"   Credits remaining: {data.get('credits_remaining')}")
+            
+            # Expected: 3.85 * 4 = 15.4, rounded to 15.5
+            expected_cost = math.ceil(3.85 * 4 * 2) / 2  # 15.4 -> 15.5
+            if data.get('credits_deducted') == expected_cost:
+                print(f"   ✅ Correct: 3.85 * 4 = 15.4 rounded to {expected_cost}")
+                test_results.append(("SORA 2", True))
+            else:
+                print(f"   ❌ Error: Expected {expected_cost} but got {data.get('credits_deducted')}")
+                test_results.append(("SORA 2", False))
+        else:
+            print(f"❌ SORA 2 test failed: {response.status_code}")
+            print(f"   Response: {response.text}")
+            test_results.append(("SORA 2", False))
+            
+    except Exception as e:
+        print(f"❌ SORA 2 test error: {str(e)}")
+        test_results.append(("SORA 2", False))
+    
+    print("\n" + "=" * 80)
+    
+    # Test 6: Kling AI v2.1 - standard variant (1.92 credits/second)
+    print("🎭 TEST 6: Kling AI v2.1 - standard (1.92 credits/second, 5 seconds)")
+    print("-" * 70)
+    
+    try:
+        response = requests.post(
+            f"{api_url}/auth/deduct-credits",
+            params={
+                "model_key": "kling_ai_v2_1",
+                "units": 5.0,
+                "variant": "standard"
+            },
+            headers=headers,
+            timeout=30
+        )
+        
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            print(f"✅ Kling AI v2.1 standard test successful!")
+            print(f"   Credits deducted: {data.get('credits_deducted')}")
+            print(f"   Credits remaining: {data.get('credits_remaining')}")
+            
+            # Expected: 1.92 * 5 = 9.6, rounded to 9.5
+            expected_cost = math.ceil(1.92 * 5 * 2) / 2  # 9.6 -> 10.0
+            if data.get('credits_deducted') == expected_cost:
+                print(f"   ✅ Correct: 1.92 * 5 = 9.6 rounded to {expected_cost}")
+                test_results.append(("Kling AI standard", True))
+            else:
+                print(f"   ❌ Error: Expected {expected_cost} but got {data.get('credits_deducted')}")
+                test_results.append(("Kling AI standard", False))
+        else:
+            print(f"❌ Kling AI v2.1 standard test failed: {response.status_code}")
+            print(f"   Response: {response.text}")
+            test_results.append(("Kling AI standard", False))
+            
+    except Exception as e:
+        print(f"❌ Kling AI v2.1 standard test error: {str(e)}")
+        test_results.append(("Kling AI standard", False))
+    
+    print("\n" + "=" * 80)
+    
+    # Test 7: Kling AI v2.1 - pro variant (3.46 credits/second)
+    print("🎭 TEST 7: Kling AI v2.1 - pro (3.46 credits/second, 10 seconds)")
+    print("-" * 70)
+    
+    try:
+        response = requests.post(
+            f"{api_url}/auth/deduct-credits",
+            params={
+                "model_key": "kling_ai_v2_1",
+                "units": 10.0,
+                "variant": "pro"
+            },
+            headers=headers,
+            timeout=30
+        )
+        
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            print(f"✅ Kling AI v2.1 pro test successful!")
+            print(f"   Credits deducted: {data.get('credits_deducted')}")
+            print(f"   Credits remaining: {data.get('credits_remaining')}")
+            
+            # Expected: 3.46 * 10 = 34.6, rounded to 34.5
+            expected_cost = math.ceil(3.46 * 10 * 2) / 2  # 34.6 -> 35.0
+            if data.get('credits_deducted') == expected_cost:
+                print(f"   ✅ Correct: 3.46 * 10 = 34.6 rounded to {expected_cost}")
+                test_results.append(("Kling AI pro", True))
+            else:
+                print(f"   ❌ Error: Expected {expected_cost} but got {data.get('credits_deducted')}")
+                test_results.append(("Kling AI pro", False))
+        else:
+            print(f"❌ Kling AI v2.1 pro test failed: {response.status_code}")
+            print(f"   Response: {response.text}")
+            test_results.append(("Kling AI pro", False))
+            
+    except Exception as e:
+        print(f"❌ Kling AI v2.1 pro test error: {str(e)}")
+        test_results.append(("Kling AI pro", False))
+    
+    print("\n" + "=" * 80)
+    
+    # Test 8: Image Upscaler - Different megapixel tiers
+    print("🔍 TEST 8: Image Upscaler - Megapixel tiers")
+    print("-" * 70)
+    
+    # Test different megapixel values
+    megapixel_tests = [
+        (2.0, 1.92),   # ≤4 MP: 1.92 credits
+        (5.0, 3.85),   # ≤8 MP: 3.85 credits  
+        (10.0, 7.69),  # ≤16 MP: 7.69 credits
+        (20.0, 15.38)  # ≥25 MP: 15.38 credits
+    ]
+    
+    for megapixels, expected_rate in megapixel_tests:
+        print(f"   Testing {megapixels} MP (expected rate: {expected_rate} credits)")
+        
+        try:
+            response = requests.post(
+                f"{api_url}/auth/deduct-credits",
+                params={
+                    "model_key": "image_upscaler",
+                    "units": 1.0,
+                    "megapixels": megapixels
+                },
+                headers=headers,
+                timeout=30
+            )
+            
+            if response.status_code == 200:
+                data = response.json()
+                expected_cost = math.ceil(expected_rate * 2) / 2
+                
+                if data.get('credits_deducted') == expected_cost:
+                    print(f"   ✅ {megapixels} MP: {expected_cost} credits (correct)")
+                    test_results.append((f"Image Upscaler {megapixels}MP", True))
+                else:
+                    print(f"   ❌ {megapixels} MP: Expected {expected_cost}, got {data.get('credits_deducted')}")
+                    test_results.append((f"Image Upscaler {megapixels}MP", False))
+            else:
+                print(f"   ❌ {megapixels} MP test failed: {response.status_code}")
+                test_results.append((f"Image Upscaler {megapixels}MP", False))
+                
+        except Exception as e:
+            print(f"   ❌ {megapixels} MP test error: {str(e)}")
+            test_results.append((f"Image Upscaler {megapixels}MP", False))
+    
+    print("\n" + "=" * 80)
+    
+    # Test 9: Flux Kontext Pro (1.54 credits per image)
+    print("🎨 TEST 9: Flux Kontext Pro - 1.54 credits per image")
+    print("-" * 70)
+    
+    try:
+        response = requests.post(
+            f"{api_url}/auth/deduct-credits",
+            params={
+                "model_key": "flux_kontext_pro",
+                "units": 1.0
+            },
+            headers=headers,
+            timeout=30
+        )
+        
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            print(f"✅ Flux Kontext Pro test successful!")
+            print(f"   Credits deducted: {data.get('credits_deducted')}")
+            print(f"   Credits remaining: {data.get('credits_remaining')}")
+            
+            # Expected: 1.54, rounded to 2.0
+            expected_cost = math.ceil(1.54 * 2) / 2  # 1.54 -> 2.0
+            if data.get('credits_deducted') == expected_cost:
+                print(f"   ✅ Correct: 1.54 credits rounded to {expected_cost}")
+                test_results.append(("Flux Kontext Pro", True))
+            else:
+                print(f"   ❌ Error: Expected {expected_cost} but got {data.get('credits_deducted')}")
+                test_results.append(("Flux Kontext Pro", False))
+        else:
+            print(f"❌ Flux Kontext Pro test failed: {response.status_code}")
+            print(f"   Response: {response.text}")
+            test_results.append(("Flux Kontext Pro", False))
+            
+    except Exception as e:
+        print(f"❌ Flux Kontext Pro test error: {str(e)}")
+        test_results.append(("Flux Kontext Pro", False))
+    
+    print("\n" + "=" * 80)
+    
+    # Test 10: Seedream 4 (1.15 credits per image)
+    print("🌱 TEST 10: Seedream 4 - 1.15 credits per image")
+    print("-" * 70)
+    
+    try:
+        response = requests.post(
+            f"{api_url}/auth/deduct-credits",
+            params={
+                "model_key": "seedream_4",
+                "units": 1.0
+            },
+            headers=headers,
+            timeout=30
+        )
+        
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            print(f"✅ Seedream 4 test successful!")
+            print(f"   Credits deducted: {data.get('credits_deducted')}")
+            print(f"   Credits remaining: {data.get('credits_remaining')}")
+            
+            # Expected: 1.15, rounded to 1.5
+            expected_cost = math.ceil(1.15 * 2) / 2  # 1.15 -> 1.5
+            if data.get('credits_deducted') == expected_cost:
+                print(f"   ✅ Correct: 1.15 credits rounded to {expected_cost}")
+                test_results.append(("Seedream 4", True))
+            else:
+                print(f"   ❌ Error: Expected {expected_cost} but got {data.get('credits_deducted')}")
+                test_results.append(("Seedream 4", False))
+        else:
+            print(f"❌ Seedream 4 test failed: {response.status_code}")
+            print(f"   Response: {response.text}")
+            test_results.append(("Seedream 4", False))
+            
+    except Exception as e:
+        print(f"❌ Seedream 4 test error: {str(e)}")
+        test_results.append(("Seedream 4", False))
+    
+    print("\n" + "=" * 80)
+    
+    # Test 11: Edge case - Very small amount (0.1 credits should round to 0.5)
+    print("🔬 TEST 11: Edge case - Small amount rounding (0.1 → 0.5)")
+    print("-" * 70)
+    
+    try:
+        # Use a custom test by calculating 0.1 credits (nano_banana * 0.067 units ≈ 0.1)
+        response = requests.post(
+            f"{api_url}/auth/deduct-credits",
+            params={
+                "model_key": "nano_banana",
+                "units": 0.067  # 1.5 * 0.067 ≈ 0.1
+            },
+            headers=headers,
+            timeout=30
+        )
+        
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            print(f"✅ Edge case test successful!")
+            print(f"   Credits deducted: {data.get('credits_deducted')}")
+            print(f"   Credits remaining: {data.get('credits_remaining')}")
+            
+            # Expected: 0.1005 rounded to 0.5
+            if data.get('credits_deducted') == 0.5:
+                print(f"   ✅ Correct: Small amount rounded to 0.5")
+                test_results.append(("Edge case rounding", True))
+            else:
+                print(f"   ❌ Error: Expected 0.5 but got {data.get('credits_deducted')}")
+                test_results.append(("Edge case rounding", False))
+        else:
+            print(f"❌ Edge case test failed: {response.status_code}")
+            print(f"   Response: {response.text}")
+            test_results.append(("Edge case rounding", False))
+            
+    except Exception as e:
+        print(f"❌ Edge case test error: {str(e)}")
+        test_results.append(("Edge case rounding", False))
+    
+    print("\n" + "=" * 80)
+    
+    # Test 12: Check final user state
+    print("👤 TEST 12: Verify user state after all deductions")
+    print("-" * 70)
+    
+    try:
+        response = requests.get(
+            f"{api_url}/auth/verify",
+            headers=headers,
+            timeout=30
+        )
+        
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            final_user = data.get("user", {})
+            print(f"✅ User state retrieved successfully!")
+            print(f"   Final Credits: {final_user.get('credits')}")
+            print(f"   Credits Used: {final_user.get('creditsUsed')}")
+            print(f"   Total Credits (initial): 500")
+            
+            # Verify credits + credits_used = 500
+            total = final_user.get('credits', 0) + final_user.get('creditsUsed', 0)
+            if abs(total - 500) < 0.01:  # Allow small floating point differences
+                print(f"   ✅ Correct: Credits + Credits Used = {total} ≈ 500")
+                test_results.append(("User state consistency", True))
+            else:
+                print(f"   ❌ Error: Credits + Credits Used = {total} ≠ 500")
+                test_results.append(("User state consistency", False))
+        else:
+            print(f"❌ User state check failed: {response.status_code}")
+            print(f"   Response: {response.text}")
+            test_results.append(("User state consistency", False))
+            
+    except Exception as e:
+        print(f"❌ User state check error: {str(e)}")
+        test_results.append(("User state consistency", False))
+    
+    print("\n" + "=" * 80)
+    
+    # Test 13: Insufficient credits error (402)
+    print("💸 TEST 13: Insufficient credits error (402)")
+    print("-" * 70)
+    
+    try:
+        # Try to deduct more credits than available
+        response = requests.post(
+            f"{api_url}/auth/deduct-credits",
+            params={
+                "model_key": "google_veo_3_1",
+                "units": 100.0,  # This should exceed remaining credits
+                "variant": "with_audio"
+            },
+            headers=headers,
+            timeout=30
+        )
+        
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 402:
+            print(f"✅ Insufficient credits error correctly returned!")
+            print(f"   Response: {response.text}")
+            test_results.append(("Insufficient credits error", True))
+        else:
+            print(f"❌ Expected 402 but got {response.status_code}")
+            print(f"   Response: {response.text}")
+            test_results.append(("Insufficient credits error", False))
+            
+    except Exception as e:
+        print(f"❌ Insufficient credits test error: {str(e)}")
+        test_results.append(("Insufficient credits error", False))
+    
+    print("\n" + "=" * 80)
+    
+    # Final Results Summary
+    print("📊 FINAL TEST RESULTS SUMMARY")
+    print("=" * 80)
+    
+    passed_tests = sum(1 for _, passed in test_results if passed)
+    total_tests = len(test_results)
+    
+    print(f"Total Tests: {total_tests}")
+    print(f"Passed: {passed_tests}")
+    print(f"Failed: {total_tests - passed_tests}")
+    print(f"Success Rate: {(passed_tests/total_tests)*100:.1f}%")
+    
+    print("\nDetailed Results:")
+    for test_name, passed in test_results:
+        status = "✅ PASS" if passed else "❌ FAIL"
+        print(f"   {status}: {test_name}")
+    
+    print("\n" + "=" * 80)
+    
+    if passed_tests == total_tests:
+        print("🎉 ALL CREDIT DEDUCTION TESTS PASSED!")
+        print("✅ Credit system is working correctly:")
+        print("   - All model pricing accurate")
+        print("   - Rounding working properly")
+        print("   - User state management correct")
+        print("   - Error handling functional")
+        return True
+    else:
+        print("❌ SOME CREDIT DEDUCTION TESTS FAILED!")
+        print(f"⚠️  {total_tests - passed_tests} out of {total_tests} tests failed")
+        print("🔧 Credit system needs attention")
+        return False
+
+def main():
+    print("🚀 COMPREHENSIVE CREDIT DEDUCTION SYSTEM TEST")
+    print(f"⏰ Heure: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print("💳 Testing credit deduction system with credits_config.py integration")
+    print("🎯 Verifying all model pricing, variants, and credit calculations")
+    print("=" * 80)
+    
+    # Test Credit Deduction System
+    print("\n💳 CREDIT DEDUCTION SYSTEM TESTS")
+    print("=" * 80)
+    credit_success = test_credit_deduction_endpoint()
+    
+    # Final Results
+    print("\n" + "=" * 80)
+    print("📊 FINAL RESULTS:")
+    print(f"   Credit Deduction System: {'✅ PASSED' if credit_success else '❌ FAILED'}")
+    
+    if credit_success:
+        print("\n🎉 RESULT: CREDIT SYSTEM FULLY FUNCTIONAL")
+        print("✅ All credit deduction tests passed:")
+        print("   - Model pricing accurate")
+        print("   - Variant handling correct")
+        print("   - Rounding working properly")
+        print("   - User state management functional")
+        print("   - Error handling working")
+        print("💳 Credit system ready for production!")
         sys.exit(0)
     else:
-        print("\n❌ RÉSULTAT GLOBAL: ÉCHEC DU FLUX IMAGE UPSCALER")
-        print("⚠️  Problème détecté dans le flux Image Upscaler")
-        print("🔧 Le bouton télécharger pourrait ne pas fonctionner correctement")
+        print("\n❌ RESULT: CREDIT SYSTEM HAS ISSUES")
+        print("⚠️  Some credit deduction tests failed")
+        print("🔧 Credit system needs fixes before production")
         sys.exit(1)
 
 if __name__ == "__main__":
