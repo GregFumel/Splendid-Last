@@ -204,6 +204,10 @@ const Dashboard = () => {
               />
               <span>Acheter des crédits</span>
             </button>
+            <button className="btn-3d-effect bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-3 rounded-xl transition flex items-center justify-center space-x-2 shadow-lg">
+              <LogOut className="w-5 h-5" />
+              <span>Se désabonner</span>
+            </button>
           </div>
         </div>
 
