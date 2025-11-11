@@ -157,14 +157,47 @@ const Dashboard = () => {
                 Actif
               </span>
             </div>
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <span className="text-gray-400">Crédits restants</span>
-                <p className="text-white font-medium">{userProfile.credits} crédits</p>
+            
+            {/* Affichage des crédits avec barre de progression */}
+            <div className="bg-black/20 rounded-xl p-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <Zap className="w-5 h-5 text-yellow-400" />
+                  <span className="text-white font-semibold">Vos crédits</span>
+                </div>
+                <span className="text-sm text-gray-400">
+                  {userProfile.credits} / 500 crédits
+                </span>
               </div>
-              <div>
-                <span className="text-gray-400">Crédits utilisés</span>
-                <p className="text-white font-medium">{userProfile.creditsUsed} crédits</p>
+              
+              {/* Barre de progression */}
+              <div className="w-full bg-gray-700 rounded-full h-3 overflow-hidden">
+                <div 
+                  className={`h-full rounded-full transition-all duration-500 ${
+                    userProfile.credits > 250 ? 'bg-gradient-to-r from-green-500 to-emerald-400' :
+                    userProfile.credits > 100 ? 'bg-gradient-to-r from-yellow-500 to-amber-400' :
+                    'bg-gradient-to-r from-red-500 to-orange-400'
+                  }`}
+                  style={{ width: `${(userProfile.credits / 500) * 100}%` }}
+                ></div>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4 text-xs">
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                  <span className="text-gray-300">Restants: {userProfile.credits}</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-red-400 rounded-full"></div>
+                  <span className="text-gray-300">Utilisés: {userProfile.creditsUsed}</span>
+                </div>
+              </div>
+              
+              {/* Valeur en euros */}
+              <div className="text-center pt-2 border-t border-white/10">
+                <span className="text-xs text-gray-400">
+                  Valeur: {(userProfile.credits * 0.026).toFixed(2)}€ restants / {(userProfile.creditsUsed * 0.026).toFixed(2)}€ utilisés
+                </span>
               </div>
             </div>
           </div>
