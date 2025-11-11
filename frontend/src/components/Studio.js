@@ -1661,13 +1661,13 @@ const Studio = () => {
     }
   };
 
-  // Vérifier l'authentification et l'abonnement
+  // Vérifier l'authentification
   useEffect(() => {
-    if (!loading && (!user || !isPremium)) {
-      // Rediriger vers la page d'accueil avec section pricing
-      navigate('/?section=pricing');
+    if (!loading && !user) {
+      // Rediriger vers la page d'accueil avec section compte
+      navigate('/?section=account');
     }
-  }, [user, isPremium, loading, navigate]);
+  }, [user, loading, navigate]);
 
   // Afficher un écran de chargement pendant la vérification
   if (loading) {
@@ -1678,8 +1678,8 @@ const Studio = () => {
     );
   }
 
-  // Si pas connecté ou pas premium, ne rien afficher (redirection en cours)
-  if (!user || !isPremium) {
+  // Si pas connecté, ne rien afficher (redirection en cours)
+  if (!user) {
     return null;
   }
 
