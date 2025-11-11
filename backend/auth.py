@@ -151,10 +151,10 @@ async def verify_auth(authorization: Optional[str] = Header(None)):
         "success": True,
         "user": {
             "id": str(user["_id"]),
-            "email": user.get("google_email", user.get("paypal_email", "")),
+            "email": user.get("email", ""),
             "name": user.get("name", ""),
-            "isPremium": user.get("is_premium", False),
-            "subscriptionId": user.get("subscription_id")
+            "credits": user.get("credits", CREDITS_CONFIG["meta"]["initial_credits"]),
+            "creditsUsed": user.get("credits_used", 0)
         }
     }
 
