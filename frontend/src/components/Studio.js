@@ -384,7 +384,16 @@ const Studio = () => {
   const [isSeedream, setIsSeedream] = useState(false); // Pour Seedream 4
   const [isGrok, setIsGrok] = useState(false); // Pour Grok
   const [isAlibabaWan, setIsAlibabaWan] = useState(false); // Pour Alibaba Wan 2.5
-  const [toolSessions, setToolSessions] = useState({}); // Stocker les sessions par outil
+  // Charger les sessions depuis localStorage au montage
+  const [toolSessions, setToolSessions] = useState(() => {
+    try {
+      const saved = localStorage.getItem('toolSessions');
+      return saved ? JSON.parse(saved) : {};
+    } catch (e) {
+      console.error('Erreur chargement toolSessions:', e);
+      return {};
+    }
+  });
   const [isLoadingHistory, setIsLoadingHistory] = useState(false); // État pour l'animation de chargement
   
   // États pour l'upload d'images
