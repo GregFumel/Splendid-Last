@@ -65,16 +65,33 @@ async def google_auth(request: GoogleAuthRequest):
     Création automatique du compte avec 500 crédits gratuits
     """
     try:
-        # Vérifier le token Google (à implémenter avec votre client ID Google)
-        # Pour l'instant, on simule l'extraction de l'email
-        # idinfo = id_token.verify_oauth2_token(request.token, requests.Request(), GOOGLE_CLIENT_ID)
-        # google_email = idinfo['email']
-        # google_name = idinfo.get('name', '')
+        # Vérifier le token Google avec la bibliothèque google-auth
+        GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID')
         
-        # Simulation pour le développement - À REMPLACER
-        # En production, décommenter les lignes ci-dessus
-        google_email = request.token  # Temporaire: le token contient directement l'email
-        google_name = google_email.split('@')[0]
+        if GOOGLE_CLIENT_ID and GOOGLE_CLIENT_ID != "YOUR_GOOGLE_CLIENT_ID_HERE":
+            try:
+                # Vérification du vrai token Google
+                idinfo = id_token.verify_oauth2_token(
+                    request.token, 
+                    requests.Request(), 
+                    GOOGLE_CLIENT_ID
+                )
+                
+                # Vérifier que le token vient bien de Google
+                if idinfo['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
+                    raise HTTPException(status_code=401, detail="Token invalide")
+                
+                google_email = idinfo['email']
+                google_name = idinfo.get('name', google_email.split('@')[0])
+                
+            except ValueError as e:
+                # Token invalide
+                raise HTTPException(status_code=401, detail=f"Token Google invalide: {str(e)}")
+        else:
+            # Mode développement: simulation (si pas de GOOGLE_CLIENT_ID configuré)
+            # ATTENTION: À RETIRER EN PRODUCTION
+            google_email = request.token
+            google_name = google_email.split('@')[0] if '@' in google_email else google_email
         
         # Chercher l'utilisateur par email Google
         user = await users_collection.find_one({"email": google_email})
