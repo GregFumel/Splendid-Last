@@ -1449,6 +1449,67 @@ const Studio = () => {
         await loadConversationHistory(sessionId, toolType);
         console.log('✅ Historique rechargé, conversationHistory.length:', conversationHistory.length);
         
+        // Déduire les crédits (sauf pour ChatGPT qui est gratuit)
+        if (toolType !== 'chatgpt5' && user) {
+          try {
+            // Mapper le type d'outil au model_key du barème
+            const modelKeyMap = {
+              'nanobanana': 'nano_banana',
+              'google-veo': 'google_veo_3_1',
+              'sora2': 'sora_2',
+              'image-upscaler': 'image_upscaler',
+              'flux-kontext': 'flux_kontext_pro',
+              'kling': 'kling_ai_v2_1',
+              'seedream': 'seedream_4',
+              'grok': 'grok_2_image',
+              'alibaba-wan': 'alibaba_wan_2_5',
+              'video-upscale': 'topaz_video_upscale'
+            };
+            
+            const modelKey = modelKeyMap[toolType];
+            if (modelKey) {
+              // Calculer les unités (images = 1, vidéos = durée en secondes)
+              let units = 1.0;
+              let variant = null;
+              let megapixels = null;
+              
+              // Pour les vidéos, utiliser la durée
+              if (toolType === 'sora2' || toolType === 'google-veo' || toolType === 'kling' || toolType === 'alibaba-wan') {
+                units = klingOptions.duration || 5; // Par défaut 5 secondes
+                
+                // Variantes
+                if (toolType === 'google-veo') {
+                  variant = 'without_audio'; // ou 'with_audio' selon l'option
+                } else if (toolType === 'kling') {
+                  variant = klingOptions.mode === 'pro' ? 'pro' : 'standard';
+                } else if (toolType === 'alibaba-wan') {
+                  variant = wanOptions.resolution === '1080p' ? '1080p' : wanOptions.resolution === '720p' ? '720p' : '480p';
+                }
+              }
+              
+              // Pour l'upscaler, calculer les mégapixels
+              if (toolType === 'image-upscaler' && uploadedImage) {
+                // Estimation basique, à ajuster selon vos besoins
+                megapixels = 4; // Par défaut
+              }
+              
+              console.log('💳 Déduction crédits:', { modelKey, units, variant, megapixels });
+              const deductResult = await deductCredits(modelKey, units, variant, megapixels);
+              
+              if (!deductResult.success) {
+                console.error('❌ Échec déduction crédits:', deductResult.error);
+                if (deductResult.error === 'Crédits insuffisants') {
+                  alert('⚠️ Crédits insuffisants! Vous n\'avez plus assez de crédits pour utiliser cet outil.');
+                }
+              } else {
+                console.log('✅ Crédits déduits avec succès:', deductResult.creditsDeducted, 'crédits');
+              }
+            }
+          } catch (creditsError) {
+            console.error('❌ Erreur lors de la déduction des crédits:', creditsError);
+          }
+        }
+        
         // Sauvegarder dans l'historique persistant
         console.log('🔍 Tentative sauvegarde historique. Result:', result);
         const resultData = result.image_url || result.image_urls || result.video_urls || result.response_text;
