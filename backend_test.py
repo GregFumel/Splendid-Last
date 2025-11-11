@@ -983,19 +983,19 @@ def test_credit_deduction_endpoint():
     print(f"🔗 URL de test: {api_url}")
     print("=" * 80)
     
-    # Create test user
-    print("👤 SETUP: Creating test user with 500 credits")
+    # Get existing test user
+    print("👤 SETUP: Using existing test user with credits")
     print("-" * 70)
     
-    token, user = create_test_user()
+    token, user = get_test_user()
     if not token or not user:
-        print("❌ Failed to create test user - cannot proceed with credit tests")
+        print("❌ Failed to get test user - cannot proceed with credit tests")
         return False
     
-    print(f"✅ Test user created successfully!")
+    print(f"✅ Test user loaded successfully!")
     print(f"   User ID: {user.get('id')}")
     print(f"   Email: {user.get('email')}")
-    print(f"   Initial Credits: {user.get('credits')}")
+    print(f"   Current Credits: {user.get('credits')}")
     print(f"   Credits Used: {user.get('creditsUsed')}")
     
     headers = {"Authorization": f"Bearer {token}"}
