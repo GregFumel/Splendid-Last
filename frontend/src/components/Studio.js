@@ -529,6 +529,17 @@ const Studio = () => {
     
     forceScrollToVeryTop();
   }, [searchParams]);
+
+  // Sauvegarder toolSessions dans localStorage à chaque changement
+  useEffect(() => {
+    try {
+      console.log('💾 Sauvegarde toolSessions dans localStorage:', Object.keys(toolSessions).length, 'sessions');
+      localStorage.setItem('toolSessions', JSON.stringify(toolSessions));
+    } catch (e) {
+      console.error('Erreur sauvegarde toolSessions:', e);
+    }
+  }, [toolSessions]);
+
   
   // Initialiser la session quand l'outil change
   useEffect(() => {
