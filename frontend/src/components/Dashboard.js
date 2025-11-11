@@ -171,23 +171,10 @@ const Dashboard = () => {
 
           {/* Actions d'abonnement */}
           <div className="mt-6 flex flex-col sm:flex-row gap-3">
-            {isPremium ? (
-              <>
-                <button className="btn-3d-effect bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-xl transition flex items-center justify-center space-x-2">
-                  <LogOut className="w-4 h-4" />
-                  <span>Se désabonner</span>
-                </button>
-                <button className="btn-3d-effect bg-gray-500 hover:bg-gray-600 text-white font-semibold px-4 py-2 rounded-xl transition flex items-center justify-center space-x-2">
-                  <Settings className="w-4 h-4" />
-                  <span>Gérer l'abonnement</span>
-                </button>
-              </>
-            ) : (
-              <button className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-xl transition flex items-center justify-center space-x-2">
-                <CreditCard className="w-4 h-4" />
-                <span>Passer au Premium</span>
-              </button>
-            )}
+            <button className="btn-3d-effect bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 text-white font-semibold px-6 py-3 rounded-xl transition flex items-center justify-center space-x-2 shadow-lg">
+              <Zap className="w-5 h-5" />
+              <span>Acheter des crédits</span>
+            </button>
           </div>
         </div>
 
