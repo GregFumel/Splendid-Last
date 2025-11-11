@@ -41,8 +41,24 @@ export const useHistory = (toolId, toolName) => {
   // Charger l'historique au montage et quand toolId change
   useEffect(() => {
     if (toolId) {
+      console.log('📍 useEffect déclenché - toolId:', toolId);
       loadHistory();
     }
+  }, [toolId]);
+
+  // Recharger l'historique quand la fenêtre redevient visible (retour sur la page)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (!document.hidden && toolId) {
+        console.log('👁️ Page redevenue visible - rechargement historique');
+        loadHistory();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, [toolId]);
 
   const saveToHistory = async (prompt, result, metadata = {}) => {
