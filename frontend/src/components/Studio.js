@@ -1429,6 +1429,20 @@ const Studio = () => {
         await loadConversationHistory(sessionId, toolType);
         console.log('✅ Historique rechargé, conversationHistory.length:', conversationHistory.length);
         
+        // Sauvegarder dans l'historique persistant
+        const resultData = result.image_url || result.image_urls || result.video_urls || result.response_text;
+        if (resultData) {
+          await saveToHistory(
+            prompt || 'Image uploadée pour upscaling',
+            resultData,
+            {
+              tool_type: toolType,
+              timestamp: new Date().toISOString()
+            }
+          );
+          console.log('💾 Sauvegardé dans l\'historique persistant');
+        }
+        
         // Vider le prompt et les images uploadées
         setPrompt("");
         if (isChatGPT5 || isNanoBanana || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isSeedream || isGrok) {
