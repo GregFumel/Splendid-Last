@@ -1483,8 +1483,8 @@ const Studio = () => {
                   units = parseInt(klingOptions.duration) || 5;
                   variant = klingOptions.mode === 'pro' ? 'pro' : 'standard';
                 } else if (toolType === 'alibaba-wan') {
-                  units = parseInt(wanOptions.duration) || 5;
-                  variant = wanOptions.resolution === '1080p' ? '1080p' : wanOptions.resolution === '720p' ? '720p' : '480p';
+                  units = parseInt(alibabaWanOptions.duration) || 5;
+                  variant = alibabaWanOptions.resolution === '1080p' ? '1080p' : alibabaWanOptions.resolution === '720p' ? '720p' : '480p';
                 } else if (toolType === 'sora2') {
                   units = parseInt(sora2Options.duration) || 4;
                 }
