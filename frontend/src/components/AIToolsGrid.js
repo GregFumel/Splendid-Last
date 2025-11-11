@@ -9,16 +9,16 @@ const AIToolsGrid = ({ tools, onGenerateIdeas }) => {
 
   // Fonction pour naviguer vers Studio avec l'outil sélectionné
   const handleUseTool = (tool) => {
-    // Vérifier si l'utilisateur est connecté et premium
-    if (!user || !isPremium) {
-      // Rediriger vers la section pricing
-      const pricingSection = document.getElementById('pricing-section');
-      if (pricingSection) {
-        pricingSection.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
+    // Vérifier si l'utilisateur est connecté
+    if (!user) {
+      // Rediriger vers la section compte pour se connecter
+      window.location.href = '/?section=account';
+      return;
+    }
+
+    // Vérifier si l'utilisateur a des crédits (sauf pour ChatGPT qui est gratuit)
+    if (tool.name !== "ChatGPT" && credits <= 0) {
+      alert("Vous n'avez plus de crédits disponibles. ChatGPT reste accessible gratuitement.");
       return;
     }
 
