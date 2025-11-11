@@ -1853,7 +1853,7 @@ const Studio = () => {
               <h1 className="text-xl font-bold text-white">Studio</h1>
             </div>
             <button 
-              onClick={() => navigate('/compte')}
+              onClick={() => navigate('/?section=account')}
               className="btn-3d-effect bg-blue-500 hover:bg-blue-600 text-white font-semibold px-3 py-1.5 rounded-full transition text-sm"
             >
               Retour à l'accueil
