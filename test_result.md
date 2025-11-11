@@ -376,6 +376,18 @@ backend:
         agent: "testing"
         comment: "🎉 FLUX COMPLET TESTÉ AVEC SUCCÈS! Test selon demande utilisateur avec image PNG 1x1 rouge en base64: ✅ TOUTES LES ÉTAPES VALIDÉES: 1) Session créée (8e830023-260c-4d4b-98d1-3d57d3c024df) via POST /api/image-upscaler/session, 2) Image de test 1x1 PNG uploadée (118 caractères), 3) Upscaling X2 réussi via POST /api/image-upscaler/upscale avec session_id + image_input + scale_factor: 2, 4) Réponse contient image_url (data URL 622 caractères), 5) Image upscalée accessible et décodable (16x16 pixels, 450 bytes PNG valide), 6) Historique récupéré (2 messages: 1 user + 1 assistant). ✅ BOUTON TÉLÉCHARGER FONCTIONNE: L'image upscalée est accessible, décodable et téléchargeable. Le flux complet Image Upscaler (tool ID 5) est 100% opérationnel!"
 
+  - task: "POST /api/auth/deduct-credits - Système de déduction de crédits complet"
+    implemented: true
+    working: true
+    file: "/app/backend/auth.py, /app/backend/credits_config.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "🎉 SYSTÈME DE CRÉDITS 100% FONCTIONNEL! Test complet de déduction de crédits avec 16 tests réussis (100% success rate): ✅ TOUS LES MODÈLES TESTÉS: 1) ChatGPT (gratuit, 0 crédits), 2) NanoBanana (1.5 crédits/image), 3) Google Veo 3.1 (7.69/15.38 crédits/seconde selon variant), 4) SORA 2 (3.85 crédits/seconde), 5) Kling AI v2.1 (1.92/3.46 crédits/seconde selon variant), 6) Image Upscaler (tarification par mégapixels: 1.92/3.85/7.69/15.38), 7) Flux Kontext Pro (1.54 crédits/image), 8) Seedream 4 (1.15 crédits/image). ✅ CALCULS PRÉCIS: Arrondi ceil à 0.5 près fonctionne (ex: 0.1→0.5, 30.76→31.0, 123.04→123.5). ✅ GESTION UTILISATEUR: Crédits + crédits_utilisés = 500 (cohérence parfaite). ✅ GESTION ERREURS: Code 402 pour crédits insuffisants. Le système de crédits est prêt pour la production!"
+
 frontend:
   - task: "Dashboard - Modifications UI affichage crédits"
     implemented: true
