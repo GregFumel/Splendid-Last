@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import { Send, Sparkles, Menu, X, Download, Plus, ChevronDown, ChevronUp, Maximize2, ChevronLeft, ChevronRight, Trophy } from "lucide-react";
+import { Send, Sparkles, Menu, X, Download, Plus, ChevronDown, ChevronUp, Maximize2, ChevronLeft, ChevronRight, Trophy, Trash2, Clock } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { mockAITools } from "../data/mockData";
 import { useAuth } from "../context/AuthContext";
+import { useHistory } from "../hooks/useHistory";
 
 // Composant de comparaison avant-après avec slider sobre et ultra-fluide
 const BeforeAfterSlider = ({ beforeImage, afterImage, onDownload }) => {
