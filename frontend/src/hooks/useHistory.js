@@ -4,15 +4,12 @@ export const useHistory = (toolId, toolName) => {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Charger l'historique au montage
-  useEffect(() => {
-    loadHistory();
-  }, [toolId]);
-
   const loadHistory = async () => {
     try {
+      console.log('🔄 Chargement historique pour tool:', toolId, toolName);
       const token = localStorage.getItem('authToken');
       if (!token) {
+        console.log('⚠️ Pas de token, utilisateur non connecté');
         setLoading(false);
         return;
       }
@@ -26,16 +23,27 @@ export const useHistory = (toolId, toolName) => {
         }
       );
 
+      console.log('📡 Réponse historique:', response.status);
       if (response.ok) {
         const data = await response.json();
+        console.log('✅ Historique chargé:', data.history?.length || 0, 'entrées');
         setHistory(data.history || []);
+      } else {
+        console.error('❌ Erreur historique:', response.status);
       }
     } catch (error) {
-      console.error('Erreur chargement historique:', error);
+      console.error('❌ Erreur chargement historique:', error);
     } finally {
       setLoading(false);
     }
   };
+
+  // Charger l'historique au montage et quand toolId change
+  useEffect(() => {
+    if (toolId) {
+      loadHistory();
+    }
+  }, [toolId]);
 
   const saveToHistory = async (prompt, result, metadata = {}) => {
     try {
