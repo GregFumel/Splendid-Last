@@ -58,47 +58,6 @@ def verify_token(token: str) -> Optional[str]:
     except jwt.InvalidTokenError:
         return None
 
-@auth_router.post("/subscription")
-async def update_subscription(request: SubscriptionRequest):
-    """
-    Enregistrer un abonnement PayPal
-    Appelé après le paiement PayPal avec l'email et le subscription_id
-    """
-    try:
-        # Vérifier si l'utilisateur existe déjà avec cet email PayPal
-        user = await users_collection.find_one({"paypal_email": request.email})
-        
-        if user:
-            # Mettre à jour l'abonnement
-            await users_collection.update_one(
-                {"_id": user["_id"]},
-                {
-                    "$set": {
-                        "subscription_id": request.subscriptionId,
-                        "is_premium": True,
-                        "subscription_date": datetime.utcnow(),
-                        "updated_at": datetime.utcnow()
-                    }
-                }
-            )
-        else:
-            # Créer un nouvel utilisateur avec l'abonnement
-            user_id = str(uuid.uuid4())
-            await users_collection.insert_one({
-                "_id": user_id,
-                "paypal_email": request.email,
-                "subscription_id": request.subscriptionId,
-                "is_premium": True,
-                "subscription_date": datetime.utcnow(),
-                "created_at": datetime.utcnow(),
-                "updated_at": datetime.utcnow()
-            })
-        
-        return {"success": True, "message": "Abonnement enregistré"}
-    
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
-
 @auth_router.post("/google")
 async def google_auth(request: GoogleAuthRequest):
     """
