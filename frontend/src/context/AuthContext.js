@@ -95,10 +95,64 @@ export const AuthProvider = ({ children }) => {
           const data = await response.json();
           setCredits(data.credits);
           setCreditsUsed(data.creditsUsed);
+          console.log('💰 Crédits mis à jour:', data.credits, 'restants,', data.creditsUsed, 'utilisés');
         }
       }
     } catch (error) {
       console.error('Erreur refresh credits:', error);
+    }
+  };
+
+  const deductCredits = async (modelKey, units = 1.0, variant = null, megapixels = null) => {
+    try {
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        console.warn('⚠️ Pas de token, impossible de déduire les crédits');
+        return { success: false, error: 'Non authentifié' };
+      }
+
+      const params = new URLSearchParams({
+        model_key: modelKey,
+        units: units.toString()
+      });
+      
+      if (variant) params.append('variant', variant);
+      if (megapixels) params.append('megapixels', megapixels.toString());
+
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/auth/deduct-credits?${params}`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('💳 Crédits déduits:', data.credits_deducted, '→ Restants:', data.credits_remaining);
+        
+        // Mettre à jour l'état local
+        setCredits(data.credits_remaining);
+        setCreditsUsed(prev => prev + data.credits_deducted);
+        
+        return { 
+          success: true, 
+          creditsDeducted: data.credits_deducted,
+          creditsRemaining: data.credits_remaining 
+        };
+      } else if (response.status === 402) {
+        // Crédits insuffisants
+        console.error('❌ Crédits insuffisants');
+        return { success: false, error: 'Crédits insuffisants' };
+      } else {
+        console.error('❌ Erreur déduction:', response.status);
+        return { success: false, error: 'Erreur de déduction' };
+      }
+    } catch (error) {
+      console.error('❌ Erreur deductCredits:', error);
+      return { success: false, error: error.message };
     }
   };
 
