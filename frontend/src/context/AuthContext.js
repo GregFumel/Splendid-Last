@@ -13,7 +13,8 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isPremium, setIsPremium] = useState(false);
+  const [credits, setCredits] = useState(0);
+  const [creditsUsed, setCreditsUsed] = useState(0);
 
   useEffect(() => {
     // Vérifier si l'utilisateur est déjà connecté au chargement
