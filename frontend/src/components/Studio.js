@@ -1475,22 +1475,34 @@ const Studio = () => {
               
               // Pour les vidéos, utiliser la durée
               if (toolType === 'sora2' || toolType === 'google-veo' || toolType === 'kling' || toolType === 'alibaba-wan') {
-                units = klingOptions.duration || 5; // Par défaut 5 secondes
-                
-                // Variantes
+                // Récupérer la durée spécifique à chaque outil
                 if (toolType === 'google-veo') {
-                  variant = 'without_audio'; // ou 'with_audio' selon l'option
+                  units = parseInt(veoOptions.duration) || 5;
+                  variant = veoOptions.audio === 'Avec son' ? 'with_audio' : 'without_audio';
                 } else if (toolType === 'kling') {
+                  units = parseInt(klingOptions.duration) || 5;
                   variant = klingOptions.mode === 'pro' ? 'pro' : 'standard';
                 } else if (toolType === 'alibaba-wan') {
+                  units = parseInt(wanOptions.duration) || 5;
                   variant = wanOptions.resolution === '1080p' ? '1080p' : wanOptions.resolution === '720p' ? '720p' : '480p';
+                } else if (toolType === 'sora2') {
+                  units = parseInt(sora2Options.duration) || 4;
                 }
               }
               
-              // Pour l'upscaler, calculer les mégapixels
+              // Pour l'upscaler d'images, calculer les mégapixels réels
               if (toolType === 'image-upscaler' && uploadedImage) {
-                // Estimation basique, à ajuster selon vos besoins
-                megapixels = 4; // Par défaut
+                try {
+                  // Créer une image temporaire pour obtenir les dimensions
+                  const img = document.createElement('img');
+                  img.src = uploadedImage;
+                  await new Promise((resolve) => { img.onload = resolve; });
+                  megapixels = (img.width * img.height) / 1000000;
+                  console.log(`📐 Image dimensions: ${img.width}x${img.height} = ${megapixels.toFixed(2)} MP`);
+                } catch (err) {
+                  console.warn('⚠️ Impossible de calculer les mégapixels, utilisation de la valeur par défaut');
+                  megapixels = 4; // Par défaut
+                }
               }
               
               console.log('💳 Déduction crédits:', { modelKey, units, variant, megapixels });
