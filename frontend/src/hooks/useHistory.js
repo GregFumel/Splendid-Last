@@ -85,9 +85,12 @@ export const useHistory = (toolId, toolName) => {
       );
 
       if (response.ok) {
+        console.log('✅ Sauvegarde réussie dans l\'historique');
         // Recharger l'historique après sauvegarde
         await loadHistory();
         return true;
+      } else {
+        console.error('❌ Échec sauvegarde:', response.status);
       }
       return false;
     } catch (error) {
