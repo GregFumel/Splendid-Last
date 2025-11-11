@@ -355,7 +355,7 @@ const BeforeAfterSlider = ({ beforeImage, afterImage, onDownload }) => {
 const Studio = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { user, credits, loading } = useAuth();
+  const { user, credits, loading, deductCredits } = useAuth();
   const [selectedTool, setSelectedTool] = useState(mockAITools.find(t => t.name === "NanoBanana") || mockAITools[0]); // NanoBanana par défaut
   
   // Hook d'historique
