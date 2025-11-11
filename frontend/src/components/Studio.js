@@ -1430,17 +1430,29 @@ const Studio = () => {
         console.log('✅ Historique rechargé, conversationHistory.length:', conversationHistory.length);
         
         // Sauvegarder dans l'historique persistant
+        console.log('🔍 Tentative sauvegarde historique. Result:', result);
         const resultData = result.image_url || result.image_urls || result.video_urls || result.response_text;
-        if (resultData) {
-          await saveToHistory(
-            prompt || 'Image uploadée pour upscaling',
-            resultData,
-            {
-              tool_type: toolType,
-              timestamp: new Date().toISOString()
-            }
-          );
-          console.log('💾 Sauvegardé dans l\'historique persistant');
+        console.log('📊 ResultData extrait:', resultData);
+        
+        if (resultData && user) {
+          try {
+            const saved = await saveToHistory(
+              prompt || 'Image uploadée pour upscaling',
+              resultData,
+              {
+                tool_type: toolType,
+                timestamp: new Date().toISOString()
+              }
+            );
+            console.log('💾 Sauvegarde historique:', saved ? '✅ Succès' : '❌ Échec');
+          } catch (histError) {
+            console.error('❌ Erreur sauvegarde historique:', histError);
+          }
+        } else {
+          console.log('⚠️ Pas de sauvegarde historique:', { 
+            hasResultData: !!resultData, 
+            hasUser: !!user 
+          });
         }
         
         // Vider le prompt et les images uploadées
