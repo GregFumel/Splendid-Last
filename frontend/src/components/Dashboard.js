@@ -161,8 +161,7 @@ const Dashboard = () => {
             {/* Affichage des crédits avec barre de progression */}
             <div className="bg-black/20 rounded-xl p-4 space-y-3">
               <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <Zap className="w-5 h-5 text-yellow-400" />
+                <div>
                   <span className="text-white font-semibold">Vos crédits</span>
                 </div>
                 <span className="text-sm text-gray-400">
