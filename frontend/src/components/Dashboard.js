@@ -13,12 +13,14 @@ const Dashboard = () => {
     name: user?.name || "Utilisateur",
     email: user?.email || "",
     phone: "+33 6 12 34 56 78", // À ajouter dans le profil si nécessaire
-    plan: isPremium ? "premium" : "free",
-    credits: 485, // À calculer selon l'utilisation
+    plan: "free", // Toujours gratuit
+    credits: credits,
+    creditsUsed: creditsUsed,
     subscriptionDate: "15 Décembre 2024", // À récupérer depuis la BDD
     trialEndDate: "18 Décembre 2024"
   };
 
+  const isPremium = false; // Plus de plan premium
   const isFreeTrial = false; // Plus d'essai gratuit
 
   const handleGoToStudio = () => {
