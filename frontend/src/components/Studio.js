@@ -1888,6 +1888,9 @@ const Studio = () => {
             </div>
           </div>
 
+          {/* Section Historique - Débug */}
+          {console.log('🔍 Debug Historique:', { toolHistory, length: toolHistory?.length, loading: historyLoading })}
+          
           {/* Section Historique */}
           {toolHistory && toolHistory.length > 0 && (
             <div className="bg-black/10 backdrop-blur-lg border border-white/10 rounded-2xl p-4 mb-4 flex-shrink-0">
