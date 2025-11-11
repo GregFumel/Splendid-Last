@@ -32,18 +32,24 @@ const Dashboard = () => {
     logout();
   };
 
-  const handleGoogleLogin = async () => {
-    // Pour le développement, on simule avec un email
-    // En production, utiliser Google OAuth réel
-    const email = prompt('Entrez votre email Google:');
-    if (email && email.includes('@')) {
-      const result = await login(email);
+  const handleGoogleLoginSuccess = async (credentialResponse) => {
+    try {
+      // credentialResponse.credential contient le JWT token de Google
+      const result = await login(credentialResponse.credential);
       if (result.success) {
-        alert('Connexion réussie!');
+        console.log('Connexion réussie!');
       } else {
         alert('Erreur de connexion: ' + result.error);
       }
+    } catch (error) {
+      console.error('Erreur lors de la connexion:', error);
+      alert('Erreur lors de la connexion');
     }
+  };
+
+  const handleGoogleLoginError = () => {
+    console.error('Échec de la connexion Google');
+    alert('Échec de la connexion Google. Veuillez réessayer.');
   };
 
   if (loading) {
