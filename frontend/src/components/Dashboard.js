@@ -146,47 +146,28 @@ const Dashboard = () => {
             </div>
           </div>
           
-          {isPremium ? (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <span className="text-lg font-medium text-white">Plan Premium</span>
-                </div>
-                <span className="badge-new-3d text-white px-4 py-2 rounded-full text-sm font-semibold">
-                  Actif
-                </span>
+          {/* Abonnement actif pour tous les utilisateurs connectés */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="text-lg font-medium text-white">Abonnement actif</span>
               </div>
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <span className="text-gray-400">Prix mensuel</span>
-                  <p className="text-white font-medium">29,99€/mois</p>
-                </div>
-                <div>
-                  <span className="text-gray-400">Depuis le</span>
-                  <p className="text-white font-medium">{userProfile.subscriptionDate}</p>
-                </div>
+              <span className="badge-new-3d text-white px-4 py-2 rounded-full text-sm font-semibold">
+                Actif
+              </span>
+            </div>
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <span className="text-gray-400">Crédits restants</span>
+                <p className="text-white font-medium">{userProfile.credits} crédits</p>
+              </div>
+              <div>
+                <span className="text-gray-400">Crédits utilisés</span>
+                <p className="text-white font-medium">{userProfile.creditsUsed} crédits</p>
               </div>
             </div>
-          ) : (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
-                  <span className="text-lg font-medium text-white">Essai gratuit</span>
-                </div>
-                <span className="bg-orange-500/20 border border-orange-400/50 text-orange-200 px-4 py-2 rounded-full text-sm font-semibold">
-                  {userProfile.trialEndDate}
-                </span>
-              </div>
-              <div className="bg-orange-500/10 border border-orange-400/20 rounded-xl p-4">
-                <p className="text-orange-200 text-sm">
-                  Votre essai gratuit se termine le {userProfile.trialEndDate}. 
-                  Passez au plan premium pour continuer à utiliser tous nos outils IA.
-                </p>
-              </div>
-            </div>
-          )}
+          </div>
 
           {/* Actions d'abonnement */}
           <div className="mt-6 flex flex-col sm:flex-row gap-3">
