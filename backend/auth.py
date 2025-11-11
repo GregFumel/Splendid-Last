@@ -164,3 +164,95 @@ async def logout():
     Déconnexion (côté client seulement, suppression du token)
     """
     return {"success": True, "message": "Déconnecté"}
+
+
+@auth_router.post("/deduct-credits")
+async def deduct_credits(
+    model_key: str,
+    units: float = 1.0,
+    variant: Optional[str] = None,
+    megapixels: Optional[float] = None,
+    authorization: Optional[str] = Header(None)
+):
+    """
+    Déduire des crédits du compte utilisateur
+    """
+    if not authorization or not authorization.startswith('Bearer '):
+        raise HTTPException(status_code=401, detail="Non authentifié")
+    
+    token = authorization.split(' ')[1]
+    user_id = verify_token(token)
+    
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Token invalide")
+    
+    # Récupérer l'utilisateur
+    user = await users_collection.find_one({"_id": user_id})
+    
+    if not user:
+        raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
+    
+    # Calculer le coût
+    from credits_config import get_credits_cost, is_model_free
+    
+    if is_model_free(model_key):
+        return {"success": True, "credits_deducted": 0, "credits_remaining": user.get("credits", 0)}
+    
+    cost_per_unit = get_credits_cost(model_key, variant, megapixels)
+    total_cost = cost_per_unit * units
+    
+    # Arrondir selon le barème
+    import math
+    total_cost = math.ceil(total_cost * 2) / 2  # Arrondir à 0.5 près
+    
+    # Vérifier si l'utilisateur a assez de crédits
+    current_credits = user.get("credits", 0)
+    if current_credits < total_cost:
+        raise HTTPException(status_code=402, detail="Crédits insuffisants")
+    
+    # Déduire les crédits
+    new_credits = current_credits - total_cost
+    new_credits_used = user.get("credits_used", 0) + total_cost
+    
+    await users_collection.update_one(
+        {"_id": user_id},
+        {
+            "$set": {
+                "credits": new_credits,
+                "credits_used": new_credits_used,
+                "updated_at": datetime.utcnow()
+            }
+        }
+    )
+    
+    return {
+        "success": True,
+        "credits_deducted": total_cost,
+        "credits_remaining": new_credits
+    }
+
+@auth_router.get("/credits")
+async def get_credits(authorization: Optional[str] = Header(None)):
+    """
+    Récupérer le solde de crédits de l'utilisateur
+    """
+    if not authorization or not authorization.startswith('Bearer '):
+        raise HTTPException(status_code=401, detail="Non authentifié")
+    
+    token = authorization.split(' ')[1]
+    user_id = verify_token(token)
+    
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Token invalide")
+    
+    # Récupérer l'utilisateur
+    user = await users_collection.find_one({"_id": user_id})
+    
+    if not user:
+        raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
+    
+    return {
+        "credits": user.get("credits", 0),
+        "creditsUsed": user.get("credits_used", 0)
+    }
+
