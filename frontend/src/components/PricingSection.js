@@ -124,7 +124,7 @@ const PricingSection = () => {
             
             {/* Garantie */}
             <p className="text-gray-500 mt-4 px-2" style={{fontSize: '10px'}}>
-              Gratuit • 500 crédits offerts
+              29,99€/mois • Sans engagement
             </p>
           </div>
         </div>
