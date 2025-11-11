@@ -1,0 +1,100 @@
+<analysis>
+The trajectory details the evolution of a full-stack application, Splendid, from initial UI tweaks to a complex system involving authentication, payment integration, and a credit-based usage model. The initial requests focused on UI changes, such as adding a logout button, modifying pricing text, and redesigning the logged-out Account page.
+
+The work then pivoted to a significant architectural change: implementing a PayPal subscription system. This was quickly abandoned at the user's request in favor of a free model where users receive 500 credits upon signing up with Google. This required a major refactor, including creating a new backend  for Google OAuth and credit management, and a  on the frontend to manage global user state and credits.
+
+Subsequent tasks involved implementing a persistent conversation history for the AI tools, which was debugged to correctly use  for session IDs. The final phase involved implementing the credit deduction logic on the frontend and refining the credit display on the user dashboard. The last active task was a set of specific UI adjustments to this dashboard credit display, including changing an icon and removing text. The process was iterative, with frequent user feedback driving changes.
+</analysis>
+
+<product_requirements>
+The project is a web application named Splendid, which serves as a portal for various AI tools.
+
+**Initial State & Core Functionality:**
+The application is a React (frontend) and FastAPI (backend) full-stack project. It allows users to explore and use a variety of integrated AI tools for image and text generation.
+
+**Evolution of Requirements:**
+
+1.  **UI & Content Updates:** The initial set of tasks involved cosmetic changes. This included adding a Se Déconnecter (Logout) button, redesigning the logged-out Compte (Account) page to function as a login portal, and removing all mentions of a 3-day free trial from the pricing and marketing sections, replacing it with a direct subscription model.
+
+2.  **Payment & Authentication Flow (Iterated):**
+    *   **Phase 1 (PayPal):** Implement a PayPal subscription button. This was fully implemented but then immediately removed by user request.
+    *   **Phase 2 (Google Auth + Free Credits):** The core business model was changed. The application is now free to use. Users must authenticate via Google. Upon first login, each user is granted 500 free credits. The pricing page text was reverted to 29,99€/mois but the payment functionality was replaced by a simple Commencer à utiliser mes outils button that scrolls to the pricing section.
+
+3.  **Credit System:**
+    *   A credit system was implemented where each AI tool usage deducts a specific number of credits based on a predefined cost structure (JSON).
+    *   The user's remaining credits are displayed on their dashboard. Once credits are depleted, access to paid AI tools is blocked (ChatGPT remains free).
+
+4.  **Persistent History:** The conversation and generation history within the Studio (the AI tool interface) must be persistent. When a user leaves and returns, or navigates between tools, their previous interactions for that tool should be preserved.
+
+5.  **Dashboard & UI Refinements:** The user dashboard should display an Abonnement actif status, a visual progress bar for remaining credits, and a button to Acheter des crédits. The Made with Emergent badge was also requested to be removed.
+</product_requirements>
+
+<key_technical_concepts>
+- **Frontend:** React, Tailwind CSS, React Hooks (, , ), .
+- **Backend:** FastAPI, Python, Pydantic.
+- **Database:** MongoDB (for storing user data, including credits and history).
+- **Authentication:** Google OAuth 2.0 for user login, with JWT (JSON Web Tokens) for managing user sessions between the frontend and backend.
+- **API Communication:** RESTful API endpoints prefixed with .
+- **State Management:** A custom React  is used for global state management of user authentication status and credit balance.
+</key_technical_concepts>
+
+<code_architecture>
+The application follows a standard full-stack monorepo structure with a React frontend and a FastAPI backend.
+
+**Directory Structure:**
+
+
+**Key Files & Changes:**
+
+-   :
+    -   **Importance:** Centralizes all authentication and user state logic for the frontend. It provides user data, auth status, credit balance, and functions to the entire app.
+    -   **Changes:** Created from scratch. It manages login/logout via Google, stores the JWT in , and includes functions to fetch () and decrease () user credits by calling backend endpoints.
+
+-   :
+    -   **Importance:** The user's account page. It serves as the login portal when logged out and the main user info center when logged in.
+    -   **Changes:** Heavily modified. It now conditionally renders a login view or a user details view. The logged-in view was updated to show Abonnement actif, the user's email, and a detailed credit display with a progress bar. The Passer au Premium button was changed to Acheter des crédits with a custom icon. The logic to display the euro value of credits was removed.
+
+-   :
+    -   **Importance:** The core component where users interact with all AI tools.
+    -   **Changes:** Modified to implement persistent conversation history. The key fix was storing  in  so that the session ID for each tool is not lost when the user navigates away and returns. It was also updated to call the  function from  after a successful generation.
+
+-   :
+    -   **Importance:** A new backend module dedicated to authentication and credit management.
+    -   **Changes:** Created from scratch. It contains endpoints for:
+        -   : Verifies the Google OAuth token, finds or creates a user in MongoDB (assigning 500 initial credits), and returns a JWT.
+        -   : Fetches the current user's data (including credits) using a valid JWT.
+        -   : A protected endpoint to deduct credits from a user's account.
+
+-   :
+    -   **Importance:** The main entry point for the FastAPI application.
+    -   **Changes:** Modified to import and include the API routers from  and , making their endpoints accessible under the  and  paths.
+
+-   :
+    -   **Importance:** The main HTML shell for the React application.
+    -   **Changes:** The  with the ID  was found and removed to hide the Made with Emergent watermark.
+
+-   :
+    -   **Importance:** Displays the pricing information.
+    -   **Changes:** Initially modified to add a PayPal button script. This was later reverted, and the PayPal code was completely removed. The button was restored to Commencer à utiliser mes outils, which simply scrolls the user to the pricing section. Text was updated to reflect the 29,99€/mois. Sans engagement model, even though payment is not currently active.
+</code_architecture>
+
+<pending_tasks>
+- **Backend Credit Deduction Logic:** The frontend calls the  endpoint with a hardcoded value. This endpoint needs to be integrated into each of the actual AI tool API endpoints on the backend ( in  calls it, but the backend logic isn't fully connected to the cost of each specific AI model).
+- **Acheter des crédits Functionality:** The Acheter des crédits (Buy Credits) button on the dashboard is a placeholder. It currently does not have any functionality attached to it.
+</pending_tasks>
+
+<current_work>
+The last task was to refine the UI of the credit display section within the **** component. The user provided a list of specific cosmetic changes.
+
+The requests were:
+1.  **Remove Euro Value Text:** In the credit display, remove the text showing the equivalent euro value of the credits (e.g., valeur 13,00€).
+2.  **Change Button Icon:** Replace the default Zap icon next to the Acheter des crédits (Buy Credits) button with a new custom coin icon that the user uploaded.
+3.  **Adjust Vos Crédits Title:** Remove the icon that was to the left of the Vos Crédits (Your Credits) title, so the text is aligned to the left edge of its container.
+4.  **Fix Spacing:** Add a space after Restants and Utilisés before the colon (e.g., Restants : instead of Restants:).
+
+The AI engineer was in the process of implementing these changes. The trajectory concluded just after the user uploaded the new coin icon and the engineer was about to retrieve its URL to use it in the code. The previous actions were focused on identifying the relevant code in  to make these UI modifications.
+</current_work>
+
+<optional_next_step>
+Retrieve the public URL of the newly uploaded coin icon () to proceed with the UI changes requested for the  component.
+</optional_next_step>
