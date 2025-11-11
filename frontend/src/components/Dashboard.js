@@ -197,7 +197,11 @@ const Dashboard = () => {
           {/* Actions d'abonnement */}
           <div className="mt-6 flex flex-col sm:flex-row gap-3">
             <button className="btn-3d-effect bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 text-white font-semibold px-6 py-3 rounded-xl transition flex items-center justify-center space-x-2 shadow-lg">
-              <Zap className="w-5 h-5" />
+              <img 
+                src="https://customer-assets.emergentagent.com/job_google-connect-1/artifacts/njhagw0d_5rb7fz1f_coins-3d-icon-png-download-5087356.webp" 
+                alt="Crédits"
+                className="w-5 h-5 object-contain"
+              />
               <span>Acheter des crédits</span>
             </button>
           </div>
