@@ -831,7 +831,7 @@ async def generate_video_with_kling(request: GenerateKlingRequest):
         
         try:
             # Convert data URLs to public URLs for Replicate
-            backend_url = "https://ai-portal-splendid.preview.emergentagent.com"
+            backend_url = os.environ.get('BACKEND_URL', 'http://localhost:8001')
             start_image_url = data_url_to_public_url(request.start_image, backend_url)
             logging.info(f"Start image converted to: {start_image_url}")
             
