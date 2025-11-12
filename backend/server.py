@@ -1494,7 +1494,7 @@ async def upscale_video(request: GenerateVideoUpscaleRequest):
             raise HTTPException(status_code=404, detail="Session non trouvée")
         
         # Convertir la vidéo data URL en URL publique
-        backend_url = "https://ai-portal-splendid.preview.emergentagent.com"
+        backend_url = os.environ.get('BACKEND_URL', 'http://localhost:8001')
         
         # Pour une vidéo, on peut sauvegarder comme fichier temporaire avec extension .mp4
         try:
