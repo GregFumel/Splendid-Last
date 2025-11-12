@@ -37,11 +37,11 @@ tokenizers
 Pillow
 multidict
 attrs
--e yarl
+yarl>=1.9.0
 aiosignal
 frozenlist
 distro
--e markupsafe
+markupsafe>=2.1.0
 jinja2
 replicate>=1.0.0
 PyJWT>=2.8.0
