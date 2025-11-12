@@ -1012,7 +1012,7 @@ async def generate_image_with_seedream(request: GenerateSeedreamRequest):
         
         # Si une image input est fournie, la convertir en URL publique
         if request.image_input:
-            backend_url = "https://ai-portal-splendid.preview.emergentagent.com"
+            backend_url = os.environ.get('BACKEND_URL', 'http://localhost:8001')
             image_url = data_url_to_public_url(request.image_input, backend_url)
             logging.info(f"Input image converted to: {image_url}")
             user_images.append(image_url)
