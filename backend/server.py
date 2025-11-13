@@ -66,21 +66,45 @@ def data_url_to_public_url(data_url: str, backend_url: str, resize_for_veo: bool
         # Open image with PIL to ensure it's valid
         image = Image.open(io.BytesIO(image_data))
         
-        # Resize for Google Veo 3.1 if necessary
+        # Resize for Google Veo 3.1 if necessary (with proper aspect ratio handling)
         if resize_for_veo:
             # Google Veo 3.1 requires 16:9 or 9:16 aspect ratio, ideally 1280x720 or 720x1280
             width, height = image.size
             aspect_ratio = width / height
             
-            # Determine the best format
+            # Determine the target format
             if aspect_ratio >= 1:  # Horizontal or square image -> 16:9
-                target_size = (1280, 720)
+                target_width, target_height = 1280, 720
+                target_aspect = 16/9
             else:  # Vertical image -> 9:16
-                target_size = (720, 1280)
+                target_width, target_height = 720, 1280
+                target_aspect = 9/16
             
-            # Resize while maintaining aspect ratio and filling
-            image = image.resize(target_size, Image.Resampling.LANCZOS)
-            logging.info(f"Image resized from {width}x{height} to {target_size[0]}x{target_size[1]} for Google Veo 3.1")
+            # Calculate the dimensions to crop to target aspect ratio
+            current_aspect = width / height
+            if current_aspect > target_aspect:
+                # Image is wider than target, crop width
+                new_width = int(height * target_aspect)
+                new_height = height
+                left = (width - new_width) // 2
+                top = 0
+                right = left + new_width
+                bottom = height
+            else:
+                # Image is taller than target, crop height
+                new_width = width
+                new_height = int(width / target_aspect)
+                left = 0
+                top = (height - new_height) // 2
+                right = width
+                bottom = top + new_height
+            
+            # Crop to target aspect ratio (center crop)
+            image = image.crop((left, top, right, bottom))
+            
+            # Now resize to target resolution
+            image = image.resize((target_width, target_height), Image.Resampling.LANCZOS)
+            logging.info(f"Image processed from {width}x{height} to {target_width}x{target_height} for Google Veo 3.1 (cropped and resized)")
         
         # Convert to RGB if necessary (for PNG with transparency)
         if image.mode in ('RGBA', 'LA', 'P'):
