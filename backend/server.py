@@ -1708,7 +1708,7 @@ async def generate_video_with_veo(request: GenerateVideoRequest):
             }
             
             # Ajouter l'image de référence si présente (convertir data URL en URL publique)
-            # Note: reference_images ne fonctionne qu'avec aspect_ratio 16:9 et durée 8s
+            # Note: reference_images ne fonctionne qu'avec aspect_ratio 16:9, durée 8s et résolution 1080p
             if request.image:
                 backend_url = os.environ.get('BACKEND_URL', 'http://localhost:8001')
                 # Si c'est un data URL, le convertir en URL publique
@@ -1719,10 +1719,12 @@ async def generate_video_with_veo(request: GenerateVideoRequest):
                     # Forcer les paramètres requis pour reference_images
                     inputs["aspect_ratio"] = "16:9"
                     inputs["duration"] = 8
+                    inputs["resolution"] = "1080p"  # reference_images nécessite 1080p
                 else:
                     inputs["reference_images"] = [request.image]
                     inputs["aspect_ratio"] = "16:9"
                     inputs["duration"] = 8
+                    inputs["resolution"] = "1080p"  # reference_images nécessite 1080p
             
             # Ajouter des reference images supplémentaires si présentes (max 3 au total)
             if request.reference_images and len(request.reference_images) > 0:
