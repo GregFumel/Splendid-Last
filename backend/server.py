@@ -2287,12 +2287,26 @@ async def get_image_upscaler_session(session_id: str):
         raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
 
 # Endpoint to serve temporary images (under /api prefix)
-@api_router.get("/temp-images/{filename}")
-async def serve_temp_image(filename: str):
-    """Serve temporary images for Replicate API"""
+@api_router.api_route("/temp-images/{filename}", methods=["GET", "HEAD"])
+async def serve_temp_image(filename: str, request: Request):
+    """Serve temporary images for Replicate API (supports GET and HEAD for validation)"""
     filepath = TEMP_IMAGES_DIR / filename
     if not filepath.exists():
         raise HTTPException(status_code=404, detail="Image not found")
+    
+    # For HEAD requests, Replicate just wants to validate the file exists
+    # Return appropriate headers without the body
+    if request.method == "HEAD":
+        return Response(
+            status_code=200,
+            headers={
+                "Content-Type": "image/jpeg",
+                "Content-Length": str(filepath.stat().st_size),
+                "Accept-Ranges": "bytes"
+            }
+        )
+    
+    # For GET requests, return the actual file
     return FileResponse(filepath)
 
 # Import auth and history routers
