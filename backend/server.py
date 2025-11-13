@@ -1707,9 +1707,15 @@ async def generate_video_with_veo(request: GenerateVideoRequest):
                 "generate_audio": request.generate_audio if request.generate_audio is not None else True
             }
             
-            # Ajouter l'image si présente
+            # Ajouter l'image de référence si présente (convertir data URL en URL publique)
             if request.image:
-                inputs["image"] = request.image
+                backend_url = os.environ.get('BACKEND_URL', 'http://localhost:8001')
+                # Si c'est un data URL, le convertir en URL publique
+                if request.image.startswith('data:'):
+                    image_url = data_url_to_public_url(request.image, backend_url)
+                    inputs["image"] = image_url
+                else:
+                    inputs["image"] = request.image
             
             # Ajouter les reference images si présentes
             if request.reference_images and len(request.reference_images) > 0:
