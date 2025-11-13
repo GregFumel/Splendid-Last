@@ -1734,6 +1734,7 @@ async def generate_video_with_veo(request: GenerateVideoRequest):
             
             # Générer la vidéo avec Replicate
             logging.info(f"Génération de vidéo avec Replicate - modèle: google/veo-3.1, prompt: {request.prompt}")
+            logging.info(f"Inputs envoyés à Replicate: {inputs}")
             
             output = replicate.run(
                 "google/veo-3.1",
