@@ -2326,6 +2326,26 @@ const Studio = () => {
                 )}
 
                 
+                {/* Aperçu image de référence Google Veo 3.1 - Mobile */}
+                {isGoogleVeo && veoReferenceImage && (
+                  <div className="flex items-center gap-2">
+                    <div className="relative">
+                      <img src={veoReferenceImage.dataUrl} alt="Référence" className="h-20 w-20 object-cover rounded border border-blue-400/30" />
+                      <button
+                        onClick={removeVeoReferenceImage}
+                        className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-lg"
+                        title="Supprimer l'image"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
+                    <div className="text-xs text-gray-400 flex-1">
+                      <p className="font-medium text-gray-300">{veoReferenceImage.name}</p>
+                      <p>Image de référence</p>
+                    </div>
+                  </div>
+                )}
+                
                 {/* Options de configuration pour Google Veo 3.1 */}
                 {isGoogleVeo && (
                   <div className="bg-blue-500/10 border border-blue-400/30 rounded-lg overflow-hidden">
