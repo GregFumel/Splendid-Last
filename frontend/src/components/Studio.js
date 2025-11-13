@@ -1754,6 +1754,34 @@ const Studio = () => {
     }
   };
 
+  // Fonctions pour l'upload d'image de référence Google Veo 3.1
+  const handleVeoReferenceImageUpload = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          setVeoReferenceImage({
+            file: file,
+            dataUrl: event.target.result,
+            name: file.name
+          });
+        };
+        reader.readAsDataURL(file);
+      } else {
+        alert('Veuillez sélectionner un fichier image valide.');
+      }
+    };
+    input.click();
+  };
+
+  const removeVeoReferenceImage = () => {
+    setVeoReferenceImage(null);
+  };
+
   // Fonctions pour l'upload de vidéo (Video Upscale AI)
   const handleVideoUpscaleUpload = () => {
     if (videoUpscaleInputRef.current) {
