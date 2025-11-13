@@ -1768,12 +1768,16 @@ async def generate_video_with_veo(request: GenerateVideoRequest):
                 inputs["aspect_ratio"] = "16:9"
                 inputs["duration"] = 8
             
+            # Choisir le modèle approprié : Veo 3 pour image-to-video, Veo 3.1 pour text-to-video
+            # Note: Veo 3.1 a des problèmes d'infrastructure (E6716) avec image-to-video
+            model = "google/veo-3" if request.image else "google/veo-3.1"
+            
             # Générer la vidéo avec Replicate
-            logging.info(f"Génération de vidéo avec Replicate - modèle: google/veo-3.1, prompt: {request.prompt}")
+            logging.info(f"Génération de vidéo avec Replicate - modèle: {model}, prompt: {request.prompt}")
             logging.info(f"Inputs envoyés à Replicate: {inputs}")
             
             output = replicate.run(
-                "google/veo-3.1",
+                model,
                 input=inputs
             )
             
