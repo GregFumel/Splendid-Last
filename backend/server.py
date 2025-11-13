@@ -1708,18 +1708,29 @@ async def generate_video_with_veo(request: GenerateVideoRequest):
             }
             
             # Ajouter l'image de référence si présente (convertir data URL en URL publique)
+            # Note: reference_images ne fonctionne qu'avec aspect_ratio 16:9 et durée 8s
             if request.image:
                 backend_url = os.environ.get('BACKEND_URL', 'http://localhost:8001')
                 # Si c'est un data URL, le convertir en URL publique
                 if request.image.startswith('data:'):
                     image_url = data_url_to_public_url(request.image, backend_url)
-                    inputs["image"] = image_url
+                    # Utiliser reference_images pour la cohérence de style/sujet
+                    inputs["reference_images"] = [image_url]
+                    # Forcer les paramètres requis pour reference_images
+                    inputs["aspect_ratio"] = "16:9"
+                    inputs["duration"] = 8
                 else:
-                    inputs["image"] = request.image
+                    inputs["reference_images"] = [request.image]
+                    inputs["aspect_ratio"] = "16:9"
+                    inputs["duration"] = 8
             
-            # Ajouter les reference images si présentes
+            # Ajouter des reference images supplémentaires si présentes (max 3 au total)
             if request.reference_images and len(request.reference_images) > 0:
-                inputs["reference_images"] = request.reference_images
+                # Si on a déjà une image de référence, ajouter les autres (max 3 au total)
+                if "reference_images" in inputs:
+                    inputs["reference_images"].extend(request.reference_images[:2])  # Max 3 total
+                else:
+                    inputs["reference_images"] = request.reference_images[:3]
             
             # Générer la vidéo avec Replicate
             logging.info(f"Génération de vidéo avec Replicate - modèle: google/veo-3.1, prompt: {request.prompt}")
