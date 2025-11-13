@@ -49,7 +49,7 @@ TEMP_IMAGES_DIR = Path("/tmp/kling_images")
 TEMP_IMAGES_DIR.mkdir(parents=True, exist_ok=True)
 
 # Helper function to convert data URL to public URL
-def data_url_to_public_url(data_url: str, backend_url: str) -> str:
+def data_url_to_public_url(data_url: str, backend_url: str, resize_for_veo: bool = False) -> str:
     """Convert a data URL to a public HTTP URL by saving the image temporarily"""
     try:
         # Extract the base64 data
@@ -65,6 +65,22 @@ def data_url_to_public_url(data_url: str, backend_url: str) -> str:
         
         # Open image with PIL to ensure it's valid
         image = Image.open(io.BytesIO(image_data))
+        
+        # Resize for Google Veo 3.1 if necessary
+        if resize_for_veo:
+            # Google Veo 3.1 requires 16:9 or 9:16 aspect ratio, ideally 1280x720 or 720x1280
+            width, height = image.size
+            aspect_ratio = width / height
+            
+            # Determine the best format
+            if aspect_ratio >= 1:  # Horizontal or square image -> 16:9
+                target_size = (1280, 720)
+            else:  # Vertical image -> 9:16
+                target_size = (720, 1280)
+            
+            # Resize while maintaining aspect ratio and filling
+            image = image.resize(target_size, Image.Resampling.LANCZOS)
+            logging.info(f"Image resized from {width}x{height} to {target_size[0]}x{target_size[1]} for Google Veo 3.1")
         
         # Convert to RGB if necessary (for PNG with transparency)
         if image.mode in ('RGBA', 'LA', 'P'):
