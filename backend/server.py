@@ -1728,9 +1728,9 @@ async def generate_video_with_veo(request: GenerateVideoRequest):
             # Le paramètre 'reference_images' est pour reference-to-video (cohérence de style/personnage)
             if request.image:
                 backend_url = os.environ.get('BACKEND_URL', 'http://localhost:8001')
-                # Si c'est un data URL, le convertir en URL publique
+                # Si c'est un data URL, le convertir en URL publique avec redimensionnement pour Veo
                 if request.image.startswith('data:'):
-                    image_url = data_url_to_public_url(request.image, backend_url)
+                    image_url = data_url_to_public_url(request.image, backend_url, resize_for_veo=True)
                     # Utiliser 'image' pour l'image-to-video
                     inputs["image"] = image_url
                 else:
