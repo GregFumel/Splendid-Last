@@ -1398,6 +1398,10 @@ const Studio = () => {
           requestBody.aspect_ratio = "16:9";
           requestBody.resolution = veoOptions.resolution;
           requestBody.generate_audio = veoOptions.generateAudio;
+          // Ajouter l'image de référence si uploadée
+          if (veoReferenceImage) {
+            requestBody.image = veoReferenceImage.dataUrl;
+          }
         }
         
         // Paramètres spécifiques pour SORA 2 - utiliser les options choisies
