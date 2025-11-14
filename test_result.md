@@ -545,6 +545,18 @@ frontend:
         agent: "testing"
         comment: "✅ TESTÉ: Grok visible sur la page d'accueil avec badge NEW. L'outil apparaît correctement dans la section Explore avec son nom, description et image du chat gris."
 
+  - task: "POST /api/grok/generate - Génération d'images avec Grok"
+    implemented: true
+    working: false
+    file: "/app/backend/server.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "🚨 PROBLÈME CRITIQUE IDENTIFIÉ: Grok ne fonctionne PAS à cause de timeouts! Test complet effectué - Backend configuré correctement (endpoints /api/grok/session et /api/grok/generate fonctionnels, modèle xai/grok-2-image sur Replicate), mais génération échoue systématiquement. CAUSE RACINE: 1) Génération prend 4+ minutes au lieu des 3 minutes configurées (timeout 180s), 2) Erreurs Replicate intermittentes ('Director: unexpected error handling prediction E6716', status 502), 3) Logs montrent générations 'processing' pendant 3+ minutes puis timeout côté client. SOLUTION REQUISE: Augmenter timeout à 300-360 secondes (5-6 minutes) et investiguer stabilité API Replicate. Sessions créées avec succès mais aucune image générée à cause des timeouts."
+
   - task: "Ordre des nouvelles IA - En première position"
     implemented: true
     working: true
