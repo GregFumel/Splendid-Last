@@ -413,7 +413,6 @@ const Studio = () => {
     generateAudio: true  // avec ou sans son
   });
   const [showVeoOptions, setShowVeoOptions] = useState(true); // Par défaut dépliées
-  const [veoReferenceImage, setVeoReferenceImage] = useState(null); // {file, dataUrl, name}
 
   // États pour les options SORA 2
   const [sora2Options, setSora2Options] = useState({
