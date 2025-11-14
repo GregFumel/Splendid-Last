@@ -1562,9 +1562,6 @@ const Studio = () => {
         if (isChatGPT5 || isNanoBanana || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isSeedream || isGrok) {
           setUploadedImage(null);
         }
-        if (isGoogleVeo) {
-          setVeoReferenceImage(null);
-        }
         if (isKling) {
           setKlingStartImage(null);
           setKlingEndImage(null);
