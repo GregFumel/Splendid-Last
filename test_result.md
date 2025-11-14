@@ -719,6 +719,8 @@ test_plan:
   test_priority: "high_first"
 
 agent_communication:
+  - agent: "testing"
+    message: "🚨 GROK DIAGNOSTIC COMPLET TERMINÉ! Problème identifié avec précision: L'outil Grok NE FONCTIONNE PAS à cause de timeouts systématiques. RÉSULTATS TESTS: ✅ Backend correctement configuré (endpoints /api/grok/session et /api/grok/generate opérationnels, modèle xai/grok-2-image sur Replicate), ✅ Sessions créées avec succès, ❌ Génération d'images échoue systématiquement. CAUSE RACINE: 1) Génération prend 4+ minutes au lieu des 3 minutes configurées (timeout 180s), 2) Erreurs Replicate intermittentes ('Director: unexpected error handling prediction E6716', status 502), 3) Logs backend montrent générations 'processing' pendant 3+ minutes puis timeout côté client. SOLUTION URGENTE: Augmenter timeout de 180s à 300-360s (5-6 minutes) dans server.py ligne 1254, et investiguer stabilité API Replicate. L'utilisateur avait raison - Grok ne génère aucune image à cause des timeouts!"
   - agent: "main"
     message: "✨ DASHBOARD UI - MODIFICATIONS COMPLÈTES! Phase 1 terminée: 1) Retrait valeur en euros (suppression texte 'valeur 13,00€'), 2) Icône bouton 'Acheter des crédits' changée (Zap → coins-3d custom icon), 3) Retrait icône 'Vos Crédits' (titre aligné à gauche), 4) Espaces ajoutés ('Restants :' et 'Utilisés :' au lieu de 'Restants:' et 'Utilisés:'). Phase 2 en cours: Intégration barème crédits réels dans Studio.js avec credits_config.py - corrections appliquées pour Google Veo (generateAudio), Kling (duration), Alibaba Wan (mapping size→resolution), SORA 2 (seconds), Image Upscaler (calcul mégapixels réels). Prêt pour testing backend."
   - agent: "main"
