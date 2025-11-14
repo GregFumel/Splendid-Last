@@ -2853,31 +2853,6 @@ const Studio = () => {
                       }}
                     />
                   </div>
-                ) : (isGoogleVeo) ? (
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={handleVeoReferenceImageUpload}
-                      className={`${veoReferenceImage ? 'bg-blue-600' : 'bg-blue-600/80 hover:bg-blue-600'} text-white p-2 rounded-lg transition-colors relative`}
-                      title="Ajouter une image de référence (optionnelle)"
-                    >
-                      <Plus className="w-5 h-5" />
-                      {veoReferenceImage && (
-                        <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-white"></span>
-                      )}
-                    </button>
-                    <input
-                      type="text"
-                      value={prompt}
-                      onChange={(e) => setPrompt(e.target.value)}
-                      placeholder="Décrivez la vidéo que vous souhaitez générer..."
-                      className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2"
-                      onKeyPress={(e) => {
-                        if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
-                          handleGenerate();
-                        }
-                      }}
-                    />
-                  </div>
                 ) : (isChatGPT5 || isNanoBanana || isImageUpscaler || isFluxKontext || isVideoUpscale) ? (
                   <div className="flex items-center gap-2">
                     <button
