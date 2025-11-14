@@ -3479,20 +3479,6 @@ const Studio = () => {
                     </>
                   )}
 
-                  {/* Bouton upload pour Google Veo 3.1 - Desktop */}
-                  {isGoogleVeo && (
-                    <button
-                      onClick={handleVeoReferenceImageUpload}
-                      className={`${veoReferenceImage ? 'bg-blue-600' : 'bg-blue-600/80 hover:bg-blue-600'} text-white p-2 rounded-lg transition-colors relative`}
-                      title="Ajouter une image de référence (optionnelle)"
-                    >
-                      <Plus className="w-5 h-5" />
-                      {veoReferenceImage && (
-                        <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-white"></span>
-                      )}
-                    </button>
-                  )}
-                
                   {/* Icône d'upload pour ChatGPT-5, NanoBanana, Image Upscaler, Flux Kontext et Seedream 4 */}
                   {(isChatGPT5 || isNanoBanana || isImageUpscaler || isFluxKontext || isSeedream) && (
                     <button
