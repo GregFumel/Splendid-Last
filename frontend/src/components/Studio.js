@@ -2948,27 +2948,6 @@ const Studio = () => {
                 )}
 
                 
-                {/* Aperçu image de référence Google Veo 3.1 - Desktop */}
-                {isGoogleVeo && veoReferenceImage && (
-                  <div className="flex items-center gap-3 p-3 bg-blue-500/10 border-blue-400/30 border rounded-lg">
-                    <img 
-                      src={veoReferenceImage.dataUrl} 
-                      alt="Image de référence"
-                      className="w-12 h-12 rounded object-cover"
-                    />
-                    <div className="flex-1">
-                      <p className="text-sm text-blue-200">Image de référence attachée</p>
-                      <p className="text-xs text-blue-300">{veoReferenceImage.name}</p>
-                    </div>
-                    <button
-                      onClick={removeVeoReferenceImage}
-                      className="text-blue-300 hover:text-white transition-colors"
-                    >
-                      <X className="w-5 h-5" />
-                    </button>
-                  </div>
-                )}
-                
                 {/* Options de configuration pour Google Veo 3.1 - Desktop */}
                 {isGoogleVeo && (
                   <div className="bg-blue-500/10 border border-blue-400/30 rounded-lg mb-3 overflow-hidden">
