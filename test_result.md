@@ -711,9 +711,10 @@ metadata:
 
 test_plan:
   current_focus:
-    - "POST /api/auth/deduct-credits - Système de déduction de crédits complet"
+    - "POST /api/grok/generate - Génération d'images avec Grok"
   stuck_tasks:
     - "Bug critique interface NanoBanana - État React non synchronisé"
+    - "POST /api/grok/generate - Génération d'images avec Grok"
   test_all: false
   test_priority: "high_first"
 
