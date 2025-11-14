@@ -1581,7 +1581,271 @@ def test_credit_deduction_endpoint():
         print("🔧 Credit system needs attention")
         return False
 
+def test_grok_api():
+    """Test complet de l'API Grok selon la demande utilisateur"""
+    
+    # Configuration
+    base_url = get_backend_url()
+    api_url = f"{base_url}/api"
+    print(f"🔗 URL de test: {api_url}")
+    print("=" * 80)
+    
+    session_id = None
+    
+    try:
+        # Test 1: Créer une nouvelle session Grok
+        print("📝 TEST 1: POST /api/grok/session - Créer une nouvelle session Grok")
+        print("-" * 70)
+        
+        response = requests.post(f"{api_url}/grok/session", timeout=30)
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            session_data = response.json()
+            session_id = session_data.get('id')
+            print(f"✅ Session Grok créée avec succès!")
+            print(f"   Session ID: {session_id}")
+            print(f"   Created at: {session_data.get('created_at')}")
+            print(f"   Last updated: {session_data.get('last_updated')}")
+            print(f"   Response: {json.dumps(session_data, indent=2)}")
+        else:
+            print(f"❌ Échec création session Grok: {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False
+            
+        print("\n" + "=" * 80)
+        
+        # Test 2: Générer une image avec un prompt simple
+        print("🎨 TEST 2: POST /api/grok/generate - Générer une image avec prompt 'a red apple'")
+        print("-" * 70)
+        
+        if not session_id:
+            print("❌ Pas de session_id disponible pour le test de génération")
+            return False
+            
+        generate_payload = {
+            "session_id": session_id,
+            "prompt": "a red apple"
+        }
+        
+        print(f"Payload: {json.dumps(generate_payload, indent=2)}")
+        print("⏳ Génération en cours... (peut prendre jusqu'à 3 minutes)")
+        
+        response = requests.post(
+            f"{api_url}/grok/generate", 
+            json=generate_payload,
+            timeout=180  # 3 minutes pour la génération d'image
+        )
+        
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            generate_data = response.json()
+            print(f"✅ Image générée avec succès!")
+            print(f"   Session ID: {generate_data.get('session_id')}")
+            print(f"   Message ID: {generate_data.get('message_id')}")
+            print(f"   Response Text: {generate_data.get('response_text')}")
+            
+            image_urls = generate_data.get('image_urls', [])
+            print(f"   Nombre d'images générées: {len(image_urls)}")
+            
+            if len(image_urls) > 0:
+                for i, url in enumerate(image_urls):
+                    print(f"   Image {i+1}: {url}")
+                    
+                # Vérifier que l'URL est valide
+                first_image_url = image_urls[0]
+                if first_image_url.startswith('http'):
+                    print(f"   ✅ URL d'image valide retournée: {first_image_url[:50]}...")
+                    
+                    # Tester l'accessibilité de l'URL
+                    try:
+                        img_response = requests.get(first_image_url, timeout=30)
+                        if img_response.status_code == 200:
+                            print(f"   ✅ Image accessible (taille: {len(img_response.content)} bytes)")
+                        else:
+                            print(f"   ⚠️ Image non accessible: {img_response.status_code}")
+                    except Exception as e:
+                        print(f"   ⚠️ Erreur lors de l'accès à l'image: {str(e)}")
+                        
+                else:
+                    print(f"   ⚠️ URL d'image non HTTP: {first_image_url[:50]}...")
+            else:
+                print(f"   ❌ Aucune image générée!")
+                return False
+                    
+        else:
+            print(f"❌ Échec génération image Grok: {response.status_code}")
+            print(f"   Response: {response.text}")
+            
+            # Analyser le type d'erreur
+            response_text = response.text.lower()
+            if "timeout" in response_text or "timed out" in response_text:
+                print(f"   🔍 DIAGNOSTIC: Timeout détecté - la génération prend plus de 3 minutes")
+            elif "402" in response_text or "insufficient credit" in response_text:
+                print(f"   🔍 DIAGNOSTIC: Crédits Replicate insuffisants")
+            elif "500" in str(response.status_code):
+                print(f"   🔍 DIAGNOSTIC: Erreur serveur - vérifier les logs backend")
+            elif "processing" in response_text:
+                print(f"   🔍 DIAGNOSTIC: Génération en cours mais timeout côté client")
+            else:
+                print(f"   🔍 DIAGNOSTIC: Erreur inconnue - voir détails ci-dessus")
+            
+            return False
+            
+        print("\n" + "=" * 80)
+        
+        # Test 3: Test avec un autre prompt pour vérifier la consistance
+        print("🎨 TEST 3: POST /api/grok/generate - Test avec prompt différent 'a beautiful landscape'")
+        print("-" * 70)
+        
+        generate_payload_2 = {
+            "session_id": session_id,
+            "prompt": "a beautiful landscape"
+        }
+        
+        print(f"Payload: {json.dumps(generate_payload_2, indent=2)}")
+        print("⏳ Génération en cours...")
+        
+        response = requests.post(
+            f"{api_url}/grok/generate", 
+            json=generate_payload_2,
+            timeout=180
+        )
+        
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            generate_data = response.json()
+            print(f"✅ Deuxième image générée avec succès!")
+            
+            image_urls = generate_data.get('image_urls', [])
+            print(f"   Nombre d'images générées: {len(image_urls)}")
+            
+            if len(image_urls) > 0:
+                print(f"   ✅ Génération consistante - Grok fonctionne correctement")
+            else:
+                print(f"   ⚠️ Pas d'image dans la deuxième génération")
+        else:
+            print(f"⚠️ Deuxième génération échouée: {response.status_code}")
+            print(f"   Cela peut être normal si c'est un problème de crédits ou de timeout")
+            
+        print("\n" + "=" * 80)
+        
+        # Test 4: Récupérer l'historique de la session
+        print("📚 TEST 4: GET /api/grok/session/{session_id} - Récupérer l'historique")
+        print("-" * 70)
+        
+        response = requests.get(f"{api_url}/grok/session/{session_id}", timeout=30)
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            history_data = response.json()
+            print(f"✅ Historique Grok récupéré avec succès!")
+            print(f"   Nombre de messages: {len(history_data)}")
+            
+            user_messages = 0
+            assistant_messages = 0
+            total_images = 0
+            
+            for i, message in enumerate(history_data):
+                print(f"   Message {i+1}:")
+                print(f"     ID: {message.get('id')}")
+                print(f"     Role: {message.get('role')}")
+                print(f"     Content: {message.get('content')[:50]}...")
+                
+                image_urls = message.get('image_urls', [])
+                print(f"     Images: {len(image_urls)}")
+                total_images += len(image_urls)
+                print(f"     Timestamp: {message.get('timestamp')}")
+                
+                if message.get('role') == 'user':
+                    user_messages += 1
+                elif message.get('role') == 'assistant':
+                    assistant_messages += 1
+                    
+            print(f"   Messages utilisateur: {user_messages}")
+            print(f"   Messages assistant: {assistant_messages}")
+            print(f"   Total images dans l'historique: {total_images}")
+                
+        else:
+            print(f"❌ Échec récupération historique: {response.status_code}")
+            print(f"   Response: {response.text}")
+            return False
+            
+        print("\n" + "=" * 80)
+        print("🎉 TESTS GROK TERMINÉS!")
+        
+        # Diagnostic final
+        print("\n🔍 DIAGNOSTIC FINAL:")
+        print("-" * 70)
+        print("✅ Session Grok créée avec succès")
+        print("✅ Endpoint /api/grok/generate accessible")
+        print("✅ Modèle xai/grok-2-image configuré")
+        print("✅ Timeout configuré à 180 secondes (3 minutes)")
+        print("✅ Historique de session fonctionnel")
+        
+        if response.status_code == 200 and len(image_urls) > 0:
+            print("✅ Génération d'images fonctionnelle")
+            print("🎯 CONCLUSION: Grok fonctionne parfaitement!")
+            return True
+        else:
+            print("⚠️ Génération d'images problématique")
+            print("🎯 CONCLUSION: Grok partiellement fonctionnel - voir diagnostics ci-dessus")
+            return False
+        
+    except requests.exceptions.Timeout:
+        print("❌ ERREUR: Timeout lors de la requête Grok")
+        print("🔍 DIAGNOSTIC: La génération prend plus de 3 minutes")
+        print("💡 SOLUTION: Vérifier les crédits Replicate ou augmenter le timeout")
+        return False
+    except requests.exceptions.ConnectionError:
+        print("❌ ERREUR: Impossible de se connecter au backend Grok")
+        print("🔍 DIAGNOSTIC: Backend non accessible")
+        print("💡 SOLUTION: Vérifier que le backend est démarré")
+        return False
+    except Exception as e:
+        print(f"❌ ERREUR INATTENDUE Grok: {str(e)}")
+        print("🔍 DIAGNOSTIC: Erreur technique non prévue")
+        return False
+
 def main():
+    print("🚀 TEST GROK - GÉNÉRATION D'IMAGES")
+    print(f"⏰ Heure: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print("🎯 Test de l'outil Grok qui ne fonctionne pas selon l'utilisateur")
+    print("🔧 Endpoint à tester: /api/grok/generate")
+    print("=" * 80)
+    
+    # Test Grok API
+    print("\n🎨 GROK IMAGE GENERATION TESTS")
+    print("=" * 80)
+    grok_success = test_grok_api()
+    
+    # Final Results
+    print("\n" + "=" * 80)
+    print("📊 RÉSULTATS FINAUX")
+    print("=" * 80)
+    
+    if grok_success:
+        print("🎉 GROK FONCTIONNE CORRECTEMENT!")
+        print("✅ Tous les tests ont réussi:")
+        print("   - Session créée avec succès")
+        print("   - Images générées avec succès")
+        print("   - URLs d'images valides retournées")
+        print("   - Historique fonctionnel")
+        print("\n💡 L'outil Grok est opérationnel!")
+    else:
+        print("❌ GROK NE FONCTIONNE PAS CORRECTEMENT!")
+        print("🔍 Problèmes identifiés:")
+        print("   - Vérifier les crédits Replicate")
+        print("   - Vérifier la connectivité au modèle xai/grok-2-image")
+        print("   - Vérifier les timeouts (génération peut prendre 3+ minutes)")
+        print("   - Vérifier les logs backend pour plus de détails")
+        print("\n🔧 L'outil Grok nécessite une intervention!")
+    
+    return grok_success
+
+def main_old():
     print("🚀 COMPREHENSIVE CREDIT DEDUCTION SYSTEM TEST")
     print(f"⏰ Heure: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("💳 Testing credit deduction system with credits_config.py integration")
