@@ -1250,8 +1250,8 @@ async def generate_image_with_grok(request: GenerateGrokRequest):
             
             logging.info(f"Prediction créée: {prediction.id}, status: {prediction.status}")
             
-            # Attendre que la génération soit terminée (avec timeout de 3 minutes)
-            max_wait_seconds = 180  # 3 minutes
+            # Attendre que la génération soit terminée (avec timeout de 6 minutes)
+            max_wait_seconds = 360  # 6 minutes (Grok peut prendre 4-5 minutes)
             poll_interval = 3
             elapsed = 0
             
