@@ -311,13 +311,147 @@ const Dashboard = () => {
         {/* Bouton Se Déconnecter */}
         <div className="flex justify-center mt-8">
           <button
-            onClick={handleLogout}
+            onClick={handleLogoutClick}
             className="btn-3d-effect bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-3 rounded-xl transition flex items-center justify-center space-x-2 w-full max-w-xs"
           >
             <LogOut className="w-5 h-5" />
             <span>Se déconnecter</span>
           </button>
         </div>
+
+        {/* Modal Acheter des crédits - Glassmorphisme */}
+        {showBuyCreditsModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+            <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-6 sm:p-8 w-full max-w-md shadow-2xl">
+              {/* Bouton fermer */}
+              <button
+                onClick={() => setShowBuyCreditsModal(false)}
+                className="absolute top-4 right-4 text-white/70 hover:text-white transition-colors"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+
+              {/* Titre */}
+              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 text-center">
+                Acheter des crédits
+              </h2>
+
+              {/* Options de crédits */}
+              <div className="space-y-4">
+                {/* 500 crédits */}
+                <button
+                  onClick={() => handleBuyCreditsClick(500)}
+                  className="w-full bg-gradient-to-r from-amber-600/80 to-yellow-400/80 hover:from-amber-700 hover:to-yellow-500 backdrop-blur-sm border border-white/20 text-white font-semibold px-6 py-4 rounded-xl transition flex items-center justify-between group"
+                >
+                  <div className="flex items-center space-x-3">
+                    <img 
+                      src="https://customer-assets.emergentagent.com/job_google-connect-1/artifacts/njhagw0d_5rb7fz1f_coins-3d-icon-png-download-5087356.webp" 
+                      alt="Crédits"
+                      className="w-8 h-8 object-contain"
+                    />
+                    <span className="text-lg">500 crédits</span>
+                  </div>
+                  <span className="text-xl font-bold">13€</span>
+                </button>
+
+                {/* 1000 crédits */}
+                <button
+                  onClick={() => handleBuyCreditsClick(1000)}
+                  className="w-full bg-gradient-to-r from-amber-600/80 to-yellow-400/80 hover:from-amber-700 hover:to-yellow-500 backdrop-blur-sm border border-white/20 text-white font-semibold px-6 py-4 rounded-xl transition flex items-center justify-between group relative"
+                >
+                  {/* Badge "Populaire" */}
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                    Populaire
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <img 
+                      src="https://customer-assets.emergentagent.com/job_google-connect-1/artifacts/njhagw0d_5rb7fz1f_coins-3d-icon-png-download-5087356.webp" 
+                      alt="Crédits"
+                      className="w-8 h-8 object-contain"
+                    />
+                    <span className="text-lg">1000 crédits</span>
+                  </div>
+                  <span className="text-xl font-bold">24€</span>
+                </button>
+
+                {/* 2000 crédits */}
+                <button
+                  onClick={() => handleBuyCreditsClick(2000)}
+                  className="w-full bg-gradient-to-r from-amber-600/80 to-yellow-400/80 hover:from-amber-700 hover:to-yellow-500 backdrop-blur-sm border border-white/20 text-white font-semibold px-6 py-4 rounded-xl transition flex items-center justify-between group relative"
+                >
+                  {/* Badge "Meilleure valeur" */}
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                    Meilleure valeur
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <img 
+                      src="https://customer-assets.emergentagent.com/job_google-connect-1/artifacts/njhagw0d_5rb7fz1f_coins-3d-icon-png-download-5087356.webp" 
+                      alt="Crédits"
+                      className="w-8 h-8 object-contain"
+                    />
+                    <span className="text-lg">2000 crédits</span>
+                  </div>
+                  <span className="text-xl font-bold">45€</span>
+                </button>
+              </div>
+
+              <p className="text-center text-white/60 text-sm mt-6">
+                Les crédits seront ajoutés immédiatement à votre compte
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Modal Confirmation Déconnexion - Glassmorphisme */}
+        {showLogoutConfirm && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+            <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-6 sm:p-8 w-full max-w-md shadow-2xl">
+              {/* Bouton fermer */}
+              <button
+                onClick={() => setShowLogoutConfirm(false)}
+                className="absolute top-4 right-4 text-white/70 hover:text-white transition-colors"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+
+              {/* Icône */}
+              <div className="flex justify-center mb-4">
+                <div className="bg-red-500/20 p-4 rounded-full">
+                  <LogOut className="w-12 h-12 text-red-400" />
+                </div>
+              </div>
+
+              {/* Titre */}
+              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 text-center">
+                Confirmer la déconnexion
+              </h2>
+
+              <p className="text-white/80 text-center mb-8">
+                Êtes-vous sûr de vouloir vous déconnecter ?
+              </p>
+
+              {/* Boutons */}
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  onClick={() => setShowLogoutConfirm(false)}
+                  className="flex-1 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white font-semibold px-6 py-3 rounded-xl transition"
+                >
+                  Annuler
+                </button>
+                <button
+                  onClick={confirmLogout}
+                  className="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-3 rounded-xl transition"
+                >
+                  Se déconnecter
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
