@@ -30,8 +30,20 @@ const Dashboard = () => {
     navigate('/studio');
   };
 
-  const handleLogout = () => {
+  const handleLogoutClick = () => {
+    setShowLogoutConfirm(true);
+  };
+
+  const confirmLogout = () => {
     logout();
+    setShowLogoutConfirm(false);
+  };
+
+  const handleBuyCreditsClick = (amount) => {
+    // Pour l'instant, juste fermer le modal
+    // Plus tard, on pourra implémenter la vraie logique de paiement
+    console.log(`Achat de ${amount} crédits`);
+    setShowBuyCreditsModal(false);
   };
 
   const handleGoogleLoginSuccess = async (credentialResponse) => {
