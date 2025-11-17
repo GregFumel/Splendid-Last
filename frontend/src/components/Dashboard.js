@@ -8,6 +8,8 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { user, credits, creditsUsed, loading, login, logout } = useAuth();
   const [showEditProfile, setShowEditProfile] = useState(false);
+  const [showBuyCreditsModal, setShowBuyCreditsModal] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   
   // Données de l'utilisateur depuis AuthContext
   const userProfile = {
