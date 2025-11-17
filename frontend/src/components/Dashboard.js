@@ -361,8 +361,11 @@ const Dashboard = () => {
                   onClick={() => handleBuyCreditsClick(1000)}
                   className="w-full bg-gradient-to-r from-amber-600/80 to-yellow-400/80 hover:from-amber-700 hover:to-yellow-500 backdrop-blur-sm border border-white/20 text-white font-semibold px-6 py-4 rounded-xl transition flex items-center justify-between group relative"
                 >
-                  {/* Badge "Populaire" */}
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  {/* Badge "Populaire" avec effet 3D */}
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-br from-green-500 to-green-600 text-white text-xs font-bold px-3 py-1 rounded-full border border-white/30 shadow-lg" style={{
+                    boxShadow: 'inset 0 1px 2px 0 rgba(255, 255, 255, 0.4), 0 4px 12px rgba(34, 197, 94, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2)',
+                    textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
+                  }}>
                     Populaire
                   </div>
                   <div className="flex items-center space-x-3">
