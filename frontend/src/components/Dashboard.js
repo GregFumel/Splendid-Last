@@ -319,14 +319,14 @@ const Dashboard = () => {
           </button>
         </div>
 
-        {/* Modal Acheter des crédits - Glassmorphisme */}
+        {/* Modal Acheter des crédits - Design moderne inspiré de l'image */}
         {showBuyCreditsModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-            <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-6 sm:p-8 w-full max-w-md shadow-2xl">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+            <div className="relative bg-gray-900 border border-gray-800 rounded-2xl p-6 sm:p-8 w-full max-w-4xl shadow-2xl">
               {/* Bouton fermer */}
               <button
                 onClick={() => setShowBuyCreditsModal(false)}
-                className="absolute top-4 right-4 text-white/70 hover:text-white transition-colors"
+                className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -334,76 +334,84 @@ const Dashboard = () => {
               </button>
 
               {/* Titre */}
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 text-center">
+              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 text-center">
                 Acheter des crédits
               </h2>
+              
+              {/* Message promotionnel */}
+              <p className="text-center text-gray-400 mb-8">
+                Choisissez le pack qui vous convient le mieux
+              </p>
 
-              {/* Options de crédits */}
-              <div className="space-y-4">
+              {/* Grille de cartes de crédits */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
                 {/* 500 crédits */}
-                <button
-                  onClick={() => handleBuyCreditsClick(500)}
-                  className="w-full bg-gradient-to-r from-amber-600/80 to-yellow-400/80 hover:from-amber-700 hover:to-yellow-500 backdrop-blur-sm border border-white/20 text-white font-semibold px-6 py-4 rounded-xl transition flex items-center justify-between group"
-                >
-                  <div className="flex items-center space-x-3">
-                    <img 
-                      src="https://customer-assets.emergentagent.com/job_google-connect-1/artifacts/njhagw0d_5rb7fz1f_coins-3d-icon-png-download-5087356.webp" 
-                      alt="Crédits"
-                      className="w-8 h-8 object-contain"
-                    />
-                    <span className="text-lg">500 crédits</span>
-                  </div>
-                  <span className="text-xl font-bold">13€</span>
-                </button>
+                <div className="bg-gray-800/50 border-2 border-gray-700 rounded-2xl p-6 flex flex-col items-center hover:border-gray-600 transition-all">
+                  <img 
+                    src="https://customer-assets.emergentagent.com/job_google-connect-1/artifacts/njhagw0d_5rb7fz1f_coins-3d-icon-png-download-5087356.webp" 
+                    alt="Crédits"
+                    className="w-12 h-12 object-contain mb-4"
+                  />
+                  <h3 className="text-2xl font-bold text-white mb-2">500 crédits</h3>
+                  <p className="text-3xl font-bold text-white mb-6">13€</p>
+                  <button
+                    onClick={() => handleBuyCreditsClick(500)}
+                    className="w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 rounded-xl transition"
+                  >
+                    Acheter
+                  </button>
+                </div>
 
-                {/* 1000 crédits */}
-                <button
-                  onClick={() => handleBuyCreditsClick(1000)}
-                  className="w-full bg-gradient-to-r from-amber-600/80 to-yellow-400/80 hover:from-amber-700 hover:to-yellow-500 backdrop-blur-sm border border-white/20 text-white font-semibold px-6 py-4 rounded-xl transition flex items-center justify-between group relative"
-                >
-                  {/* Badge "Populaire" avec effet 3D */}
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-br from-green-500 to-green-600 text-white text-xs font-bold px-3 py-1 rounded-full border border-white/30 shadow-lg" style={{
+                {/* 1000 crédits - Populaire */}
+                <div className="bg-gray-800/50 border-2 border-green-500 rounded-2xl p-6 flex flex-col items-center relative shadow-lg shadow-green-500/20 hover:shadow-green-500/40 transition-all">
+                  {/* Badge Populaire */}
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-br from-green-500 to-green-600 text-white text-xs font-bold px-4 py-1 rounded-full border border-white/30 shadow-lg" style={{
                     boxShadow: 'inset 0 1px 2px 0 rgba(255, 255, 255, 0.4), 0 4px 12px rgba(34, 197, 94, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2)',
                     textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
                   }}>
                     Populaire
                   </div>
-                  <div className="flex items-center space-x-3">
-                    <img 
-                      src="https://customer-assets.emergentagent.com/job_google-connect-1/artifacts/njhagw0d_5rb7fz1f_coins-3d-icon-png-download-5087356.webp" 
-                      alt="Crédits"
-                      className="w-8 h-8 object-contain"
-                    />
-                    <span className="text-lg">1000 crédits</span>
-                  </div>
-                  <span className="text-xl font-bold">24€</span>
-                </button>
+                  <img 
+                    src="https://customer-assets.emergentagent.com/job_google-connect-1/artifacts/njhagw0d_5rb7fz1f_coins-3d-icon-png-download-5087356.webp" 
+                    alt="Crédits"
+                    className="w-12 h-12 object-contain mb-4 mt-2"
+                  />
+                  <h3 className="text-2xl font-bold text-green-400 mb-2">1000 crédits</h3>
+                  <p className="text-3xl font-bold text-white mb-6">24€</p>
+                  <button
+                    onClick={() => handleBuyCreditsClick(1000)}
+                    className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 rounded-xl transition shadow-lg"
+                  >
+                    Acheter
+                  </button>
+                </div>
 
-                {/* 2000 crédits */}
-                <button
-                  onClick={() => handleBuyCreditsClick(2000)}
-                  className="w-full bg-gradient-to-r from-amber-600/80 to-yellow-400/80 hover:from-amber-700 hover:to-yellow-500 backdrop-blur-sm border border-white/20 text-white font-semibold px-6 py-4 rounded-xl transition flex items-center justify-between group relative"
-                >
-                  {/* Badge "Meilleure valeur" avec effet 3D */}
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-br from-blue-500 to-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full border border-white/30 shadow-lg" style={{
-                    boxShadow: 'inset 0 1px 2px 0 rgba(255, 255, 255, 0.4), 0 4px 12px rgba(59, 130, 246, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2)',
+                {/* 2000 crédits - Meilleure valeur */}
+                <div className="bg-gray-800/50 border-2 border-yellow-500 rounded-2xl p-6 flex flex-col items-center relative shadow-lg shadow-yellow-500/20 hover:shadow-yellow-500/40 transition-all">
+                  {/* Badge Meilleure valeur */}
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-br from-yellow-500 to-yellow-600 text-white text-xs font-bold px-4 py-1 rounded-full border border-white/30 shadow-lg" style={{
+                    boxShadow: 'inset 0 1px 2px 0 rgba(255, 255, 255, 0.4), 0 4px 12px rgba(234, 179, 8, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2)',
                     textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
                   }}>
                     Meilleure valeur
                   </div>
-                  <div className="flex items-center space-x-3">
-                    <img 
-                      src="https://customer-assets.emergentagent.com/job_google-connect-1/artifacts/njhagw0d_5rb7fz1f_coins-3d-icon-png-download-5087356.webp" 
-                      alt="Crédits"
-                      className="w-8 h-8 object-contain"
-                    />
-                    <span className="text-lg">2000 crédits</span>
-                  </div>
-                  <span className="text-xl font-bold">45€</span>
-                </button>
+                  <img 
+                    src="https://customer-assets.emergentagent.com/job_google-connect-1/artifacts/njhagw0d_5rb7fz1f_coins-3d-icon-png-download-5087356.webp" 
+                    alt="Crédits"
+                    className="w-12 h-12 object-contain mb-4 mt-2"
+                  />
+                  <h3 className="text-2xl font-bold text-yellow-400 mb-2">2000 crédits</h3>
+                  <p className="text-3xl font-bold text-white mb-6">45€</p>
+                  <button
+                    onClick={() => handleBuyCreditsClick(2000)}
+                    className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-semibold py-3 rounded-xl transition shadow-lg"
+                  >
+                    Acheter
+                  </button>
+                </div>
               </div>
 
-              <p className="text-center text-white/60 text-sm mt-6">
+              <p className="text-center text-gray-500 text-sm">
                 Les crédits seront ajoutés immédiatement à votre compte
               </p>
             </div>
