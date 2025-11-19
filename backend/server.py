@@ -514,9 +514,43 @@ async def generate_image_with_nanobanana(request: GenerateImageRequest):
 
         # Sauvegarder le message utilisateur avec l'image si présente
         user_image_urls = []
+        corrected_image_data = None
+        
         if request.image_data and request.image_name:
-            # Stocker l'image uploadée dans la base de données
-            user_image_urls = [request.image_data]
+            # Corriger l'orientation EXIF de l'image uploadée
+            try:
+                # Extraire les données base64
+                if request.image_data.startswith('data:'):
+                    header, encoded = request.image_data.split(',', 1)
+                    image_bytes = base64.b64decode(encoded)
+                else:
+                    image_bytes = base64.b64decode(request.image_data)
+                
+                # Ouvrir l'image avec PIL
+                img = Image.open(io.BytesIO(image_bytes))
+                
+                # Corriger automatiquement l'orientation selon les métadonnées EXIF
+                img = ImageOps.exif_transpose(img)
+                
+                # Reconvertir en data URL
+                buffer = io.BytesIO()
+                img_format = img.format if img.format else 'JPEG'
+                img.save(buffer, format=img_format, quality=95)
+                buffer.seek(0)
+                
+                # Convertir en base64
+                corrected_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+                mime_type = f"image/{img_format.lower()}" if img_format else "image/jpeg"
+                corrected_image_data = f"data:{mime_type};base64,{corrected_base64}"
+                
+                logging.info("✅ Orientation EXIF de l'image uploadée corrigée")
+                user_image_urls = [corrected_image_data]
+                
+            except Exception as exif_error:
+                logging.warning(f"⚠️ Impossible de corriger l'orientation EXIF de l'image uploadée: {exif_error}")
+                # Fallback : utiliser l'image originale
+                user_image_urls = [request.image_data]
+                corrected_image_data = request.image_data
         
         user_message = NanoBananaMessage(
             session_id=request.session_id,
@@ -547,10 +581,10 @@ async def generate_image_with_nanobanana(request: GenerateImageRequest):
                 "output_format": "jpg"
             }
             
-            # Ajouter l'image uploadée si présente
-            if request.image_data and request.image_name:
+            # Ajouter l'image uploadée (avec orientation corrigée) si présente
+            if corrected_image_data:
                 # Le modèle nano-banana accepte des images en input
-                inputs["image_input"] = [request.image_data]
+                inputs["image_input"] = [corrected_image_data]
             
             # Générer l'image avec Replicate
             logging.info(f"Génération d'image avec Replicate - modèle: google/nano-banana, prompt: {request.prompt}")
