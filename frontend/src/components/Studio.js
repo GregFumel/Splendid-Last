@@ -3048,6 +3048,7 @@ const Studio = () => {
                   </div>
                 ) : (
                   <input
+                    ref={promptInputRef}
                     type="text"
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
