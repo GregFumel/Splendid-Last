@@ -426,7 +426,7 @@ const Dashboard = () => {
                   }}></div>
                   
                   {/* Badge Meilleure valeur avec réduction */}
-                  <div className="absolute -top-5 sm:-top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-br from-yellow-500 to-yellow-600 text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 md:px-4 py-1 rounded-full border border-white/30 shadow-lg whitespace-nowrap z-10" style={{
+                  <div className="absolute -top-8 sm:-top-6 left-1/2 transform -translate-x-1/2 bg-gradient-to-br from-yellow-500 to-yellow-600 text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 md:px-4 py-1 rounded-full border border-white/30 shadow-lg whitespace-nowrap z-20" style={{
                     boxShadow: 'inset 0 1px 2px 0 rgba(255, 255, 255, 0.4), 0 4px 12px rgba(234, 179, 8, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2)',
                     textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
                   }}>
