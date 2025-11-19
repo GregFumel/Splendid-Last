@@ -3022,6 +3022,7 @@ const Studio = () => {
                     </button>
                     {!isImageUpscaler && !isVideoUpscale && (
                       <input
+                        ref={promptInputRef}
                         type="text"
                         value={prompt}
                         onChange={(e) => setPrompt(e.target.value)}
