@@ -469,7 +469,7 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              <p className="text-center text-gray-500 text-xs sm:text-sm">
+              <p className="text-center text-gray-500 text-[10px] sm:text-sm">
                 Les crédits seront ajoutés immédiatement à votre compte
               </p>
             </div>
