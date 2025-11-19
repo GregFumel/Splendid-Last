@@ -220,6 +220,7 @@ class NanoBananaMessage(BaseModel):
 
 class NanoBananaSession(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: Optional[str] = None  # ID de l'utilisateur propriétaire
     created_at: datetime = Field(default_factory=datetime.utcnow)
     last_updated: datetime = Field(default_factory=datetime.utcnow)
     messages: List[NanoBananaMessage] = []
@@ -235,6 +236,7 @@ class FluxKontextMessage(BaseModel):
 
 class FluxKontextSession(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: Optional[str] = None  # ID de l'utilisateur propriétaire
     created_at: datetime = Field(default_factory=datetime.utcnow)
     last_updated: datetime = Field(default_factory=datetime.utcnow)
     messages: List[FluxKontextMessage] = []
@@ -265,6 +267,7 @@ class KlingMessage(BaseModel):
 
 class KlingSession(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: Optional[str] = None  # ID de l'utilisateur propriétaire
     created_at: datetime = Field(default_factory=datetime.utcnow)
     last_updated: datetime = Field(default_factory=datetime.utcnow)
     messages: List[KlingMessage] = []
@@ -295,6 +298,7 @@ class SeedreamMessage(BaseModel):
 
 class SeedreamSession(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: Optional[str] = None  # ID de l'utilisateur propriétaire
     created_at: datetime = Field(default_factory=datetime.utcnow)
     last_updated: datetime = Field(default_factory=datetime.utcnow)
     messages: List[SeedreamMessage] = []
@@ -323,6 +327,7 @@ class GrokMessage(BaseModel):
 
 class GrokSession(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: Optional[str] = None  # ID de l'utilisateur propriétaire
     created_at: datetime = Field(default_factory=datetime.utcnow)
     last_updated: datetime = Field(default_factory=datetime.utcnow)
     messages: List[GrokMessage] = []
@@ -348,6 +353,7 @@ class AlibabaWanMessage(BaseModel):
 
 class AlibabaWanSession(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: Optional[str] = None  # ID de l'utilisateur propriétaire
     created_at: datetime = Field(default_factory=datetime.utcnow)
     last_updated: datetime = Field(default_factory=datetime.utcnow)
     messages: List[AlibabaWanMessage] = []
@@ -375,6 +381,7 @@ class VideoUpscaleMessage(BaseModel):
 
 class VideoUpscaleSession(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: Optional[str] = None  # ID de l'utilisateur propriétaire
     created_at: datetime = Field(default_factory=datetime.utcnow)
     last_updated: datetime = Field(default_factory=datetime.utcnow)
     messages: List[VideoUpscaleMessage] = []
@@ -402,6 +409,7 @@ class GoogleVeoMessage(BaseModel):
 
 class GoogleVeoSession(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: Optional[str] = None  # ID de l'utilisateur propriétaire
     created_at: datetime = Field(default_factory=datetime.utcnow)
     last_updated: datetime = Field(default_factory=datetime.utcnow)
     messages: List[GoogleVeoMessage] = []
@@ -435,6 +443,7 @@ class Sora2Message(BaseModel):
 
 class Sora2Session(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: Optional[str] = None  # ID de l'utilisateur propriétaire
     created_at: datetime = Field(default_factory=datetime.utcnow)
     last_updated: datetime = Field(default_factory=datetime.utcnow)
     messages: List[Sora2Message] = []
