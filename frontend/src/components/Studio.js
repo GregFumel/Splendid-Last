@@ -2046,23 +2046,16 @@ const Studio = () => {
             {/* Historique conversationnel pour NanoBanana, ChatGPT-5, Google Veo, SORA 2, Image Upscaler, Flux Kontext, Kling AI, Seedream 4, Grok, Alibaba Wan et Video Upscale ou zone de résultat pour les autres */}
             {(isNanoBanana || isChatGPT5 || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isKling || isSeedream || isGrok || isAlibabaWan || isVideoUpscale) ? (
               <>
-                {/* Animation de chargement de l'historique */}
+                {/* Animation de chargement de l'historique - GIF animé */}
                 {isLoadingHistory ? (
                   <div className="flex flex-col items-center justify-center py-16 space-y-4">
-                    <div className="relative">
-                      {/* Cercle principal animé */}
-                      <div className="w-12 h-12 border-4 border-blue-500/20 rounded-full animate-spin border-t-blue-500"></div>
-                      {/* Cercles secondaires pour l'effet */}
-                      <div className="absolute top-0 left-0 w-12 h-12 border-4 border-purple-500/20 rounded-full animate-pulse"></div>
-                    </div>
-                    <div className="text-center space-y-2">
-                      <p className="text-gray-300 font-medium">Chargement de {selectedTool.name}</p>
-                      <div className="flex space-x-1 justify-center">
-                        <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
-                        <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                        <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
-                      </div>
-                    </div>
+                    {/* GIF de chargement */}
+                    <img 
+                      src="https://customer-assets.emergentagent.com/job_ai-portal-splendid/artifacts/w1q2rxx2_Loading%20animation%20blue.gif" 
+                      alt="Chargement"
+                      className="w-20 h-20 object-contain"
+                    />
+                    <p className="text-gray-300 font-medium">Chargement de {selectedTool.name}</p>
                   </div>
                 ) : (
                   <>
