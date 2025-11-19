@@ -319,32 +319,32 @@ const Dashboard = () => {
           </button>
         </div>
 
-        {/* Modal Acheter des crédits - Design moderne inspiré de l'image */}
+        {/* Modal Acheter des crédits - Design moderne responsive mobile */}
         {showBuyCreditsModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-            <div className="relative bg-gray-900 border border-gray-800 rounded-2xl p-6 sm:p-8 w-full max-w-4xl shadow-2xl">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/70 backdrop-blur-sm overflow-y-auto">
+            <div className="relative bg-gray-900 border border-gray-800 rounded-2xl p-4 sm:p-6 md:p-8 w-full max-w-sm sm:max-w-4xl shadow-2xl my-auto">
               {/* Bouton fermer */}
               <button
                 onClick={() => setShowBuyCreditsModal(false)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+                className="absolute top-3 right-3 text-gray-400 hover:text-white transition-colors z-10"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
 
               {/* Titre */}
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 text-center">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2 sm:mb-3 text-center pr-8">
                 Acheter des crédits
               </h2>
               
               {/* Message promotionnel */}
-              <p className="text-center text-gray-400 mb-8">
-                Choisissez le pack qui vous convient le mieux
+              <p className="text-center text-gray-400 text-xs sm:text-sm mb-4 sm:mb-6 md:mb-8">
+                Choisissez le pack qui vous convient
               </p>
 
               {/* Grille de cartes de crédits */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6 mb-4 sm:mb-6">
                 {/* 500 crédits */}
                 <div className="bg-gray-800/50 border-2 border-gray-700 rounded-2xl p-6 flex flex-col items-center hover:border-gray-600 transition-all">
                   <img 
