@@ -372,25 +372,41 @@ const Dashboard = () => {
                   </button>
                 </div>
 
-                {/* 1000 crédits - Populaire */}
-                <div className="bg-gray-800/50 border-2 border-green-500 rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6 flex flex-col items-center relative shadow-lg shadow-green-500/20 hover:shadow-green-500/40 transition-all">
-                  {/* Badge Populaire */}
-                  <div className="absolute -top-2 sm:-top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-br from-green-500 to-green-600 text-white text-xs font-bold px-3 sm:px-4 py-0.5 sm:py-1 rounded-full border border-white/30 shadow-lg" style={{
+                {/* 1000 crédits - Populaire avec animation */}
+                <div className="bg-gray-800/50 rounded-xl sm:rounded-2xl p-2 sm:p-4 md:p-6 flex flex-col items-center relative shadow-lg shadow-green-500/20 hover:shadow-green-500/40 transition-all overflow-hidden">
+                  {/* Animation du liseré qui tourne */}
+                  <div className="absolute inset-0 rounded-xl sm:rounded-2xl" style={{
+                    background: 'linear-gradient(90deg, transparent, transparent, rgba(34, 197, 94, 0.8), transparent, transparent)',
+                    backgroundSize: '200% 100%',
+                    animation: 'borderRotate 3s linear infinite',
+                    padding: '2px',
+                    WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                    WebkitMaskComposite: 'xor',
+                    maskComposite: 'exclude'
+                  }}></div>
+                  
+                  {/* Badge Populaire avec réduction */}
+                  <div className="absolute -top-2 sm:-top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-br from-green-500 to-green-600 text-white text-xs font-bold px-3 sm:px-4 py-0.5 sm:py-1 rounded-full border border-white/30 shadow-lg z-10" style={{
                     boxShadow: 'inset 0 1px 2px 0 rgba(255, 255, 255, 0.4), 0 4px 12px rgba(34, 197, 94, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2)',
                     textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
                   }}>
-                    Populaire
+                    -25% • Populaire
                   </div>
+                  
                   <img 
                     src="https://customer-assets.emergentagent.com/job_google-connect-1/artifacts/njhagw0d_5rb7fz1f_coins-3d-icon-png-download-5087356.webp" 
                     alt="Crédits"
-                    className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain mb-2 sm:mb-3 md:mb-4 mt-1 sm:mt-2"
+                    className="w-7 h-7 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain mb-2 sm:mb-3 md:mb-4 mt-1 sm:mt-2 relative z-10"
                   />
-                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-green-400 mb-1 sm:mb-2">1000 crédits</h3>
-                  <p className="text-2xl sm:text-2xl md:text-3xl font-bold text-white mb-3 sm:mb-4 md:mb-6">24€</p>
+                  <h3 className="text-base sm:text-xl md:text-2xl font-bold text-green-400 mb-1 sm:mb-2 relative z-10">1000 crédits</h3>
+                  <p className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-1 relative z-10">44,99€</p>
+                  <p className="text-xs text-gray-400 line-through mb-2 sm:mb-3 relative z-10">60€</p>
                   <button
                     onClick={() => handleBuyCreditsClick(1000)}
-                    className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base transition shadow-lg"
+                    className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-2 sm:py-2.5 md:py-3 rounded-full text-xs sm:text-sm md:text-base transition shadow-lg hover:shadow-xl transform hover:scale-105 relative z-10"
+                    style={{
+                      boxShadow: 'inset 0 1px 2px 0 rgba(255, 255, 255, 0.2), 0 4px 12px rgba(34, 197, 94, 0.3)'
+                    }}
                   >
                     Acheter
                   </button>
