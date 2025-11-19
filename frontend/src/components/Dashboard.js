@@ -48,16 +48,19 @@ const Dashboard = () => {
 
   const handleGoogleLoginSuccess = async (credentialResponse) => {
     try {
+      console.log('🔐 Tentative de connexion avec Google...');
       // credentialResponse.credential contient le JWT token de Google
       const result = await login(credentialResponse.credential);
       if (result.success) {
-        console.log('Connexion réussie!');
+        console.log('✅ Connexion réussie!');
       } else {
+        console.error('❌ Erreur de connexion:', result.error);
         alert('Erreur de connexion: ' + result.error);
       }
     } catch (error) {
-      console.error('Erreur lors de la connexion:', error);
-      alert('Erreur lors de la connexion');
+      console.error('❌ Erreur lors de la connexion:', error);
+      console.error('Détails:', error.message, error.stack);
+      alert('Erreur de connexion: ' + (error.message || 'Erreur inconnue'));
     }
   };
 
