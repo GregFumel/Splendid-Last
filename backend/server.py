@@ -1890,12 +1890,10 @@ async def generate_video_with_sora2(request: GenerateVideoSora2Request):
 
         # Utiliser l'API Replicate avec le modèle openai/sora-2
         replicate_token = os.environ.get('REPLICATE_API_TOKEN')
-        openai_key = os.environ.get('OPENAI_API_KEY')  # Utiliser OPENAI_API_KEY
+        openai_key = os.environ.get('OPENAI_API_KEY')  # Optionnel - si fourni, sera facturé directement par OpenAI
         
         if not replicate_token:
             raise HTTPException(status_code=500, detail="REPLICATE_API_TOKEN not configured")
-        if not openai_key:
-            raise HTTPException(status_code=500, detail="OPENAI_API_KEY not configured for SORA 2")
         
         video_urls = []
         response_text = ""
