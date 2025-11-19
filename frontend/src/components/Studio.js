@@ -655,13 +655,22 @@ const Studio = () => {
   const initializeNanoBananaSession = async () => {
     try {
       const backendUrl = process.env.REACT_APP_BACKEND_URL;
+      const authToken = localStorage.getItem('authToken');
       console.log('Backend URL:', backendUrl);
+      console.log('Auth Token présent:', !!authToken);
+      
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      
+      // Ajouter le token d'authentification si présent
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+      }
       
       const response = await fetch(`${backendUrl}/api/nanobanana/session`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
       });
       
       console.log('Session response status:', response.status);
@@ -671,7 +680,7 @@ const Studio = () => {
       }
       
       const session = await response.json();
-      console.log('Session créée:', session.id);
+      console.log('Session créée:', session.id, 'User ID:', session.user_id);
       setSessionId(session.id);
       
       // Sauvegarder la session pour cet outil
@@ -683,7 +692,7 @@ const Studio = () => {
         }
       }));
       
-      // Charger l'historique existant (vide pour une nouvelle session)
+      // Charger l'historique existant (peut contenir des messages si session réutilisée)
       loadConversationHistory(session.id, 'nanobanana');
     } catch (error) {
       console.error('Erreur lors de l\'initialisation de la session NanoBanana:', error);
