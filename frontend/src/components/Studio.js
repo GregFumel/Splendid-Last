@@ -1443,6 +1443,9 @@ const Studio = () => {
           videoUrlsCount: result.video_urls?.length || 0
         });
         
+        // 🔥 IMPORTANT: Arrêter l'indicateur de génération DÈS que le résultat est reçu
+        setIsGenerating(false);
+        
         // Recharger l'historique de conversation
         const toolType = isNanoBanana ? 'nanobanana' : isGoogleVeo ? 'google-veo' : isSora2 ? 'sora2' : isImageUpscaler ? 'image-upscaler' : isFluxKontext ? 'flux-kontext' : isKling ? 'kling' : isSeedream ? 'seedream' : isGrok ? 'grok' : isAlibabaWan ? 'alibaba-wan' : isVideoUpscale ? 'video-upscale' : 'chatgpt5';
         console.log('🔄 Rechargement historique pour session:', sessionId, 'type:', toolType);
