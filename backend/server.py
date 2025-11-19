@@ -48,6 +48,18 @@ api_router = APIRouter(prefix="/api")
 TEMP_IMAGES_DIR = Path("/tmp/kling_images")
 TEMP_IMAGES_DIR.mkdir(parents=True, exist_ok=True)
 
+# Helper function to get user_id from JWT token
+def get_user_id_from_token(authorization: Optional[str] = Header(None)) -> Optional[str]:
+    """Extract user_id from JWT token in Authorization header"""
+    if not authorization or not authorization.startswith('Bearer '):
+        return None
+    
+    token = authorization.split(' ')[1]
+    
+    # Import verify_token from auth module
+    from auth import verify_token
+    return verify_token(token)
+
 # Helper function to convert data URL to public URL
 def data_url_to_public_url(data_url: str, backend_url: str, resize_for_veo: bool = False) -> str:
     """Convert a data URL to a public HTTP URL by saving the image temporarily"""
