@@ -371,6 +371,9 @@ const Studio = () => {
   const [showToolSelector, setShowToolSelector] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   
+  // Référence pour l'input prompt (pour fermer le clavier sur mobile)
+  const promptInputRef = useRef(null);
+  
   // États pour les outils IA
   const [sessionId, setSessionId] = useState(null);
   const [conversationHistory, setConversationHistory] = useState([]);
