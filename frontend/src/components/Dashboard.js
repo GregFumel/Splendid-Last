@@ -385,9 +385,9 @@ const Dashboard = () => {
                     maskComposite: 'exclude'
                   }}></div>
                   
-                  {/* Badge -25% en haut à gauche */}
-                  <div className="absolute top-2 left-2 bg-gradient-to-br from-green-500 to-green-600 text-white text-[10px] sm:text-xs font-bold px-2 py-1 rounded-full border border-white/30 shadow-lg z-20" style={{
-                    boxShadow: 'inset 0 1px 2px 0 rgba(255, 255, 255, 0.4), 0 4px 12px rgba(34, 197, 94, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2)',
+                  {/* Badge -25% en haut à gauche - ROUGE */}
+                  <div className="absolute top-2 left-2 bg-gradient-to-br from-red-500 to-red-600 text-white text-[10px] sm:text-xs font-bold px-2 py-1 rounded-full border border-white/30 shadow-lg z-20" style={{
+                    boxShadow: 'inset 0 1px 2px 0 rgba(255, 255, 255, 0.4), 0 4px 12px rgba(239, 68, 68, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2)',
                     textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
                   }}>
                     -25%
