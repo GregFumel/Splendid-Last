@@ -656,11 +656,25 @@ async def get_nanobanana_session(session_id: str):
         raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
 
 @api_router.post("/nanobanana/session", response_model=NanoBananaSession)
-async def create_nanobanana_session():
-    """Crée une nouvelle session NanoBanana"""
+async def create_nanobanana_session(authorization: Optional[str] = Header(None)):
+    """Crée ou récupère une session NanoBanana pour l'utilisateur"""
     try:
-        session = NanoBananaSession()
+        user_id = get_user_id_from_token(authorization)
+        
+        # Si l'utilisateur est connecté, chercher sa session existante
+        if user_id:
+            existing_session = await db.nanobanana_sessions.find_one(
+                {"user_id": user_id},
+                sort=[("last_updated", -1)]
+            )
+            if existing_session:
+                logger.info(f"📂 Session NanoBanana existante trouvée pour user {user_id}")
+                return NanoBananaSession(**existing_session)
+        
+        # Créer une nouvelle session
+        session = NanoBananaSession(user_id=user_id)
         await db.nanobanana_sessions.insert_one(session.dict())
+        logger.info(f"✨ Nouvelle session NanoBanana créée pour user {user_id or 'anonymous'}")
         return session
     except Exception as e:
         logger.error(f"Erreur lors de la création de session: {str(e)}")
