@@ -49,6 +49,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (googleToken) => {
     try {
+      console.log('📡 Envoi de la requête d\'authentification au backend...');
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/google`, {
         method: 'POST',
         headers: {
@@ -57,20 +58,24 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ token: googleToken })
       });
 
+      console.log('📥 Réponse du backend:', response.status, response.statusText);
+
       if (response.ok) {
         const data = await response.json();
+        console.log('✅ Données reçues:', { email: data.user?.email, credits: data.user?.credits });
         localStorage.setItem('authToken', data.token);
         setUser(data.user);
         setCredits(data.user.credits || 0);
         setCreditsUsed(data.user.creditsUsed || 0);
         return { success: true, user: data.user };
       } else {
-        const error = await response.json();
-        return { success: false, error: error.message };
+        const errorData = await response.json();
+        console.error('❌ Erreur backend:', errorData);
+        return { success: false, error: errorData.detail || errorData.message || 'Erreur inconnue' };
       }
     } catch (error) {
-      console.error('Erreur login:', error);
-      return { success: false, error: 'Erreur de connexion' };
+      console.error('❌ Erreur réseau ou autre:', error);
+      return { success: false, error: error.message || 'Erreur de connexion' };
     }
   };
 
