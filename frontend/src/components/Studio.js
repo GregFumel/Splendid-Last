@@ -2226,14 +2226,61 @@ const Studio = () => {
                       </div>
                     ))}
                     
-                    {/* Indicateur de génération en cours - Simple et sobre */}
+                    {/* Indicateur de génération en cours - Avec GIF animé et messages personnalisés */}
                     {isGenerating && (
                       <div className="flex justify-start mb-4">
-                        <div className="bg-gray-800/90 rounded-lg p-3 inline-flex items-center space-x-2 shadow-lg">
-                          <div className="animate-spin rounded-full h-4 w-4 border-2 border-gray-400 border-t-transparent"></div>
-                          <span className="text-sm text-gray-300">
-                            {isNanoBanana ? 'Génération d\'image en cours...' : isImageUpscaler ? 'Upscaling de l\'image en cours...' : isVideoUpscale ? 'Upscaling de la vidéo en cours...' : isFluxKontext ? (uploadedImage ? 'Édition d\'image en cours...' : 'Génération d\'image en cours...') : (isGoogleVeo || isSora2 || isKling) ? 'Génération de vidéo en cours...' : 'Réflexion en cours...'}
-                          </span>
+                        <div className="bg-gray-800/90 rounded-lg p-3 inline-flex flex-col space-y-2 shadow-lg">
+                          <div className="inline-flex items-center space-x-3">
+                            <img 
+                              src="https://customer-assets.emergentagent.com/job_ai-portal-splendid/artifacts/cdrk9xxn_Icon%205%203D.gif" 
+                              alt="Chargement"
+                              className="w-6 h-6 object-contain"
+                            />
+                            <span className="text-sm text-gray-300 font-medium">
+                              {isNanoBanana ? 'Génération d\'image en cours...' : 
+                               isImageUpscaler ? 'Upscaling de l\'image en cours...' : 
+                               isVideoUpscale ? 'Upscaling de la vidéo en cours...' : 
+                               isFluxKontext ? (uploadedImage ? 'Édition d\'image en cours...' : 'Génération d\'image en cours...') : 
+                               isGoogleVeo ? 'Génération de vidéo en cours...' :
+                               isSora2 ? 'Génération de vidéo en cours...' :
+                               isKling ? 'Génération de vidéo en cours...' :
+                               isAlibabaWan ? 'Génération de vidéo en cours...' :
+                               isSeedream ? 'Génération d\'image en cours...' :
+                               isGrok ? 'Génération d\'image en cours...' :
+                               'Réflexion en cours...'}
+                            </span>
+                          </div>
+                          {/* Messages de temps personnalisés */}
+                          {isSora2 && (
+                            <p className="text-xs text-gray-400 ml-9">
+                              ⏱️ 1 à 5 minutes - Le temps d'aller prendre un café ☕
+                            </p>
+                          )}
+                          {isGoogleVeo && (
+                            <p className="text-xs text-gray-400 ml-9">
+                              ⏱️ 1 à 3 minutes - Patience, ça arrive !
+                            </p>
+                          )}
+                          {isKling && (
+                            <p className="text-xs text-gray-400 ml-9">
+                              ⏱️ 1 à 3 minutes - Bientôt prêt !
+                            </p>
+                          )}
+                          {isAlibabaWan && (
+                            <p className="text-xs text-gray-400 ml-9">
+                              ⏱️ 1 à 5 minutes - Le temps de faire un petit tour 🚶
+                            </p>
+                          )}
+                          {(isNanoBanana || isImageUpscaler || isSeedream || isGrok || isFluxKontext) && (
+                            <p className="text-xs text-gray-400 ml-9">
+                              ⚡ Quelques secondes...
+                            </p>
+                          )}
+                          {isVideoUpscale && (
+                            <p className="text-xs text-gray-400 ml-9">
+                              ⏱️ Quelques secondes à quelques minutes selon la taille
+                            </p>
+                          )}
                         </div>
                       </div>
                     )}
