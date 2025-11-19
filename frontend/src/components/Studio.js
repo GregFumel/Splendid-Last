@@ -1576,7 +1576,6 @@ const Studio = () => {
       } catch (error) {
         console.error('Erreur lors de la génération:', error);
         alert('Erreur lors de la génération. Veuillez réessayer.');
-      } finally {
         setIsGenerating(false);
       }
     } else {
