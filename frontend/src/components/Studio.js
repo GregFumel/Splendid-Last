@@ -617,11 +617,20 @@ const Studio = () => {
       const backendUrl = process.env.REACT_APP_BACKEND_URL;
       console.log('Backend URL ChatGPT-5:', backendUrl);
       
+      const authToken = localStorage.getItem('authToken');
+      
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      
+      // Ajouter le token d'authentification si présent
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+      }
+      
       const response = await fetch(`${backendUrl}/api/chatgpt5/session`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
       });
       
       console.log('ChatGPT-5 Session response status:', response.status);
@@ -707,11 +716,20 @@ const Studio = () => {
       const backendUrl = process.env.REACT_APP_BACKEND_URL;
       console.log('Backend URL Google Veo:', backendUrl);
       
+      const authToken = localStorage.getItem('authToken');
+      
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      
+      // Ajouter le token d'authentification si présent
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+      }
+      
       const response = await fetch(`${backendUrl}/api/google-veo/session`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
       });
       
       console.log('Google Veo Session response status:', response.status);
@@ -748,11 +766,20 @@ const Studio = () => {
       const backendUrl = process.env.REACT_APP_BACKEND_URL;
       console.log('Backend URL SORA 2:', backendUrl);
       
+      const authToken = localStorage.getItem('authToken');
+      
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      
+      // Ajouter le token d'authentification si présent
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+      }
+      
       const response = await fetch(`${backendUrl}/api/sora2/session`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
       });
       
       console.log('SORA 2 Session response status:', response.status);
@@ -789,11 +816,20 @@ const Studio = () => {
       const backendUrl = process.env.REACT_APP_BACKEND_URL;
       console.log('Backend URL AI Image Upscaler:', backendUrl);
       
+      const authToken = localStorage.getItem('authToken');
+      
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      
+      // Ajouter le token d'authentification si présent
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+      }
+      
       const response = await fetch(`${backendUrl}/api/image-upscaler/session`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
       });
       
       console.log('AI Image Upscaler Session response status:', response.status);
@@ -829,11 +865,20 @@ const Studio = () => {
       const backendUrl = process.env.REACT_APP_BACKEND_URL;
       console.log('Backend URL Flux Kontext Pro:', backendUrl);
       
+      const authToken = localStorage.getItem('authToken');
+      
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      
+      // Ajouter le token d'authentification si présent
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+      }
+      
       const response = await fetch(`${backendUrl}/api/flux-kontext/session`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
       });
       
       console.log('Flux Kontext Pro Session response status:', response.status);
@@ -869,11 +914,20 @@ const Studio = () => {
       const backendUrl = process.env.REACT_APP_BACKEND_URL;
       console.log('Backend URL Kling AI v2.1:', backendUrl);
       
+      const authToken = localStorage.getItem('authToken');
+      
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      
+      // Ajouter le token d'authentification si présent
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+      }
+      
       const response = await fetch(`${backendUrl}/api/kling/session`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
       });
       
       console.log('Kling AI v2.1 Session response status:', response.status);
@@ -909,11 +963,20 @@ const Studio = () => {
       const backendUrl = process.env.REACT_APP_BACKEND_URL;
       console.log('Backend URL Seedream 4:', backendUrl);
       
+      const authToken = localStorage.getItem('authToken');
+      
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      
+      // Ajouter le token d'authentification si présent
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+      }
+      
       const response = await fetch(`${backendUrl}/api/seedream/session`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
       });
       
       console.log('Seedream 4 Session response status:', response.status);
@@ -949,11 +1012,20 @@ const Studio = () => {
       const backendUrl = process.env.REACT_APP_BACKEND_URL;
       console.log('Backend URL Grok:', backendUrl);
       
+      const authToken = localStorage.getItem('authToken');
+      
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      
+      // Ajouter le token d'authentification si présent
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+      }
+      
       const response = await fetch(`${backendUrl}/api/grok/session`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
       });
       
       console.log('Grok Session response status:', response.status);
@@ -989,11 +1061,20 @@ const Studio = () => {
       const backendUrl = process.env.REACT_APP_BACKEND_URL;
       console.log('Backend URL Alibaba Wan 2.5:', backendUrl);
       
+      const authToken = localStorage.getItem('authToken');
+      
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      
+      // Ajouter le token d'authentification si présent
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+      }
+      
       const response = await fetch(`${backendUrl}/api/alibaba-wan/session`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
       });
       
       console.log('Alibaba Wan 2.5 Session response status:', response.status);
@@ -1029,11 +1110,20 @@ const Studio = () => {
       const backendUrl = process.env.REACT_APP_BACKEND_URL;
       console.log('Backend URL Video Upscale AI:', backendUrl);
       
+      const authToken = localStorage.getItem('authToken');
+      
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      
+      // Ajouter le token d'authentification si présent
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+      }
+      
       const response = await fetch(`${backendUrl}/api/video-upscale/session`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
       });
       
       console.log('Video Upscale AI Session response status:', response.status);
