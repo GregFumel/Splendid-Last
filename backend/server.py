@@ -2240,10 +2240,15 @@ async def upscale_image(request: UpscaleImageRequest):
                 input=inputs
             )
             
-            # Le output est une liste d'URLs d'images
+            # Le output peut être une URL unique (FileOutput) ou une liste
+            upscaled_url = None
             if isinstance(output, list) and len(output) > 0:
                 upscaled_url = str(output[0])
-                
+            elif output:
+                # Cas où output est une URL unique (str ou FileOutput)
+                upscaled_url = str(output)
+            
+            if upscaled_url:
                 # Télécharger l'image upscalée et la convertir en base64
                 logging.info(f"Téléchargement de l'image upscalée depuis: {upscaled_url}")
                 response_img = requests.get(upscaled_url, timeout=60)
