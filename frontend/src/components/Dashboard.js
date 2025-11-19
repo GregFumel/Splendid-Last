@@ -478,8 +478,8 @@ const Dashboard = () => {
 
         {/* Modal Confirmation Déconnexion - Glassmorphisme */}
         {showLogoutConfirm && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-            <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-6 sm:p-8 w-full max-w-md shadow-2xl">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+            <div className="relative bg-white/5 backdrop-blur-xl border border-white/20 rounded-3xl p-6 sm:p-8 w-full max-w-md shadow-2xl">
               {/* Bouton fermer */}
               <button
                 onClick={() => setShowLogoutConfirm(false)}
@@ -490,15 +490,8 @@ const Dashboard = () => {
                 </svg>
               </button>
 
-              {/* Icône */}
-              <div className="flex justify-center mb-4">
-                <div className="bg-red-500/20 p-4 rounded-full">
-                  <LogOut className="w-12 h-12 text-red-400" />
-                </div>
-              </div>
-
               {/* Titre */}
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 text-center">
+              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 text-center mt-2">
                 Confirmer la déconnexion
               </h2>
 
