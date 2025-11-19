@@ -2234,31 +2234,6 @@ const Studio = () => {
                           <span className="text-sm text-gray-300">
                             {isNanoBanana ? 'Génération d\'image en cours...' : isImageUpscaler ? 'Upscaling de l\'image en cours...' : isVideoUpscale ? 'Upscaling de la vidéo en cours...' : isFluxKontext ? (uploadedImage ? 'Édition d\'image en cours...' : 'Génération d\'image en cours...') : (isGoogleVeo || isSora2 || isKling) ? 'Génération de vidéo en cours...' : 'Réflexion en cours...'}
                           </span>
-                          {(isGoogleVeo || isSora2) && (
-                            <p className="text-xs text-gray-400 mt-1">
-                              La génération peut prendre 1 à 2 minutes, veuillez patienter.
-                            </p>
-                          )}
-                          {(isKling || isAlibabaWan) && (
-                            <p className="text-xs text-gray-400 mt-1">
-                              ⏳ La génération peut prendre 2 à 3 minutes ou plus, veuillez patienter...
-                            </p>
-                          )}
-                          {isImageUpscaler && (
-                            <p className="text-xs text-gray-400 mt-1">
-                              L'upscaling peut prendre quelques secondes selon la taille de l'image.
-                            </p>
-                          )}
-                          {isVideoUpscale && (
-                            <p className="text-xs text-gray-400 mt-1">
-                              ⏳ L'upscaling peut prendre 3 à 5 minutes ou plus selon la taille de la vidéo...
-                            </p>
-                          )}
-                          {isFluxKontext && (
-                            <p className="text-xs text-gray-400 mt-1">
-                              {uploadedImage ? 'L\'édition peut prendre quelques instants.' : 'La génération peut prendre quelques instants.'}
-                            </p>
-                          )}
                         </div>
                       </div>
                     )}
