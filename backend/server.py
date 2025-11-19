@@ -548,9 +548,25 @@ async def generate_image_with_nanobanana(request: GenerateImageRequest):
             response = requests.get(image_url, timeout=30)
             response.raise_for_status()
             
-            # Convertir en base64
-            image_base64 = base64.b64encode(response.content).decode('utf-8')
-            image_data_url = f"data:image/jpeg;base64,{image_base64}"
+            # Corriger l'orientation EXIF avant de convertir en base64
+            try:
+                from PIL import Image, ImageOps
+                img = Image.open(io.BytesIO(response.content))
+                # Corriger automatiquement l'orientation selon les métadonnées EXIF
+                img = ImageOps.exif_transpose(img)
+                # Sauvegarder dans un buffer
+                buffer = io.BytesIO()
+                img.save(buffer, format='JPEG', quality=95)
+                buffer.seek(0)
+                # Convertir en base64
+                image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+                image_data_url = f"data:image/jpeg;base64,{image_base64}"
+                logging.info("✅ Orientation EXIF corrigée automatiquement")
+            except Exception as exif_error:
+                logging.warning(f"⚠️ Impossible de corriger l'orientation EXIF: {exif_error}, utilisation de l'image originale")
+                # Fallback : utiliser l'image originale
+                image_base64 = base64.b64encode(response.content).decode('utf-8')
+                image_data_url = f"data:image/jpeg;base64,{image_base64}"
             
             image_urls = [image_data_url]
             response_text = f"Image générée avec succès avec Google Nano Banana pour : {request.prompt}"
