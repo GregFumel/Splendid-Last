@@ -165,6 +165,7 @@ class ChatGPT5Message(BaseModel):
 
 class ChatGPT5Session(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: Optional[str] = None  # ID de l'utilisateur propriétaire
     created_at: datetime = Field(default_factory=datetime.utcnow)
     last_updated: datetime = Field(default_factory=datetime.utcnow)
     messages: List[ChatGPT5Message] = []
