@@ -2995,6 +2995,7 @@ const Studio = () => {
                     </button>
                     
                     <input
+                      ref={promptInputRef}
                       type="text"
                       value={prompt}
                       onChange={(e) => setPrompt(e.target.value)}
@@ -3680,6 +3681,7 @@ const Studio = () => {
                   
                   {isKling && (
                     <input
+                      ref={promptInputRef}
                       type="text"
                       value={prompt}
                       onChange={(e) => setPrompt(e.target.value)}
