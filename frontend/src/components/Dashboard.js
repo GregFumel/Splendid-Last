@@ -352,17 +352,21 @@ const Dashboard = () => {
               {/* Grille de cartes de crédits */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6 mb-4 sm:mb-6">
                 {/* 500 crédits */}
-                <div className="bg-gray-800/50 border-2 border-gray-700 rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6 flex flex-col items-center hover:border-gray-600 transition-all">
+                <div className="bg-gray-800/50 border-2 border-gray-700 rounded-xl sm:rounded-2xl p-2 sm:p-4 md:p-6 flex flex-col items-center hover:border-gray-600 transition-all">
                   <img 
                     src="https://customer-assets.emergentagent.com/job_google-connect-1/artifacts/njhagw0d_5rb7fz1f_coins-3d-icon-png-download-5087356.webp" 
                     alt="Crédits"
-                    className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain mb-2 sm:mb-3 md:mb-4"
+                    className="w-7 h-7 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain mb-2 sm:mb-3 md:mb-4"
                   />
-                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-1 sm:mb-2">500 crédits</h3>
-                  <p className="text-2xl sm:text-2xl md:text-3xl font-bold text-white mb-3 sm:mb-4 md:mb-6">13€</p>
+                  <h3 className="text-base sm:text-xl md:text-2xl font-bold text-white mb-1 sm:mb-2">500 crédits</h3>
+                  <p className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2 sm:mb-3 md:mb-4">29,99€</p>
+                  <p className="text-xs text-gray-400 mb-2 sm:mb-4">Pack de base</p>
                   <button
                     onClick={() => handleBuyCreditsClick(500)}
-                    className="w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base transition"
+                    className="w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 sm:py-2.5 md:py-3 rounded-full text-xs sm:text-sm md:text-base transition shadow-lg hover:shadow-xl transform hover:scale-105"
+                    style={{
+                      boxShadow: 'inset 0 1px 2px 0 rgba(255, 255, 255, 0.2), 0 4px 12px rgba(0, 0, 0, 0.3)'
+                    }}
                   >
                     Acheter
                   </button>
