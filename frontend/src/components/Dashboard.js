@@ -363,9 +363,9 @@ const Dashboard = () => {
                 </div>
 
                 {/* 1000 crédits - Populaire */}
-                <div className="bg-gray-800/50 border-2 border-green-500 rounded-2xl p-6 flex flex-col items-center relative shadow-lg shadow-green-500/20 hover:shadow-green-500/40 transition-all">
+                <div className="bg-gray-800/50 border-2 border-green-500 rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6 flex flex-col items-center relative shadow-lg shadow-green-500/20 hover:shadow-green-500/40 transition-all">
                   {/* Badge Populaire */}
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-br from-green-500 to-green-600 text-white text-xs font-bold px-4 py-1 rounded-full border border-white/30 shadow-lg" style={{
+                  <div className="absolute -top-2 sm:-top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-br from-green-500 to-green-600 text-white text-xs font-bold px-3 sm:px-4 py-0.5 sm:py-1 rounded-full border border-white/30 shadow-lg" style={{
                     boxShadow: 'inset 0 1px 2px 0 rgba(255, 255, 255, 0.4), 0 4px 12px rgba(34, 197, 94, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2)',
                     textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
                   }}>
@@ -374,13 +374,13 @@ const Dashboard = () => {
                   <img 
                     src="https://customer-assets.emergentagent.com/job_google-connect-1/artifacts/njhagw0d_5rb7fz1f_coins-3d-icon-png-download-5087356.webp" 
                     alt="Crédits"
-                    className="w-12 h-12 object-contain mb-4 mt-2"
+                    className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain mb-2 sm:mb-3 md:mb-4 mt-1 sm:mt-2"
                   />
-                  <h3 className="text-2xl font-bold text-green-400 mb-2">1000 crédits</h3>
-                  <p className="text-3xl font-bold text-white mb-6">24€</p>
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-green-400 mb-1 sm:mb-2">1000 crédits</h3>
+                  <p className="text-2xl sm:text-2xl md:text-3xl font-bold text-white mb-3 sm:mb-4 md:mb-6">24€</p>
                   <button
                     onClick={() => handleBuyCreditsClick(1000)}
-                    className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 rounded-xl transition shadow-lg"
+                    className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base transition shadow-lg"
                   >
                     Acheter
                   </button>
