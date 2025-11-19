@@ -1903,10 +1903,13 @@ async def generate_video_with_sora2(request: GenerateVideoSora2Request):
             # Préparer les inputs pour le modèle openai/sora-2
             inputs = {
                 "prompt": request.prompt,
-                "seconds": request.seconds or 8,
-                "aspect_ratio": request.aspect_ratio or "landscape",
-                "openai_api_key": openai_key
+                "seconds": request.seconds or 4,  # Default 4 seconds comme dans l'exemple
+                "aspect_ratio": request.aspect_ratio or "landscape"
             }
+            
+            # Ajouter la clé OpenAI si fournie (optionnel - sinon facturé via Replicate)
+            if openai_key:
+                inputs["openai_api_key"] = openai_key
             
             # Ajouter l'image de référence si présente
             if request.input_reference:
