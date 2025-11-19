@@ -2226,16 +2226,14 @@ const Studio = () => {
                       </div>
                     ))}
                     
-                    {/* Indicateur de génération en cours - Sticky pour rester visible */}
+                    {/* Indicateur de génération en cours - Simple et sobre */}
                     {isGenerating && (
-                      <div className="sticky top-0 z-10 flex justify-start mb-4 pt-2 pb-2 bg-gradient-to-b from-gray-900 via-gray-900 to-transparent">
-                        <div className="bg-gray-700/80 backdrop-blur-md border border-blue-400/50 rounded-xl p-4 max-w-md shadow-lg">
-                          <div className="flex items-center space-x-2 mb-2">
-                            <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-400 border-t-transparent"></div>
-                            <span className="text-sm text-gray-200 font-medium">
-                              {isNanoBanana ? 'Génération d\'image en cours...' : isImageUpscaler ? 'Upscaling de l\'image en cours...' : isVideoUpscale ? 'Upscaling de la vidéo en cours...' : isFluxKontext ? (uploadedImage ? 'Édition d\'image en cours...' : 'Génération d\'image en cours...') : (isGoogleVeo || isSora2 || isKling) ? 'Génération de vidéo en cours...' : 'Réflexion en cours...'}
-                            </span>
-                          </div>
+                      <div className="flex justify-start mb-4">
+                        <div className="bg-gray-800/90 rounded-lg p-3 inline-flex items-center space-x-2 shadow-lg">
+                          <div className="animate-spin rounded-full h-4 w-4 border-2 border-gray-400 border-t-transparent"></div>
+                          <span className="text-sm text-gray-300">
+                            {isNanoBanana ? 'Génération d\'image en cours...' : isImageUpscaler ? 'Upscaling de l\'image en cours...' : isVideoUpscale ? 'Upscaling de la vidéo en cours...' : isFluxKontext ? (uploadedImage ? 'Édition d\'image en cours...' : 'Génération d\'image en cours...') : (isGoogleVeo || isSora2 || isKling) ? 'Génération de vidéo en cours...' : 'Réflexion en cours...'}
+                          </span>
                           {(isGoogleVeo || isSora2) && (
                             <p className="text-xs text-gray-400 mt-1">
                               La génération peut prendre 1 à 2 minutes, veuillez patienter.
