@@ -11,7 +11,19 @@ export const mockAITools = [
     toolType: "video-generator",
     apiEndpoint: "google-veo"
   },
-  // 2. NanoBanana
+  // 2. Image Upscaler
+  {
+    id: 5,
+    name: "Image Upscaler",
+    description: "Le meilleur upscaler du marché pour améliorer vos images.",
+    category: "image",
+    image: "https://customer-assets.emergentagent.com/job_nano-banana-fix/artifacts/vtefylxi_crystal-cover%20%281%29.webp",
+    fullDescription: "l'amélioration et l'upscaling d'images avec ajout de détails ultra-précis",
+    isTop: true,
+    toolType: "image-upscaler",
+    apiEndpoint: "image-upscaler"
+  },
+  // 3. NanoBanana
   {
     id: 2,
     name: "NanoBanana",
@@ -23,7 +35,7 @@ export const mockAITools = [
     toolType: "image-generator",
     apiEndpoint: "nanobanana"
   },
-  // 3. SORA 2
+  // 4. SORA 2
   {
     id: 3,
     name: "SORA 2",
@@ -35,7 +47,7 @@ export const mockAITools = [
     toolType: "video-generator",
     apiEndpoint: "sora2"
   },
-  // 4. Kling AI v2.1
+  // 5. Kling AI v2.1
   {
     id: 4,
     name: "Kling AI v2.1",
@@ -46,18 +58,6 @@ export const mockAITools = [
     isTop: true,
     toolType: "video-generator",
     apiEndpoint: "kling"
-  },
-  // 5. Image Upscaler
-  {
-    id: 5,
-    name: "Image Upscaler",
-    description: "Le meilleur upscaler du marché pour améliorer vos images.",
-    category: "image",
-    image: "https://customer-assets.emergentagent.com/job_nano-banana-fix/artifacts/vtefylxi_crystal-cover%20%281%29.webp",
-    fullDescription: "l'amélioration et l'upscaling d'images avec ajout de détails ultra-précis",
-    isTop: true,
-    toolType: "image-upscaler",
-    apiEndpoint: "image-upscaler"
   },
   // 6. Seedream 4
   {
