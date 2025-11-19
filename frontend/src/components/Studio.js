@@ -1727,6 +1727,12 @@ const Studio = () => {
   const handleKlingStartFileSelect = (event) => {
     const file = event.target.files[0];
     if (file && file.type.startsWith('image/')) {
+      // Valider la taille
+      if (!validateFileSize(file)) {
+        event.target.value = ''; // Réinitialiser l'input
+        return;
+      }
+      
       const reader = new FileReader();
       reader.onload = (e) => {
         setKlingStartImage({
@@ -1744,6 +1750,12 @@ const Studio = () => {
   const handleKlingEndFileSelect = (event) => {
     const file = event.target.files[0];
     if (file && file.type.startsWith('image/')) {
+      // Valider la taille
+      if (!validateFileSize(file)) {
+        event.target.value = ''; // Réinitialiser l'input
+        return;
+      }
+      
       const reader = new FileReader();
       reader.onload = (e) => {
         setKlingEndImage({
