@@ -483,18 +483,8 @@ const Dashboard = () => {
         {showLogoutConfirm && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
             <div className="relative bg-white/5 backdrop-blur-xl border border-white/20 rounded-3xl p-6 sm:p-8 w-full max-w-md shadow-2xl">
-              {/* Bouton fermer */}
-              <button
-                onClick={() => setShowLogoutConfirm(false)}
-                className="absolute top-4 right-4 text-white/70 hover:text-white transition-colors"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-
               {/* Titre */}
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 text-center mt-2">
+              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 text-center">
                 Confirmer la déconnexion
               </h2>
 
