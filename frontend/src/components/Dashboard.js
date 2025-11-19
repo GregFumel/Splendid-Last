@@ -212,7 +212,7 @@ const Dashboard = () => {
           <div className="mt-6 flex flex-col sm:flex-row gap-3">
             <button 
               onClick={() => setShowBuyCreditsModal(true)}
-              className="btn-3d-effect bg-gradient-to-r from-amber-600 to-yellow-400 hover:from-amber-700 hover:to-yellow-500 text-white font-semibold px-6 py-3 rounded-xl transition flex items-center justify-center space-x-2 shadow-lg"
+              className="btn-3d-effect bg-gradient-to-r from-amber-600 to-yellow-400 hover:from-amber-700 hover:to-yellow-500 text-white font-semibold px-6 py-3 rounded-full transition flex items-center justify-center space-x-2 shadow-lg"
             >
               <img 
                 src="https://customer-assets.emergentagent.com/job_google-connect-1/artifacts/njhagw0d_5rb7fz1f_coins-3d-icon-png-download-5087356.webp" 
@@ -221,7 +221,7 @@ const Dashboard = () => {
               />
               <span>Acheter des crédits</span>
             </button>
-            <button className="btn-3d-effect bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-3 rounded-xl transition flex items-center justify-center space-x-2 shadow-lg">
+            <button className="btn-3d-effect bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-3 rounded-full transition flex items-center justify-center space-x-2 shadow-lg">
               <span>Se désabonner</span>
             </button>
           </div>
