@@ -17,7 +17,7 @@ from emergentintegrations.llm.chat import LlmChat, UserMessage
 import litellm
 import replicate
 import requests
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageOps
 import io
 import tempfile
 import shutil
