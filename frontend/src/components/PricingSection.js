@@ -117,7 +117,7 @@ const PricingSection = () => {
             {/* Bouton CTA */}
             <button 
               onClick={handleStartUsing}
-              className="btn-3d-effect bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-semibold px-8 py-4 rounded-full transition w-full shadow-lg"
+              className="btn-3d-effect bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-semibold px-8 py-4 rounded-full transition w-full shadow-lg text-sm sm:text-base"
             >
               Commencer à utiliser mes outils
             </button>
