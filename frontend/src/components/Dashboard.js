@@ -321,8 +321,14 @@ const Dashboard = () => {
 
         {/* Modal Acheter des crédits - Design moderne responsive mobile */}
         {showBuyCreditsModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/70 backdrop-blur-sm overflow-y-auto">
-            <div className="relative bg-gray-900 border border-gray-800 rounded-2xl p-4 sm:p-6 md:p-8 w-full max-w-sm sm:max-w-4xl shadow-2xl my-auto">
+          <div 
+            className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/60 backdrop-blur-sm overflow-y-auto"
+            onClick={() => setShowBuyCreditsModal(false)}
+          >
+            <div 
+              className="relative bg-gray-900/95 border border-gray-800 rounded-2xl p-3 sm:p-6 md:p-8 w-full max-w-xs sm:max-w-4xl shadow-2xl my-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
               {/* Bouton fermer */}
               <button
                 onClick={() => setShowBuyCreditsModal(false)}
