@@ -550,7 +550,6 @@ async def generate_image_with_nanobanana(request: GenerateImageRequest):
             
             # Corriger l'orientation EXIF avant de convertir en base64
             try:
-                from PIL import Image, ImageOps
                 img = Image.open(io.BytesIO(response.content))
                 # Corriger automatiquement l'orientation selon les métadonnées EXIF
                 img = ImageOps.exif_transpose(img)
