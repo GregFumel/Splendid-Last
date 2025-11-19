@@ -3060,7 +3060,26 @@ const Studio = () => {
                 )}
                 
                 <button
-                  onClick={handleGenerate}
+                  onClick={(e) => {
+                    // Fermer le clavier mobile avant d'exécuter
+                    if (promptInputRef.current) {
+                      promptInputRef.current.blur();
+                    }
+                    // Petit délai pour laisser le clavier se fermer
+                    setTimeout(() => {
+                      handleGenerate();
+                    }, 100);
+                  }}
+                  onTouchEnd={(e) => {
+                    // Sur mobile, gérer aussi le touch pour une meilleure réactivité
+                    e.preventDefault();
+                    if (promptInputRef.current) {
+                      promptInputRef.current.blur();
+                    }
+                    setTimeout(() => {
+                      handleGenerate();
+                    }, 100);
+                  }}
                   disabled={(isImageUpscaler ? !uploadedImage : isKling ? (!klingStartImage || !prompt.trim()) : isVideoUpscale ? !uploadedVideo : !prompt.trim()) || isGenerating}
                   className={`btn-3d-effect ${isKling ? 'bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700' : isImageUpscaler ? 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700' : isFluxKontext ? 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700' : isVideoUpscale ? 'bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700' : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700'} disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold rounded-xl transition flex items-center justify-center space-x-2 shadow-lg px-4 py-3 w-full`}
                 >
