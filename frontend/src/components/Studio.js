@@ -3668,6 +3668,7 @@ const Studio = () => {
                   
                   {!isImageUpscaler && !isKling && !isVideoUpscale && (
                     <input
+                      ref={promptInputRef}
                       type="text"
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
