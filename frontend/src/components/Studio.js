@@ -1796,6 +1796,12 @@ const Studio = () => {
     console.log('📹 Video file selected:', file ? file.name : 'none', file ? `${(file.size / 1024 / 1024).toFixed(2)}MB` : '');
     
     if (file && file.type.startsWith('video/')) {
+      // Valider la taille (20 Mo max)
+      if (!validateFileSize(file)) {
+        event.target.value = ''; // Réinitialiser l'input
+        return;
+      }
+      
       console.log('✅ Valid video file, starting FileReader...');
       const reader = new FileReader();
       
