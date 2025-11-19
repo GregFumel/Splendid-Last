@@ -350,7 +350,7 @@ const Dashboard = () => {
               </p>
 
               {/* Grille de cartes de crédits - Espace pour les badges */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6 mb-4 sm:mb-6 pt-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6 mb-4 sm:mb-6 pt-8 sm:pt-6">
                 {/* 500 crédits */}
                 <div className="bg-gray-800/50 border-2 border-gray-700 rounded-xl sm:rounded-2xl p-2 sm:p-4 md:p-6 flex flex-col items-center hover:border-gray-600 transition-all">
                   <img 
