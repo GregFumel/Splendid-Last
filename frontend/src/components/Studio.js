@@ -1661,6 +1661,19 @@ const Studio = () => {
 
 
 
+  // Constante pour la taille max (20 Mo)
+  const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20 Mo en bytes
+
+  // Fonction utilitaire pour valider la taille du fichier
+  const validateFileSize = (file) => {
+    if (file.size > MAX_FILE_SIZE) {
+      const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+      alert(`❌ Fichier trop volumineux!\n\nTaille: ${sizeMB} Mo\nLimite: 20 Mo\n\nVeuillez choisir une image plus petite.`);
+      return false;
+    }
+    return true;
+  };
+
   // Fonctions pour l'upload d'images
   const handleImageUpload = () => {
     if (fileInputRef.current) {
@@ -1671,6 +1684,12 @@ const Studio = () => {
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
     if (file && file.type.startsWith('image/')) {
+      // Valider la taille
+      if (!validateFileSize(file)) {
+        event.target.value = ''; // Réinitialiser l'input
+        return;
+      }
+      
       const reader = new FileReader();
       reader.onload = (e) => {
         setUploadedImage({
