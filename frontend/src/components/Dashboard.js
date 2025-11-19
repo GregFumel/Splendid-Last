@@ -386,7 +386,7 @@ const Dashboard = () => {
                   }}></div>
                   
                   {/* Badge Populaire avec réduction */}
-                  <div className="absolute -top-2 sm:-top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-br from-green-500 to-green-600 text-white text-xs font-bold px-3 sm:px-4 py-0.5 sm:py-1 rounded-full border border-white/30 shadow-lg z-10" style={{
+                  <div className="absolute -top-5 sm:-top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-br from-green-500 to-green-600 text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 md:px-4 py-1 rounded-full border border-white/30 shadow-lg z-10 whitespace-nowrap" style={{
                     boxShadow: 'inset 0 1px 2px 0 rgba(255, 255, 255, 0.4), 0 4px 12px rgba(34, 197, 94, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2)',
                     textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
                   }}>
