@@ -694,11 +694,25 @@ async def get_nanobanana_sessions():
 # Flux Kontext Pro endpoints
 
 @api_router.post("/flux-kontext/session", response_model=FluxKontextSession)
-async def create_flux_kontext_session():
-    """Crée une nouvelle session Flux Kontext Pro"""
+async def create_flux_kontext_session(authorization: Optional[str] = Header(None)):
+    """Crée ou récupère une session flux-kontext pour l'utilisateur"""
     try:
-        session = FluxKontextSession()
+        user_id = get_user_id_from_token(authorization)
+        
+        # Si l'utilisateur est connecté, chercher sa session existante
+        if user_id:
+            existing_session = await db.flux_kontext_sessions.find_one(
+                {"user_id": user_id},
+                sort=[("last_updated", -1)]
+            )
+            if existing_session:
+                logger.info(f"📂 Session flux-kontext existante trouvée pour user {user_id}")
+                return FluxKontextSession(**existing_session)
+        
+        # Créer une nouvelle session
+        session = FluxKontextSession(user_id=user_id)
         await db.flux_kontext_sessions.insert_one(session.dict())
+        logger.info(f"✨ Nouvelle session flux-kontext créée pour user {user_id or 'anonymous'}")
         return session
     except Exception as e:
         logger.error(f"Erreur lors de la création de session Flux Kontext: {str(e)}")
@@ -876,11 +890,25 @@ async def get_flux_kontext_session(session_id: str):
 # Kling AI v2.1 endpoints (Image-to-Video Generation)
 
 @api_router.post("/kling/session", response_model=KlingSession)
-async def create_kling_session():
-    """Crée une nouvelle session Kling AI"""
+async def create_kling_session(authorization: Optional[str] = Header(None)):
+    """Crée ou récupère une session kling pour l'utilisateur"""
     try:
-        session = KlingSession()
+        user_id = get_user_id_from_token(authorization)
+        
+        # Si l'utilisateur est connecté, chercher sa session existante
+        if user_id:
+            existing_session = await db.kling_sessions.find_one(
+                {"user_id": user_id},
+                sort=[("last_updated", -1)]
+            )
+            if existing_session:
+                logger.info(f"📂 Session kling existante trouvée pour user {user_id}")
+                return KlingSession(**existing_session)
+        
+        # Créer une nouvelle session
+        session = KlingSession(user_id=user_id)
         await db.kling_sessions.insert_one(session.dict())
+        logger.info(f"✨ Nouvelle session kling créée pour user {user_id or 'anonymous'}")
         return session
     except Exception as e:
         logger.error(f"Erreur lors de la création de session Kling: {str(e)}")
@@ -1079,11 +1107,25 @@ async def get_kling_session(session_id: str):
 # Seedream 4 endpoints (Text-to-Image and Image-to-Image Generation)
 
 @api_router.post("/seedream/session", response_model=SeedreamSession)
-async def create_seedream_session():
-    """Crée une nouvelle session Seedream 4"""
+async def create_seedream_session(authorization: Optional[str] = Header(None)):
+    """Crée ou récupère une session seedream pour l'utilisateur"""
     try:
-        session = SeedreamSession()
+        user_id = get_user_id_from_token(authorization)
+        
+        # Si l'utilisateur est connecté, chercher sa session existante
+        if user_id:
+            existing_session = await db.seedream_sessions.find_one(
+                {"user_id": user_id},
+                sort=[("last_updated", -1)]
+            )
+            if existing_session:
+                logger.info(f"📂 Session seedream existante trouvée pour user {user_id}")
+                return SeedreamSession(**existing_session)
+        
+        # Créer une nouvelle session
+        session = SeedreamSession(user_id=user_id)
         await db.seedream_sessions.insert_one(session.dict())
+        logger.info(f"✨ Nouvelle session seedream créée pour user {user_id or 'anonymous'}")
         return session
     except Exception as e:
         logger.error(f"Erreur lors de la création de session Seedream: {str(e)}")
@@ -1251,11 +1293,25 @@ async def get_seedream_conversation(session_id: str):
 # Grok endpoints (Text-to-Image Generation)
 
 @api_router.post("/grok/session", response_model=GrokSession)
-async def create_grok_session():
-    """Crée une nouvelle session Grok"""
+async def create_grok_session(authorization: Optional[str] = Header(None)):
+    """Crée ou récupère une session grok pour l'utilisateur"""
     try:
-        session = GrokSession()
+        user_id = get_user_id_from_token(authorization)
+        
+        # Si l'utilisateur est connecté, chercher sa session existante
+        if user_id:
+            existing_session = await db.grok_sessions.find_one(
+                {"user_id": user_id},
+                sort=[("last_updated", -1)]
+            )
+            if existing_session:
+                logger.info(f"📂 Session grok existante trouvée pour user {user_id}")
+                return GrokSession(**existing_session)
+        
+        # Créer une nouvelle session
+        session = GrokSession(user_id=user_id)
         await db.grok_sessions.insert_one(session.dict())
+        logger.info(f"✨ Nouvelle session grok créée pour user {user_id or 'anonymous'}")
         return session
     except Exception as e:
         logger.error(f"Erreur lors de la création de session Grok: {str(e)}")
@@ -1406,11 +1462,25 @@ async def get_grok_conversation(session_id: str):
 # Alibaba Wan 2.5 endpoints (Text-to-Video Generation)
 
 @api_router.post("/alibaba-wan/session", response_model=AlibabaWanSession)
-async def create_alibaba_wan_session():
-    """Crée une nouvelle session Alibaba Wan 2.5"""
+async def create_alibaba_wan_session(authorization: Optional[str] = Header(None)):
+    """Crée ou récupère une session alibaba-wan pour l'utilisateur"""
     try:
-        session = AlibabaWanSession()
+        user_id = get_user_id_from_token(authorization)
+        
+        # Si l'utilisateur est connecté, chercher sa session existante
+        if user_id:
+            existing_session = await db.alibaba_wan_sessions.find_one(
+                {"user_id": user_id},
+                sort=[("last_updated", -1)]
+            )
+            if existing_session:
+                logger.info(f"📂 Session alibaba-wan existante trouvée pour user {user_id}")
+                return AlibabaWanSession(**existing_session)
+        
+        # Créer une nouvelle session
+        session = AlibabaWanSession(user_id=user_id)
         await db.alibaba_wan_sessions.insert_one(session.dict())
+        logger.info(f"✨ Nouvelle session alibaba-wan créée pour user {user_id or 'anonymous'}")
         return session
     except Exception as e:
         logger.error(f"Erreur lors de la création de session Alibaba Wan: {str(e)}")
@@ -1566,11 +1636,25 @@ async def get_alibaba_wan_conversation(session_id: str):
 # Video Upscale AI endpoints (Video Upscaling)
 
 @api_router.post("/video-upscale/session", response_model=VideoUpscaleSession)
-async def create_video_upscale_session():
-    """Crée une nouvelle session Video Upscale AI"""
+async def create_video_upscale_session(authorization: Optional[str] = Header(None)):
+    """Crée ou récupère une session video-upscale pour l'utilisateur"""
     try:
-        session = VideoUpscaleSession()
+        user_id = get_user_id_from_token(authorization)
+        
+        # Si l'utilisateur est connecté, chercher sa session existante
+        if user_id:
+            existing_session = await db.video_upscale_sessions.find_one(
+                {"user_id": user_id},
+                sort=[("last_updated", -1)]
+            )
+            if existing_session:
+                logger.info(f"📂 Session video-upscale existante trouvée pour user {user_id}")
+                return VideoUpscaleSession(**existing_session)
+        
+        # Créer une nouvelle session
+        session = VideoUpscaleSession(user_id=user_id)
         await db.video_upscale_sessions.insert_one(session.dict())
+        logger.info(f"✨ Nouvelle session video-upscale créée pour user {user_id or 'anonymous'}")
         return session
     except Exception as e:
         logger.error(f"Erreur lors de la création de session Video Upscale: {str(e)}")
@@ -1751,11 +1835,25 @@ async def get_video_upscale_conversation(session_id: str):
 # Google Veo 3.1 endpoints (Video Generation)
 
 @api_router.post("/google-veo/session", response_model=GoogleVeoSession)
-async def create_google_veo_session():
-    """Crée une nouvelle session Google Veo 3.1"""
+async def create_google_veo_session(authorization: Optional[str] = Header(None)):
+    """Crée ou récupère une session google-veo pour l'utilisateur"""
     try:
-        session = GoogleVeoSession()
+        user_id = get_user_id_from_token(authorization)
+        
+        # Si l'utilisateur est connecté, chercher sa session existante
+        if user_id:
+            existing_session = await db.google_veo_sessions.find_one(
+                {"user_id": user_id},
+                sort=[("last_updated", -1)]
+            )
+            if existing_session:
+                logger.info(f"📂 Session google-veo existante trouvée pour user {user_id}")
+                return GoogleVeoSession(**existing_session)
+        
+        # Créer une nouvelle session
+        session = GoogleVeoSession(user_id=user_id)
         await db.google_veo_sessions.insert_one(session.dict())
+        logger.info(f"✨ Nouvelle session google-veo créée pour user {user_id or 'anonymous'}")
         return session
     except Exception as e:
         logger.error(f"Erreur lors de la création de session Google Veo: {str(e)}")
@@ -1911,11 +2009,25 @@ async def get_google_veo_session(session_id: str):
 # SORA 2 endpoints (Video Generation)
 
 @api_router.post("/sora2/session", response_model=Sora2Session)
-async def create_sora2_session():
-    """Crée une nouvelle session SORA 2"""
+async def create_sora2_session(authorization: Optional[str] = Header(None)):
+    """Crée ou récupère une session sora2 pour l'utilisateur"""
     try:
-        session = Sora2Session()
+        user_id = get_user_id_from_token(authorization)
+        
+        # Si l'utilisateur est connecté, chercher sa session existante
+        if user_id:
+            existing_session = await db.sora2_sessions.find_one(
+                {"user_id": user_id},
+                sort=[("last_updated", -1)]
+            )
+            if existing_session:
+                logger.info(f"📂 Session sora2 existante trouvée pour user {user_id}")
+                return Sora2Session(**existing_session)
+        
+        # Créer une nouvelle session
+        session = Sora2Session(user_id=user_id)
         await db.sora2_sessions.insert_one(session.dict())
+        logger.info(f"✨ Nouvelle session sora2 créée pour user {user_id or 'anonymous'}")
         return session
     except Exception as e:
         logger.error(f"Erreur lors de la création de session SORA 2: {str(e)}")
@@ -2208,11 +2320,25 @@ async def get_chatgpt5_session(session_id: str):
         raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
 
 @api_router.post("/chatgpt5/session", response_model=ChatGPT5Session)
-async def create_chatgpt5_session():
-    """Crée une nouvelle session ChatGPT-5"""
+async def create_chatgpt5_session(authorization: Optional[str] = Header(None)):
+    """Crée ou récupère une session chatgpt5 pour l'utilisateur"""
     try:
-        session = ChatGPT5Session()
+        user_id = get_user_id_from_token(authorization)
+        
+        # Si l'utilisateur est connecté, chercher sa session existante
+        if user_id:
+            existing_session = await db.chatgpt5_sessions.find_one(
+                {"user_id": user_id},
+                sort=[("last_updated", -1)]
+            )
+            if existing_session:
+                logger.info(f"📂 Session chatgpt5 existante trouvée pour user {user_id}")
+                return ChatGPT5Session(**existing_session)
+        
+        # Créer une nouvelle session
+        session = ChatGPT5Session(user_id=user_id)
         await db.chatgpt5_sessions.insert_one(session.dict())
+        logger.info(f"✨ Nouvelle session chatgpt5 créée pour user {user_id or 'anonymous'}")
         return session
     except Exception as e:
         logger.error(f"Erreur lors de la création de session: {str(e)}")
@@ -2232,11 +2358,25 @@ async def get_chatgpt5_sessions():
 # AI Image Upscaler endpoints
 
 @api_router.post("/image-upscaler/session", response_model=ImageUpscalerSession)
-async def create_image_upscaler_session():
-    """Crée une nouvelle session AI Image Upscaler"""
+async def create_image_upscaler_session(authorization: Optional[str] = Header(None)):
+    """Crée ou récupère une session image-upscaler pour l'utilisateur"""
     try:
-        session = ImageUpscalerSession()
+        user_id = get_user_id_from_token(authorization)
+        
+        # Si l'utilisateur est connecté, chercher sa session existante
+        if user_id:
+            existing_session = await db.image_upscaler_sessions.find_one(
+                {"user_id": user_id},
+                sort=[("last_updated", -1)]
+            )
+            if existing_session:
+                logger.info(f"📂 Session image-upscaler existante trouvée pour user {user_id}")
+                return ImageUpscalerSession(**existing_session)
+        
+        # Créer une nouvelle session
+        session = ImageUpscalerSession(user_id=user_id)
         await db.image_upscaler_sessions.insert_one(session.dict())
+        logger.info(f"✨ Nouvelle session image-upscaler créée pour user {user_id or 'anonymous'}")
         return session
     except Exception as e:
         logger.error(f"Erreur lors de la création de session Image Upscaler: {str(e)}")
