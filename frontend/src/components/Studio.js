@@ -405,7 +405,6 @@ const Studio = () => {
   
   // États pour l'upload d'images
   const [uploadedImage, setUploadedImage] = useState(null); // {file, dataUrl}
-  const fileInputRef = useRef(null);
 
   // États pour l'upload d'images Kling (start et end)
   const [klingStartImage, setKlingStartImage] = useState(null); // {file, dataUrl, name}
