@@ -129,7 +129,7 @@ export const mockAITools = [
     toolType: "flux-kontext",
     apiEndpoint: "flux-kontext"
   },
-  // 10. Video Upscale AI
+  // 12. Video Upscale AI
   {
     id: 10,
     name: "Video Upscale AI",
