@@ -577,7 +577,6 @@ const Studio = () => {
   // Initialiser la session quand l'outil change
   useEffect(() => {
     const isNanoBananaTool = selectedTool && selectedTool.name === "NanoBanana";
-    const isChatGPT5Tool = selectedTool && selectedTool.name === "ChatGPT-5";
     const isGoogleVeoTool = selectedTool && selectedTool.name === "Google Veo 3.1";
     const isSora2Tool = selectedTool && selectedTool.name === "SORA 2";
     const isImageUpscalerTool = selectedTool && selectedTool.name === "Image Upscaler";
