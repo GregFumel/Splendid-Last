@@ -1951,6 +1951,10 @@ const Studio = () => {
         setPrompt("");
         if (isNanoBanana || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isGrok || isNanoBananaPro || isGemini3Pro || isChatGPT51) {
           setUploadedImage(null);
+          // Réinitialiser l'input file pour permettre un nouvel upload
+          if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+          }
         }
         if (isKling) {
           setKlingStartImage(null);
