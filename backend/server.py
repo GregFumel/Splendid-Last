@@ -463,6 +463,103 @@ class GenerateVideoSora2Response(BaseModel):
     response_text: str
 
 
+# Nano Banana Pro Models (Advanced Image Generation with Gemini 3 Pro)
+class NanoBananaProMessage(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    session_id: str
+    role: str  # "user" or "assistant"
+    content: str
+    image_urls: List[str] = []
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+
+class NanoBananaProSession(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: Optional[str] = None  # ID de l'utilisateur propriétaire
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    last_updated: datetime = Field(default_factory=datetime.utcnow)
+    messages: List[NanoBananaProMessage] = []
+
+class GenerateNanoBananaProRequest(BaseModel):
+    session_id: str
+    prompt: str
+    image_input: Optional[List[str]] = []  # Up to 14 images
+    aspect_ratio: Optional[str] = "4:3"  # 4:3, 16:9, 9:16, 1:1, 3:2, 2:3
+    resolution: Optional[str] = "2K"  # 1K, 2K, 4K
+    output_format: Optional[str] = "png"  # png, jpg
+    safety_filter_level: Optional[str] = "block_only_high"  # block_low_and_above, block_medium_and_above, block_only_high
+
+class GenerateNanoBananaProResponse(BaseModel):
+    session_id: str
+    message_id: str
+    prompt: str
+    image_urls: List[str]
+    response_text: str
+
+# Gemini 3 Pro Models (Advanced Reasoning Multimodal)
+class Gemini3ProMessage(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    session_id: str
+    role: str  # "user" or "assistant"
+    content: str
+    image_urls: List[str] = []  # Images uploaded by user
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+
+class Gemini3ProSession(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: Optional[str] = None  # ID de l'utilisateur propriétaire
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    last_updated: datetime = Field(default_factory=datetime.utcnow)
+    messages: List[Gemini3ProMessage] = []
+
+class GenerateGemini3ProRequest(BaseModel):
+    session_id: str
+    prompt: str
+    images: Optional[List[str]] = []  # Max 10 images
+    system_instruction: Optional[str] = None
+    thinking_level: Optional[str] = "low"  # low or high
+    temperature: Optional[float] = 1.0
+    top_p: Optional[float] = 0.95
+    max_output_tokens: Optional[int] = 8192
+
+class GenerateGemini3ProResponse(BaseModel):
+    session_id: str
+    message_id: str
+    prompt: str
+    response_text: str
+
+# ChatGPT 5.1 Models (Best for coding and agentic tasks)
+class ChatGPT51Message(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    session_id: str
+    role: str  # "user" or "assistant"
+    content: str
+    image_urls: List[str] = []  # Images uploaded by user
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+
+class ChatGPT51Session(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: Optional[str] = None  # ID de l'utilisateur propriétaire
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    last_updated: datetime = Field(default_factory=datetime.utcnow)
+    messages: List[ChatGPT51Message] = []
+
+class GenerateChatGPT51Request(BaseModel):
+    session_id: str
+    prompt: str
+    system_prompt: Optional[str] = None
+    image_input: Optional[List[str]] = []
+    reasoning_effort: Optional[str] = "medium"  # none, low, medium, high
+    verbosity: Optional[str] = "medium"  # low, medium, high
+    max_completion_tokens: Optional[int] = 16384
+
+class GenerateChatGPT51Response(BaseModel):
+    session_id: str
+    message_id: str
+    prompt: str
+    response_text: str
+
+
+
 
 class GenerateImageRequest(BaseModel):
     session_id: str
