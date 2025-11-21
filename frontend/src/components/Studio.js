@@ -2668,48 +2668,48 @@ const Studio = () => {
                           </div>
                           {/* Messages de temps personnalisés */}
                           {isSora2 && (
-                            <p className="text-xs text-gray-400 ml-9">
-                              ⏱️ 1 à 5 minutes - Le temps d'aller prendre un café ☕
+                            <p className="text-xs text-gray-400 pl-0">
+                              1 à 5 minutes - Le temps d'aller prendre un café
                             </p>
                           )}
                           {isGoogleVeo && (
-                            <p className="text-xs text-gray-400 ml-9">
-                              ⏱️ 1 à 3 minutes - Patience, ça arrive !
+                            <p className="text-xs text-gray-400 pl-0">
+                              1 à 3 minutes - Patience, ça arrive !
                             </p>
                           )}
                           {isKling && (
-                            <p className="text-xs text-gray-400 ml-9">
-                              ⏱️ 1 à 3 minutes - Bientôt prêt !
+                            <p className="text-xs text-gray-400 pl-0">
+                              1 à 3 minutes - Bientôt prêt !
                             </p>
                           )}
                           {isAlibabaWan && (
-                            <p className="text-xs text-gray-400 ml-9">
-                              ⏱️ 1 à 5 minutes - Le temps de faire un petit tour 🚶
+                            <p className="text-xs text-gray-400 pl-0">
+                              1 à 5 minutes - Le temps de faire un petit tour
                             </p>
                           )}
                           {isNanoBananaPro && (
-                            <p className="text-xs text-gray-400 ml-9">
-                              ⏱️ De quelques secondes à plusieurs minutes en fonction de la complexité
+                            <p className="text-xs text-gray-400 pl-0">
+                              De quelques secondes à plusieurs minutes en fonction de la complexité
                             </p>
                           )}
                           {isGemini3Pro && (
-                            <p className="text-xs text-gray-400 ml-9">
-                              ⚡ Quelques secondes...
+                            <p className="text-xs text-gray-400 pl-0">
+                              Quelques secondes...
                             </p>
                           )}
                           {isChatGPT51 && (
-                            <p className="text-xs text-gray-400 ml-9">
-                              ⚡ Quelques secondes...
+                            <p className="text-xs text-gray-400 pl-0">
+                              Quelques secondes...
                             </p>
                           )}
                           {(isNanoBanana || isImageUpscaler || isGrok || isFluxKontext) && (
-                            <p className="text-xs text-gray-400 ml-9">
-                              ⚡ Quelques secondes...
+                            <p className="text-xs text-gray-400 pl-0">
+                              Quelques secondes...
                             </p>
                           )}
                           {isVideoUpscale && (
-                            <p className="text-xs text-gray-400 ml-9">
-                              ⏱️ Quelques secondes à quelques minutes selon la taille
+                            <p className="text-xs text-gray-400 pl-0">
+                              Quelques secondes à quelques minutes selon la taille
                             </p>
                           )}
                         </div>
