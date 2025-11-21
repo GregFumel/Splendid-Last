@@ -3500,7 +3500,7 @@ const Studio = () => {
                   {isGenerating ? (
                     <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
                   ) : (
-                    <Send className="w-4 h-4" />
+                    <img src="https://customer-assets.emergentagent.com/job_right-side-button/artifacts/sg4dzp9m_right-arrows_7268502.png" alt="Générer" className="w-4 h-4" />
                   )}
                   </button>
                 </div>
