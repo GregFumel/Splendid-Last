@@ -1855,7 +1855,7 @@ const Studio = () => {
         await loadConversationHistory(sessionId, toolType);
         console.log('✅ Historique rechargé, conversationHistory.length:', conversationHistory.length);
         
-        // Déduire les crédits (sauf pour ChatGPT qui est gratuit)
+        // Déduire les crédits (sauf pour ChatGPT-5 qui est gratuit)
         if (toolType !== 'chatgpt5' && user) {
           try {
             // Mapper le type d'outil au model_key du barème
