@@ -2644,11 +2644,11 @@ const Studio = () => {
                     {isGenerating && (
                       <div className="flex justify-start mb-4">
                         <div className="bg-gray-800/90 rounded-lg p-3 inline-flex flex-col space-y-2 shadow-lg">
-                          <div className="inline-flex items-center space-x-3">
+                          <div className="inline-flex items-start space-x-3">
                             <img 
                               src="https://customer-assets.emergentagent.com/job_ai-portal-splendid/artifacts/cdrk9xxn_Icon%205%203D.gif" 
                               alt="Chargement"
-                              className="w-6 h-6 object-contain"
+                              className="w-7 h-7 object-contain flex-shrink-0"
                             />
                             <span className="text-sm text-gray-300 font-medium">
                               {isNanoBanana ? 'Génération d\'image en cours...' : 
