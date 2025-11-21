@@ -3375,7 +3375,7 @@ const Studio = () => {
                 <div className="flex items-center gap-2">
                 {/* Zone de saisie pour Kling AI avec boutons upload à gauche - Mobile */}
                 {isKling ? (
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-1">
                     {/* Bouton start image */}
                     <button
                       onClick={handleKlingStartImageUpload}
