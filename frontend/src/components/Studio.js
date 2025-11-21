@@ -2622,7 +2622,6 @@ const Studio = () => {
                                isSora2 ? 'Génération de vidéo en cours...' :
                                isKling ? 'Génération de vidéo en cours...' :
                                isAlibabaWan ? 'Génération de vidéo en cours...' :
-                               isSeedream ? 'Génération d\'image en cours...' :
                                isGrok ? 'Génération d\'image en cours...' :
                                isNanoBananaPro ? 'Génération d\'image en cours...' :
                                isGemini3Pro ? 'Réflexion en cours...' :
