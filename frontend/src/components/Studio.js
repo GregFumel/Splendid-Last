@@ -582,7 +582,6 @@ const Studio = () => {
     const isImageUpscalerTool = selectedTool && selectedTool.name === "Image Upscaler";
     const isFluxKontextTool = selectedTool && selectedTool.name === "Flux Kontext Pro";
     const isKlingTool = selectedTool && selectedTool.name === "Kling AI v2.1";
-    const isSeedreamTool = selectedTool && selectedTool.name === "Seedream 4";
     const isGrokTool = selectedTool && selectedTool.name === "Grok";
     const isAlibabaWanTool = selectedTool && selectedTool.name === "Alibaba Wan 2.5";
     const isVideoUpscaleTool = selectedTool && selectedTool.name === "Video Upscale AI";
