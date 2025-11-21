@@ -3476,10 +3476,7 @@ const Studio = () => {
                       <span>{isImageUpscaler ? 'Upscaling...' : isVideoUpscale ? 'Upscaling...' : isFluxKontext ? 'Génération...' : 'Génération...'}</span>
                     </>
                   ) : (
-                    <>
-                      <Send className="w-4 h-4" />
-                      <span>{isImageUpscaler ? 'Upscaler' : isVideoUpscale ? 'Upscaler' : isFluxKontext ? 'Générer' : 'Générer'}</span>
-                    </>
+                    <Send className="w-5 h-5" />
                   )}
                 </button>
               </div>
