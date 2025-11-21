@@ -1852,6 +1852,10 @@ const Studio = () => {
                         isChatGPT51 ? 'chatgpt51' :
                         'chatgpt5';
         console.log('🔄 Rechargement historique pour session:', sessionId, 'type:', toolType);
+        
+        // Petit délai pour s'assurer que MongoDB a bien écrit les données
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
         await loadConversationHistory(sessionId, toolType);
         console.log('✅ Historique rechargé, conversationHistory.length:', conversationHistory.length);
         
