@@ -4310,40 +4310,41 @@ const Studio = () => {
           </div>
         </div>
         
-        {/* Input file caché pour l'upload d'images */}
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleFileSelect}
-          accept="image/*"
-          style={{ display: 'none' }}
-        />
-        
-        {/* Inputs cachés pour Kling AI start et end images */}
-        <input
-          type="file"
-          ref={klingStartInputRef}
-          onChange={handleKlingStartFileSelect}
-          accept="image/*"
-          style={{ display: 'none' }}
-        />
-        <input
-          type="file"
-          ref={klingEndInputRef}
-          onChange={handleKlingEndFileSelect}
-          accept="image/*"
-          style={{ display: 'none' }}
-        />
-        
-        {/* Input caché pour Video Upscale AI */}
-        <input
-          type="file"
-          ref={videoUpscaleInputRef}
-          onChange={handleVideoUpscaleFileSelect}
-          accept="video/*"
-          style={{ display: 'none' }}
-        />
       </div>
+      
+      {/* Input file caché pour l'upload d'images */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileSelect}
+        accept="image/*"
+        style={{ display: 'none' }}
+      />
+      
+      {/* Inputs cachés pour Kling AI start et end images */}
+      <input
+        type="file"
+        ref={klingStartInputRef}
+        onChange={handleKlingStartFileSelect}
+        accept="image/*"
+        style={{ display: 'none' }}
+      />
+      <input
+        type="file"
+        ref={klingEndInputRef}
+        onChange={handleKlingEndFileSelect}
+        accept="image/*"
+        style={{ display: 'none' }}
+      />
+      
+      {/* Input caché pour Video Upscale AI */}
+      <input
+        type="file"
+        ref={videoUpscaleInputRef}
+        onChange={handleVideoUpscaleFileSelect}
+        accept="video/*"
+        style={{ display: 'none' }}
+      />
     </div>
   );
 };
