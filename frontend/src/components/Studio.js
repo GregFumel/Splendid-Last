@@ -3468,10 +3468,9 @@ const Studio = () => {
                       {uploadedVideo ? `Vidéo prête à être upscalée (${videoUpscaleOptions.targetResolution} @ ${videoUpscaleOptions.targetFps} FPS)` : "Uploadez une vidéo à upscaler"}
                     </span>
                   )}
-                </div>
-                
-                {/* Bouton Générer - Mobile (positionné à droite de l'input) */}
-                <button
+                  
+                  {/* Bouton Générer - Mobile (positionné à droite de l'input) */}
+                  <button
                   onClick={(e) => {
                     // Fermer le clavier mobile avant d'exécuter
                     if (promptInputRef.current) {
