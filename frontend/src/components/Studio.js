@@ -3327,7 +3327,7 @@ const Studio = () => {
                       }}
                     />
                   </div>
-                ) : (isChatGPT5 || isNanoBanana || isImageUpscaler || isFluxKontext || isVideoUpscale) ? (
+                ) : (isChatGPT5 || isNanoBanana || isImageUpscaler || isFluxKontext || isVideoUpscale || isNanoBananaPro || isGemini3Pro || isChatGPT51) ? (
                   <div className="flex items-center gap-2">
                     <button
                       onClick={isVideoUpscale ? handleVideoUpscaleUpload : handleImageUpload}
