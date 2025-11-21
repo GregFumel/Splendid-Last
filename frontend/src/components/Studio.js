@@ -2729,7 +2729,7 @@ const Studio = () => {
               /* Layout mobile : vertical avec zone fixe */
               <div className="flex flex-col gap-3">
                 {/* Aperçu de l'image uploadée pour ChatGPT-5 ou NanoBanana */}
-                {(isNanoBanana) && uploadedImage && (
+                {(isNanoBanana || isNanoBananaPro || isGemini3Pro || isChatGPT51) && uploadedImage && (
                   <div className="flex items-center gap-3 p-3 bg-green-500/10 border border-green-400/30 rounded-lg">
                     <img 
                       src={uploadedImage.dataUrl} 
