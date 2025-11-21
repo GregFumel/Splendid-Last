@@ -595,7 +595,6 @@ const Studio = () => {
     setIsImageUpscaler(isImageUpscalerTool);
     setIsFluxKontext(isFluxKontextTool);
     setIsKling(isKlingTool);
-    setIsSeedream(isSeedreamTool);
     setIsGrok(isGrokTool);
     setIsAlibabaWan(isAlibabaWanTool);
     setIsVideoUpscale(isVideoUpscaleTool);
