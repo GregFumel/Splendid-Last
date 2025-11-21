@@ -114,22 +114,26 @@ CREDITS_CONFIG = {
         {
             "key": "gemini3_pro",
             "display_name": "Gemini 3 Pro",
-            "unit": "message",
-            "variants": [
-                {"variant": "low", "credits_per_unit": 2.31},
-                {"variant": "high", "credits_per_unit": 4.62}
-            ]
+            "unit": "tokens",
+            "token_based": True,
+            "pricing_usd": {
+                "input_per_1M_tokens_low": 2.0,
+                "output_per_1K_tokens_low": 0.012,
+                "input_per_1K_tokens_high": 0.012,
+                "output_per_1K_tokens_high": 0.018,
+                "threshold_tokens": 200000
+            },
+            "notes": "Prix change selon le seuil de 200k tokens d'input"
         },
         {
             "key": "chatgpt51",
             "display_name": "ChatGPT 5.1",
-            "unit": "message",
-            "variants": [
-                {"variant": "none", "credits_per_unit": 1.92},
-                {"variant": "low", "credits_per_unit": 3.85},
-                {"variant": "medium", "credits_per_unit": 7.69},
-                {"variant": "high", "credits_per_unit": 15.38}
-            ]
+            "unit": "tokens",
+            "token_based": True,
+            "pricing_usd": {
+                "input_per_1M_tokens": 1.25,
+                "output_per_1K_tokens": 0.01
+            }
         }
     ]
 }
