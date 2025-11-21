@@ -590,7 +590,6 @@ const Studio = () => {
     const isChatGPT51Tool = selectedTool && selectedTool.name === "ChatGPT 5.1";
     
     setIsNanoBanana(isNanoBananaTool);
-    setIsChatGPT5(isChatGPT5Tool);
     setIsGoogleVeo(isGoogleVeoTool);
     setIsSora2(isSora2Tool);
     setIsImageUpscaler(isImageUpscalerTool);
