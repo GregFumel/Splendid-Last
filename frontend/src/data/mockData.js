@@ -127,5 +127,41 @@ export const mockAITools = [
     fullDescription: "Conversation intelligente avec ChatGPT-5 d'OpenAI pour répondre à toutes vos questions",
     toolType: "chat",
     apiEndpoint: "chatgpt5"
+  },
+  // 12. Nano Banana Pro
+  {
+    id: 12,
+    name: "Nano Banana Pro",
+    description: "Génération d'images avancée avec Gemini 3 Pro - Texte précis, raisonnement avancé et contrôles créatifs professionnels.",
+    category: "image",
+    image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/fhqzy4ql_this%20-%2001.png",
+    fullDescription: "Génération et édition d'images professionnelles avec texte précis, jusqu'à 14 images en entrée, résolution 4K",
+    isNew: true,
+    toolType: "image-generator",
+    apiEndpoint: "nanobanana-pro"
+  },
+  // 13. Gemini 3 Pro
+  {
+    id: 13,
+    name: "Gemini 3 Pro",
+    description: "Modèle de raisonnement le plus avancé de Google avec capacités multimodales (texte, images, vidéos, audio).",
+    category: "assist",
+    image: "https://customer-assets.emergentagent.com/job_gemini-draw/artifacts/444ywiim_yau7ce7n_replicate-prediction-qhzgvzbn7.png",
+    fullDescription: "Raisonnement avancé multimodal avec support d'images, vidéos et audio pour apprendre, construire et planifier",
+    isNew: true,
+    toolType: "chat",
+    apiEndpoint: "gemini3-pro"
+  },
+  // 14. ChatGPT 5.1
+  {
+    id: 14,
+    name: "ChatGPT 5.1",
+    description: "Meilleur modèle d'OpenAI pour le coding et tâches agentiques avec raisonnement configurable.",
+    category: "assist",
+    image: "https://customer-assets.emergentagent.com/job_gemini-draw/artifacts/444ywiim_yau7ce7n_replicate-prediction-qhzgvzbn7.png",
+    fullDescription: "Assistant avancé pour le coding et tâches complexes avec niveaux de raisonnement et verbosité personnalisables",
+    isNew: true,
+    toolType: "chat",
+    apiEndpoint: "chatgpt51"
   }
 ];
