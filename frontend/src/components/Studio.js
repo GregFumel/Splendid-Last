@@ -2524,8 +2524,8 @@ const Studio = () => {
                             </div>
                           )}
                           
-                          {/* Affichage des images générées pour NanoBanana, Flux Kontext Pro, Seedream 4 et Grok */}
-                          {(isNanoBanana || isFluxKontext || isSeedream || isGrok) && message.role === 'assistant' && message.image_urls && message.image_urls.length > 0 && (
+                          {/* Affichage des images générées pour NanoBanana, Flux Kontext Pro, Seedream 4, Grok et Nano Banana Pro */}
+                          {(isNanoBanana || isFluxKontext || isSeedream || isGrok || isNanoBananaPro) && message.role === 'assistant' && message.image_urls && message.image_urls.length > 0 && (
                             <div className="mt-3 space-y-2">
                               {message.image_urls.map((imageUrl, imgIndex) => (
                                 <div key={imgIndex} className="rounded-lg overflow-hidden border border-white/20">
