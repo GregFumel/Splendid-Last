@@ -49,3 +49,10 @@ google-auth>=2.25.0
 propcache>=0.4.0
 google-auth-oauthlib>=1.2.0
 google-auth-httplib2>=0.2.0
+aiohappyeyeballs
+importlib-metadata
+jsonschema
+google-genai
+google-generativeai
+stripe
+jiter
