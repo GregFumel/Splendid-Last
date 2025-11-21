@@ -378,7 +378,6 @@ const Studio = () => {
   const [sessionId, setSessionId] = useState(null);
   const [conversationHistory, setConversationHistory] = useState([]);
   const [isNanoBanana, setIsNanoBanana] = useState(false);
-  const [isChatGPT5, setIsChatGPT5] = useState(false);
   const [isGoogleVeo, setIsGoogleVeo] = useState(false); // Pour Google Veo 3.1
   const [isSora2, setIsSora2] = useState(false); // Pour SORA 2
   const [isImageUpscaler, setIsImageUpscaler] = useState(false); // Pour AI Image Upscaler
