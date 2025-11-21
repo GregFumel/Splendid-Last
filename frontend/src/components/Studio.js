@@ -3379,50 +3379,36 @@ const Studio = () => {
                 
                 {/* Zone de saisie + bouton Générer - Mobile (sur la même ligne) */}
                 <div className="flex items-center gap-2">
-                {/* Zone de saisie pour Kling AI avec boutons upload à gauche - Mobile */}
-                {isKling ? (
-                  <div className="flex items-center gap-2 flex-1">
-                    {/* Bouton start image */}
-                    <button
-                      onClick={handleKlingStartImageUpload}
-                      className={`${klingStartImage ? 'bg-purple-600' : 'bg-purple-600/80 hover:bg-purple-600'} text-white p-2 rounded-lg transition-colors relative flex-shrink-0`}
-                      title="Image de départ (obligatoire)"
-                    >
-                      <Plus className="w-5 h-5" />
-                      {klingStartImage && (
-                        <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-white"></span>
-                      )}
-                    </button>
-                    
-                    {/* Bouton end image */}
-                    <button
-                      onClick={handleKlingEndImageUpload}
-                      disabled={klingOptions.mode !== "pro"}
-                      className={`${klingEndImage ? 'bg-purple-600' : klingOptions.mode === "pro" ? 'bg-purple-600/80 hover:bg-purple-600' : 'bg-gray-600/50 cursor-not-allowed'} text-white p-2 rounded-lg transition-colors relative flex-shrink-0`}
-                      title={klingOptions.mode === "pro" ? "Image de fin (optionnelle)" : "Image de fin (nécessite mode Pro)"}
-                    >
-                      <Plus className="w-5 h-5" />
-                      {klingEndImage && (
-                        <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-white"></span>
-                      )}
-                    </button>
-                    
-                    <input
-                      ref={promptInputRef}
-                      type="text"
-                      value={prompt}
-                      onChange={(e) => setPrompt(e.target.value)}
-                      placeholder="Décrivez la vidéo que vous souhaitez générer..."
-                      className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2"
-                      onKeyPress={(e) => {
-                        if (e.key === 'Enter' && prompt.trim() && !isGenerating && klingStartImage) {
-                          handleGenerate();
-                        }
-                      }}
-                    />
-                  </div>
-                ) : (isNanoBanana || isImageUpscaler || isFluxKontext || isVideoUpscale || isNanoBananaPro || isGemini3Pro || isChatGPT51) ? (
-                  <div className="flex items-center gap-2 flex-1">
+                  {/* Boutons upload pour Kling AI */}
+                  {isKling && (
+                    <>
+                      <button
+                        onClick={handleKlingStartImageUpload}
+                        className={`${klingStartImage ? 'bg-purple-600' : 'bg-purple-600/80 hover:bg-purple-600'} text-white p-2 rounded-lg transition-colors relative flex-shrink-0`}
+                        title="Image de départ (obligatoire)"
+                      >
+                        <Plus className="w-5 h-5" />
+                        {klingStartImage && (
+                          <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-white"></span>
+                        )}
+                      </button>
+                      
+                      <button
+                        onClick={handleKlingEndImageUpload}
+                        disabled={klingOptions.mode !== "pro"}
+                        className={`${klingEndImage ? 'bg-purple-600' : klingOptions.mode === "pro" ? 'bg-purple-600/80 hover:bg-purple-600' : 'bg-gray-600/50 cursor-not-allowed'} text-white p-2 rounded-lg transition-colors relative flex-shrink-0`}
+                        title={klingOptions.mode === "pro" ? "Image de fin (optionnelle)" : "Image de fin (nécessite mode Pro)"}
+                      >
+                        <Plus className="w-5 h-5" />
+                        {klingEndImage && (
+                          <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-white"></span>
+                        )}
+                      </button>
+                    </>
+                  )}
+                  
+                  {/* Bouton upload pour NanoBanana, ImageUpscaler, FluxKontext, VideoUpscale, etc. */}
+                  {(isNanoBanana || isImageUpscaler || isFluxKontext || isVideoUpscale || isNanoBananaPro || isGemini3Pro || isChatGPT51) && (
                     <button
                       onClick={isVideoUpscale ? handleVideoUpscaleUpload : handleImageUpload}
                       className={`${isImageUpscaler ? 'bg-green-600/80 hover:bg-green-600' : isFluxKontext ? 'bg-orange-600/80 hover:bg-orange-600' : isVideoUpscale ? (uploadedVideo ? 'bg-teal-600' : 'bg-teal-600/80 hover:bg-teal-600') : 'bg-gray-600/80 hover:bg-gray-600'} text-white p-2 rounded-lg transition-colors relative flex-shrink-0`}
@@ -3433,47 +3419,55 @@ const Studio = () => {
                         <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-white"></span>
                       ) : null}
                     </button>
-                    {!isImageUpscaler && !isVideoUpscale && (
-                      <input
-                        ref={promptInputRef}
-                        type="text"
-                        value={prompt}
-                        onChange={(e) => setPrompt(e.target.value)}
-                        placeholder={uploadedImage && (isNanoBanana || isNanoBananaPro) ? "Décrivez les modifications à apporter à l'image..." : uploadedImage && isFluxKontext ? "Décrivez les modifications à apporter à l'image..." : uploadedImage && (isGemini3Pro || isChatGPT51) ? "Décrivez votre demande avec l'image..." : `Demandez à ${selectedTool.name}...`}
-                        className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2"
-                        onKeyPress={(e) => {
-                          if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
-                            handleGenerate();
-                          }
-                        }}
-                      />
-                    )}
-                    {isImageUpscaler && (
-                      <span className="flex-1 text-gray-400 text-sm">
-                        {uploadedImage ? `Image prête à être upscalée (X${upscalerOptions.scaleFactor})` : "Uploadez une image à upscaler"}
-                      </span>
-                    )}
-                    {isVideoUpscale && (
-                      <span className="flex-1 text-gray-400 text-sm">
-                        {uploadedVideo ? `Vidéo prête à être upscalée (${videoUpscaleOptions.targetResolution} @ ${videoUpscaleOptions.targetFps} FPS)` : "Uploadez une vidéo à upscaler"}
-                      </span>
-                    )}
-                  </div>
-                ) : (
-                  <input
-                    ref={promptInputRef}
-                    type="text"
-                    value={prompt}
-                    onChange={(e) => setPrompt(e.target.value)}
-                    placeholder={`Demandez à ${selectedTool.name}...`}
-                    className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2"
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
-                        handleGenerate();
-                      }
-                    }}
-                  />
-                )}
+                  )}
+                  
+                  {/* Input texte pour Kling AI */}
+                  {isKling && (
+                    <input
+                      ref={promptInputRef}
+                      type="text"
+                      value={prompt}
+                      onChange={(e) => setPrompt(e.target.value)}
+                      placeholder="Décrivez la vidéo que vous souhaitez générer..."
+                      className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2 min-w-0"
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter' && prompt.trim() && !isGenerating && klingStartImage) {
+                          handleGenerate();
+                        }
+                      }}
+                    />
+                  )}
+                  
+                  {/* Input texte ou span pour les autres outils */}
+                  {!isKling && !isImageUpscaler && !isVideoUpscale && (
+                    <input
+                      ref={promptInputRef}
+                      type="text"
+                      value={prompt}
+                      onChange={(e) => setPrompt(e.target.value)}
+                      placeholder={uploadedImage && (isNanoBanana || isNanoBananaPro) ? "Décrivez les modifications à apporter à l'image..." : uploadedImage && isFluxKontext ? "Décrivez les modifications à apporter à l'image..." : uploadedImage && (isGemini3Pro || isChatGPT51) ? "Décrivez votre demande avec l'image..." : `Demandez à ${selectedTool.name}...`}
+                      className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2 min-w-0"
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
+                          handleGenerate();
+                        }
+                      }}
+                    />
+                  )}
+                  
+                  {/* Span pour ImageUpscaler */}
+                  {isImageUpscaler && (
+                    <span className="flex-1 text-gray-400 text-sm min-w-0">
+                      {uploadedImage ? `Image prête à être upscalée (X${upscalerOptions.scaleFactor})` : "Uploadez une image à upscaler"}
+                    </span>
+                  )}
+                  
+                  {/* Span pour VideoUpscale */}
+                  {isVideoUpscale && (
+                    <span className="flex-1 text-gray-400 text-sm min-w-0">
+                      {uploadedVideo ? `Vidéo prête à être upscalée (${videoUpscaleOptions.targetResolution} @ ${videoUpscaleOptions.targetFps} FPS)` : "Uploadez une vidéo à upscaler"}
+                    </span>
+                  )}
                 </div>
                 
                 {/* Bouton Générer - Mobile (positionné à droite de l'input) */}
