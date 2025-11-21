@@ -1570,7 +1570,7 @@ const Studio = () => {
       return;
     }
     
-    if (!isImageUpscaler && !isFluxKontext && !isKling && !isSeedream && !isGrok && !isAlibabaWan && !isVideoUpscale && !prompt.trim()) return;
+    if (!isImageUpscaler && !isFluxKontext && !isKling && !isGrok && !isAlibabaWan && !isVideoUpscale && !prompt.trim()) return;
     
     // Pour Flux Kontext, un prompt est requis
     if (isFluxKontext && !prompt.trim()) {
