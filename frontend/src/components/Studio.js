@@ -463,6 +463,35 @@ const Studio = () => {
   });
   const [showAlibabaWanOptions, setShowAlibabaWanOptions] = useState(true); // Par défaut dépliées
 
+  // États pour les options Nano Banana Pro
+  const [nanoBananaProOptions, setNanoBananaProOptions] = useState({
+    aspectRatio: "4:3",  // "4:3", "16:9", "9:16", "1:1", "3:2", "2:3"
+    resolution: "2K",  // "1K", "2K", "4K"
+    outputFormat: "png",  // "png", "jpg"
+    safetyFilterLevel: "block_only_high"  // "block_low_and_above", "block_medium_and_above", "block_only_high"
+  });
+  const [showNanoBananaProOptions, setShowNanoBananaProOptions] = useState(true);
+
+  // États pour les options Gemini 3 Pro
+  const [gemini3ProOptions, setGemini3ProOptions] = useState({
+    thinkingLevel: "low",  // "low" ou "high"
+    temperature: 1.0,
+    topP: 0.95,
+    maxOutputTokens: 8192,
+    systemInstruction: ""
+  });
+  const [showGemini3ProOptions, setShowGemini3ProOptions] = useState(true);
+
+  // États pour les options ChatGPT 5.1
+  const [chatgpt51Options, setChatgpt51Options] = useState({
+    reasoningEffort: "medium",  // "none", "low", "medium", "high"
+    verbosity: "medium",  // "low", "medium", "high"
+    maxCompletionTokens: 16384,
+    systemPrompt: ""
+  });
+  const [showChatgpt51Options, setShowChatgpt51Options] = useState(true);
+
+
   // États pour Video Upscale AI
   const [isVideoUpscale, setIsVideoUpscale] = useState(false);
   const [videoUpscaleOptions, setVideoUpscaleOptions] = useState({
