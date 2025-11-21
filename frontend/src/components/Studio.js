@@ -374,6 +374,9 @@ const Studio = () => {
   // Référence pour l'input prompt (pour fermer le clavier sur mobile)
   const promptInputRef = useRef(null);
   
+  // Référence pour l'input file (pour réinitialiser l'upload)
+  const fileInputRef = useRef(null);
+  
   // États pour les outils IA
   const [sessionId, setSessionId] = useState(null);
   const [conversationHistory, setConversationHistory] = useState([]);
