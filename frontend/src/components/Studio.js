@@ -3433,7 +3433,7 @@ const Studio = () => {
                         type="text"
                         value={prompt}
                         onChange={(e) => setPrompt(e.target.value)}
-                        placeholder={uploadedImage && isNanoBanana ? "Décrivez les modifications à apporter à l'image..." : uploadedImage && isFluxKontext ? "Décrivez les modifications à apporter à l'image..." : `Demandez à ${selectedTool.name}...`}
+                        placeholder={uploadedImage && (isNanoBanana || isNanoBananaPro) ? "Décrivez les modifications à apporter à l'image..." : uploadedImage && isFluxKontext ? "Décrivez les modifications à apporter à l'image..." : uploadedImage && (isGemini3Pro || isChatGPT51) ? "Décrivez votre demande avec l'image..." : `Demandez à ${selectedTool.name}...`}
                         className="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none text-lg py-2"
                         onKeyPress={(e) => {
                           if (e.key === 'Enter' && prompt.trim() && !isGenerating) {
