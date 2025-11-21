@@ -3419,13 +3419,13 @@ const Studio = () => {
                   <div className="flex items-center gap-2 flex-1">
                     <button
                       onClick={isVideoUpscale ? handleVideoUpscaleUpload : handleImageUpload}
-                      className={`${isImageUpscaler ? 'bg-green-600/80 hover:bg-green-600' : isFluxKontext ? 'bg-orange-600/80 hover:bg-orange-600' : isVideoUpscale ? (uploadedVideo ? 'bg-teal-600' : 'bg-teal-600/80 hover:bg-teal-600') : 'bg-gray-600/80 hover:bg-gray-600'} text-white p-2 rounded-lg transition-colors relative`}
+                      className={`${isImageUpscaler ? 'bg-green-600/80 hover:bg-green-600' : isFluxKontext ? 'bg-orange-600/80 hover:bg-orange-600' : isVideoUpscale ? (uploadedVideo ? 'bg-teal-600' : 'bg-teal-600/80 hover:bg-teal-600') : 'bg-gray-600/80 hover:bg-gray-600'} text-white p-2 rounded-lg transition-colors relative flex-shrink-0`}
                       title={isVideoUpscale ? "Uploader une vidéo (obligatoire)" : "Ajouter une image"}
                     >
                       <Plus className="w-5 h-5" />
-                      {isVideoUpscale && uploadedVideo && (
+                      {(isVideoUpscale && uploadedVideo) || (uploadedImage && !isVideoUpscale) ? (
                         <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-white"></span>
-                      )}
+                      ) : null}
                     </button>
                     {!isImageUpscaler && !isVideoUpscale && (
                       <input
