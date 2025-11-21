@@ -1869,7 +1869,10 @@ const Studio = () => {
               'seedream': 'seedream_4',
               'grok': 'grok_2_image',
               'alibaba-wan': 'alibaba_wan_2_5',
-              'video-upscale': 'topaz_video_upscale'
+              'video-upscale': 'topaz_video_upscale',
+              'nanobanana-pro': 'nano_banana_pro',
+              'gemini3-pro': 'gemini3_pro',
+              'chatgpt51': 'chatgpt51'
             };
             
             const modelKey = modelKeyMap[toolType];
