@@ -69,7 +69,15 @@ export const AuthProvider = ({ children }) => {
         setCreditsUsed(data.user.creditsUsed || 0);
         return { success: true, user: data.user };
       } else {
-        const errorData = await response.json();
+        // Essayer de lire la réponse d'erreur
+        let errorData;
+        try {
+          const text = await response.text();
+          errorData = text ? JSON.parse(text) : { message: 'Erreur de connexion' };
+        } catch (e) {
+          console.error('❌ Impossible de parser la réponse d\'erreur:', e);
+          errorData = { message: `Erreur ${response.status}: ${response.statusText}` };
+        }
         console.error('❌ Erreur backend:', errorData);
         return { success: false, error: errorData.detail || errorData.message || 'Erreur inconnue' };
       }
