@@ -608,7 +608,7 @@ const Studio = () => {
     setIsGemini3Pro(isGemini3ProTool);
     setIsChatGPT51(isChatGPT51Tool);
     
-    if (isNanoBananaTool || isChatGPT5Tool || isGoogleVeoTool || isSora2Tool || isImageUpscalerTool || isFluxKontextTool || isKlingTool || isSeedreamTool || isGrokTool || isAlibabaWanTool || isVideoUpscaleTool) {
+    if (isNanoBananaTool || isChatGPT5Tool || isGoogleVeoTool || isSora2Tool || isImageUpscalerTool || isFluxKontextTool || isKlingTool || isSeedreamTool || isGrokTool || isAlibabaWanTool || isVideoUpscaleTool || isNanoBananaProTool || isGemini3ProTool || isChatGPT51Tool) {
       // Commencer l'animation de chargement
       setIsLoadingHistory(true);
       setConversationHistory([]); // Vider l'historique précédent immédiatement
