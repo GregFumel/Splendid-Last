@@ -3502,7 +3502,7 @@ const Studio = () => {
                   ) : (
                     <Send className="w-5 h-5" />
                   )}
-                </button>
+                  </button>
                 </div>
             ) : (
               /* Layout desktop : horizontal avec bouton petit à droite */
