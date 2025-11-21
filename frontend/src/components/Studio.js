@@ -1837,7 +1837,6 @@ const Studio = () => {
                         isImageUpscaler ? 'image-upscaler' : 
                         isFluxKontext ? 'flux-kontext' : 
                         isKling ? 'kling' : 
-                        isSeedream ? 'seedream' : 
                         isGrok ? 'grok' : 
                         isAlibabaWan ? 'alibaba-wan' : 
                         isVideoUpscale ? 'video-upscale' :
