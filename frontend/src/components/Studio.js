@@ -3371,6 +3371,8 @@ const Studio = () => {
                 )}
 
                 
+                {/* Zone de saisie + bouton Générer - Mobile (sur la même ligne) */}
+                <div className="flex items-center gap-2">
                 {/* Zone de saisie pour Kling AI avec boutons upload à gauche - Mobile */}
                 {isKling ? (
                   <div className="flex items-center gap-2">
