@@ -94,19 +94,7 @@ export const mockAITools = [
     toolType: "video-generator",
     apiEndpoint: "sora2"
   },
-  // 6. Seedream 4
-  {
-    id: 6,
-    name: "Seedream 4",
-    description: "Générateur d'images de nouvelle génération avec des résultats époustouflants.",
-    category: "image",
-    image: "https://customer-assets.emergentagent.com/job_d1e17cd1-d4b1-4e77-89f1-4869587941f4/artifacts/43o9wrgb_seedream4-sm.jpg",
-    fullDescription: "la génération d'images ultra-réalistes et artistiques avec Seedream 4",
-    isNew: true,
-    toolType: "image-generator",
-    apiEndpoint: "seedream"
-  },
-  // 7. Grok
+  // 9. Grok
   {
     id: 7,
     name: "Grok",
