@@ -3400,9 +3400,8 @@ const Studio = () => {
                       
                       <button
                         onClick={handleKlingEndImageUpload}
-                        disabled={klingOptions.mode !== "pro"}
-                        className={`${klingEndImage ? 'bg-purple-600' : klingOptions.mode === "pro" ? 'bg-purple-600/80 hover:bg-purple-600' : 'bg-gray-600/50 cursor-not-allowed'} text-white p-2 rounded-lg transition-colors relative flex-shrink-0`}
-                        title={klingOptions.mode === "pro" ? "Image de fin (optionnelle)" : "Image de fin (nécessite mode Pro)"}
+                        className={`${klingEndImage ? 'bg-purple-600' : 'bg-purple-600/80 hover:bg-purple-600'} text-white p-2 rounded-lg transition-colors relative flex-shrink-0`}
+                        title="Image de fin (active automatiquement le mode Pro)"
                       >
                         <Plus className="w-5 h-5" />
                         {klingEndImage && (
