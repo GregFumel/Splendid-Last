@@ -2688,6 +2688,21 @@ const Studio = () => {
                               ⏱️ 1 à 5 minutes - Le temps de faire un petit tour 🚶
                             </p>
                           )}
+                          {isNanoBananaPro && (
+                            <p className="text-xs text-gray-400 ml-9">
+                              ⏱️ De quelques secondes à plusieurs minutes en fonction de la complexité
+                            </p>
+                          )}
+                          {isGemini3Pro && (
+                            <p className="text-xs text-gray-400 ml-9">
+                              ⚡ Quelques secondes...
+                            </p>
+                          )}
+                          {isChatGPT51 && (
+                            <p className="text-xs text-gray-400 ml-9">
+                              ⚡ Quelques secondes...
+                            </p>
+                          )}
                           {(isNanoBanana || isImageUpscaler || isSeedream || isGrok || isFluxKontext) && (
                             <p className="text-xs text-gray-400 ml-9">
                               ⚡ Quelques secondes...
