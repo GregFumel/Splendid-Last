@@ -3930,6 +3930,213 @@ const Studio = () => {
                       )}
                     </div>
                 )}
+
+
+                {/* Options de configuration pour Nano Banana Pro - Desktop */}
+                {isNanoBananaPro && (
+                  <div className="bg-gradient-to-r from-yellow-500/10 to-pink-500/10 border border-yellow-400/30 rounded-lg mb-3 overflow-hidden">
+                    <button
+                      onClick={() => setShowNanoBananaProOptions(!showNanoBananaProOptions)}
+                      className="w-full flex items-center justify-between p-3 hover:bg-yellow-500/5 transition-colors"
+                    >
+                      <span className="text-sm font-medium text-gray-200">Options de génération</span>
+                      {showNanoBananaProOptions ? (
+                        <ChevronDown className="w-4 h-4 text-gray-400" />
+                      ) : (
+                        <ChevronUp className="w-4 h-4 text-gray-400" />
+                      )}
+                    </button>
+                    
+                    {showNanoBananaProOptions && (
+                      <div className="flex flex-wrap gap-3 px-3 pb-3 pt-2 border-t border-yellow-400/20 mt-2">
+                        {/* Aspect Ratio */}
+                        <div className="flex items-center gap-2">
+                          <label className="text-sm text-gray-300">Format:</label>
+                          <select
+                            value={nanoBananaProOptions.aspectRatio}
+                            onChange={(e) => setNanoBananaProOptions({...nanoBananaProOptions, aspectRatio: e.target.value})}
+                            className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-yellow-400 focus:outline-none"
+                          >
+                            <option value="4:3">4:3</option>
+                            <option value="16:9">16:9</option>
+                            <option value="9:16">9:16</option>
+                            <option value="1:1">1:1</option>
+                            <option value="3:2">3:2</option>
+                            <option value="2:3">2:3</option>
+                          </select>
+                        </div>
+                        
+                        {/* Résolution */}
+                        <div className="flex items-center gap-2">
+                          <label className="text-sm text-gray-300">Résolution:</label>
+                          <select
+                            value={nanoBananaProOptions.resolution}
+                            onChange={(e) => setNanoBananaProOptions({...nanoBananaProOptions, resolution: e.target.value})}
+                            className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-yellow-400 focus:outline-none"
+                          >
+                            <option value="1K">1K</option>
+                            <option value="2K">2K</option>
+                            <option value="4K">4K</option>
+                          </select>
+                        </div>
+                        
+                        {/* Format de sortie */}
+                        <div className="flex items-center gap-2">
+                          <label className="text-sm text-gray-300">Format:</label>
+                          <select
+                            value={nanoBananaProOptions.outputFormat}
+                            onChange={(e) => setNanoBananaProOptions({...nanoBananaProOptions, outputFormat: e.target.value})}
+                            className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-yellow-400 focus:outline-none"
+                          >
+                            <option value="png">PNG</option>
+                            <option value="jpg">JPG</option>
+                          </select>
+                        </div>
+                        
+                        {/* Safety Filter */}
+                        <div className="flex items-center gap-2">
+                          <label className="text-sm text-gray-300">Sécurité:</label>
+                          <select
+                            value={nanoBananaProOptions.safetyFilterLevel}
+                            onChange={(e) => setNanoBananaProOptions({...nanoBananaProOptions, safetyFilterLevel: e.target.value})}
+                            className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-yellow-400 focus:outline-none"
+                          >
+                            <option value="block_only_high">Permissif</option>
+                            <option value="block_medium_and_above">Modéré</option>
+                            <option value="block_low_and_above">Strict</option>
+                          </select>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Options de configuration pour Gemini 3 Pro - Desktop */}
+                {isGemini3Pro && (
+                  <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-400/30 rounded-lg mb-3 overflow-hidden">
+                    <button
+                      onClick={() => setShowGemini3ProOptions(!showGemini3ProOptions)}
+                      className="w-full flex items-center justify-between p-3 hover:bg-blue-500/5 transition-colors"
+                    >
+                      <span className="text-sm font-medium text-gray-200">Options de raisonnement</span>
+                      {showGemini3ProOptions ? (
+                        <ChevronDown className="w-4 h-4 text-gray-400" />
+                      ) : (
+                        <ChevronUp className="w-4 h-4 text-gray-400" />
+                      )}
+                    </button>
+                    
+                    {showGemini3ProOptions && (
+                      <div className="flex flex-col gap-3 px-3 pb-3 pt-2 border-t border-blue-400/20 mt-2">
+                        <div className="flex flex-wrap gap-3">
+                          {/* Thinking Level */}
+                          <div className="flex items-center gap-2">
+                            <label className="text-sm text-gray-300">Niveau de réflexion:</label>
+                            <select
+                              value={gemini3ProOptions.thinkingLevel}
+                              onChange={(e) => setGemini3ProOptions({...gemini3ProOptions, thinkingLevel: e.target.value})}
+                              className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-blue-400 focus:outline-none"
+                            >
+                              <option value="low">Faible (plus rapide)</option>
+                              <option value="high">Élevé (plus précis)</option>
+                            </select>
+                          </div>
+                          
+                          {/* Temperature */}
+                          <div className="flex items-center gap-2">
+                            <label className="text-sm text-gray-300">Température: {gemini3ProOptions.temperature}</label>
+                            <input
+                              type="range"
+                              min="0"
+                              max="2"
+                              step="0.1"
+                              value={gemini3ProOptions.temperature}
+                              onChange={(e) => setGemini3ProOptions({...gemini3ProOptions, temperature: parseFloat(e.target.value)})}
+                              className="w-32"
+                            />
+                          </div>
+                        </div>
+                        
+                        {/* System Instruction */}
+                        <div className="flex flex-col gap-1">
+                          <label className="text-sm text-gray-300">Instruction système (optionnel):</label>
+                          <textarea
+                            value={gemini3ProOptions.systemInstruction}
+                            onChange={(e) => setGemini3ProOptions({...gemini3ProOptions, systemInstruction: e.target.value})}
+                            placeholder="Ex: Tu es un expert en..."
+                            className="bg-gray-700 text-white px-3 py-2 rounded text-sm border border-gray-600 focus:border-blue-400 focus:outline-none resize-none"
+                            rows="2"
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Options de configuration pour ChatGPT 5.1 - Desktop */}
+                {isChatGPT51 && (
+                  <div className="bg-gradient-to-r from-green-500/10 to-blue-500/10 border border-green-400/30 rounded-lg mb-3 overflow-hidden">
+                    <button
+                      onClick={() => setShowChatgpt51Options(!showChatgpt51Options)}
+                      className="w-full flex items-center justify-between p-3 hover:bg-green-500/5 transition-colors"
+                    >
+                      <span className="text-sm font-medium text-gray-200">Options de raisonnement</span>
+                      {showChatgpt51Options ? (
+                        <ChevronDown className="w-4 h-4 text-gray-400" />
+                      ) : (
+                        <ChevronUp className="w-4 h-4 text-gray-400" />
+                      )}
+                    </button>
+                    
+                    {showChatgpt51Options && (
+                      <div className="flex flex-col gap-3 px-3 pb-3 pt-2 border-t border-green-400/20 mt-2">
+                        <div className="flex flex-wrap gap-3">
+                          {/* Reasoning Effort */}
+                          <div className="flex items-center gap-2">
+                            <label className="text-sm text-gray-300">Effort de raisonnement:</label>
+                            <select
+                              value={chatgpt51Options.reasoningEffort}
+                              onChange={(e) => setChatgpt51Options({...chatgpt51Options, reasoningEffort: e.target.value})}
+                              className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-green-400 focus:outline-none"
+                            >
+                              <option value="none">Aucun</option>
+                              <option value="low">Faible</option>
+                              <option value="medium">Moyen</option>
+                              <option value="high">Élevé</option>
+                            </select>
+                          </div>
+                          
+                          {/* Verbosity */}
+                          <div className="flex items-center gap-2">
+                            <label className="text-sm text-gray-300">Verbosité:</label>
+                            <select
+                              value={chatgpt51Options.verbosity}
+                              onChange={(e) => setChatgpt51Options({...chatgpt51Options, verbosity: e.target.value})}
+                              className="bg-gray-700 text-white px-3 py-1 rounded text-sm border border-gray-600 focus:border-green-400 focus:outline-none"
+                            >
+                              <option value="low">Concis</option>
+                              <option value="medium">Normal</option>
+                              <option value="high">Détaillé</option>
+                            </select>
+                          </div>
+                        </div>
+                        
+                        {/* System Prompt */}
+                        <div className="flex flex-col gap-1">
+                          <label className="text-sm text-gray-300">Prompt système (optionnel):</label>
+                          <textarea
+                            value={chatgpt51Options.systemPrompt}
+                            onChange={(e) => setChatgpt51Options({...chatgpt51Options, systemPrompt: e.target.value})}
+                            placeholder="Ex: Tu es un assistant spécialisé en..."
+                            className="bg-gray-700 text-white px-3 py-2 rounded text-sm border border-gray-600 focus:border-green-400 focus:outline-none resize-none"
+                            rows="2"
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 
                 <div className="flex items-center gap-3">
                   {/* Bouton upload pour Video Upscale AI - Desktop */}
