@@ -1585,7 +1585,7 @@ const Studio = () => {
     
     setIsGenerating(true);
     
-    if ((isNanoBanana || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isKling || isGrok || isAlibabaWan || isVideoUpscale || isNanoBananaPro || isGemini3Pro1) && sessionId) {
+    if ((isNanoBanana || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isKling || isGrok || isAlibabaWan || isVideoUpscale || isNanoBananaPro || isGemini3Pro) && sessionId) {
       // Traitement pour NanoBanana, ChatGPT-5, Google Veo, SORA 2, Image Upscaler et Flux Kontext
       try {
         const backendUrl = process.env.REACT_APP_BACKEND_URL;
@@ -1946,7 +1946,7 @@ const Studio = () => {
         
         // Vider le prompt et les images uploadées
         setPrompt("");
-        if (isNanoBanana || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isGrok || isNanoBananaPro || isGemini3Pro1) {
+        if (isNanoBanana || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isGrok || isNanoBananaPro || isGemini3Pro) {
           setUploadedImage(null);
         }
         if (isKling) {
@@ -2428,7 +2428,7 @@ const Studio = () => {
           {/* Zone de discussion scrollable - SIMPLE */}
           <div className="flex-1 overflow-y-auto pr-2 space-y-4 min-h-0 max-h-full pb-96">
             {/* Historique conversationnel pour NanoBanana, ChatGPT-5, Google Veo, SORA 2, Image Upscaler, Flux Kontext, Kling AI, Seedream 4, Grok, Alibaba Wan, Video Upscale, Nano Banana Pro, Gemini 3 Pro et ChatGPT 5.1 */}
-            {(isNanoBanana || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isKling || isGrok || isAlibabaWan || isVideoUpscale || isNanoBananaPro || isGemini3Pro1) ? (
+            {(isNanoBanana || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isKling || isGrok || isAlibabaWan || isVideoUpscale || isNanoBananaPro || isGemini3Pro) ? (
               <>
                 {/* Animation de chargement de l'historique - GIF animé */}
                 {isLoadingHistory ? (
@@ -3386,7 +3386,7 @@ const Studio = () => {
                       }}
                     />
                   </div>
-                ) : (isNanoBanana || isImageUpscaler || isFluxKontext || isVideoUpscale || isNanoBananaPro || isGemini3Pro1) ? (
+                ) : (isNanoBanana || isImageUpscaler || isFluxKontext || isVideoUpscale || isNanoBananaPro || isGemini3Pro) ? (
                   <div className="flex items-center gap-2">
                     <button
                       onClick={isVideoUpscale ? handleVideoUpscaleUpload : handleImageUpload}
