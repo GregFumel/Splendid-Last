@@ -387,6 +387,9 @@ const Studio = () => {
   const [isSeedream, setIsSeedream] = useState(false); // Pour Seedream 4
   const [isGrok, setIsGrok] = useState(false); // Pour Grok
   const [isAlibabaWan, setIsAlibabaWan] = useState(false); // Pour Alibaba Wan 2.5
+  const [isNanoBananaPro, setIsNanoBananaPro] = useState(false); // Pour Nano Banana Pro
+  const [isGemini3Pro, setIsGemini3Pro] = useState(false); // Pour Gemini 3 Pro
+  const [isChatGPT51, setIsChatGPT51] = useState(false); // Pour ChatGPT 5.1
   // Charger les sessions depuis localStorage au montage
   const [toolSessions, setToolSessions] = useState(() => {
     try {
