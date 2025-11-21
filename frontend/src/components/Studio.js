@@ -2423,7 +2423,7 @@ const Studio = () => {
         )}
 
         {/* Zone de travail principale avec arrondis */}
-        <div className="flex-1 flex flex-col min-h-0 relative overflow-hidden">
+        <div className="flex-1 flex flex-col min-h-0 relative">
           
           {/* En-tête de l'outil sélectionné - GLASMORPHISME */}
           <div className="bg-black/10 backdrop-blur-lg border border-white/10 rounded-2xl p-3 md:p-6 mt-1 mb-2 md:my-2 relative flex-shrink-0 z-30 sticky top-1 md:top-2">            
