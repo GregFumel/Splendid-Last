@@ -2422,7 +2422,7 @@ const Studio = () => {
         <div className="flex-1 flex flex-col h-full relative">
           
           {/* En-tête de l'outil sélectionné - GLASMORPHISME */}
-          <div className="bg-black/10 backdrop-blur-lg border border-white/10 rounded-2xl p-6 mb-4 relative flex-shrink-0 z-20 sticky top-0">            
+          <div className="bg-black/10 backdrop-blur-lg border border-white/10 rounded-2xl p-3 md:p-6 mb-4 relative flex-shrink-0 z-20 sticky top-0">            
             {/* Badge New en haut à droite */}
             {selectedTool.isNew && (
               <span className="badge-new-3d text-white px-3 py-1 rounded-full text-sm font-semibold absolute top-4 right-4">
@@ -2438,16 +2438,22 @@ const Studio = () => {
               </span>
             )}
             
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3 md:space-x-4">
               <img 
                 src={selectedTool.image} 
                 alt={selectedTool.name}
-                className="w-16 h-16 rounded-xl object-cover border border-white/20"
+                className="w-12 h-12 md:w-16 md:h-16 rounded-xl object-cover border border-white/20"
               />
-              <div>
-                <h2 className="text-2xl font-bold text-white">
+              <div className="flex-1 pr-12">
+                <h2 className="text-lg md:text-2xl font-bold text-white">
                   {selectedTool.name}
                 </h2>
+                {/* Description visible uniquement sur desktop */}
+                {selectedTool.description && (
+                  <p className="hidden md:block text-sm text-gray-400 mt-1">
+                    {selectedTool.description}
+                  </p>
+                )}
               </div>
             </div>
           </div>
