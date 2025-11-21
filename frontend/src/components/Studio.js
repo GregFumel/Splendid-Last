@@ -1908,6 +1908,21 @@ const Studio = () => {
                 }
               }
               
+              // Pour Nano Banana Pro, utiliser la résolution comme variant
+              if (toolType === 'nanobanana-pro') {
+                variant = nanoBananaProOptions.resolution; // "1K", "2K", ou "4K"
+              }
+              
+              // Pour Gemini 3 Pro, utiliser le thinking level comme variant
+              if (toolType === 'gemini3-pro') {
+                variant = gemini3ProOptions.thinkingLevel; // "low" ou "high"
+              }
+              
+              // Pour ChatGPT 5.1, utiliser le reasoning effort comme variant
+              if (toolType === 'chatgpt51') {
+                variant = chatgpt51Options.reasoningEffort; // "none", "low", "medium", "high"
+              }
+              
               // Pour l'upscaler d'images, calculer les mégapixels réels
               if (toolType === 'image-upscaler' && uploadedImage) {
                 try {
