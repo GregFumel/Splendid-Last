@@ -2422,7 +2422,7 @@ const Studio = () => {
         <div className="flex-1 flex flex-col h-full relative">
           
           {/* En-tête de l'outil sélectionné - GLASMORPHISME */}
-          <div className="bg-black/10 backdrop-blur-lg border border-white/10 rounded-2xl p-3 md:p-6 mb-4 relative flex-shrink-0 z-20 sticky top-0">            
+          <div className="bg-black/10 backdrop-blur-lg border border-white/10 rounded-2xl p-3 md:p-6 mb-2 relative flex-shrink-0 z-20 sticky top-0">            
             {/* Badge New en haut à droite */}
             {selectedTool.isNew && (
               <span className="badge-new-3d text-white px-3 py-1 rounded-full text-sm font-semibold absolute top-4 right-4">
