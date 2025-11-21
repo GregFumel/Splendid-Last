@@ -1157,6 +1157,28 @@ const Studio = () => {
     }
   };
 
+  // Fonction pour nettoyer le formatage markdown (supprimer * et #)
+  const cleanMarkdownFormatting = (text) => {
+    if (!text) return text;
+    
+    return text
+      // Remplacer les titres (###, ##, #) par des tirets
+      .replace(/^###\s+(.+)$/gm, '─ $1')
+      .replace(/^##\s+(.+)$/gm, '─ $1')
+      .replace(/^#\s+(.+)$/gm, '─ $1')
+      // Supprimer le gras (**texte** ou __texte__)
+      .replace(/\*\*(.+?)\*\*/g, '$1')
+      .replace(/__(.+?)__/g, '$1')
+      // Supprimer l'italique (*texte* ou _texte_)
+      .replace(/\*(.+?)\*/g, '$1')
+      .replace(/_(.+?)_/g, '$1')
+      // Remplacer les listes à puces avec *
+      .replace(/^\* /gm, '• ')
+      // Remplacer les listes à puces avec -
+      .replace(/^- /gm, '• ');
+  };
+
+  // Fonction pour initialiser la session Video Upscale AI
   const initializeVideoUpscaleSession = async () => {
     try {
       const backendUrl = process.env.REACT_APP_BACKEND_URL;
