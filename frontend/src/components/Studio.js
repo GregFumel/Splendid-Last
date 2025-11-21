@@ -640,8 +640,6 @@ const Studio = () => {
           initializeFluxKontextSession();
         } else if (isKlingTool) {
           initializeKlingSession();
-        } else if (isSeedreamTool) {
-          initializeSeedreamSession();
         } else if (isGrokTool) {
           initializeGrokSession();
         } else if (isAlibabaWanTool) {
