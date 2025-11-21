@@ -630,8 +630,6 @@ const Studio = () => {
         // Créer une nouvelle session
         if (isNanoBananaTool) {
           initializeNanoBananaSession();
-        } else if (isChatGPT5Tool) {
-          initializeChatGPT5Session();
         } else if (isGoogleVeoTool) {
           initializeGoogleVeoSession();
         } else if (isSora2Tool) {
