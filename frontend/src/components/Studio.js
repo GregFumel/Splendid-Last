@@ -3504,6 +3504,7 @@ const Studio = () => {
                   )}
                   </button>
                 </div>
+              </div>
             ) : (
               /* Layout desktop : horizontal avec bouton petit à droite */
               <div className="flex flex-col gap-3">
