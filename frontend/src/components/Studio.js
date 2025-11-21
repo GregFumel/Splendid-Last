@@ -2478,7 +2478,7 @@ const Studio = () => {
                             ? 'bg-blue-500/20 border border-blue-400/50 text-white' 
                             : 'bg-gray-700/50 border border-gray-600/50 text-gray-100'
                         }`}>
-                          <div className="text-sm whitespace-pre-wrap mb-2">{message.content}</div>
+                          <div className="text-sm whitespace-pre-wrap mb-2">{cleanMarkdownFormatting(message.content)}</div>
                           
                           {/* Affichage des images uploadées par l'utilisateur */}
                           {message.role === 'user' && message.image_urls && message.image_urls.length > 0 && (
