@@ -23,31 +23,43 @@ export const mockAITools = [
     toolType: "image-upscaler",
     apiEndpoint: "image-upscaler"
   },
-  // 3. NanoBanana
+  // 3. Nano Banana Pro
   {
-    id: 2,
-    name: "NanoBanana",
-    description: "Générateur d'images avancé propulsé par Google Gemini.",
+    id: 12,
+    name: "Nano Banana Pro",
+    description: "Génération d'images avancée avec Gemini 3 Pro - Texte précis, raisonnement avancé et contrôles créatifs professionnels.",
     category: "image",
-    image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/fhqzy4ql_this%20-%2001.png",
-    fullDescription: "la génération d'images créatives et réalistes à partir de texte avec Google Gemini",
+    image: "https://customer-assets.emergentagent.com/job_e614690b-c85a-44e5-9f1f-f2c2091dbcf4/artifacts/nev3xsrv_image.png",
+    fullDescription: "Génération et édition d'images professionnelles avec texte précis, jusqu'à 14 images en entrée, résolution 4K",
     isNew: true,
     toolType: "image-generator",
-    apiEndpoint: "nanobanana"
+    apiEndpoint: "nanobanana-pro"
   },
-  // 4. SORA 2
+  // 4. Gemini 3 Pro
   {
-    id: 3,
-    name: "SORA 2",
-    description: "Le dernier modèle de génération vidéo d'OpenAI avec qualité cinématographique.",
-    category: "video",
-    image: "https://customer-assets.emergentagent.com/job_d1e17cd1-d4b1-4e77-89f1-4869587941f4/artifacts/knsgp471_Screenshot_2025-10-07_at_3.03..png",
-    fullDescription: "la génération de vidéos cinématographiques de haute qualité avec SORA 2",
+    id: 13,
+    name: "Gemini 3 Pro",
+    description: "Modèle de raisonnement le plus avancé de Google avec capacités multimodales (texte, images, vidéos, audio).",
+    category: "assist",
+    image: "https://customer-assets.emergentagent.com/job_e614690b-c85a-44e5-9f1f-f2c2091dbcf4/artifacts/c73k1zs0_image.png",
+    fullDescription: "Raisonnement avancé multimodal avec support d'images, vidéos et audio pour apprendre, construire et planifier",
     isNew: true,
-    toolType: "video-generator",
-    apiEndpoint: "sora2"
+    toolType: "chat",
+    apiEndpoint: "gemini3-pro"
   },
-  // 5. Kling AI v2.1
+  // 5. ChatGPT 5.1
+  {
+    id: 14,
+    name: "ChatGPT 5.1",
+    description: "Meilleur modèle d'OpenAI pour le coding et tâches agentiques avec raisonnement configurable.",
+    category: "assist",
+    image: "https://customer-assets.emergentagent.com/job_e614690b-c85a-44e5-9f1f-f2c2091dbcf4/artifacts/az918hzc_image.png",
+    fullDescription: "Assistant avancé pour le coding et tâches complexes avec niveaux de raisonnement et verbosité personnalisables",
+    isNew: true,
+    toolType: "chat",
+    apiEndpoint: "chatgpt51"
+  },
+  // 6. Kling AI v2.1
   {
     id: 4,
     name: "Kling AI v2.1",
@@ -58,6 +70,29 @@ export const mockAITools = [
     isTop: true,
     toolType: "video-generator",
     apiEndpoint: "kling"
+  },
+  // 7. NanoBanana
+  {
+    id: 2,
+    name: "NanoBanana",
+    description: "Générateur d'images avancé propulsé par Google Gemini.",
+    category: "image",
+    image: "https://customer-assets.emergentagent.com/job_pricing-animation/artifacts/fhqzy4ql_this%20-%2001.png",
+    fullDescription: "la génération d'images créatives et réalistes à partir de texte avec Google Gemini",
+    toolType: "image-generator",
+    apiEndpoint: "nanobanana"
+  },
+  // 8. SORA 2
+  {
+    id: 3,
+    name: "SORA 2",
+    description: "Le dernier modèle de génération vidéo d'OpenAI avec qualité cinématographique.",
+    category: "video",
+    image: "https://customer-assets.emergentagent.com/job_d1e17cd1-d4b1-4e77-89f1-4869587941f4/artifacts/knsgp471_Screenshot_2025-10-07_at_3.03..png",
+    fullDescription: "la génération de vidéos cinématographiques de haute qualité avec SORA 2",
+    isNew: true,
+    toolType: "video-generator",
+    apiEndpoint: "sora2"
   },
   // 6. Seedream 4
   {
