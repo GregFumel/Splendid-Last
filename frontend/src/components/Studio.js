@@ -618,7 +618,6 @@ const Studio = () => {
                         isFluxKontextTool ? 'flux-kontext' : 
                         isKlingTool ? 'kling' : 
                         isVideoUpscaleTool ? 'video-upscale' : 
-                        isSeedreamTool ? 'seedream' :
                         isGrokTool ? 'grok' :
                         isAlibabaWanTool ? 'alibaba-wan' :
                         isNanoBananaProTool ? 'nanobanana-pro' :
