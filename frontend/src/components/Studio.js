@@ -1697,6 +1697,75 @@ const Studio = () => {
           };
           
           console.log('📤 Request body prepared (video_input length:', uploadedVideo.dataUrl.length, 'chars)');
+        } else if (isNanoBananaPro) {
+          // Nano Banana Pro - génération d'images avancée
+          console.log('🍌 Nano Banana Pro - Preparing request');
+          endpoint = 'nanobanana-pro/generate';
+          requestBody = {
+            session_id: sessionId,
+            prompt: prompt,
+            aspect_ratio: nanoBananaProOptions.aspectRatio,
+            resolution: nanoBananaProOptions.resolution,
+            output_format: nanoBananaProOptions.outputFormat,
+            safety_filter_level: nanoBananaProOptions.safetyFilterLevel,
+            image_input: []
+          };
+          
+          // Ajouter les images uploadées (jusqu'à 14)
+          if (uploadedImage) {
+            requestBody.image_input.push(uploadedImage.dataUrl);
+          }
+          
+          console.log('📤 Nano Banana Pro request prepared');
+        } else if (isGemini3Pro) {
+          // Gemini 3 Pro - raisonnement multimodal
+          console.log('🧠 Gemini 3 Pro - Preparing request');
+          endpoint = 'gemini3-pro/generate';
+          requestBody = {
+            session_id: sessionId,
+            prompt: prompt,
+            thinking_level: gemini3ProOptions.thinkingLevel,
+            temperature: gemini3ProOptions.temperature,
+            top_p: gemini3ProOptions.topP,
+            max_output_tokens: gemini3ProOptions.maxOutputTokens,
+            images: []
+          };
+          
+          // Ajouter system_instruction si présent
+          if (gemini3ProOptions.systemInstruction.trim()) {
+            requestBody.system_instruction = gemini3ProOptions.systemInstruction;
+          }
+          
+          // Ajouter les images uploadées (jusqu'à 10)
+          if (uploadedImage) {
+            requestBody.images.push(uploadedImage.dataUrl);
+          }
+          
+          console.log('📤 Gemini 3 Pro request prepared');
+        } else if (isChatGPT51) {
+          // ChatGPT 5.1 - coding et tâches agentiques
+          console.log('🤖 ChatGPT 5.1 - Preparing request');
+          endpoint = 'chatgpt51/generate';
+          requestBody = {
+            session_id: sessionId,
+            prompt: prompt,
+            reasoning_effort: chatgpt51Options.reasoningEffort,
+            verbosity: chatgpt51Options.verbosity,
+            max_completion_tokens: chatgpt51Options.maxCompletionTokens,
+            image_input: []
+          };
+          
+          // Ajouter system_prompt si présent
+          if (chatgpt51Options.systemPrompt.trim()) {
+            requestBody.system_prompt = chatgpt51Options.systemPrompt;
+          }
+          
+          // Ajouter les images uploadées
+          if (uploadedImage) {
+            requestBody.image_input.push(uploadedImage.dataUrl);
+          }
+          
+          console.log('📤 ChatGPT 5.1 request prepared');
         } else {
           // Autres outils
           endpoint = isNanoBanana ? 'nanobanana/generate' : isGoogleVeo ? 'google-veo/generate' : isSora2 ? 'sora2/generate' : 'chatgpt5/generate';
