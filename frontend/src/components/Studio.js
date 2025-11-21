@@ -3416,7 +3416,7 @@ const Studio = () => {
                     />
                   </div>
                 ) : (isNanoBanana || isImageUpscaler || isFluxKontext || isVideoUpscale || isNanoBananaPro || isGemini3Pro || isChatGPT51) ? (
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-1">
                     <button
                       onClick={isVideoUpscale ? handleVideoUpscaleUpload : handleImageUpload}
                       className={`${isImageUpscaler ? 'bg-green-600/80 hover:bg-green-600' : isFluxKontext ? 'bg-orange-600/80 hover:bg-orange-600' : isVideoUpscale ? (uploadedVideo ? 'bg-teal-600' : 'bg-teal-600/80 hover:bg-teal-600') : 'bg-gray-600/80 hover:bg-gray-600'} text-white p-2 rounded-lg transition-colors relative`}
