@@ -3379,7 +3379,7 @@ const Studio = () => {
                     {/* Bouton start image */}
                     <button
                       onClick={handleKlingStartImageUpload}
-                      className={`${klingStartImage ? 'bg-purple-600' : 'bg-purple-600/80 hover:bg-purple-600'} text-white p-2 rounded-lg transition-colors relative`}
+                      className={`${klingStartImage ? 'bg-purple-600' : 'bg-purple-600/80 hover:bg-purple-600'} text-white p-2 rounded-lg transition-colors relative flex-shrink-0`}
                       title="Image de départ (obligatoire)"
                     >
                       <Plus className="w-5 h-5" />
@@ -3392,7 +3392,7 @@ const Studio = () => {
                     <button
                       onClick={handleKlingEndImageUpload}
                       disabled={klingOptions.mode !== "pro"}
-                      className={`${klingEndImage ? 'bg-purple-600' : klingOptions.mode === "pro" ? 'bg-purple-600/80 hover:bg-purple-600' : 'bg-gray-600/50 cursor-not-allowed'} text-white p-2 rounded-lg transition-colors relative`}
+                      className={`${klingEndImage ? 'bg-purple-600' : klingOptions.mode === "pro" ? 'bg-purple-600/80 hover:bg-purple-600' : 'bg-gray-600/50 cursor-not-allowed'} text-white p-2 rounded-lg transition-colors relative flex-shrink-0`}
                       title={klingOptions.mode === "pro" ? "Image de fin (optionnelle)" : "Image de fin (nécessite mode Pro)"}
                     >
                       <Plus className="w-5 h-5" />
