@@ -2667,6 +2667,432 @@ async def serve_temp_image(filename: str, request: Request):
     # For GET requests, return the actual file
     return FileResponse(filepath)
 
+
+
+# ==================== NANO BANANA PRO ENDPOINTS ====================
+
+@api_router.post("/nanobanana-pro/session", response_model=NanoBananaProSession)
+async def create_nanobanana_pro_session(authorization: Optional[str] = Header(None)):
+    """Crée ou récupère une session Nano Banana Pro pour l'utilisateur"""
+    try:
+        user_id = get_user_id_from_token(authorization)
+        
+        # Si l'utilisateur est connecté, chercher sa session existante
+        if user_id:
+            existing_session = await db.nanobanana_pro_sessions.find_one(
+                {"user_id": user_id},
+                sort=[("last_updated", -1)]
+            )
+            if existing_session:
+                logger.info(f"📂 Session Nano Banana Pro existante trouvée pour user {user_id}")
+                return NanoBananaProSession(**existing_session)
+        
+        # Créer une nouvelle session
+        session = NanoBananaProSession(user_id=user_id)
+        await db.nanobanana_pro_sessions.insert_one(session.dict())
+        logger.info(f"✨ Nouvelle session Nano Banana Pro créée pour user {user_id or 'anonymous'}")
+        return session
+    except Exception as e:
+        logger.error(f"Erreur lors de la création de session: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.post("/nanobanana-pro/generate", response_model=GenerateNanoBananaProResponse)
+async def generate_image_with_nanobanana_pro(request: GenerateNanoBananaProRequest):
+    """Génère une image avec Nano Banana Pro (Google Gemini 3 Pro)"""
+    try:
+        # Créer ou récupérer la session
+        session = await db.nanobanana_pro_sessions.find_one({"id": request.session_id})
+        if not session:
+            session_obj = NanoBananaProSession(id=request.session_id)
+            await db.nanobanana_pro_sessions.insert_one(session_obj.dict())
+            session = session_obj.dict()
+
+        # Sauvegarder le message utilisateur avec les images si présentes
+        user_image_urls = request.image_input or []
+        
+        user_message = NanoBananaProMessage(
+            session_id=request.session_id,
+            role="user",
+            content=request.prompt,
+            image_urls=user_image_urls
+        )
+        await db.nanobanana_pro_messages.insert_one(user_message.dict())
+
+        # Générer l'image avec Replicate
+        replicate_token = os.environ.get('REPLICATE_API_TOKEN')
+        if not replicate_token:
+            raise HTTPException(status_code=500, detail="REPLICATE_API_TOKEN not configured")
+        
+        image_urls = []
+        response_text = ""
+        
+        try:
+            # Préparer les inputs pour le modèle google/nano-banana-pro
+            inputs = {
+                "prompt": request.prompt,
+                "aspect_ratio": request.aspect_ratio,
+                "resolution": request.resolution,
+                "output_format": request.output_format,
+                "safety_filter_level": request.safety_filter_level,
+                "image_input": request.image_input or []
+            }
+            
+            # Générer l'image avec Replicate
+            logging.info(f"Génération d'image avec Replicate - modèle: google/nano-banana-pro, prompt: {request.prompt}")
+            
+            output = replicate.run(
+                "google/nano-banana-pro",
+                input=inputs
+            )
+            
+            # Le output est une URL d'image
+            image_url = str(output) if output else None
+            
+            if not image_url:
+                raise Exception("Aucune image générée par Replicate")
+            
+            # Télécharger l'image depuis l'URL et convertir en base64
+            logging.info(f"Téléchargement de l'image depuis: {image_url}")
+            response_req = requests.get(image_url, timeout=30)
+            response_req.raise_for_status()
+            
+            # Corriger l'orientation EXIF avant de convertir en base64
+            try:
+                img = Image.open(io.BytesIO(response_req.content))
+                # Corriger automatiquement l'orientation selon les métadonnées EXIF
+                img = ImageOps.exif_transpose(img)
+                # Sauvegarder dans un buffer
+                buffer = io.BytesIO()
+                img.save(buffer, format='JPEG', quality=95)
+                buffer.seek(0)
+                # Convertir en base64
+                image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+                image_data_url = f"data:image/jpeg;base64,{image_base64}"
+                logging.info("✅ Orientation EXIF corrigée automatiquement")
+            except Exception as exif_error:
+                logging.warning(f"⚠️ Impossible de corriger l'orientation EXIF: {exif_error}, utilisation de l'image originale")
+                # Fallback : utiliser l'image originale
+                image_base64 = base64.b64encode(response_req.content).decode('utf-8')
+                image_data_url = f"data:image/jpeg;base64,{image_base64}"
+            
+            image_urls = [image_data_url]
+            response_text = f"Image générée avec succès avec Nano Banana Pro pour : {request.prompt}"
+            
+        except Exception as e:
+            error_message = str(e)
+            logging.error(f"Erreur lors de la génération avec Replicate: {error_message}")
+            raise HTTPException(status_code=500, detail=f"Erreur génération: {error_message}")
+        
+        # Sauvegarder le message assistant avec l'image générée
+        assistant_message = NanoBananaProMessage(
+            session_id=request.session_id,
+            role="assistant", 
+            content=response_text,
+            image_urls=image_urls
+        )
+        await db.nanobanana_pro_messages.insert_one(assistant_message.dict())
+
+        # Mettre à jour la session
+        await db.nanobanana_pro_sessions.update_one(
+            {"id": request.session_id},
+            {"$set": {"last_updated": datetime.utcnow()}}
+        )
+
+        return GenerateNanoBananaProResponse(
+            session_id=request.session_id,
+            message_id=assistant_message.id,
+            prompt=request.prompt,
+            image_urls=image_urls,
+            response_text=response_text
+        )
+
+    except Exception as e:
+        logger.error(f"Erreur lors de la génération d'image: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur lors de la génération: {str(e)}")
+
+@api_router.get("/nanobanana-pro/session/{session_id}", response_model=List[NanoBananaProMessage])
+async def get_nanobanana_pro_session(session_id: str):
+    """Récupère l'historique d'une session Nano Banana Pro"""
+    try:
+        messages = await db.nanobanana_pro_messages.find(
+            {"session_id": session_id}
+        ).sort("timestamp", 1).to_list(1000)
+        
+        return [NanoBananaProMessage(**msg) for msg in messages]
+    except Exception as e:
+        logger.error(f"Erreur lors de la récupération de session: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+
+# ==================== GEMINI 3 PRO ENDPOINTS ====================
+
+@api_router.post("/gemini3-pro/session", response_model=Gemini3ProSession)
+async def create_gemini3_pro_session(authorization: Optional[str] = Header(None)):
+    """Crée ou récupère une session Gemini 3 Pro pour l'utilisateur"""
+    try:
+        user_id = get_user_id_from_token(authorization)
+        
+        # Si l'utilisateur est connecté, chercher sa session existante
+        if user_id:
+            existing_session = await db.gemini3_pro_sessions.find_one(
+                {"user_id": user_id},
+                sort=[("last_updated", -1)]
+            )
+            if existing_session:
+                logger.info(f"📂 Session Gemini 3 Pro existante trouvée pour user {user_id}")
+                return Gemini3ProSession(**existing_session)
+        
+        # Créer une nouvelle session
+        session = Gemini3ProSession(user_id=user_id)
+        await db.gemini3_pro_sessions.insert_one(session.dict())
+        logger.info(f"✨ Nouvelle session Gemini 3 Pro créée pour user {user_id or 'anonymous'}")
+        return session
+    except Exception as e:
+        logger.error(f"Erreur lors de la création de session: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.post("/gemini3-pro/generate", response_model=GenerateGemini3ProResponse)
+async def generate_text_with_gemini3_pro(request: GenerateGemini3ProRequest):
+    """Génère du texte avec Gemini 3 Pro"""
+    try:
+        # Créer ou récupérer la session
+        session = await db.gemini3_pro_sessions.find_one({"id": request.session_id})
+        if not session:
+            session_obj = Gemini3ProSession(id=request.session_id)
+            await db.gemini3_pro_sessions.insert_one(session_obj.dict())
+            session = session_obj.dict()
+
+        # Sauvegarder le message utilisateur avec images si présentes
+        user_image_urls = request.images or []
+        
+        user_message = Gemini3ProMessage(
+            session_id=request.session_id,
+            role="user",
+            content=request.prompt,
+            image_urls=user_image_urls
+        )
+        await db.gemini3_pro_messages.insert_one(user_message.dict())
+
+        # Générer la réponse avec Replicate
+        replicate_token = os.environ.get('REPLICATE_API_TOKEN')
+        if not replicate_token:
+            raise HTTPException(status_code=500, detail="REPLICATE_API_TOKEN not configured")
+        
+        response_text = ""
+        
+        try:
+            # Préparer les inputs pour le modèle google/gemini-3-pro
+            inputs = {
+                "prompt": request.prompt,
+                "thinking_level": request.thinking_level,
+                "temperature": request.temperature,
+                "top_p": request.top_p,
+                "max_output_tokens": request.max_output_tokens,
+                "images": request.images or []
+            }
+            
+            if request.system_instruction:
+                inputs["system_instruction"] = request.system_instruction
+            
+            # Générer la réponse avec Replicate
+            logging.info(f"Génération de texte avec Replicate - modèle: google/gemini-3-pro, prompt: {request.prompt}")
+            
+            output = replicate.run(
+                "google/gemini-3-pro",
+                input=inputs
+            )
+            
+            # Le output est un itérateur de strings
+            response_parts = []
+            for item in output:
+                response_parts.append(str(item))
+            
+            response_text = "".join(response_parts)
+            
+            if not response_text:
+                raise Exception("Aucune réponse générée par Replicate")
+            
+            logging.info(f"✅ Réponse générée avec succès (longueur: {len(response_text)} caractères)")
+            
+        except Exception as e:
+            error_message = str(e)
+            logging.error(f"Erreur lors de la génération avec Replicate: {error_message}")
+            raise HTTPException(status_code=500, detail=f"Erreur génération: {error_message}")
+        
+        # Sauvegarder le message assistant
+        assistant_message = Gemini3ProMessage(
+            session_id=request.session_id,
+            role="assistant", 
+            content=response_text,
+            image_urls=[]
+        )
+        await db.gemini3_pro_messages.insert_one(assistant_message.dict())
+
+        # Mettre à jour la session
+        await db.gemini3_pro_sessions.update_one(
+            {"id": request.session_id},
+            {"$set": {"last_updated": datetime.utcnow()}}
+        )
+
+        return GenerateGemini3ProResponse(
+            session_id=request.session_id,
+            message_id=assistant_message.id,
+            prompt=request.prompt,
+            response_text=response_text
+        )
+
+    except Exception as e:
+        logger.error(f"Erreur lors de la génération de texte: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur lors de la génération: {str(e)}")
+
+@api_router.get("/gemini3-pro/session/{session_id}", response_model=List[Gemini3ProMessage])
+async def get_gemini3_pro_session(session_id: str):
+    """Récupère l'historique d'une session Gemini 3 Pro"""
+    try:
+        messages = await db.gemini3_pro_messages.find(
+            {"session_id": session_id}
+        ).sort("timestamp", 1).to_list(1000)
+        
+        return [Gemini3ProMessage(**msg) for msg in messages]
+    except Exception as e:
+        logger.error(f"Erreur lors de la récupération de session: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+
+# ==================== CHATGPT 5.1 ENDPOINTS ====================
+
+@api_router.post("/chatgpt51/session", response_model=ChatGPT51Session)
+async def create_chatgpt51_session(authorization: Optional[str] = Header(None)):
+    """Crée ou récupère une session ChatGPT 5.1 pour l'utilisateur"""
+    try:
+        user_id = get_user_id_from_token(authorization)
+        
+        # Si l'utilisateur est connecté, chercher sa session existante
+        if user_id:
+            existing_session = await db.chatgpt51_sessions.find_one(
+                {"user_id": user_id},
+                sort=[("last_updated", -1)]
+            )
+            if existing_session:
+                logger.info(f"📂 Session ChatGPT 5.1 existante trouvée pour user {user_id}")
+                return ChatGPT51Session(**existing_session)
+        
+        # Créer une nouvelle session
+        session = ChatGPT51Session(user_id=user_id)
+        await db.chatgpt51_sessions.insert_one(session.dict())
+        logger.info(f"✨ Nouvelle session ChatGPT 5.1 créée pour user {user_id or 'anonymous'}")
+        return session
+    except Exception as e:
+        logger.error(f"Erreur lors de la création de session: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+@api_router.post("/chatgpt51/generate", response_model=GenerateChatGPT51Response)
+async def generate_text_with_chatgpt51(request: GenerateChatGPT51Request):
+    """Génère du texte avec ChatGPT 5.1"""
+    try:
+        # Créer ou récupérer la session
+        session = await db.chatgpt51_sessions.find_one({"id": request.session_id})
+        if not session:
+            session_obj = ChatGPT51Session(id=request.session_id)
+            await db.chatgpt51_sessions.insert_one(session_obj.dict())
+            session = session_obj.dict()
+
+        # Sauvegarder le message utilisateur avec images si présentes
+        user_image_urls = request.image_input or []
+        
+        user_message = ChatGPT51Message(
+            session_id=request.session_id,
+            role="user",
+            content=request.prompt,
+            image_urls=user_image_urls
+        )
+        await db.chatgpt51_messages.insert_one(user_message.dict())
+
+        # Générer la réponse avec Replicate
+        replicate_token = os.environ.get('REPLICATE_API_TOKEN')
+        if not replicate_token:
+            raise HTTPException(status_code=500, detail="REPLICATE_API_TOKEN not configured")
+        
+        response_text = ""
+        
+        try:
+            # Préparer les inputs pour le modèle openai/gpt-5.1
+            inputs = {
+                "prompt": request.prompt,
+                "reasoning_effort": request.reasoning_effort,
+                "verbosity": request.verbosity,
+                "max_completion_tokens": request.max_completion_tokens,
+                "image_input": request.image_input or []
+            }
+            
+            if request.system_prompt:
+                inputs["system_prompt"] = request.system_prompt
+            
+            # Générer la réponse avec Replicate
+            logging.info(f"Génération de texte avec Replicate - modèle: openai/gpt-5.1, prompt: {request.prompt}")
+            
+            output = replicate.run(
+                "openai/gpt-5.1",
+                input=inputs
+            )
+            
+            # Le output est un itérateur de strings
+            response_parts = []
+            for item in output:
+                response_parts.append(str(item))
+            
+            response_text = "".join(response_parts)
+            
+            if not response_text:
+                raise Exception("Aucune réponse générée par Replicate")
+            
+            logging.info(f"✅ Réponse générée avec succès (longueur: {len(response_text)} caractères)")
+            
+        except Exception as e:
+            error_message = str(e)
+            logging.error(f"Erreur lors de la génération avec Replicate: {error_message}")
+            raise HTTPException(status_code=500, detail=f"Erreur génération: {error_message}")
+        
+        # Sauvegarder le message assistant
+        assistant_message = ChatGPT51Message(
+            session_id=request.session_id,
+            role="assistant", 
+            content=response_text,
+            image_urls=[]
+        )
+        await db.chatgpt51_messages.insert_one(assistant_message.dict())
+
+        # Mettre à jour la session
+        await db.chatgpt51_sessions.update_one(
+            {"id": request.session_id},
+            {"$set": {"last_updated": datetime.utcnow()}}
+        )
+
+        return GenerateChatGPT51Response(
+            session_id=request.session_id,
+            message_id=assistant_message.id,
+            prompt=request.prompt,
+            response_text=response_text
+        )
+
+    except Exception as e:
+        logger.error(f"Erreur lors de la génération de texte: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur lors de la génération: {str(e)}")
+
+@api_router.get("/chatgpt51/session/{session_id}", response_model=List[ChatGPT51Message])
+async def get_chatgpt51_session(session_id: str):
+    """Récupère l'historique d'une session ChatGPT 5.1"""
+    try:
+        messages = await db.chatgpt51_messages.find(
+            {"session_id": session_id}
+        ).sort("timestamp", 1).to_list(1000)
+        
+        return [ChatGPT51Message(**msg) for msg in messages]
+    except Exception as e:
+        logger.error(f"Erreur lors de la récupération de session: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+
 # Import auth and history routers
 from auth import auth_router
 from history import history_router
