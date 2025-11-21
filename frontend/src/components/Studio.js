@@ -4211,14 +4211,17 @@ const Studio = () => {
                     </>
                   )}
 
-                  {/* Icône d'upload pour ChatGPT-5, NanoBanana, Image Upscaler, Flux Kontext et Seedream 4 */}
-                  {(isNanoBanana || isImageUpscaler || isFluxKontext) && (
+                  {/* Icône d'upload pour ChatGPT-5, NanoBanana, Image Upscaler, Flux Kontext, NanoBanana Pro, Gemini 3 Pro, ChatGPT 5.1 */}
+                  {(isNanoBanana || isImageUpscaler || isFluxKontext || isNanoBananaPro || isGemini3Pro || isChatGPT51) && (
                     <button
                       onClick={handleImageUpload}
-                      className={`${isImageUpscaler ? 'bg-green-600/80 hover:bg-green-600' : isFluxKontext ? 'bg-orange-600/80 hover:bg-orange-600' : 'bg-gray-600/80 hover:bg-gray-600'} text-white p-2 rounded-lg transition-colors`}
+                      className={`${isImageUpscaler ? 'bg-green-600/80 hover:bg-green-600' : isFluxKontext ? 'bg-orange-600/80 hover:bg-orange-600' : 'bg-gray-600/80 hover:bg-gray-600'} text-white p-2 rounded-lg transition-colors relative`}
                       title="Ajouter une image"
                     >
                       <Plus className="w-5 h-5" />
+                      {uploadedImage && (
+                        <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-white"></span>
+                      )}
                     </button>
                   )}
                   
