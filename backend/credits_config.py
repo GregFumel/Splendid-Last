@@ -95,6 +95,36 @@ CREDITS_CONFIG = {
                 {"variant": "without_audio", "credits_per_unit": 7.69},
                 {"variant": "with_audio", "credits_per_unit": 15.38}
             ]
+        },
+        {
+            "key": "nano_banana_pro",
+            "display_name": "Nano Banana Pro",
+            "unit": "image",
+            "variants": [
+                {"variant": "1K", "credits_per_unit": 1.92},
+                {"variant": "2K", "credits_per_unit": 3.85},
+                {"variant": "4K", "credits_per_unit": 7.69}
+            ]
+        },
+        {
+            "key": "gemini3_pro",
+            "display_name": "Gemini 3 Pro",
+            "unit": "message",
+            "variants": [
+                {"variant": "low", "credits_per_unit": 2.31},
+                {"variant": "high", "credits_per_unit": 4.62}
+            ]
+        },
+        {
+            "key": "chatgpt51",
+            "display_name": "ChatGPT 5.1",
+            "unit": "message",
+            "variants": [
+                {"variant": "none", "credits_per_unit": 1.92},
+                {"variant": "low", "credits_per_unit": 3.85},
+                {"variant": "medium", "credits_per_unit": 7.69},
+                {"variant": "high", "credits_per_unit": 15.38}
+            ]
         }
     ]
 }
