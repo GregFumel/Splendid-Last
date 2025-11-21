@@ -2315,7 +2315,7 @@ const Studio = () => {
                   />
                   <div className="flex-1">
                     <div className="flex items-center space-x-3">
-                      <span className={`font-medium text-sm ${
+                      <span className={`font-medium ${tool.name === 'Nano Banana Pro' ? 'text-xs' : 'text-sm'} ${
                         selectedTool.id === tool.id ? 'text-white' : 'text-gray-300'
                       }`}>
                         {tool.name}
