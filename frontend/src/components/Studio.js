@@ -2133,6 +2133,11 @@ const Studio = () => {
   };
 
   const handleKlingEndImageUpload = () => {
+    // Si le mode n'est pas Pro, l'activer automatiquement et informer l'utilisateur
+    if (klingOptions.mode !== "pro") {
+      setKlingOptions(prev => ({ ...prev, mode: "pro" }));
+      alert('Le mode "Pro (1080p)" a été activé automatiquement pour permettre l\'ajout d\'une image de fin.');
+    }
     if (klingEndInputRef.current) {
       klingEndInputRef.current.click();
     }
