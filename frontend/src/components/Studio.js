@@ -3488,7 +3488,7 @@ const Studio = () => {
               /* Layout desktop : horizontal avec bouton petit à droite */
               <div className="flex flex-col gap-3">
                 {/* Aperçu de l'image uploadée pour ChatGPT-5, NanoBanana, Image Upscaler, Flux Kontext et Seedream 4 */}
-                {(isNanoBanana || isImageUpscaler || isFluxKontext) && uploadedImage && (
+                {(isNanoBanana || isImageUpscaler || isFluxKontext || isNanoBananaPro || isGemini3Pro || isChatGPT51) && uploadedImage && (
                   <div className={`flex items-center gap-3 p-3 ${isImageUpscaler ? 'bg-green-500/10 border-green-400/30' : isFluxKontext ? 'bg-orange-500/10 border-orange-400/30' : 'bg-green-500/10 border-green-400/30'} border rounded-lg`}>
                     <img 
                       src={uploadedImage.dataUrl} 
