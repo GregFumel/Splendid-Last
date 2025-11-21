@@ -2427,7 +2427,6 @@ const Studio = () => {
                 <h2 className="text-2xl font-bold text-white">
                   {selectedTool.name}
                 </h2>
-                <p className="text-gray-300 mt-1">{selectedTool.description}</p>
               </div>
             </div>
           </div>
