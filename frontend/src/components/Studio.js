@@ -1214,6 +1214,155 @@ const Studio = () => {
     }
   };
 
+  // Fonction pour initialiser la session Nano Banana Pro
+  const initializeNanoBananaProSession = async () => {
+    try {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL;
+      const authToken = localStorage.getItem('authToken');
+      console.log('Backend URL:', backendUrl);
+      console.log('Auth Token présent:', !!authToken);
+      
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      
+      // Ajouter le token d'authentification si présent
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+      }
+      
+      const response = await fetch(`${backendUrl}/api/nanobanana-pro/session`, {
+        method: 'POST',
+        headers,
+      });
+      
+      console.log('Session response status:', response.status);
+      
+      if (!response.ok) {
+        throw new Error('Erreur lors de la création de la session');
+      }
+      
+      const session = await response.json();
+      console.log('Session créée:', session.id, 'User ID:', session.user_id);
+      setSessionId(session.id);
+      
+      // Sauvegarder la session pour cet outil
+      setToolSessions(prev => ({
+        ...prev,
+        [selectedTool.id]: {
+          sessionId: session.id,
+          toolName: selectedTool.name
+        }
+      }));
+      
+      // Charger l'historique existant (peut contenir des messages si session réutilisée)
+      loadConversationHistory(session.id, 'nanobanana-pro');
+    } catch (error) {
+      console.error('Erreur lors de l\'initialisation de la session Nano Banana Pro:', error);
+      // Arrêter l'animation en cas d'erreur
+      setIsLoadingHistory(false);
+    }
+  };
+
+  // Fonction pour initialiser la session Gemini 3 Pro
+  const initializeGemini3ProSession = async () => {
+    try {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL;
+      const authToken = localStorage.getItem('authToken');
+      console.log('Backend URL:', backendUrl);
+      console.log('Auth Token présent:', !!authToken);
+      
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      
+      // Ajouter le token d'authentification si présent
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+      }
+      
+      const response = await fetch(`${backendUrl}/api/gemini3-pro/session`, {
+        method: 'POST',
+        headers,
+      });
+      
+      console.log('Session response status:', response.status);
+      
+      if (!response.ok) {
+        throw new Error('Erreur lors de la création de la session');
+      }
+      
+      const session = await response.json();
+      console.log('Session créée:', session.id, 'User ID:', session.user_id);
+      setSessionId(session.id);
+      
+      // Sauvegarder la session pour cet outil
+      setToolSessions(prev => ({
+        ...prev,
+        [selectedTool.id]: {
+          sessionId: session.id,
+          toolName: selectedTool.name
+        }
+      }));
+      
+      // Charger l'historique existant
+      loadConversationHistory(session.id, 'gemini3-pro');
+    } catch (error) {
+      console.error('Erreur lors de l\'initialisation de la session Gemini 3 Pro:', error);
+      setIsLoadingHistory(false);
+    }
+  };
+
+  // Fonction pour initialiser la session ChatGPT 5.1
+  const initializeChatGPT51Session = async () => {
+    try {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL;
+      const authToken = localStorage.getItem('authToken');
+      console.log('Backend URL:', backendUrl);
+      console.log('Auth Token présent:', !!authToken);
+      
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      
+      // Ajouter le token d'authentification si présent
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+      }
+      
+      const response = await fetch(`${backendUrl}/api/chatgpt51/session`, {
+        method: 'POST',
+        headers,
+      });
+      
+      console.log('Session response status:', response.status);
+      
+      if (!response.ok) {
+        throw new Error('Erreur lors de la création de la session');
+      }
+      
+      const session = await response.json();
+      console.log('Session créée:', session.id, 'User ID:', session.user_id);
+      setSessionId(session.id);
+      
+      // Sauvegarder la session pour cet outil
+      setToolSessions(prev => ({
+        ...prev,
+        [selectedTool.id]: {
+          sessionId: session.id,
+          toolName: selectedTool.name
+        }
+      }));
+      
+      // Charger l'historique existant
+      loadConversationHistory(session.id, 'chatgpt51');
+    } catch (error) {
+      console.error('Erreur lors de l\'initialisation de la session ChatGPT 5.1:', error);
+      setIsLoadingHistory(false);
+    }
+  };
+
+
 
   const loadConversationHistory = async (sessionIdToLoad, toolType) => {
     try {
