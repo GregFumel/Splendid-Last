@@ -589,6 +589,9 @@ const Studio = () => {
     const isGrokTool = selectedTool && selectedTool.name === "Grok";
     const isAlibabaWanTool = selectedTool && selectedTool.name === "Alibaba Wan 2.5";
     const isVideoUpscaleTool = selectedTool && selectedTool.name === "Video Upscale AI";
+    const isNanoBananaProTool = selectedTool && selectedTool.name === "Nano Banana Pro";
+    const isGemini3ProTool = selectedTool && selectedTool.name === "Gemini 3 Pro";
+    const isChatGPT51Tool = selectedTool && selectedTool.name === "ChatGPT 5.1";
     
     setIsNanoBanana(isNanoBananaTool);
     setIsChatGPT5(isChatGPT5Tool);
@@ -601,6 +604,9 @@ const Studio = () => {
     setIsGrok(isGrokTool);
     setIsAlibabaWan(isAlibabaWanTool);
     setIsVideoUpscale(isVideoUpscaleTool);
+    setIsNanoBananaPro(isNanoBananaProTool);
+    setIsGemini3Pro(isGemini3ProTool);
+    setIsChatGPT51(isChatGPT51Tool);
     
     if (isNanoBananaTool || isChatGPT5Tool || isGoogleVeoTool || isSora2Tool || isImageUpscalerTool || isFluxKontextTool || isKlingTool || isSeedreamTool || isGrokTool || isAlibabaWanTool || isVideoUpscaleTool) {
       // Commencer l'animation de chargement
