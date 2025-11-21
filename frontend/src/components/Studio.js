@@ -1586,7 +1586,7 @@ const Studio = () => {
     
     setIsGenerating(true);
     
-    if ((isNanoBanana || isChatGPT5 || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isKling || isGrok || isAlibabaWan || isVideoUpscale || isNanoBananaPro || isGemini3Pro || isChatGPT51) && sessionId) {
+    if ((isNanoBanana || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isKling || isGrok || isAlibabaWan || isVideoUpscale || isNanoBananaPro || isGemini3Pro || isChatGPT51) && sessionId) {
       // Traitement pour NanoBanana, ChatGPT-5, Google Veo, SORA 2, Image Upscaler et Flux Kontext
       try {
         const backendUrl = process.env.REACT_APP_BACKEND_URL;
