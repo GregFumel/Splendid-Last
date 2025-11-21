@@ -106,7 +106,7 @@ export const mockAITools = [
     toolType: "image-generator",
     apiEndpoint: "grok"
   },
-  // 8. Alibaba Wan 2.5
+  // 10. Alibaba Wan 2.5
   {
     id: 8,
     name: "Alibaba Wan 2.5",
