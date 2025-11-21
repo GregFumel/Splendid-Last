@@ -602,7 +602,7 @@ const Studio = () => {
     setIsGemini3Pro(isGemini3ProTool);
     setIsChatGPT51(isChatGPT51Tool);
     
-    if (isNanoBananaTool || isGoogleVeoTool || isSora2Tool || isImageUpscalerTool || isFluxKontextTool || isKlingTool || isGrokTool || isAlibabaWanTool || isVideoUpscaleTool || isNanoBananaProTool || isGemini3ProTool || isChatGPT51Tool) {
+    if (isNanoBananaTool || isGoogleVeoTool || isSora2Tool || isImageUpscalerTool || isFluxKontextTool || isKlingTool || isGrokTool || isAlibabaWanTool || isVideoUpscaleTool || isNanoBananaProTool || isGemini3ProTool1Tool) {
       // Commencer l'animation de chargement
       setIsLoadingHistory(true);
       setConversationHistory([]); // Vider l'historique précédent immédiatement
@@ -1586,7 +1586,7 @@ const Studio = () => {
     
     setIsGenerating(true);
     
-    if ((isNanoBanana || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isKling || isGrok || isAlibabaWan || isVideoUpscale || isNanoBananaPro || isGemini3Pro || isChatGPT51) && sessionId) {
+    if ((isNanoBanana || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isKling || isGrok || isAlibabaWan || isVideoUpscale || isNanoBananaPro || isGemini3Pro1) && sessionId) {
       // Traitement pour NanoBanana, ChatGPT-5, Google Veo, SORA 2, Image Upscaler et Flux Kontext
       try {
         const backendUrl = process.env.REACT_APP_BACKEND_URL;
@@ -1746,7 +1746,7 @@ const Studio = () => {
         }
         
         // Ajouter l'image pour ChatGPT-5 ou NanoBanana si une image est uploadée
-        if ((isChatGPT5 || isNanoBanana) && uploadedImage) {
+        if ((isNanoBanana) && uploadedImage) {
           requestBody.image_data = uploadedImage.dataUrl;
           requestBody.image_name = uploadedImage.name;
         }
@@ -1956,7 +1956,7 @@ const Studio = () => {
         
         // Vider le prompt et les images uploadées
         setPrompt("");
-        if (isChatGPT5 || isNanoBanana || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isSeedream || isGrok || isNanoBananaPro || isGemini3Pro || isChatGPT51) {
+        if (isNanoBanana || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isGrok || isNanoBananaPro || isGemini3Pro1) {
           setUploadedImage(null);
         }
         if (isKling) {
@@ -2438,7 +2438,7 @@ const Studio = () => {
           {/* Zone de discussion scrollable - SIMPLE */}
           <div className="flex-1 overflow-y-auto pr-2 space-y-4 min-h-0 max-h-full pb-96">
             {/* Historique conversationnel pour NanoBanana, ChatGPT-5, Google Veo, SORA 2, Image Upscaler, Flux Kontext, Kling AI, Seedream 4, Grok, Alibaba Wan, Video Upscale, Nano Banana Pro, Gemini 3 Pro et ChatGPT 5.1 */}
-            {(isNanoBanana || isChatGPT5 || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isKling || isSeedream || isGrok || isAlibabaWan || isVideoUpscale || isNanoBananaPro || isGemini3Pro || isChatGPT51) ? (
+            {(isNanoBanana || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isKling || isGrok || isAlibabaWan || isVideoUpscale || isNanoBananaPro || isGemini3Pro1) ? (
               <>
                 {/* Animation de chargement de l'historique - GIF animé */}
                 {isLoadingHistory ? (
@@ -2498,7 +2498,7 @@ const Studio = () => {
                           )}
                           
                           {/* Affichage des images générées pour NanoBanana, Flux Kontext Pro, Seedream 4, Grok et Nano Banana Pro */}
-                          {(isNanoBanana || isFluxKontext || isSeedream || isGrok || isNanoBananaPro) && message.role === 'assistant' && message.image_urls && message.image_urls.length > 0 && (
+                          {(isNanoBanana || isFluxKontext || isGrok || isNanoBananaPro) && message.role === 'assistant' && message.image_urls && message.image_urls.length > 0 && (
                             <div className="mt-3 space-y-2">
                               {message.image_urls.map((imageUrl, imgIndex) => (
                                 <div key={imgIndex} className="rounded-lg overflow-hidden border border-white/20">
@@ -2676,7 +2676,7 @@ const Studio = () => {
                               ⚡ Quelques secondes...
                             </p>
                           )}
-                          {(isNanoBanana || isImageUpscaler || isSeedream || isGrok || isFluxKontext) && (
+                          {(isNanoBanana || isImageUpscaler || isGrok || isFluxKontext) && (
                             <p className="text-xs text-gray-400 ml-9">
                               ⚡ Quelques secondes...
                             </p>
@@ -2733,7 +2733,7 @@ const Studio = () => {
               /* Layout mobile : vertical avec zone fixe */
               <div className="flex flex-col gap-3">
                 {/* Aperçu de l'image uploadée pour ChatGPT-5 ou NanoBanana */}
-                {(isChatGPT5 || isNanoBanana) && uploadedImage && (
+                {(isNanoBanana) && uploadedImage && (
                   <div className="flex items-center gap-3 p-3 bg-green-500/10 border border-green-400/30 rounded-lg">
                     <img 
                       src={uploadedImage.dataUrl} 
@@ -3451,7 +3451,7 @@ const Studio = () => {
                       }}
                     />
                   </div>
-                ) : (isChatGPT5 || isNanoBanana || isImageUpscaler || isFluxKontext || isVideoUpscale || isNanoBananaPro || isGemini3Pro || isChatGPT51) ? (
+                ) : (isNanoBanana || isImageUpscaler || isFluxKontext || isVideoUpscale || isNanoBananaPro || isGemini3Pro1) ? (
                   <div className="flex items-center gap-2">
                     <button
                       onClick={isVideoUpscale ? handleVideoUpscaleUpload : handleImageUpload}
@@ -3546,7 +3546,7 @@ const Studio = () => {
               /* Layout desktop : horizontal avec bouton petit à droite */
               <div className="flex flex-col gap-3">
                 {/* Aperçu de l'image uploadée pour ChatGPT-5, NanoBanana, Image Upscaler, Flux Kontext et Seedream 4 */}
-                {(isChatGPT5 || isNanoBanana || isImageUpscaler || isFluxKontext || isSeedream) && uploadedImage && (
+                {(isNanoBanana || isImageUpscaler || isFluxKontext) && uploadedImage && (
                   <div className={`flex items-center gap-3 p-3 ${isImageUpscaler ? 'bg-green-500/10 border-green-400/30' : isFluxKontext ? 'bg-orange-500/10 border-orange-400/30' : 'bg-green-500/10 border-green-400/30'} border rounded-lg`}>
                     <img 
                       src={uploadedImage.dataUrl} 
@@ -4306,7 +4306,7 @@ const Studio = () => {
                   )}
 
                   {/* Icône d'upload pour ChatGPT-5, NanoBanana, Image Upscaler, Flux Kontext et Seedream 4 */}
-                  {(isChatGPT5 || isNanoBanana || isImageUpscaler || isFluxKontext || isSeedream) && (
+                  {(isNanoBanana || isImageUpscaler || isFluxKontext) && (
                     <button
                       onClick={handleImageUpload}
                       className={`${isImageUpscaler ? 'bg-green-600/80 hover:bg-green-600' : isFluxKontext ? 'bg-orange-600/80 hover:bg-orange-600' : 'bg-gray-600/80 hover:bg-gray-600'} text-white p-2 rounded-lg transition-colors`}
