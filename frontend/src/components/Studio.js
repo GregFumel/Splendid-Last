@@ -617,7 +617,20 @@ const Studio = () => {
       const existingSession = toolSessions[selectedTool.id];
       if (existingSession) {
         setSessionId(existingSession.sessionId);
-        const toolType = isNanoBananaTool ? 'nanobanana' : isGoogleVeoTool ? 'google-veo' : isSora2Tool ? 'sora2' : isImageUpscalerTool ? 'image-upscaler' : isFluxKontextTool ? 'flux-kontext' : isKlingTool ? 'kling' : isVideoUpscaleTool ? 'video-upscale' : 'chatgpt5';
+        const toolType = isNanoBananaTool ? 'nanobanana' : 
+                        isGoogleVeoTool ? 'google-veo' : 
+                        isSora2Tool ? 'sora2' : 
+                        isImageUpscalerTool ? 'image-upscaler' : 
+                        isFluxKontextTool ? 'flux-kontext' : 
+                        isKlingTool ? 'kling' : 
+                        isVideoUpscaleTool ? 'video-upscale' : 
+                        isSeedreamTool ? 'seedream' :
+                        isGrokTool ? 'grok' :
+                        isAlibabaWanTool ? 'alibaba-wan' :
+                        isNanoBananaProTool ? 'nanobanana-pro' :
+                        isGemini3ProTool ? 'gemini3-pro' :
+                        isChatGPT51Tool ? 'chatgpt51' :
+                        'chatgpt5';
         loadConversationHistory(existingSession.sessionId, toolType);
       } else {
         // Créer une nouvelle session
@@ -643,6 +656,12 @@ const Studio = () => {
           initializeAlibabaWanSession();
         } else if (isVideoUpscaleTool) {
           initializeVideoUpscaleSession();
+        } else if (isNanoBananaProTool) {
+          initializeNanoBananaProSession();
+        } else if (isGemini3ProTool) {
+          initializeGemini3ProSession();
+        } else if (isChatGPT51Tool) {
+          initializeChatGPT51Session();
         }
       }
     } else {
