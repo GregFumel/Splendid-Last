@@ -1983,7 +1983,7 @@ const Studio = () => {
         
         // Vider le prompt et les images uploadées
         setPrompt("");
-        if (isChatGPT5 || isNanoBanana || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isSeedream || isGrok) {
+        if (isChatGPT5 || isNanoBanana || isGoogleVeo || isSora2 || isImageUpscaler || isFluxKontext || isSeedream || isGrok || isNanoBananaPro || isGemini3Pro || isChatGPT51) {
           setUploadedImage(null);
         }
         if (isKling) {
