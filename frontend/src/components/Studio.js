@@ -2661,6 +2661,9 @@ const Studio = () => {
                                isAlibabaWan ? 'Génération de vidéo en cours...' :
                                isSeedream ? 'Génération d\'image en cours...' :
                                isGrok ? 'Génération d\'image en cours...' :
+                               isNanoBananaPro ? 'Génération d\'image en cours...' :
+                               isGemini3Pro ? 'Réflexion en cours...' :
+                               isChatGPT51 ? 'Réflexion en cours...' :
                                'Réflexion en cours...'}
                             </span>
                           </div>
