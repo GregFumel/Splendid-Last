@@ -188,3 +188,51 @@ def is_model_free(model_key: str) -> bool:
         if model["key"] == model_key:
             return model.get("unmetered", False)
     return False
+
+def calculate_token_based_credits(model_key: str, input_tokens: int, output_tokens: int) -> float:
+    """
+    Calculer le coût en crédits pour un modèle basé sur les tokens
+    
+    Args:
+        model_key: Clé du modèle ("chatgpt51" ou "gemini3_pro")
+        input_tokens: Nombre de tokens d'entrée
+        output_tokens: Nombre de tokens de sortie
+    
+    Returns:
+        Nombre de crédits nécessaires
+    """
+    USD_TO_EUR = 0.95  # Taux de conversion approximatif
+    EURO_PER_CREDIT = CREDITS_CONFIG["meta"]["euro_per_credit"]
+    
+    for model in CREDITS_CONFIG["models"]:
+        if model["key"] == model_key and model.get("token_based"):
+            pricing = model.get("pricing_usd", {})
+            
+            if model_key == "chatgpt51":
+                # ChatGPT 5.1: Input $1.25/1M tokens, Output $0.01/1K tokens
+                input_cost_usd = (input_tokens / 1_000_000) * pricing["input_per_1M_tokens"]
+                output_cost_usd = (output_tokens / 1_000) * pricing["output_per_1K_tokens"]
+                total_cost_usd = input_cost_usd + output_cost_usd
+                total_cost_eur = total_cost_usd * USD_TO_EUR
+                credits = total_cost_eur / EURO_PER_CREDIT
+                return round(credits, 2)
+            
+            elif model_key == "gemini3_pro":
+                # Gemini 3 Pro: Prix varie selon le seuil de 200k tokens
+                threshold = pricing["threshold_tokens"]
+                
+                if input_tokens <= threshold:
+                    # Cas A: input ≤ 200k tokens
+                    input_cost_usd = (input_tokens / 1_000_000) * pricing["input_per_1M_tokens_low"]
+                    output_cost_usd = (output_tokens / 1_000) * pricing["output_per_1K_tokens_low"]
+                else:
+                    # Cas B: input > 200k tokens
+                    input_cost_usd = (input_tokens / 1_000) * pricing["input_per_1K_tokens_high"]
+                    output_cost_usd = (output_tokens / 1_000) * pricing["output_per_1K_tokens_high"]
+                
+                total_cost_usd = input_cost_usd + output_cost_usd
+                total_cost_eur = total_cost_usd * USD_TO_EUR
+                credits = total_cost_eur / EURO_PER_CREDIT
+                return round(credits, 2)
+    
+    return 0
