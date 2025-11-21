@@ -248,6 +248,66 @@ async def deduct_credits(
         "credits_remaining": new_credits
     }
 
+async def deduct_credits_for_tokens(
+    model_key: str,
+    input_tokens: int,
+    output_tokens: int,
+    authorization: Optional[str] = Header(None)
+):
+    """
+    Déduire des crédits du compte utilisateur pour les modèles basés sur les tokens
+    """
+    if not authorization or not authorization.startswith('Bearer '):
+        raise HTTPException(status_code=401, detail="Non authentifié")
+    
+    token = authorization.split(' ')[1]
+    user_id = verify_token(token)
+    
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Token invalide")
+    
+    # Récupérer l'utilisateur
+    user = await users_collection.find_one({"_id": user_id})
+    
+    if not user:
+        raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
+    
+    # Calculer le coût basé sur les tokens
+    from credits_config import calculate_token_based_credits
+    
+    total_cost = calculate_token_based_credits(model_key, input_tokens, output_tokens)
+    
+    # Arrondir selon le barème
+    import math
+    total_cost = math.ceil(total_cost * 2) / 2  # Arrondir à 0.5 près
+    
+    # Vérifier si l'utilisateur a assez de crédits
+    current_credits = user.get("credits", 0)
+    if current_credits < total_cost:
+        raise HTTPException(status_code=402, detail="Crédits insuffisants")
+    
+    # Déduire les crédits
+    new_credits = current_credits - total_cost
+    new_credits_used = user.get("credits_used", 0) + total_cost
+    
+    await users_collection.update_one(
+        {"_id": user_id},
+        {
+            "$set": {
+                "credits": new_credits,
+                "credits_used": new_credits_used,
+                "updated_at": datetime.utcnow()
+            }
+        }
+    )
+    
+    return {
+        "success": True,
+        "credits_deducted": total_cost,
+        "credits_remaining": new_credits,
+        "tokens_used": {"input": input_tokens, "output": output_tokens}
+    }
+
 @auth_router.get("/credits")
 async def get_credits(authorization: Optional[str] = Header(None)):
     """
