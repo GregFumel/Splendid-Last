@@ -118,7 +118,7 @@ export const mockAITools = [
     toolType: "video-generator",
     apiEndpoint: "alibaba-wan"
   },
-  // 9. Flux Kontext Pro
+  // 11. Flux Kontext Pro
   {
     id: 9,
     name: "Flux Kontext Pro",
