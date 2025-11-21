@@ -100,10 +100,15 @@ CREDITS_CONFIG = {
             "key": "nano_banana_pro",
             "display_name": "Nano Banana Pro",
             "unit": "image",
+            "pricing_usd": {
+                "1K": 0.14,
+                "2K": 0.14,
+                "4K": 0.24
+            },
             "variants": [
-                {"variant": "1K", "credits_per_unit": 1.92},
-                {"variant": "2K", "credits_per_unit": 3.85},
-                {"variant": "4K", "credits_per_unit": 7.69}
+                {"variant": "1K", "credits_per_unit": 5.12},
+                {"variant": "2K", "credits_per_unit": 5.12},
+                {"variant": "4K", "credits_per_unit": 8.77}
             ]
         },
         {
